@@ -7,30 +7,38 @@ export const Head = styled.div`
   align-items: center;
   color: white;
   background-color: black;
-  ${props =>
-    props.isScrolled && "position: fixed; top: 0; left: 0; width: 100%;"}
 
   .logo {
     margin: 0 1rem;
     font-size: 2rem;
   }
 
-  .header__menulist {
+  .menu_wrap {
+    display: grid;
+    place-items: center;
+  }
+
+  .search {
+    width: 500px;
+  }
+
+  .header_menulist {
+    padding-top: 30px;
     list-style: none;
     display: flex;
     gap: 60px;
   }
 
-  .header__left {
+  .header_left {
     display: flex;
   }
 
-  .header__right {
+  .header_right {
     list-style: none;
     display: flex;
   }
 
-  .header__right div {
+  .header_right div {
     margin: 0 1rem;
   }
 
@@ -54,23 +62,32 @@ export const Head = styled.div`
   @media screen and (max-width: 1024px) {
     flex-wrap: wrap;
 
-    .header__right {
+    .header_right {
       display: ${props => (props.userToggled ? "flex" : "none")};
       flex-direction: column;
       width: 100%;
       background-color: black;
     }
 
-    .header__menulist {
+    .menu_wrap {
+      display: none;
+    }
+
+    .search {
+      display: none;
+    }
+
+    .header_menulist {
       display: ${props => (props.isToggled ? "flex" : "none")};
       flex-direction: column;
       width: 100%;
       background-color: black;
       gap: 10px;
+      padding: 0;
     }
 
-    .header__menulist li,
-    .header__right li {
+    .header_menulist li,
+    .header_right li {
       margin: 1rem 0;
       padding: 0;
     }

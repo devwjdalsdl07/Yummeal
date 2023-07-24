@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import AdminAddItem from "./pages/AdminAddItem";
 import AdminMain from "./pages/AdminMain";
@@ -13,9 +13,12 @@ import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
 
 function App() {
+  const location = useLocation();
+  const isAdminPage = location.pathname.startsWith("/admin");
   return (
     <>
-      <Header />
+      {/* Header를 isAdminPage가 아닐 때만 렌더링 */}
+      {!isAdminPage && <Header />}
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
@@ -26,6 +29,8 @@ function App() {
         <Route path="/cart" element={<ShopCart />} />
         <Route path="/order" element={<Order />} />
         <Route path="/orderdetail" element={<OrderDetail />} />
+      </Routes>
+      <Routes>
         <Route path="/admin" element={<AdminMain />} />
         <Route path="/adminAdd" element={<AdminAddItem />} />
       </Routes>
