@@ -1,4 +1,9 @@
-import { faBars, faTimes, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faMagnifyingGlass,
+  faTimes,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -83,16 +88,18 @@ function Header() {
       >
         <FontAwesomeIcon icon={!userToggled ? faUser : faTimes} />
       </div>
-      <div className="menu_wrap">
-        <div>
-          <input
-            className="search"
-            type="text"
-            value={search}
-            onChange={e => handleSearch(e)}
-            placeholder="검색어를 입력하세요"
-          />
-          {/* {suggestions.length > 0 && (
+      <div className="searchwrap">
+        <input
+          className="search"
+          type="text"
+          value={search}
+          onChange={e => handleSearch(e)}
+          placeholder="검색어를 입력하세요"
+        />
+        <i className="glass">
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </i>
+        {/* {suggestions.length > 0 && (
             <ul>
               {suggestions.map((suggestion, index) => (
                 <li
@@ -104,16 +111,15 @@ function Header() {
               ))}
             </ul>
           )} */}
-        </div>
         {/* 메뉴 리스트 */}
-        <ul className="header_menulist">
-          <li onClick={() => navigate("/")}>1단계</li>
-          <li onClick={() => navigate("/")}>2단계</li>
-          <li onClick={() => navigate("/")}>3단계</li>
-          <li onClick={() => navigate("/")}>4단계</li>
-          <li onClick={() => navigate("/")}>전체보기</li>
-        </ul>
       </div>
+      <ul className="header_menulist">
+        <li onClick={() => navigate("/")}>1단계</li>
+        <li onClick={() => navigate("/")}>2단계</li>
+        <li onClick={() => navigate("/")}>3단계</li>
+        <li onClick={() => navigate("/")}>4단계</li>
+        <li onClick={() => navigate("/")}>전체보기</li>
+      </ul>
       {/* User 메뉴 리스트 */}
       <ul className="header_right">
         <li onClick={() => navigate("/login")}>로그인</li>

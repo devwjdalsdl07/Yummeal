@@ -3,30 +3,48 @@ import styled from "@emotion/styled";
 export const Head = styled.div`
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   color: white;
-  background-color: black;
-
+  background: black;
+  position: relative;
   .logo {
     margin: 0 1rem;
     font-size: 2rem;
   }
 
-  .menu_wrap {
-    display: grid;
-    place-items: center;
-  }
-
-  .search {
-    width: 50rem;
+  .searchwrap {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    .search {
+      width: 60rem;
+      height: 5rem;
+      border-radius: 1.2rem;
+      padding: 1.5rem;
+      overflow: hidden;
+    }
+    .glass {
+      .fa-magnifying-glass {
+        position: absolute;
+        top: 50%;
+        right: 3%;
+        transform: translateY(-50%);
+        font-size: 3rem;
+        color: black;
+      }
+    }
   }
 
   .header_menulist {
     padding-top: 3rem;
     list-style: none;
     display: flex;
-    gap: 6rem;
+    justify-content: space-between;
+    gap: 10rem;
+    font-size: 2rem;
+    transform: translateY(30%);
   }
 
   .header_left {
@@ -36,6 +54,7 @@ export const Head = styled.div`
   .header_right {
     list-style: none;
     display: flex;
+    font-size: 1.5rem;
   }
 
   .header_right div {
@@ -51,12 +70,14 @@ export const Head = styled.div`
     display: none;
     font-size: 1.5rem;
     padding: 1rem 1rem;
+    scale: 2.5;
   }
 
   .user {
     display: none;
     font-size: 1.5rem;
     padding: 1rem 1rem;
+    scale: 2.5;
   }
 
   @media screen and (max-width: 1024px) {
@@ -70,11 +91,7 @@ export const Head = styled.div`
       background-color: black;
     }
 
-    .menu_wrap {
-      display: none;
-    }
-
-    .search {
+    .searchwrap {
       display: none;
     }
 
