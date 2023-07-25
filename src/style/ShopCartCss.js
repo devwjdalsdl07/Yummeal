@@ -4,7 +4,7 @@ export const ShopWrap = styled.div`
   display: flex;
   justify-content: space-evenly;
   margin: 0 auto;
-  padding: 10rem 0;
+  padding: 10rem;
   @media screen and (max-width: 1024px) {
     flex-wrap: wrap;
     gap: 1.5rem 0;
@@ -12,7 +12,6 @@ export const ShopWrap = styled.div`
 `;
 export const Cart = styled.div`
   width: 60%;
-  background: orange;
   padding: 2rem;
   h2 {
     font-size: 2.5rem;
@@ -30,7 +29,6 @@ export const Cart = styled.div`
 `;
 export const Payment = styled.div`
   width: 30%;
-  background: pink;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
