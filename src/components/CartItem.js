@@ -1,7 +1,7 @@
 import { faMinus, faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { CartItems } from "../style/CartItem";
+import { CartItems } from "../style/CartItemCss";
 
 const CartItem = () => {
   const [quantity, setQuantity] = useState(1);

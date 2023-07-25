@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 import CartItem from "../components/CartItem";
-import { Cart, Payment, ShopWrap } from "../style/ShopCart";
+import { Cart, Payment, ShopWrap } from "../style/ShopCartCss";
 
 const ShopCart = () => {
   return (
