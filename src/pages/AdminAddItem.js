@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImgUpload from "../components/ImgUpload";
-import { AdminWrapper } from "../style/Admin";
+import { AdminWrapper } from "../style/AdminCss";
 
 const AdminAddItem = () => {
   const quillRef = useRef();

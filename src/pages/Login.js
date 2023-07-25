@@ -1,6 +1,6 @@
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { default as React, default as React } from "react";
+import { React } from "react";
 import { LoginContainer } from "../style/LoginCss";
 
 const Login = () => {
