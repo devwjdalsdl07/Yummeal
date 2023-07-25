@@ -19,14 +19,14 @@ export const Head = styled.div`
   }
 
   .search {
-    width: 500px;
+    width: 50rem;
   }
 
   .header_menulist {
-    padding-top: 30px;
+    padding-top: 3rem;
     list-style: none;
     display: flex;
-    gap: 60px;
+    gap: 6rem;
   }
 
   .header_left {
@@ -61,6 +61,7 @@ export const Head = styled.div`
 
   @media screen and (max-width: 1024px) {
     flex-wrap: wrap;
+    min-width: 50rem;
 
     .header_right {
       display: ${props => (props.userToggled ? "flex" : "none")};
@@ -82,7 +83,7 @@ export const Head = styled.div`
       flex-direction: column;
       width: 100%;
       background-color: black;
-      gap: 10px;
+      gap: 1rem;
       padding: 0;
     }
 
