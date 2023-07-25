@@ -71,6 +71,7 @@ export const Head = styled.div`
 
     .menu_wrap {
       display: none;
+      
     }
 
     .search {
