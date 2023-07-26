@@ -1,5 +1,5 @@
 import React from "react";
-import { MainDiv } from "../style/MainDiv";
+import { MainDiv } from "../style/MainCss";
 
 const SearchList = () => {
   return (
