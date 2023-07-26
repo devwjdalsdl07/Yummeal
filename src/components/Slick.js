@@ -47,25 +47,49 @@ const Slick = () => {
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
       <SlickDiv>
-        <h2 className="title">ㅇㅇ님의 추천 상품 </h2>
+        <h1 className="title">ㅇㅇ님의 추천 상품 </h1>
         <Slider {...settings}>
           <div>
             <h3>1</h3>
+            <span>
+              <p>타이틀</p>
+              <p>가격</p>
+            </span>
           </div>
           <div>
             <h3>2</h3>
+            <span>
+              <p>타이틀</p>
+              <p>가격</p>
+            </span>
           </div>
           <div>
             <h3>3</h3>
+            <span>
+              <p>타이틀</p>
+              <p>가격</p>
+            </span>
           </div>
           <div>
             <h3>4</h3>
+            <span>
+              <p>타이틀</p>
+              <p>가격</p>
+            </span>
           </div>
           <div>
             <h3>5</h3>
+            <span>
+              <p>타이틀</p>
+              <p>가격</p>
+            </span>
           </div>
           <div>
             <h3>6</h3>
+            <span>
+              <p>타이틀</p>
+              <p>가격</p>
+            </span>
           </div>
         </Slider>
       </SlickDiv>
