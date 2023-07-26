@@ -1,6 +1,12 @@
 import styled from "@emotion/styled";
 
 export const AdminWrapper = styled.div`
+  max-width: 1400px;
+  margin: 50px auto;
+  .titleArea {
+    display: flex;
+    justify-content: space-evenly;
+  }
   .uploadContainer {
     display: flex;
     gap: 15px;
@@ -16,6 +22,7 @@ export const AdminWrapper = styled.div`
     width: 100px;
     height: 100px;
     background: skyblue;
+    border-radius: 10px;
     cursor: pointer;
     input {
       position: relative;
@@ -32,5 +39,9 @@ export const AdminWrapper = styled.div`
       left: 50%;
       top: 50%;
     }
+  }
+  .editorWrapper {
+    margin: 50px;
+    border-top: 1px solid;
   }
 `;
