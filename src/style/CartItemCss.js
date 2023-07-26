@@ -30,7 +30,7 @@ export const CartItems = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 2rem;
+    gap: 10rem;
     padding-right: 1rem;
     font-size: 2rem;
     .counter {
@@ -72,6 +72,7 @@ export const CartItems = styled.div`
     }
     .prod_info {
       min-width: 130px;
+      gap: 2rem;
     }
   }
 `;

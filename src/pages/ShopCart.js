@@ -20,14 +20,6 @@ const ShopCart = () => {
             <p>상품금액</p>
             <p>원</p>
           </div>
-          <div className="price">
-            <p>할인금액</p>
-            <p>원</p>
-          </div>
-          <div className="price">
-            <p>총 결제예정금액</p>
-            <p>원</p>
-          </div>
         </div>
         <div className="order_btn">주문하기</div>
       </Payment>

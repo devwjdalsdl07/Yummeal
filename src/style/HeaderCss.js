@@ -102,6 +102,7 @@ export const Head = styled.div`
       background-color: black;
       gap: 1rem;
       padding: 0;
+      transform: translateY(0);
     }
 
     .header_menulist li,
