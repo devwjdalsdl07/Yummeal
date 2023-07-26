@@ -8668,7 +8668,6 @@ secondproject@./:
     react-slick "^0.29.0"
     redux "^4.2.1"
     redux-devtools-extension "^2.13.9"
-    secondproject "./"
     slick-carousel "^1.8.1"
 
 select-hose@^2.0.0:
