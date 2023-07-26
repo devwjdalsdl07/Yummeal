@@ -2,8 +2,13 @@ import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React } from "react";
 import { LoginContainer } from "../style/LoginCss";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const handleSignUPClick = () => {
+    navigate("/SignUp");
+  };
   return (
     <LoginContainer>
       <div className="login-area">
@@ -60,7 +65,14 @@ const Login = () => {
                 color: "#ccc",
               }}
             >
-              <li style={{ cursor: "pointer" }}>회원가입</li>
+              <li
+                style={{
+                  cursor: "pointer",
+                }}
+                onClick={handleSignUPClick}
+              >
+                회원가입
+              </li>
             </ul>
           </div>
         </div>
