@@ -5,11 +5,22 @@ import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
 const Order = () => {
   const [point, setPoint] = useState(0);
   const [usePoint, setUsePoint] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
   const handlePoint = e => {
     setUsePoint(e.target.value.replace(/[^0-9]/g, ""));
   };
   const handleAllPoint = () => {
     setUsePoint(point);
+  };
+  const handleOrder = () => {
+    const newWindow = window.open(
+      "https://greenart.co.kr/",
+      "결제페이지",
+      "width=430, height=500, location=no, status=no, scrollbars=yes",
+    );
+    newWindow.addEventListener("beforeunload", () => {
+      window.location.href = "/orderdetail";
+    });
   };
   return (
     <OrderWrap>
@@ -76,7 +87,9 @@ const Order = () => {
             <p>원</p>
           </div>
         </div>
-        <div className="order_btn">결제하기</div>
+        <div className="order_btn" onClick={handleOrder}>
+          결제하기
+        </div>
       </OrderPay>
     </OrderWrap>
   );

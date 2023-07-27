@@ -5,6 +5,16 @@ import { CartItems } from "../style/CartItemCss";
 
 const CartItem = () => {
   const [quantity, setQuantity] = useState(1);
+  const handleCountUp = () => {
+    setQuantity(quantity + 1);
+  };
+  const handleCountDown = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    } else {
+      setQuantity(1);
+    }
+  };
   return (
     <CartItems>
       <div className="list">
@@ -19,19 +29,13 @@ const CartItem = () => {
         </div>
         <div className="prod_info">
           <div className="counter">
-            <div
-              className="counter_btn"
-              onClick={() => setQuantity(quantity + 1)}
-            >
+            <div className="counter_btn" onClick={handleCountUp}>
               <i>
                 <FontAwesomeIcon icon={faPlus} />
               </i>
             </div>
             <div className="counter_number">{quantity}</div>
-            <div
-              className="counter_btn"
-              onClick={() => setQuantity(quantity - 1)}
-            >
+            <div className="counter_btn" onClick={handleCountDown}>
               <i>
                 <FontAwesomeIcon icon={faMinus} />
               </i>

@@ -35,6 +35,9 @@ function Header() {
   const handleSearch = e => {
     setSearch(e.target.value);
   };
+  const handleSearchPost = e => {
+    e.preventDefault();
+  };
 
   // const [suggestions, setSuggestions] = useState([]);
   // // 여기에 검색어 자동완성을 위한 데이터 배열을 추가해주세요.
@@ -88,7 +91,7 @@ function Header() {
       >
         <FontAwesomeIcon icon={!userToggled ? faUser : faTimes} />
       </div>
-      <div className="searchwrap">
+      <form className="searchwrap">
         <input
           className="search"
           type="text"
@@ -96,9 +99,11 @@ function Header() {
           onChange={e => handleSearch(e)}
           placeholder="검색어를 입력하세요"
         />
-        <i className="glass">
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </i>
+        <button className="glasswrap" onClick={e => handleSearchPost(e)}>
+          <i className="glass">
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </i>
+        </button>
         {/* {suggestions.length > 0 && (
             <ul>
               {suggestions.map((suggestion, index) => (
@@ -112,12 +117,45 @@ function Header() {
             </ul>
           )} */}
         {/* 메뉴 리스트 */}
-      </div>
+      </form>
       <ul className="header_menulist">
-        <li onClick={() => navigate("/")}>1단계</li>
-        <li onClick={() => navigate("/")}>2단계</li>
-        <li onClick={() => navigate("/")}>3단계</li>
-        <li onClick={() => navigate("/")}>4단계</li>
+        <li onClick={() => navigate("/")}>
+          1단계
+          <ul>
+            <li>곡물류</li>
+            <li>야채류</li>
+          </ul>
+        </li>
+        <li onClick={() => navigate("/")}>
+          2단계
+          <ul>
+            <li>곡물류</li>
+            <li>야채류</li>
+            <li>고기류</li>
+            <li>해산물류</li>
+            <li>과일류</li>
+          </ul>
+        </li>
+        <li onClick={() => navigate("/")}>
+          3단계
+          <ul>
+            <li>곡물류</li>
+            <li>야채류</li>
+            <li>고기류</li>
+            <li>해산물류</li>
+            <li>과일류</li>
+          </ul>
+        </li>
+        <li onClick={() => navigate("/")}>
+          4단계
+          <ul>
+            <li>곡물류</li>
+            <li>야채류</li>
+            <li>고기류</li>
+            <li>해산물류</li>
+            <li>과일류</li>
+          </ul>
+        </li>
         <li onClick={() => navigate("/")}>전체보기</li>
       </ul>
       {/* User 메뉴 리스트 */}
