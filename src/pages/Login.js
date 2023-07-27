@@ -9,6 +9,9 @@ const Login = () => {
   const handleSignUPClick = () => {
     navigate("/SignUp");
   };
+  const handleLoginClick = () => {
+    navigate("/Main");
+  };
   return (
     <LoginContainer>
       <div className="login-area">
@@ -40,6 +43,7 @@ const Login = () => {
             <button
               className="login-btn"
               style={{ height: "50px", fontSize: "15px", fontWeight: "500" }}
+              onClick={handleLoginClick}
             >
               로그인
             </button>

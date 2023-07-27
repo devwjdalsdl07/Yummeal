@@ -59,10 +59,16 @@ export const JoinFormGroup = styled.div`
     border: 1px solid #ccc;
     font-size: 13px;
     border-radius: 10px;
-    margin: 15px 0;
+    margin: 8px 0;
     height: 45px;
     width: 90%;
   }
+  /* .ant-picker .ant-picker-input > input:hover {
+    border-color: #ccc;
+  }
+  .ant-picker .ant-picker-input > input:focus {
+    border-color: #ccc;
+  } */
 `;
 export const JoinTitleWrapTop = styled.div`
   display: flex;
@@ -117,3 +123,4 @@ export const JoinBtn = styled.button`
     text-align: center;
   }
 `;
+export const JoinPost = styled.div``;
