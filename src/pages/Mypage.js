@@ -1,6 +1,7 @@
 import React from "react";
 import "../style/MypageCss";
 import { MypageContainer } from "../style/MypageCss";
+import OrderList from "../components/OrderList";
 
 const Mypage = () => {
   return (
@@ -26,7 +27,7 @@ const Mypage = () => {
           </li>
         </ul>
       </div>
-      <div></div>
+      <OrderList />
     </MypageContainer>
   );
 };
