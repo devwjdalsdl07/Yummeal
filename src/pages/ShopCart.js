@@ -1,12 +1,17 @@
+import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useNavigate } from "react-router";
 import CartItem from "../components/CartItem";
-import { Cart, Payment, ShopWrap } from "../style/ShopCartCss";
+import { Cart, NotList, Payment, ShopWrap } from "../style/ShopCartCss";
 
 const ShopCart = () => {
   const navigate = useNavigate();
   const handleGoOrder = () => {
     navigate("/order");
+  };
+  const handleGoShoping = () => {
+    navigate("/");
   };
   return (
     <ShopWrap>
@@ -29,6 +34,17 @@ const ShopCart = () => {
           주문하기
         </div>
       </Payment>
+      <NotList>
+        <div className="icon-box">
+          <i>
+            <FontAwesomeIcon icon={faCartArrowDown} />
+          </i>
+        </div>
+        <div className="text-box">
+          <p>장바구니에 담긴 상품이 없습니다.</p>
+          <button onClick={handleGoShoping}>상품 담으러 가기</button>
+        </div>
+      </NotList>
     </ShopWrap>
   );
 };

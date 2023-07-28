@@ -24,7 +24,7 @@ export const OrderInfo = styled.div`
     padding-top: 2rem;
   }
   hr {
-    margin: 1rem 0;
+    margin-top: 1rem;
     border: 0;
     height: 0.1rem;
     background: black;
@@ -82,7 +82,7 @@ export const OrderInfo = styled.div`
         button {
           width: 8rem;
           height: 3rem;
-          border: 1px solid #000;
+          border: 0.1rem solid #000;
           border-radius: 1rem;
           background: #fff;
           line-height: 3rem;

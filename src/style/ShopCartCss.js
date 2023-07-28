@@ -24,7 +24,7 @@ export const Cart = styled.div`
     top: 4%;
   }
   hr {
-    margin: 1rem 0;
+    margin-top: 1rem;
     border: 0;
     height: 0.1rem;
     background: black;
@@ -80,6 +80,33 @@ export const Payment = styled.div`
     }
     .order_btn {
       margin: 0;
+    }
+  }
+`;
+export const NotList = styled.div`
+  margin: 10rem auto;
+  width: 50rem;
+  height: 50rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .icon-box {
+    .fa-cart-arrow-down {
+      font-size: 10rem;
+    }
+  }
+  .text-box {
+    p {
+      padding: 1.5rem 0;
+      font-size: 3rem;
+    }
+    button {
+      border-radius: 0.8rem;
+      border: 1px solid;
+      padding: 1rem;
+      font-size: 1.5rem;
     }
   }
 `;

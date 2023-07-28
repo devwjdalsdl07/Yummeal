@@ -78,8 +78,7 @@ function Header() {
 
       {/* Headerle 로고 */}
       <div className="logo">
-        {/* <FontAwesomeIcon icon={faHeaderle} /> */}
-        <img src="http://fpoimg.com/150x150"></img>
+        <img src="img/logo.png"></img>
       </div>
 
       {/* User 버튼 */}

@@ -11,6 +11,7 @@ import OrderDetail from "./pages/OrderDetail";
 import SearchList from "./pages/SearchList";
 import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
+import Footer from "./components/Footer";
 
 function App() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function App() {
         <Route path="/order" element={<Order />} />
         <Route path="/orderdetail" element={<OrderDetail />} />
       </Routes>
+      {!isAdminPage && <Footer />}
       <Routes>
         <Route path="/admin" element={<AdminMain />} />
         <Route path="/adminAdd" element={<AdminAddItem />} />

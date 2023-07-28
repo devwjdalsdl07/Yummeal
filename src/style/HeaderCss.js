@@ -5,48 +5,16 @@ export const Head = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  color: #fff;
-  background: #000;
-  position: relative;
-  /* Header의 ul.header_menulist와 하위 메뉴 스타일 */
-ul.header_menulist {
-  list-style: none;
-  display: flex;
-}
-
-ul.header_menulist li {
-  /* margin-right: 2rem; */
-  cursor: pointer;
-  position: relative;
-}
-
-ul.header_menulist li ul {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #fff;
-  border: 0.1rem solid #ccc;
-  border-radius: 1.2rem;
-  padding: 1rem 2rem;
-  min-width: 10rem;
-}
-
-ul.header_menulist li:hover ul {
-  display: block;
-}
-
-ul.header_menulist li ul li {
-  padding: 0.5rem;
-  text-align: center;
   color: #000;
-}
-ul.header_menulist li ul li:hover{
-  opacity: 0.5;
-}
+  background: #F5EEDA;
+  position: relative;
   .logo {
     margin: 0 1rem;
     font-size: 2rem;
+    img {
+      width: 15rem;
+      height: 15rem;
+    }
   }
 
   .searchwrap {
@@ -57,6 +25,7 @@ ul.header_menulist li ul li:hover{
     .search {
       width: 60rem;
       height: 5rem;
+      border: 0.1rem solid;
       border-radius: 1.2rem;
       padding: 1.5rem;
       overflow: hidden;
@@ -81,6 +50,32 @@ ul.header_menulist li ul li:hover{
     gap: 10rem;
     font-size: 2rem;
     transform: translateY(30%);
+    z-index: 99;
+    & > li {
+      position: relative;
+      & > ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #fff;
+        border: 0.1rem solid #ccc;
+        border-radius: 1.2rem;
+        padding: 1rem 2rem;
+        min-width: 10rem;
+        & > li {
+          padding: 0.5rem;
+          text-align: center;
+          color: #000;
+          &:hover {
+            opacity: 0.5;
+          }
+        }
+      }
+      &:hover > ul {
+        display: block;
+      }
+    }
   }
 
   .header_left {
@@ -107,6 +102,7 @@ ul.header_menulist li ul li:hover{
     font-size: 1.5rem;
     padding: 1rem 1rem;
     scale: 2.5;
+    cursor: pointer;
   }
 
   .user {
@@ -114,6 +110,7 @@ ul.header_menulist li ul li:hover{
     font-size: 1.5rem;
     padding: 1rem 1rem;
     scale: 2.5;
+    cursor: pointer;
   }
 
   @media screen and (max-width: 1024px) {
@@ -139,6 +136,17 @@ ul.header_menulist li ul li:hover{
       gap: 1rem;
       padding: 0;
       transform: translateY(0);
+      & > li {
+        & > ul {
+          & > li {
+            &:hover {
+            }
+          }
+        }
+        &:hover > ul {
+          display: none;
+        }
+      }
     }
 
     .header_menulist li,
