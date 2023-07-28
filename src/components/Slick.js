@@ -12,6 +12,8 @@ const Slick = () => {
     centerPadding: "60px",
     slidesToShow: 3,
     speed: 500,
+    autoplay:true,
+    
     responsive: [
       {
         breakpoint: 1200,
@@ -20,7 +22,7 @@ const Slick = () => {
         },
       },
       {
-        breakpoint: 1023,
+        breakpoint: 1024,
         settings: {
           slidesToShow: 3,
         },
