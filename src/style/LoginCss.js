@@ -2,12 +2,14 @@ import styled from "@emotion/styled";
 
 export const LoginContainer = styled.div`
   position: relative;
-  height: calc(100vh - 150px);
+
+  /* height: calc(100vh - 150px); */
   /* background: #f5f5f5; */
   background: #f9f6f1;
   .login-area {
     /* position: absolute; */
-    width: 600px;
+    width: 80%;
+    max-width: 600px;
     margin: 0 auto;
     padding-bottom: 140px;
     /* left: 50%; */
@@ -26,6 +28,7 @@ export const LoginContainer = styled.div`
     background: #fff;
     padding: 40px;
     border-radius: 20px;
+
     /* width: 100%;
     margin-left: auto;
     margin-right: auto; */
@@ -120,9 +123,6 @@ export const LoginContainer = styled.div`
     }
   }
   @media screen and (max-width: 1024px) {
-    .login-area {
-      width: 400px;
-    }
     .login-text {
       font-size: 25px;
       /* font-weight: 500; */
