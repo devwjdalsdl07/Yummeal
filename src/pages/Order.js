@@ -1,16 +1,84 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OrderItem from "../components/OrderItem";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
 
 const Order = () => {
-  const [point, setPoint] = useState(0);
+  const [point, setPoint] = useState(5000);
   const [usePoint, setUsePoint] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const dummy = [
+    {
+      title: "Product 1",
+      price: "15000",
+      image: "https://via.placeholder.com/150",
+      count: "1",
+    },
+    {
+      title: "Product 2",
+      price: "10000",
+      image: "https://via.placeholder.com/150",
+      count: "2",
+    },
+    {
+      title: "Product 3",
+      price: "7500",
+      image: "https://via.placeholder.com/150",
+      count: "3",
+    },
+  ];
+
   const handlePoint = e => {
-    setUsePoint(e.target.value.replace(/[^0-9]/g, ""));
+    const inputValue = e.target.value.replace(/[^0-9]/g, "");
+    const availablePoint = parseInt(point);
+    const enteredPoint = inputValue === "" ? "" : parseInt(inputValue);
+
+    if (
+      enteredPoint === "" ||
+      (enteredPoint >= 0 && enteredPoint <= availablePoint)
+    ) {
+      setUsePoint(inputValue);
+    } else {
+      setUsePoint(availablePoint.toString());
+    }
   };
+
   const handleAllPoint = () => {
     setUsePoint(point);
   };
+
+  const handleOrder = () => {
+    const newWindow = window.open(
+      "https://greenart.co.kr/",
+      "결제페이지",
+      "width=430, height=500, location=no, status=no, scrollbars=yes",
+    );
+    newWindow.addEventListener("beforeunload", () => {
+      window.location.href = "/orderdetail";
+    });
+  };
+
+  const handleNameChange = e => {
+    setName(e.target.value);
+  };
+
+  const handleMessage = e => {
+    setMessage(e.target.value);
+  };
+
+  const prodTotalPrice = dummy.reduce((item, idx) => {
+    const productPrice = parseInt(idx.price) * parseInt(idx.count);
+    return item + productPrice;
+  }, 0);
+
+  useEffect(() => {
+    const enteredPoint = usePoint === "" ? 0 : parseInt(usePoint);
+    setTotalPrice(prodTotalPrice - enteredPoint);
+  }, [usePoint, prodTotalPrice]);
+
   return (
     <OrderWrap>
       <OrderInfo>
@@ -20,15 +88,19 @@ const Order = () => {
           <hr />
           <div className="user-info">
             <p>받는분</p>
-            <input type="text" />
+            <input
+              type="text"
+              value="받는분"
+              onChange={e => handleNameChange(e)}
+            />
           </div>
           <div className="user-info">
             <p>주소</p>
-            <input type="text" />
+            <input type="text" value="주소" />
           </div>
           <div className="user-info">
             <p>휴대폰</p>
-            <input type="text" />
+            <input type="text" value="휴대폰" />
           </div>
         </div>
         <div className="request-box">
@@ -36,10 +108,14 @@ const Order = () => {
           <hr />
           <div className="message">
             <p>메세지</p>
-            <input type="text" />
+            <input
+              type="text"
+              value={message}
+              onChange={e => handleMessage(e)}
+            />
           </div>
         </div>
-        <OrderItem />
+        <OrderItem dummy={dummy} />
         <div className="point-wrap">
           <h3>포인트 사용</h3>
           <hr />
@@ -65,18 +141,20 @@ const Order = () => {
         <div className="paywrap">
           <div className="price">
             <p>상품금액</p>
-            <p>원</p>
+            <p>{prodTotalPrice}원</p>
           </div>
           <div className="price">
             <p>할인금액</p>
-            <p>원</p>
+            <p>{usePoint !== "" ? `${usePoint}` : "0"}원</p>
           </div>
           <div className="price">
             <p>총 결제예정금액</p>
-            <p>원</p>
+            <p>{totalPrice}원</p>
           </div>
         </div>
-        <div className="order_btn">결제하기</div>
+        <div className="order_btn" onClick={handleOrder}>
+          결제하기
+        </div>
       </OrderPay>
     </OrderWrap>
   );

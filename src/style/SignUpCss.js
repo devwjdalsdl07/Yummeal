@@ -39,7 +39,7 @@ export const JoinFormGroup = styled.div`
   margin-bottom: 10px;
   transform: translateX(25px);
   i {
-    color: red;
+    color: #ff0000;
     font-size: 4px;
     margin-right: 5px;
     .fa-circle {
@@ -85,7 +85,7 @@ export const JoinTitleWrapTop = styled.div`
     justify-content: flex-end;
     align-items: center;
     i {
-      color: red;
+      color: #ff0000;
       font-size: 6px;
       margin-right: 5px;
       span {

@@ -5,9 +5,10 @@ export const OrderWrap = styled.div`
   justify-content: space-evenly;
   padding: 5rem;
   margin: 0 auto;
+  max-width: 140rem;
   @media screen and (max-width: 1024px) {
     padding: 2rem;
-    min-width: 50rem;
+    min-width: 40rem;
     flex-direction: column;
     justify-content: center;
     gap: 3rem 0;
@@ -23,7 +24,7 @@ export const OrderInfo = styled.div`
     padding-top: 2rem;
   }
   hr {
-    margin: 1rem 0;
+    margin-top: 1rem;
     border: 0;
     height: 0.1rem;
     background: black;
@@ -81,7 +82,7 @@ export const OrderInfo = styled.div`
         button {
           width: 8rem;
           height: 3rem;
-          border: 1px solid #000;
+          border: 0.1rem solid #000;
           border-radius: 1rem;
           background: #fff;
           line-height: 3rem;
@@ -92,7 +93,7 @@ export const OrderInfo = styled.div`
   }
   @media screen and (max-width: 1024px) {
     width: 80%;
-    min-width: 45rem;
+    min-width: 40rem;
     margin: 0 auto;
     h3 {
       font-size: 1.5rem;
@@ -156,8 +157,8 @@ export const OrderPay = styled.div`
     height: 5rem;
     line-height: 5rem;
     text-align: Center;
-    background: beige;
-    color: black;
+    background: #f5f5dc;
+    color: #000;
     font-weight: bold;
     font-size: 2rem;
     cursor: pointer;
@@ -166,6 +167,7 @@ export const OrderPay = styled.div`
     width: 80%;
     margin: 0 auto;
     gap: 0;
+    min-width: 40rem;
     h2 {
       margin-bottom: 1rem;
     }
