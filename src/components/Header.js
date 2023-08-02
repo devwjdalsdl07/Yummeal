@@ -78,7 +78,7 @@ function Header() {
 
       {/* Headerle 로고 */}
       <div className="logo">
-        <img src="img/logo.png"></img>
+        <img src="img/logo.png" onClick={() => navigate("/")}></img>
       </div>
 
       {/* User 버튼 */}

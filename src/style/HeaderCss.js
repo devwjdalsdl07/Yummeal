@@ -6,11 +6,12 @@ export const Head = styled.div`
   justify-content: space-around;
   align-items: center;
   color: #000;
-  background: #F5EEDA;
+  background: #f5eeda;
   position: relative;
   .logo {
     margin: 0 1rem;
     font-size: 2rem;
+    cursor: pointer;
     img {
       width: 15rem;
       height: 15rem;
