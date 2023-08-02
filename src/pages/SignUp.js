@@ -14,7 +14,7 @@ import {
 } from "../style/SignUpCss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { DatePicker, Space } from "antd";
 
 const SignUp = () => {
@@ -22,7 +22,14 @@ const SignUp = () => {
   const [postcode, setPostcode] = useState("");
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
-  const [extraAddress, setExtraAddress] = useState("");
+  // const [extraAddress, setExtraAddress] = useState("");
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+  const [pwConfirm, setPwConfirm] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [nickName, setNickName] = useState("");
+  const [birth, setBirth] = useState("");
 
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
@@ -38,10 +45,10 @@ const SignUp = () => {
     };
   }, []);
   const handleSignUp = () => {
-    navigate("/Login");
+    navigate("/login");
   };
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
+  const onBirthChange = dateString => {
+    setBirth(dateString);
   };
 
   const handleExecDaumPostcode = () => {
@@ -60,21 +67,21 @@ const SignUp = () => {
         }
 
         // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-        if (data.userSelectedType === "R") {
-          if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-            extraAddr += data.bname;
-          }
-          if (data.buildingName !== "" && data.apartment === "Y") {
-            extraAddr +=
-              extraAddr !== "" ? ", " + data.buildingName : data.buildingName;
-          }
-          if (extraAddr !== "") {
-            extraAddr = " (" + extraAddr + ")";
-          }
-          setExtraAddress(extraAddr);
-        } else {
-          setExtraAddress("");
-        }
+        // if (data.userSelectedType === "R") {
+        //   if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+        //     extraAddr += data.bname;
+        //   }
+        //   if (data.buildingName !== "" && data.apartment === "Y") {
+        //     extraAddr +=
+        //       extraAddr !== "" ? ", " + data.buildingName : data.buildingName;
+        //   }
+        //   if (extraAddr !== "") {
+        //     extraAddr = " (" + extraAddr + ")";
+        //   }
+        //   setExtraAddress(extraAddr);
+        // } else {
+        //   setExtraAddress("");
+        // }
 
         // 우편번호와 주소 정보를 상태에 저장한다.
         setPostcode(data.zonecode);
@@ -109,10 +116,27 @@ const SignUp = () => {
               </span>
               <input
                 type="text"
-                placeholder="아이디를 입력하세요"
+                placeholder="이메일 형식으로 입력하세요"
+                value={id}
                 maxLength={100}
+                onChange={e => setId(e.target.value)}
               />
             </JoinId>
+            <div>
+              <span>
+                <i>
+                  <FontAwesomeIcon icon={faCircle} />
+                </i>
+                닉네임
+              </span>
+              <input
+                type="text"
+                placeholder="닉네임을 입력하세요"
+                value={nickName}
+                onChange={e => setNickName(e.target.value)}
+                maxLength={100}
+              />
+            </div>
             <JoinPw>
               <span>
                 <i>
@@ -121,8 +145,10 @@ const SignUp = () => {
                 비밀번호
               </span>
               <input
-                type="text"
+                type="password"
                 placeholder="비밀번호를 입력하세요"
+                value={pw}
+                onChange={e => setPw(e.target.value)}
                 maxLength={100}
               />
             </JoinPw>
@@ -134,8 +160,10 @@ const SignUp = () => {
                 비밀번호 확인
               </span>
               <input
-                type="text"
+                type="password"
                 placeholder="비밀번호를 한번 더 입력하세요"
+                value={pwConfirm}
+                onChange={e => setPwConfirm(e.target.value)}
                 maxLength={100}
               />
             </JoinPwConfirm>
@@ -149,6 +177,8 @@ const SignUp = () => {
               <input
                 type="text"
                 placeholder="이름을 입력하세요"
+                value={name}
+                onChange={e => setName(e.target.value)}
                 maxLength={100}
               />
             </div>
@@ -161,23 +191,13 @@ const SignUp = () => {
               </span>
               <input
                 type="text"
-                placeholder="전화번호를 입력하세요"
-                maxLength={100}
+                placeholder="전화번호를 입력하세요 ( - 없이 입력)"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+                maxLength={11}
               />
             </div>
-            <div>
-              <span>
-                <i>
-                  <FontAwesomeIcon icon={faCircle} />
-                </i>
-                이메일
-              </span>
-              <input
-                type="text"
-                placeholder="이메일을 입력하세요"
-                maxLength={100}
-              />
-            </div>
+
             {/* 생년월일 드랍박스 들어갈 자리 */}
             <div>
               <span>
@@ -188,11 +208,10 @@ const SignUp = () => {
               </span>
               <Space direction="vertical">
                 <DatePicker
-                  onChange={onChange}
+                  onChange={onBirthChange}
                   placeholder="YYYY-MM-DD"
                   style={{
                     height: "30px",
-                    marginTop: "10px",
                   }}
                 />
               </Space>
@@ -202,41 +221,54 @@ const SignUp = () => {
                 maxLength={100}
               /> */}
             </div>
-          </JoinFormGroup>
-          <div>
-            <input
-              type="text"
-              id="sample6_postcode"
-              value={postcode}
-              placeholder="우편번호"
-            />
-            <input
+            <div className="test">
+              <span>
+                <i>
+                  <FontAwesomeIcon icon={faCircle} />
+                </i>
+                주소
+              </span>
+              <input
+                style={{ width: "150px", cursor: "pointer" }}
+                type="text"
+                id="sample6_postcode"
+                value={postcode}
+                placeholder="우편번호"
+                onChange={e => setPostcode(e.target.value)}
+                onClick={handleExecDaumPostcode}
+              />
+              {/* <input
               type="button"
               onClick={handleExecDaumPostcode}
               value="우편번호 찾기"
-            />
-            <br />
-            <input
-              type="text"
-              id="sample6_address"
-              value={address}
-              placeholder="주소"
-            />
-            <br />
-            <input
-              type="text"
-              id="sample6_detailAddress"
-              value={detailAddress}
-              onChange={e => setDetailAddress(e.target.value)}
-              placeholder="상세주소"
-            />
-            <input
-              type="text"
-              id="sample6_extraAddress"
-              value={extraAddress}
-              placeholder="참고항목"
-            />
-          </div>
+            /> */}
+              <br />
+              <input
+                type="text"
+                id="sample6_address"
+                value={address}
+                placeholder="주소"
+                disabled={false}
+                onChange={e => setAddress(e.target.value)}
+              />
+              <br />
+              <input
+                type="text"
+                id="sample6_detailAddress"
+                value={detailAddress}
+                onChange={e => setDetailAddress(e.target.value)}
+                placeholder="상세주소"
+              />
+              {/* <input
+                type="text"
+                id="sample6_extraAddress"
+                value={extraAddress}
+                placeholder="참고항목"
+                onChange={e => setExtraAddress(e.target.value)}
+              /> */}
+            </div>
+          </JoinFormGroup>
+
           <JoinBtn onClick={handleSignUp}>회원가입</JoinBtn>
         </JoinWrap>
       </JoinArea>

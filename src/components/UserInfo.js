@@ -14,7 +14,7 @@ import {
 } from "../style/UserInfoCss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { DatePicker, Space } from "antd";
 
 const UserInfo = () => {
@@ -90,6 +90,9 @@ const UserInfo = () => {
         document.getElementById("sample6_detailAddress").focus();
       },
     }).open();
+  };
+  const handleDetailAddressChange = e => {
+    setDetailAddress(e.target.value);
   };
 
   return (
@@ -268,7 +271,6 @@ const UserInfo = () => {
               /> */}
             </div>
           </JoinFormGroup>
-
           <JoinBtn onClick={handleSignUp}>회원가입</JoinBtn>
         </JoinWrap>
       </JoinArea>

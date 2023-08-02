@@ -2,11 +2,17 @@ import styled from "@emotion/styled";
 
 export const JoinContainer = styled.div`
   position: relative;
-  height: 100vh;
+  /* height: 100vh; */
   background: #f9f6f1;
+  @media screen and (max-width: 1024px) {
+    font-size: 25px;
+    /* font-weight: 500; */
+    margin-bottom: 25px;
+  }
 `;
 export const JoinArea = styled.div`
-  width: 600px;
+  width: 80%;
+  max-width: 600px;
   margin: 0 auto;
   padding-bottom: 140px;
 `;
@@ -38,8 +44,11 @@ export const JoinFormGroup = styled.div`
   margin: 0 auto;
   margin-bottom: 10px;
   transform: translateX(25px);
+  > div {
+    margin-bottom: 13px;
+  }
   i {
-    color: red;
+    color: #ff0000;
     font-size: 4px;
     margin-right: 5px;
     .fa-circle {
@@ -59,7 +68,7 @@ export const JoinFormGroup = styled.div`
     border: 1px solid #ccc;
     font-size: 13px;
     border-radius: 10px;
-    margin: 8px 0;
+    /* margin: 8px 0; */
     height: 45px;
     width: 90%;
   }
@@ -69,6 +78,12 @@ export const JoinFormGroup = styled.div`
   .ant-picker .ant-picker-input > input:focus {
     border-color: #ccc;
   } */
+  .test {
+    input {
+      margin: 3px;
+      height: 35px;
+    }
+  }
 `;
 export const JoinTitleWrapTop = styled.div`
   display: flex;
@@ -85,7 +100,7 @@ export const JoinTitleWrapTop = styled.div`
     justify-content: flex-end;
     align-items: center;
     i {
-      color: red;
+      color: #ff0000;
       font-size: 6px;
       margin-right: 5px;
       span {

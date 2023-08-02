@@ -23,6 +23,7 @@ export const OrderItems = styled.div`
   @media screen and (max-width: 1024px) {
     .order-prod {
       padding: 1rem 0;
+      min-width: 40rem;
       .order-prod-info {
         .order-prod-title {
           font-size: 1.5rem;

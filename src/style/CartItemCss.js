@@ -36,7 +36,7 @@ export const CartItems = styled.div`
     .counter {
       padding: 0 1rem;
       display: flex;
-      gap: 1rem;
+      gap: 2rem;
       .counter_btn {
         cursor: pointer;
       }
@@ -64,14 +64,15 @@ export const CartItems = styled.div`
     }
     .prod_info {
       font-size: 1.5rem;
+      gap: 7rem;
     }
   }
   @media screen and (max-width: 800px) {
     .prodwrap {
-      min-width: 250px;
+      min-width: 20rem;
     }
     .prod_info {
-      min-width: 130px;
+      min-width: 13rem;
       gap: 2rem;
     }
   }
