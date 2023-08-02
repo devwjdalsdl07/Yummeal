@@ -72,6 +72,9 @@ const UserInfo = () => {
       },
     }).open();
   };
+  const handleDetailAddressChange = e => {
+    setDetailAddress(e.target.value);
+  };
 
   return (
     <JoinContainer>
@@ -174,11 +177,6 @@ const UserInfo = () => {
                 </i>
                 아이 생년월일
               </span>
-              {/* <input
-                type="text"
-                placeholder="이메일을 입력하세요"
-                maxLength={100}
-              /> */}
             </div>
           </JoinFormGroup>
           <Space direction="vertical">
@@ -188,6 +186,14 @@ const UserInfo = () => {
               style={{ transform: "translateX(25px)" }}
             />
           </Space>
+          <div>
+            <span>
+              <i>
+                <FontAwesomeIcon icon={faCircle} />
+              </i>
+              아이 생년월일
+            </span>
+          </div>
           <div>
             <input
               type="text"
@@ -212,7 +218,7 @@ const UserInfo = () => {
               type="text"
               id="sample6_detailAddress"
               value={detailAddress}
-              onChange={e => setDetailAddress(e.target.value)}
+              onChange={handleDetailAddressChange}
               placeholder="상세주소"
             />
             <input
