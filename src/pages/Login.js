@@ -2,7 +2,7 @@ import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React } from "react";
 import { LoginContainer } from "../style/LoginCss";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();

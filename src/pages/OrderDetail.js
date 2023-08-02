@@ -1,9 +1,32 @@
 import { faEquals, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
 
 const OrderDetail = () => {
+  const [orderEnds, setOrderEnds] = useState([
+    {
+      title: "Product 1",
+      price: 15000,
+      image: "https://via.placeholder.com/150",
+      quantity: 1,
+    },
+    {
+      title: "Product 2",
+      price: 10000,
+      image: "https://via.placeholder.com/150",
+      quantity: 1,
+    },
+    {
+      title: "Product 3",
+      price: 7500,
+      image: "https://via.placeholder.com/150",
+      quantity: 1,
+    },
+  ]);
+
+  const handleInCart = ()=>{}
+
   return (
     <OrderDetailWrap>
       <div className="container">
@@ -12,19 +35,21 @@ const OrderDetail = () => {
         <div className="order-prodwrap">
           <h3>주문상품</h3>
           <hr />
-          <div className="order-prodtext">
-            <div>
-              <img src="http://fpoimg.com/150x150" alt="" />
-            </div>
-            <div className="order-textwrap">
-              <p>타이틀</p>
-              <p>가격</p>
-              <p>수량</p>
-              <div className="order-prodbtn">
-                <button>장바구니 담기</button>
+          {orderEnds.map((item, idx) => (
+            <div key={idx} className="order-prodtext">
+              <div>
+                <img src={item.image} alt={item.title} />
+              </div>
+              <div className="order-textwrap">
+                <p>{item.title}</p>
+                <p>{item.price}</p>
+                <p>{item.quantity}</p>
+                <div className="order-prodbtn">
+                  <button onClick={handleInCart}>장바구니 담기</button>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
         <div className="order-userinfo">
           <h3>배송 정보</h3>
@@ -54,7 +79,7 @@ const OrderDetail = () => {
           <div className="order-pricewrap">
             <div className="price-data">
               <p>주문금액</p>
-              <span>가격</span>
+              <span>원</span>
             </div>
             <div>
               <i>
@@ -63,7 +88,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>할인금액</p>
-              <span>가격</span>
+              <span>원</span>
             </div>
             <div>
               <i>
@@ -72,7 +97,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>총 결제금액</p>
-              <span>가격</span>
+              <span>원</span>
             </div>
           </div>
         </div>

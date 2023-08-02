@@ -1,12 +1,12 @@
 import React from "react";
 import { OrderItems } from "../style/OrderItemCss";
 
-const OrderItem = ({ dummy }) => {
+const OrderItem = ({ orderItems }) => {
   return (
     <OrderItems>
       <h3>주문상품</h3>
       <hr />
-      {dummy.map((item, idx) => (
+      {orderItems.map((item, idx) => (
         <div key={idx} className="order-prod">
           <div className="order-prod-info">
             <div className="order-prod-img">
@@ -19,7 +19,7 @@ const OrderItem = ({ dummy }) => {
           </div>
           <div className="order-prod-count">
             <p>{item.count}</p>
-            <p>{parseInt(item.price) * parseInt(item.count)}</p>
+            <p>{parseInt(item.price) * parseInt(item.quantity)}</p>
           </div>
         </div>
       ))}

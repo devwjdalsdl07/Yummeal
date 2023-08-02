@@ -99,13 +99,15 @@ export const NotList = styled.div`
   }
   .text-box {
     p {
-      padding: 1.5rem 0;
+      padding: 1.5rem;
       font-size: 3rem;
     }
     button {
       border-radius: 0.8rem;
       border: 1px solid;
+      background: #f5f5dc;
       padding: 1rem;
+      margin-top: 3rem;
       font-size: 1.5rem;
     }
   }

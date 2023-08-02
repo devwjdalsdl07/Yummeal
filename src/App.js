@@ -1,7 +1,6 @@
 import { Route, Routes, useLocation } from "react-router-dom";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
-import AdminAddItem from "./pages/AdminAddItem";
-import AdminMain from "./pages/AdminMain";
 import ItemDetail from "./pages/ItemDetail";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
@@ -11,15 +10,18 @@ import OrderDetail from "./pages/OrderDetail";
 import SearchList from "./pages/SearchList";
 import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
-import Footer from "./components/Footer";
+import AdminMain from "./pages/AdminMain";
+import AdminAddItem from "./pages/AdminAddItem";
+import Payment from "./pages/Payment";
 
 function App() {
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith("/admin");
+  const isPaymentPage = location.pathname === "/payment";
   return (
     <>
       {/* Header를 isAdminPage가 아닐 때만 렌더링 */}
-      {!isAdminPage && <Header />}
+      {!isAdminPage && !isPaymentPage && <Header />}
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
@@ -30,8 +32,9 @@ function App() {
         <Route path="/cart" element={<ShopCart />} />
         <Route path="/order" element={<Order />} />
         <Route path="/orderdetail" element={<OrderDetail />} />
+        <Route path="/payment" element={<Payment />} />
       </Routes>
-      {!isAdminPage && <Footer />}
+      {!isAdminPage && !isPaymentPage && <Footer />}
       <Routes>
         <Route path="/admin" element={<AdminMain />} />
         <Route path="/adminAdd" element={<AdminAddItem />} />

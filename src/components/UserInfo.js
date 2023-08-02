@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { DatePicker, Space } from "antd";
 
 const UserInfo = () => {

@@ -1,7 +1,7 @@
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import CartItem from "../components/CartItem";
 import { Cart, NotList, Payment, ShopWrap } from "../style/ShopCartCss";
 

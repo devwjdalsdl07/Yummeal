@@ -87,6 +87,7 @@ export const Head = styled.div`
     list-style: none;
     display: flex;
     font-size: 1.5rem;
+    color: #000;
   }
 
   .header_right div {
@@ -123,6 +124,7 @@ export const Head = styled.div`
       flex-direction: column;
       width: 100%;
       background-color: #000;
+      color: #fff;
     }
 
     .searchwrap {
@@ -134,6 +136,7 @@ export const Head = styled.div`
       flex-direction: column;
       width: 100%;
       background-color: #000;
+      color: #fff;
       gap: 1rem;
       padding: 0;
       transform: translateY(0);

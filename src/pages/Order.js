@@ -3,33 +3,32 @@ import OrderItem from "../components/OrderItem";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
 
 const Order = () => {
+  const [orderItems, setOrderItems] = useState([
+    {
+      title: "Product 1",
+      price: 15000,
+      image: "https://via.placeholder.com/150",
+      quantity: 1,
+    },
+    {
+      title: "Product 2",
+      price: 10000,
+      image: "https://via.placeholder.com/150",
+      quantity: 1,
+    },
+    {
+      title: "Product 3",
+      price: 7500,
+      image: "https://via.placeholder.com/150",
+      quantity: 1,
+    },
+  ]);
   const [point, setPoint] = useState(5000);
   const [usePoint, setUsePoint] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
-
-  const dummy = [
-    {
-      title: "Product 1",
-      price: "15000",
-      image: "https://via.placeholder.com/150",
-      count: "1",
-    },
-    {
-      title: "Product 2",
-      price: "10000",
-      image: "https://via.placeholder.com/150",
-      count: "2",
-    },
-    {
-      title: "Product 3",
-      price: "7500",
-      image: "https://via.placeholder.com/150",
-      count: "3",
-    },
-  ];
 
   const handlePoint = e => {
     const inputValue = e.target.value.replace(/[^0-9]/g, "");
@@ -51,14 +50,11 @@ const Order = () => {
   };
 
   const handleOrder = () => {
-    const newWindow = window.open(
-      "https://greenart.co.kr/",
+    window.open(
+      "/payment",
       "결제페이지",
       "width=430, height=500, location=no, status=no, scrollbars=yes",
     );
-    newWindow.addEventListener("beforeunload", () => {
-      window.location.href = "/orderdetail";
-    });
   };
 
   const handleNameChange = e => {
@@ -69,8 +65,8 @@ const Order = () => {
     setMessage(e.target.value);
   };
 
-  const prodTotalPrice = dummy.reduce((item, idx) => {
-    const productPrice = parseInt(idx.price) * parseInt(idx.count);
+  const prodTotalPrice = orderItems.reduce((item, idx) => {
+    const productPrice = parseInt(idx.price) * parseInt(idx.quantity);
     return item + productPrice;
   }, 0);
 
@@ -90,17 +86,17 @@ const Order = () => {
             <p>받는분</p>
             <input
               type="text"
-              value="받는분"
+              value={name}
               onChange={e => handleNameChange(e)}
             />
           </div>
           <div className="user-info">
             <p>주소</p>
-            <input type="text" value="주소" />
+            <input type="text" value="주소" readOnly />
           </div>
           <div className="user-info">
             <p>휴대폰</p>
-            <input type="text" value="휴대폰" />
+            <input type="text" value="휴대폰" readOnly />
           </div>
         </div>
         <div className="request-box">
@@ -112,10 +108,11 @@ const Order = () => {
               type="text"
               value={message}
               onChange={e => handleMessage(e)}
+              placeholder="메세지를 입력해주세요."
             />
           </div>
         </div>
-        <OrderItem dummy={dummy} />
+        <OrderItem orderItems={orderItems} />
         <div className="point-wrap">
           <h3>포인트 사용</h3>
           <hr />
