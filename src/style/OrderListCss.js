@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const OrderListContainer = styled.div`
-  width: 70%;
+  width: 80%;
   .top {
     width: 100%;
     height: 50px;
