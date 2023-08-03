@@ -1,16 +1,18 @@
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { React } from "react";
+import { React, useState } from "react";
 import { LoginContainer } from "../style/LoginCss";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
   const handleSignUPClick = () => {
-    navigate("/SignUp");
+    navigate("/signup");
   };
   const handleLoginClick = () => {
-    navigate("/Main");
+    navigate("/");
   };
   return (
     <LoginContainer>
@@ -25,6 +27,8 @@ const Login = () => {
               <input
                 type="text"
                 placeholder="아이디를 입력하세요"
+                value={id}
+                onChange={e => setId(e.target.value)}
                 maxLength={100}
                 style={{ height: "50px" }}
               />
@@ -34,8 +38,10 @@ const Login = () => {
                 비밀번호
               </span>
               <input
-                type="text"
+                type="password"
                 placeholder="비밀번호를 입력하세요"
+                value={pw}
+                onChange={e => setPw(e.target.value)}
                 maxLength={100}
                 style={{ height: "50px" }}
               />

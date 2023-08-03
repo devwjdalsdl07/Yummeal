@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-// import { Link } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
+import Review from "../components/Review";
 
 const ItemDetail = () => {
   const subImages = [
@@ -147,6 +148,7 @@ const ItemDetail = () => {
           </div>
         </div>
       </div>
+      <Review />
     </div>
   );
 };

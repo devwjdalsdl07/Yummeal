@@ -22,7 +22,7 @@ export const OrderDetailWrap = styled.div`
       margin-top: 1rem;
       border: 0;
       height: 0.1rem;
-      background: black;
+      background: #000;
     }
     .order-prodwrap {
       .order-prodtext {
@@ -43,7 +43,7 @@ export const OrderDetailWrap = styled.div`
             border: 0.1rem solid;
             border-radius: 0.8rem;
             padding: 0.8rem;
-            background: white;
+            background: #fff;
             font-size: 1.5rem;
             cursor: pointer;
             transform: translateY(2.3rem);

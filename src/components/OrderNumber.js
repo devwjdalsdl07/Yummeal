@@ -3,6 +3,7 @@ import { OrderNumberContainer } from "../style/OrderNumberCss";
 
 const OrderNumber = () => {
   const [delivery, setDelivery] = useState("배송 중");
+  const itemList = [1, 2];
   return (
     <OrderNumberContainer>
       <div className="orderInfo">
@@ -22,6 +23,7 @@ const OrderNumber = () => {
         <div className="titleWrap">
           <p>제품 명</p>
           <span>밀푀유나베(1~2인)</span>
+          {itemList.length > 1 ? <span>외{itemList.length - 1}개</span> : null}
         </div>
       </div>
       <div className="orderPrice">

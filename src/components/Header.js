@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Head } from "../style/HeaderCss";
 
 // export default Header;
@@ -78,7 +78,7 @@ function Header() {
 
       {/* Headerle 로고 */}
       <div className="logo">
-        <img src="img/logo.png"></img>
+        <img src="img/logo.png" onClick={() => navigate("/")}></img>
       </div>
 
       {/* User 버튼 */}

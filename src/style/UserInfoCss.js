@@ -1,9 +1,8 @@
 import styled from "@emotion/styled";
 
 export const JoinContainer = styled.div`
+  width: 80%;
   position: relative;
-  /* height: 100vh; */
-  background: #f9f6f1;
   @media screen and (max-width: 1024px) {
     font-size: 25px;
     /* font-weight: 500; */
@@ -11,13 +10,12 @@ export const JoinContainer = styled.div`
   }
 `;
 export const JoinArea = styled.div`
-  width: 80%;
+  width: 100%;
   max-width: 600px;
   margin: 0 auto;
   padding-bottom: 140px;
 `;
 export const JoinText = styled.div`
-  padding-top: 50px;
   text-align: center;
   font-size: 30px;
   font-weight: 500;

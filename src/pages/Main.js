@@ -1,7 +1,7 @@
 import React from "react";
 import Slick from "../components/Slick";
 import { MainDiv } from "../style/MainCss";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
@@ -160,7 +160,7 @@ const Main = () => {
                   <p>타이틀</p>
                   <p>가격</p>
                 </span>
-              </li>
+              </li>ㅠ
 
               <li className="product-card">
                 <img

@@ -6,11 +6,12 @@ export const Head = styled.div`
   justify-content: space-around;
   align-items: center;
   color: #000;
-  background: #F5EEDA;
+  background: #f5eeda;
   position: relative;
   .logo {
     margin: 0 1rem;
     font-size: 2rem;
+    cursor: pointer;
     img {
       width: 15rem;
       height: 15rem;
@@ -86,6 +87,7 @@ export const Head = styled.div`
     list-style: none;
     display: flex;
     font-size: 1.5rem;
+    color: #000;
   }
 
   .header_right div {
@@ -122,6 +124,7 @@ export const Head = styled.div`
       flex-direction: column;
       width: 100%;
       background-color: #000;
+      color: #fff;
     }
 
     .searchwrap {
@@ -133,6 +136,7 @@ export const Head = styled.div`
       flex-direction: column;
       width: 100%;
       background-color: #000;
+      color: #fff;
       gap: 1rem;
       padding: 0;
       transform: translateY(0);

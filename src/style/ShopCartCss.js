@@ -69,6 +69,9 @@ export const Payment = styled.div`
     font-weight: bold;
     font-size: 2rem;
     cursor: pointer;
+    &:hover{
+      opacity: 0.8;
+    }
   }
   @media screen and (max-width: 1024px) {
     h2 {
@@ -99,13 +102,16 @@ export const NotList = styled.div`
   }
   .text-box {
     p {
-      padding: 1.5rem 0;
+      padding: 1.5rem;
       font-size: 3rem;
     }
     button {
       border-radius: 0.8rem;
       border: 1px solid;
+      background: #000;
+      color: #fff;
       padding: 1rem;
+      margin-top: 3rem;
       font-size: 1.5rem;
     }
   }
