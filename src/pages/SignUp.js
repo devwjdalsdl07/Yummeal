@@ -23,6 +23,10 @@ const SignUp = () => {
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
   // const [extraAddress, setExtraAddress] = useState("");
+  const [form, setForm] = useState({
+    id: "",
+    pw: "",
+  });
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");
@@ -117,9 +121,9 @@ const SignUp = () => {
               <input
                 type="text"
                 placeholder="이메일 형식으로 입력하세요"
-                value={id}
+                value={form.id}
                 maxLength={100}
-                onChange={e => setId(e.target.value)}
+                onChange={e => setForm({ ...form, id: e.target.value })}
               />
             </JoinId>
             <div>
@@ -147,8 +151,8 @@ const SignUp = () => {
               <input
                 type="password"
                 placeholder="비밀번호를 입력하세요"
-                value={pw}
-                onChange={e => setPw(e.target.value)}
+                value={form.pw}
+                onChange={e => setForm({ ...form, pw: e.target.value })}
                 maxLength={100}
               />
             </JoinPw>
@@ -236,6 +240,7 @@ const SignUp = () => {
                 placeholder="우편번호"
                 onChange={e => setPostcode(e.target.value)}
                 onClick={handleExecDaumPostcode}
+                readOnly
               />
               {/* <input
               type="button"
@@ -248,8 +253,8 @@ const SignUp = () => {
                 id="sample6_address"
                 value={address}
                 placeholder="주소"
-                disabled={false}
                 onChange={e => setAddress(e.target.value)}
+                readOnly
               />
               <br />
               <input
