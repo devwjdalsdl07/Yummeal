@@ -39,7 +39,7 @@ const ShopCart = () => {
   };
 
   const prodTotalPrice = cartItems.reduce((item, idx) => {
-    const productPrice = idx.price * parseInt(idx.quantity);
+    const productPrice = idx.price * idx.quantity;
     return item + productPrice;
   }, 0);
 

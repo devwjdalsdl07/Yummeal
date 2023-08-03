@@ -40,7 +40,7 @@ export const OrderInfo = styled.div`
     width: 70%;
     border-radius: 0.8rem;
     border: 0.1rem solid;
-    text-align: center;
+    padding: 0 1.5rem;
   }
   .user-text {
     padding: 1rem 0;
@@ -164,6 +164,9 @@ export const OrderPay = styled.div`
     font-weight: bold;
     font-size: 2rem;
     cursor: pointer;
+    &:hover{
+      opacity: 0.8;
+    }
   }
   @media screen and (max-width: 1024px) {
     width: 80%;

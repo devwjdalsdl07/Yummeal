@@ -1,6 +1,7 @@
 import { faEquals, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import { useLocation } from "react-router";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
 
 const OrderDetail = () => {
@@ -15,7 +16,7 @@ const OrderDetail = () => {
       title: "Product 2",
       price: 10000,
       image: "https://via.placeholder.com/150",
-      quantity: 1,
+      quantity: 2,
     },
     {
       title: "Product 3",
@@ -25,7 +26,16 @@ const OrderDetail = () => {
     },
   ]);
 
-  const handleInCart = ()=>{}
+  const handleInCart = () => {};
+
+  const prodTotalPrice = orderEnds.reduce((item, idx) => {
+    const productPrice = idx.price * idx.quantity;
+    return item + productPrice;
+  }, 0);
+
+  const location = useLocation();
+  const { state } = location;
+  const usePoint = state?.usePoint ? state.usePoint : 0;
 
   return (
     <OrderDetailWrap>
@@ -42,7 +52,7 @@ const OrderDetail = () => {
               </div>
               <div className="order-textwrap">
                 <p>{item.title}</p>
-                <p>{item.price}</p>
+                <p>{item.price * item.quantity}</p>
                 <p>{item.quantity}</p>
                 <div className="order-prodbtn">
                   <button onClick={handleInCart}>장바구니 담기</button>
@@ -79,7 +89,7 @@ const OrderDetail = () => {
           <div className="order-pricewrap">
             <div className="price-data">
               <p>주문금액</p>
-              <span>원</span>
+              <span>{prodTotalPrice}원</span>
             </div>
             <div>
               <i>
@@ -88,7 +98,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>할인금액</p>
-              <span>원</span>
+              <span>{usePoint}원</span>
             </div>
             <div>
               <i>
@@ -97,7 +107,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>총 결제금액</p>
-              <span>원</span>
+              <span>{prodTotalPrice - usePoint}원</span>
             </div>
           </div>
         </div>
