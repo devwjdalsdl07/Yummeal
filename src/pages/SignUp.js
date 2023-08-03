@@ -19,14 +19,24 @@ import { DatePicker, Space } from "antd";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const [isAddressSearchOpen, setAddressSearchOpen] = useState(false);
   const [postcode, setPostcode] = useState("");
   const [address, setAddress] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
   // const [extraAddress, setExtraAddress] = useState("");
-  const [form, setForm] = useState({
-    id: "",
-    pw: "",
-  });
+
+  //오류메시지 상태저장
+  const [nickNameMessage, setNickNameMessage] = useState("");
+  const [idMessage, setIdMessage] = useState("");
+  const [pwMessage, setPwMessage] = useState("");
+  const [pwConfirmMessage, setPwConfirmMessage] = useState("");
+
+  // 유효성 검사
+  const [isNickName, setIsNickName] = useState(false);
+  const [isId, setIsId] = useState(false);
+  const [isPw, setIsPw] = useState(false);
+  const [isPwConfirm, setIsPwConfirm] = useState(false);
+
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");
@@ -51,49 +61,79 @@ const SignUp = () => {
   const handleSignUp = () => {
     navigate("/login");
   };
+  const handleOpenAddressSearch = () => {
+    setAddressSearchOpen(true);
+  };
+  const handleCloseAddressSearch = () => {
+    setAddressSearchOpen(false);
+  };
+
   const onBirthChange = dateString => {
     setBirth(dateString);
   };
 
   const handleExecDaumPostcode = () => {
-    new window.daum.Postcode({
-      oncomplete: function (data) {
-        let addr = ""; // 주소 변수
-        let extraAddr = ""; // 참고항목 변수
+    if (!isAddressSearchOpen) {
+      handleOpenAddressSearch();
 
-        // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-        if (data.userSelectedType === "R") {
-          // 사용자가 도로명 주소를 선택했을 경우
-          addr = data.roadAddress;
-        } else {
-          // 사용자가 지번 주소를 선택했을 경우(J)
-          addr = data.jibunAddress;
-        }
+      new window.daum.Postcode({
+        oncomplete: function (data) {
+          let addr = ""; // 주소 변수
+          let extraAddr = ""; // 참고항목 변수
 
-        // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-        // if (data.userSelectedType === "R") {
-        //   if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
-        //     extraAddr += data.bname;
-        //   }
-        //   if (data.buildingName !== "" && data.apartment === "Y") {
-        //     extraAddr +=
-        //       extraAddr !== "" ? ", " + data.buildingName : data.buildingName;
-        //   }
-        //   if (extraAddr !== "") {
-        //     extraAddr = " (" + extraAddr + ")";
-        //   }
-        //   setExtraAddress(extraAddr);
-        // } else {
-        //   setExtraAddress("");
-        // }
+          // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+          if (data.userSelectedType === "R") {
+            // 사용자가 도로명 주소를 선택했을 경우
+            addr = data.roadAddress;
+          } else {
+            // 사용자가 지번 주소를 선택했을 경우(J)
+            addr = data.jibunAddress;
+          }
 
-        // 우편번호와 주소 정보를 상태에 저장한다.
-        setPostcode(data.zonecode);
-        setAddress(addr);
-        // 커서를 상세주소 필드로 이동한다.
-        document.getElementById("sample6_detailAddress").focus();
-      },
-    }).open();
+          // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+          // if (data.userSelectedType === "R") {
+          //   if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+          //     extraAddr += data.bname;
+          //   }
+          //   if (data.buildingName !== "" && data.apartment === "Y") {
+          //     extraAddr +=
+          //       extraAddr !== "" ? ", " + data.buildingName : data.buildingName;
+          //   }
+          //   if (extraAddr !== "") {
+          //     extraAddr = " (" + extraAddr + ")";
+          //   }
+          //   setExtraAddress(extraAddr);
+          // } else {
+          //   setExtraAddress("");
+          // }
+
+          // 우편번호와 주소 정보를 상태에 저장한다.
+          setPostcode(data.zonecode);
+          setAddress(addr);
+          // 커서를 상세주소 필드로 이동한다.
+          document.getElementById("sample6_detailAddress").focus();
+          handleCloseAddressSearch();
+        },
+        onclose: function () {
+          handleCloseAddressSearch(); // 검색 창 닫기
+        },
+      }).open();
+    }
+  };
+  // id
+  const onIdChange = e => {
+    const idRegex =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    const idCurrent = e.target.value;
+    setId(idCurrent);
+
+    if (!idRegex.test(idCurrent)) {
+      setIdMessage("이메일 형식이 틀렸어요! 다시 확인해주세요 ㅜ ㅜ");
+      setIsId(false);
+    } else {
+      setIdMessage("올바른 이메일 형식이에요 : )");
+      setIsId(true);
+    }
   };
 
   return (
@@ -121,10 +161,17 @@ const SignUp = () => {
               <input
                 type="text"
                 placeholder="이메일 형식으로 입력하세요"
-                value={form.id}
+                value={id}
                 maxLength={100}
-                onChange={e => setForm({ ...form, id: e.target.value })}
+                onChange={onIdChange}
               />
+              <span>
+                {id.length > 0 && (
+                  <span className={`message ${isId ? "success" : "error"}`}>
+                    {idMessage}
+                  </span>
+                )}
+              </span>
             </JoinId>
             <div>
               <span>
@@ -151,8 +198,8 @@ const SignUp = () => {
               <input
                 type="password"
                 placeholder="비밀번호를 입력하세요"
-                value={form.pw}
-                onChange={e => setForm({ ...form, pw: e.target.value })}
+                value={pw}
+                onChange={e => setPw(e.target.value)}
                 maxLength={100}
               />
             </JoinPw>
