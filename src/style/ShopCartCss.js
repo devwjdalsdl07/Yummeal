@@ -69,6 +69,9 @@ export const Payment = styled.div`
     font-weight: bold;
     font-size: 2rem;
     cursor: pointer;
+    &:hover{
+      opacity: 0.8;
+    }
   }
   @media screen and (max-width: 1024px) {
     h2 {
@@ -105,7 +108,8 @@ export const NotList = styled.div`
     button {
       border-radius: 0.8rem;
       border: 1px solid;
-      background: #f5f5dc;
+      background: #000;
+      color: #fff;
       padding: 1rem;
       margin-top: 3rem;
       font-size: 1.5rem;

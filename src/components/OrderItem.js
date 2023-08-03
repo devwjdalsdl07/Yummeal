@@ -18,8 +18,8 @@ const OrderItem = ({ orderItems }) => {
             </div>
           </div>
           <div className="order-prod-count">
-            <p>{item.count}</p>
-            <p>{parseInt(item.price) * parseInt(item.quantity)}</p>
+            <p>{item.quantity}</p>
+            <p>{item.price * item.quantity}</p>
           </div>
         </div>
       ))}

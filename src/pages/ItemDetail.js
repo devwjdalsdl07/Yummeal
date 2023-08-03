@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Review from "../components/Review";
 
 const ItemDetail = () => {
   return (
@@ -29,6 +30,7 @@ const ItemDetail = () => {
           </li>
         </ul>
       </div>
+      <Review />
     </div>
   );
 };

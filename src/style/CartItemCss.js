@@ -48,6 +48,9 @@ export const CartItems = styled.div`
     i {
       cursor: pointer;
       vertical-align: 0;
+      &:hover {
+        color: rgba(255, 0, 0, 0.5);
+      }
     }
   }
   @media screen and (max-width: 1024px) {
