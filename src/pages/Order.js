@@ -42,7 +42,7 @@ const Order = () => {
     ) {
       setUsePoint(inputValue);
     } else {
-      setUsePoint(availablePoint.toString());
+      setUsePoint(availablePoint);
     }
   };
 
@@ -123,7 +123,7 @@ const Order = () => {
           <div className="point-box">
             <div className="point-view">
               <p>포인트</p>
-              <p>{point}P</p>
+              <p>{point.toLocaleString()}P</p>
             </div>
             <div className="point-text">
               <input
@@ -142,15 +142,15 @@ const Order = () => {
         <div className="paywrap">
           <div className="price">
             <p>상품금액</p>
-            <p>{prodTotalPrice}원</p>
+            <p>{prodTotalPrice.toLocaleString()}원</p>
           </div>
           <div className="price">
             <p>할인금액</p>
-            <p>{usePoint !== "" ? `${usePoint}` : "0"}원</p>
+            <p>{usePoint !== "" ? `${parseInt(usePoint).toLocaleString()}` : 0}원</p>
           </div>
           <div className="price">
             <p>총 결제예정금액</p>
-            <p>{totalPrice}원</p>
+            <p>{totalPrice.toLocaleString()}원</p>
           </div>
         </div>
         <div className="order_btn" onClick={handleOrder}>

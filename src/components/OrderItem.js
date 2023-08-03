@@ -14,12 +14,12 @@ const OrderItem = ({ orderItems }) => {
             </div>
             <div className="order-prod-title">
               <p>{item.title}</p>
-              <p>{item.price}</p>
+              <p>{item.price.toLocaleString()}</p>
             </div>
           </div>
           <div className="order-prod-count">
             <p>{item.quantity}</p>
-            <p>{item.price * item.quantity}</p>
+            <p>{(item.price * item.quantity).toLocaleString()}</p>
           </div>
         </div>
       ))}

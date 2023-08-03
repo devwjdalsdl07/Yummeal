@@ -1,32 +1,22 @@
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCart } from "../api/cartaxios";
 import CartItem from "../components/CartItem";
 import { Cart, NotList, Payment, ShopWrap } from "../style/ShopCartCss";
 
 const ShopCart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      title: "Product 1",
-      price: 15000,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-    {
-      title: "Product 2",
-      price: 10000,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-    {
-      title: "Product 3",
-      price: 7500,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-  ]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
+
+  const cartList = async () => {
+    const result = await getCart();
+    setCartItems(result);
+  };
+
+  useEffect(() => {
+    cartList();
+  }, []);
 
   const navigate = useNavigate();
 
@@ -39,7 +29,7 @@ const ShopCart = () => {
   };
 
   const prodTotalPrice = cartItems.reduce((item, idx) => {
-    const productPrice = idx.price * idx.quantity;
+    const productPrice = idx.price * idx.count;
     return item + productPrice;
   }, 0);
 
@@ -57,7 +47,7 @@ const ShopCart = () => {
             <div className="paywrap">
               <div className="price">
                 <p>상품금액</p>
-                <p>{prodTotalPrice}원</p>
+                <p>{prodTotalPrice.toLocaleString()}원</p>
               </div>
             </div>
             <div className="order_btn" onClick={handleGoOrder}>
