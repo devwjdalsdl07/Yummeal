@@ -120,6 +120,17 @@ const SignUp = () => {
       }).open();
     }
   };
+  // 이름 (추후 업데이트)
+  const onNickNameChange = e => {
+    setNickName(e.target.value);
+    if (e.target.value.length == 0 || e.target.value.length > 0) {
+      setNickNameMessage("사용 가능한 닉네임이에요");
+      setIsNickName(true);
+    } else {
+      setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+      setIsNickName(false);
+    }
+  };
   // id
   const onIdChange = e => {
     const idRegex =
@@ -133,6 +144,36 @@ const SignUp = () => {
     } else {
       setIdMessage("올바른 이메일 형식이에요 : )");
       setIsId(true);
+    }
+  };
+  //pw
+
+  const onPwChange = e => {
+    const pwRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const pwCurrent = e.target.value;
+    setPw(pwCurrent);
+
+    if (!pwRegex.test(pwCurrent)) {
+      setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
+      setIsPw(false);
+    } else {
+      setPwMessage("안전한 비밀번호에요 : )");
+      setIsPw(true);
+    }
+  };
+  //pwConfirm
+  const onPwConfirmChange = e => {
+    const pwConfirmRegex =
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const pwConfirmCurrent = e.target.value;
+    setPwConfirm(pwConfirmCurrent);
+
+    if (!pwConfirmRegex.test(pwConfirmCurrent)) {
+      setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
+      setIsPwConfirm(true);
+    } else {
+      setPwConfirmMessage("비밀번호가 동일해요 :)");
+      setIsPwConfirm(false);
     }
   };
 
@@ -184,9 +225,14 @@ const SignUp = () => {
                 type="text"
                 placeholder="닉네임을 입력하세요"
                 value={nickName}
-                onChange={e => setNickName(e.target.value)}
+                onChange={onNickNameChange}
                 maxLength={100}
               />
+              {name.length > 0 && (
+                <span className={`message ${isNickName ? "success" : "error"}`}>
+                  {nickNameMessage}
+                </span>
+              )}
             </div>
             <JoinPw>
               <span>
@@ -199,9 +245,14 @@ const SignUp = () => {
                 type="password"
                 placeholder="비밀번호를 입력하세요"
                 value={pw}
-                onChange={e => setPw(e.target.value)}
+                onChange={onPwChange}
                 maxLength={100}
               />
+              {pw.length > 0 && (
+                <span className={`message ${isPw ? "success" : "error"}`}>
+                  {pwMessage}
+                </span>
+              )}
             </JoinPw>
             <JoinPwConfirm>
               <span>
@@ -214,9 +265,16 @@ const SignUp = () => {
                 type="password"
                 placeholder="비밀번호를 한번 더 입력하세요"
                 value={pwConfirm}
-                onChange={e => setPwConfirm(e.target.value)}
+                onChange={onPwConfirmChange}
                 maxLength={100}
               />
+              {pwConfirm.length > 0 && (
+                <span
+                  className={`message ${isPwConfirm ? "success" : "error"}`}
+                >
+                  {pwConfirmMessage}
+                </span>
+              )}
             </JoinPwConfirm>
             <div className="pw-group">
               <span>

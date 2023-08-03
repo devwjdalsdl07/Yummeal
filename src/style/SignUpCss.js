@@ -110,7 +110,25 @@ export const JoinTitleWrapTop = styled.div`
     }
   }
 `;
-export const JoinId = styled.div``;
+export const JoinId = styled.div`
+  /* position: relative;
+  margin-bottom: 30px;
+  .message {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: -1px;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+  }
+  &success {
+    color: #8f8c8b;
+  }
+  &error {
+    color: #ff2727;
+  } */
+`;
 export const JoinPw = styled.div`
   /* display: flex;
   align-items: center; */
