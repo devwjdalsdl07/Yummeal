@@ -14,6 +14,12 @@ const Main = () => {
   const handleBestClick = () => {
     navigate(`/search`);
   };
+  const handleShoppingClick = () => {
+    navigate(`/cart`);
+  };
+  const handleItemClick = () => {
+    navigate(`/product`);
+  };
 
   return (
     <MainDiv>
@@ -27,73 +33,100 @@ const Main = () => {
             </button>
           </div>
 
-          <Link to="/product">
-            <ul className="list-area">
-              <li className="product-card">
-                <img
-                  src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                  alt="상품 이미지"
-                  className="product-image"
-                />
-                <span className="product-description">
-                  <span className="item-numbering">1단계</span>
-                  <FontAwesomeIcon icon={faBasketShopping} className="shopping-icon" />
+          {/* <Link to="/product"> */}
+          <ul className="list-area">
+            <li className="product-card">
+              <img
+                src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
+                alt="상품 이미지"
+                className="product-image"
+              />
+              <span className="product-description">
+                <span className="item-numbering" onClick={handleItemClick}>
+                  1단계
                 </span>
-                <div className="item-info">
-                  <h2>[1단계] 한우 배추 죽 </h2>
-                  <p>가격 : 4,500원</p>
-                </div>
-              </li>
+                <FontAwesomeIcon
+                  icon={faBasketShopping}
+                  className="shopping-icon"
+                  onClick={handleShoppingClick}
+                />
+              </span>
+              <div className="item-info">
+                <h2>[1단계] 한우 배추 죽 </h2>
+                <p>가격 : 4,500원</p>
+              </div>
+            </li>
 
-              <li className="product-card">
-                <img
-                  src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                  alt="상품 이미지"
-                  className="product-image"
-                />
-                <span className="product-description">
-                  <span className="item-numbering">2단계</span>
-                  <FontAwesomeIcon icon={faBasketShopping} className="shopping-icon" />
+            <li className="product-card">
+              <img
+                src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
+                alt="상품 이미지"
+                className="product-image"
+              />
+              <span className="product-description">
+                <span className="item-numbering" onClick={handleItemClick}>
+                  2단계
                 </span>
-                <div className="item-info">
-                  <h2>[1단계] 한우 배추 죽 </h2>
-                  <p>가격 : 4,500원</p>
-                </div>
-              </li>
+                <FontAwesomeIcon
+                  icon={faBasketShopping}
+                  size="xl"
+                  className="shopping-icon"
+                  onClick={handleShoppingClick}
+                />
+              </span>
+              <div className="item-info">
+                <h2>[1단계] 한우 배추 죽 </h2>
+                <p>가격 : 4,500원</p>
+              </div>
+            </li>
 
-              <li className="product-card">
-                <img
-                  src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                  alt="상품 이미지"
-                  className="product-image"
-                />
-                <span className="product-description">
-                  <span className="item-numbering">3단계</span>
-                  <FontAwesomeIcon icon={faBasketShopping} className="shopping-icon" />
+            <li className="product-card">
+              <img
+                src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
+                alt="상품 이미지"
+                className="product-image"
+              />
+              <span className="product-description">
+                <span className="item-numbering" onClick={handleItemClick}>
+                  3단계
                 </span>
-                <div className="item-info">
-                  <h2>[1단계] 한우 배추 죽 </h2>
-                  <p>가격 : 4,500원</p>
-                </div>
-              </li>
+                <FontAwesomeIcon
+                  icon={faBasketShopping}
+                  size="xl"
+                  className="shopping-icon"
+                  onClick={handleShoppingClick}
+                />
+              </span>
+              <div className="item-info">
+                <h2>[1단계] 한우 배추 죽 </h2>
+                <p>가격 : 4,500원</p>
+              </div>
+            </li>
 
-              <li className="product-card">
-                <img
-                  src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                  alt="상품 이미지"
-                  className="product-image"
-                />
-                <span className="product-description">
-                  <span className="item-numbering">4단계</span>
-                  <FontAwesomeIcon icon={faBasketShopping} className="shopping-icon" />
+            <li className="product-card">
+              <img
+                src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
+                alt="상품 이미지"
+                className="product-image"
+              />
+              <div className="product-description">
+                <span className="item-numbering" onClick={handleItemClick}>
+                  4단계
                 </span>
-                <div className="item-info">
-                  <h2>[1단계] 한우 배추 죽 </h2>
-                  <p>가격 : 4,500원</p>
-                </div>
-              </li>
-            </ul>
-          </Link>
+                <FontAwesomeIcon
+                  icon={faBasketShopping}
+                  size="xl"
+                  className="shopping-icon"
+                  onClick={handleShoppingClick}
+                />
+              </div>
+              <div className="item-info">
+                <h2>[1단계] 한우 배추 죽 </h2>
+                <p>가격 : 4,500원</p>
+              </div>
+            </li>
+          </ul>
+          {/* </Link> */}
 
           <h1 className="best-item">
             추천 상품

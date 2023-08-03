@@ -64,12 +64,12 @@ const SearchList = () => {
                     alt="상품 이미지"
                     className="product-image"
                   />
-
+                  
                   <span className="product-description">
                     <p>타이틀</p>
                     <p>가격</p>
                   </span>
-                </div>
+                  </div>
               </li>
             </ul>
           </Link>
