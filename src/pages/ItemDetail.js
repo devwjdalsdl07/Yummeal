@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Review from "../components/Review";
+import { getProductId } from "../api/mainFatch";
+
+
+
+
 
 const ItemDetail = () => {
+
+
+//상품 상세 페이지
+const [product, setProduct] = useState([]);
+
+//상품 상세 페이지 가져오기
+const getProductIdFatch = async () => {
+  try {
+    const productIdJson = await getProductId();
+    setProduct(productIdJson);
+  } catch (err) {
+    console.log(err);
+  }
+};
+useEffect(() => {
+  getProductIdFatch();
+}, []);
+
+
   const subImages = [
     { img: "http://fpoimg.com/150x150" },
     { img: "http://fpoimg.com/100x100" },
@@ -10,6 +34,8 @@ const ItemDetail = () => {
     { img: "http://fpoimg.com/300x300" },
   ];
   const [mainImage, setMainImage] = useState(subImages[0]);
+
+
 
   const handleSubImageClick = image => {
     setMainImage(image);
@@ -22,6 +48,7 @@ const ItemDetail = () => {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+
   return (
     <div
       className="constent-wrap"
@@ -51,6 +78,9 @@ const ItemDetail = () => {
             alt="Main Image"
             style={{ width: "450px", height: "450px", margin: "50px 0" }}
           />
+
+
+          
           <div style={{ display: "flex", gap: "15px" }}>
             {subImages.map((subImage, index) => (
               <img
@@ -73,9 +103,7 @@ const ItemDetail = () => {
             <li>총 합계 금액</li>
           </ul>
         </div>
-<div className="">
-
-</div>
+        <div className=""></div>
         <div className="product-tabs">
           <ul
             className="section"
@@ -147,8 +175,8 @@ const ItemDetail = () => {
             <h1>상품문의</h1>
           </div>
         </div>
+        <Review />
       </div>
-      <Review />
     </div>
   );
 };

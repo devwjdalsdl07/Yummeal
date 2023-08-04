@@ -160,7 +160,7 @@ const Main = () => {
                   <p>타이틀</p>
                   <p>가격</p>
                 </span>
-              </li>ㅠ
+              </li>
 
               <li className="product-card">
                 <img
