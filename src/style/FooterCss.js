@@ -51,4 +51,48 @@ export const FooterWrap = styled.div`
       }
     }
   }
+  @media screen and (max-width: 800px) {
+    min-width: 45rem;
+    .footer-menu {
+      .footer-menu-list {
+        li {
+          font-size: 1.5rem;
+          padding: 1rem 0;
+        }
+      }
+    }
+    .footer-cs {
+      padding: 1.5rem;
+      h3 {
+        font-size: 2rem;
+        padding-bottom: 1rem;
+      }
+      .imgbox {
+        img {
+          width: 10rem;
+          height: 10rem;
+        }
+      }
+      .csbox {
+        p {
+          font-size: 2rem;
+        }
+        span {
+          font-size: 1.5rem;
+        }
+      }
+      .footer-info {
+        span {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .footer-cs {
+      .imgbox {
+        display: none;
+      }
+    }
+  }
 `;
