@@ -111,6 +111,7 @@ export const JoinTitleWrapTop = styled.div`
   }
 `;
 export const JoinId = styled.div`
+  height: 75px;
   /* position: relative;
   margin-bottom: 30px;
   .message {
@@ -130,10 +131,13 @@ export const JoinId = styled.div`
   } */
 `;
 export const JoinPw = styled.div`
+  height: 80px;
   /* display: flex;
   align-items: center; */
 `;
-export const JoinPwConfirm = styled.div``;
+export const JoinPwConfirm = styled.div`
+  height: 80px;
+`;
 export const JoinBtn = styled.button`
   width: 100%;
   position: relative;

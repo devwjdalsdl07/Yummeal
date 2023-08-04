@@ -1,13 +1,13 @@
-import React, { useState } from “react”;
-import “../style/MypageCss”;
-import { MypageContainer } from “../style/MypageCss”;
-import OrderList from “../components/OrderList”;
-import UserInfo from “../components/UserInfo”;
+import React, { useState } from "react";
+import "../style/MypageCss";
+import { MypageContainer } from "../style/MypageCss";
+import OrderList from "../components/OrderList";
+import UserInfo from "../components/UserInfo";
 
 const Mypage = () => {
   const [activeComponent, setActiveComponent] = useState("order");
 
-  const handleComponentChange = (component) => {
+  const handleComponentChange = component => {
     setActiveComponent(component);
   };
 
@@ -31,7 +31,13 @@ const Mypage = () => {
             <p>나의 주문 관리</p>
             <ul className="two-depth">
               <li>
-                <p style={activeComponent === "order" ? { color: "hotpink" } : null}>주문 배송</p>
+                <p
+                  style={
+                    activeComponent === "order" ? { color: "hotpink" } : null
+                  }
+                >
+                  주문 배송
+                </p>
               </li>
             </ul>
           </li>
@@ -39,7 +45,13 @@ const Mypage = () => {
             <p>나의 정보 관리</p>
             <ul className="two-depth">
               <li>
-                <p style={activeComponent === "user" ? { color: "hotpink" } : null}>정보 수정</p>
+                <p
+                  style={
+                    activeComponent === "user" ? { color: "hotpink" } : null
+                  }
+                >
+                  정보 수정
+                </p>
               </li>
             </ul>
           </li>
