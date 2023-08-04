@@ -6,11 +6,13 @@ import { getOrderEnd } from "../api/cartaxios";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
 
 const OrderDetail = () => {
-  const [orderEnds, setOrderEnds] = useState([]);
-console.log(orderEnds)
+  const [orderList, setOrderList] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
+
   const orderEndData = async () => {
     const result = await getOrderEnd();
-    setOrderEnds(result);
+    setOrderList(result.orderlist);
+    setUserInfo(result.user);
   };
 
   useEffect(() => {
@@ -19,7 +21,7 @@ console.log(orderEnds)
 
   const handleInCart = () => {};
 
-  const prodTotalPrice = orderEnds.reduce((item, idx) => {
+  const prodTotalPrice = orderList.reduce((item, idx) => {
     const productPrice = idx.price * parseInt(idx.count);
     return item + productPrice;
   }, 0);
@@ -32,17 +34,17 @@ console.log(orderEnds)
     <OrderDetailWrap>
       <div className="container">
         <h2>결제내역</h2>
-        <h3>{orderEnds[0]?.createdAt}</h3>
+        <h3>주문날짜빠짐</h3>
         <div className="order-prodwrap">
           <h3>주문상품</h3>
           <hr />
-          {orderEnds.map((item, idx) => (
-            <div key={idx} className="order-prodtext">
-              <div>
-                <img src={item.image} alt={item.title} />
+          {orderList.map((item) => (
+            <div key={item.productId} className="order-prodtext">
+              <div className="order-imgbox">
+                <img src={item.thumbnail} alt={item.title} />
               </div>
               <div className="order-textwrap">
-                <p>{item.title}</p>
+                <p>{item.name}</p>
                 <p>{(item.price * parseInt(item.count)).toLocaleString()}</p>
                 <p>{item.count}</p>
                 <div className="order-prodbtn">
@@ -58,19 +60,22 @@ console.log(orderEnds)
           <div className="order-infowrap">
             <div className="info-data">
               <p>받는분</p>
-              <div>{orderEnds[0]?.reciever}</div>
+              <div>{userInfo.reciever}</div>
             </div>
             <div className="info-data">
               <p>주소</p>
-              <div>데이터자리</div>
+              <div>
+                {userInfo.address} 
+                {userInfo.addressDetail}
+              </div>
             </div>
             <div className="info-data">
               <p>휴대폰</p>
-              <div>데이터자리</div>
+              <div>{userInfo.phoneNm}</div>
             </div>
             <div className="info-data">
               <p>메세지</p>
-              <div>{orderEnds[0]?.request}</div>
+              <div>{userInfo.request}</div>
             </div>
           </div>
         </div>
