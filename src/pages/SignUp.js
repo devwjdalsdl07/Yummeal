@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { DatePicker, Space } from "antd";
+import { postSignUp } from "../api/signupaxios";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -45,6 +46,9 @@ const SignUp = () => {
   const [nickName, setNickName] = useState("");
   const [birth, setBirth] = useState("");
 
+  // 전체 폼 유효성 검사
+  const [isFormValid, setIsFormValid] = useState(false);
+
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
     const script = document.createElement("script");
@@ -57,9 +61,30 @@ const SignUp = () => {
       // Daum 우편번호 스크립트가 로드된 후에는 여기에서 코드를 실행할 수 있습니다.
       // 여기서 다음 스크립트를 사용하여 우편번호 찾기 기능을 구현할 수 있습니다.
     };
+    const isValid =
+      isNickName &&
+      isId &&
+      isPw &&
+      isPwConfirm &&
+      name !== "" &&
+      phone !== "" &&
+      birth !== "" &&
+      postcode !== "" &&
+      address !== "" &&
+      detailAddress !== "";
   }, []);
   const handleSignUp = () => {
-    navigate("/login");
+    const item = {
+      email: id,
+      password: pw,
+      name: name,
+      mobileNb: phone,
+      zipCode: postcode,
+      address: address,
+      addressDetail: detailAddress,
+      nickNm: nickName,
+    };
+    const result = postSignUp(item);
   };
   const handleOpenAddressSearch = () => {
     setAddressSearchOpen(true);
@@ -139,7 +164,7 @@ const SignUp = () => {
     setId(idCurrent);
 
     if (!idRegex.test(idCurrent)) {
-      setIdMessage("이메일 형식이 틀렸어요! 다시 확인해주세요 ㅜ ㅜ");
+      setIdMessage("이메일 형식이 틀렸어요! 다시 확인해주세요");
       setIsId(false);
     } else {
       setIdMessage("올바른 이메일 형식이에요 : )");
@@ -228,7 +253,7 @@ const SignUp = () => {
                 onChange={onNickNameChange}
                 maxLength={100}
               />
-              {name.length > 0 && (
+              {nickName.length > 0 && (
                 <span className={`message ${isNickName ? "success" : "error"}`}>
                   {nickNameMessage}
                 </span>
@@ -379,7 +404,9 @@ const SignUp = () => {
             </div>
           </JoinFormGroup>
 
-          <JoinBtn onClick={handleSignUp}>회원가입</JoinBtn>
+          <JoinBtn onClick={handleSignUp} disabled>
+            회원가입
+          </JoinBtn>
         </JoinWrap>
       </JoinArea>
     </JoinContainer>
