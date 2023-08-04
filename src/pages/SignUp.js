@@ -72,7 +72,19 @@ const SignUp = () => {
       postcode !== "" &&
       address !== "" &&
       detailAddress !== "";
-  }, []);
+    setIsFormValid(false);
+  }, [
+    isNickName,
+    isId,
+    isPw,
+    isPwConfirm,
+    name,
+    phone,
+    birth,
+    postcode,
+    address,
+    detailAddress,
+  ]);
   const handleSignUp = () => {
     const item = {
       email: id,
@@ -84,7 +96,9 @@ const SignUp = () => {
       addressDetail: detailAddress,
       nickNm: nickName,
     };
-    const result = postSignUp(item);
+    if (isFormValid) {
+      const result = postSignUp(item);
+    }
   };
   const handleOpenAddressSearch = () => {
     setAddressSearchOpen(true);
@@ -404,7 +418,7 @@ const SignUp = () => {
             </div>
           </JoinFormGroup>
 
-          <JoinBtn onClick={handleSignUp} disabled>
+          <JoinBtn onClick={handleSignUp} disabled={!isFormValid}>
             회원가입
           </JoinBtn>
         </JoinWrap>

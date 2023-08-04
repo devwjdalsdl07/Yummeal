@@ -5,7 +5,7 @@ import { React, useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { LoginContainer } from "../style/LoginCss";
-import { fetchLogin } from "../api/client";
+import { postLogin } from "../api/loginaxios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,10 +15,8 @@ const Login = () => {
     navigate("/signup");
   };
 
-
-
   const handleLoginClick = async () => {
-    const login = await fetchLogin(id, pw);
+    const login = await postLogin(id, pw);
     navigate("/");
   };
   return (
