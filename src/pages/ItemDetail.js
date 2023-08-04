@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Review from "../components/Review";
 import { getProductId } from "../api/mainFatch";
 
-
-
-
-
 const ItemDetail = () => {
+  // uri 에서 값 읽기
+  const { pid } = useParams();
 
+  //상품 상세 페이지
+  const [product, setProduct] = useState(null);
 
-//상품 상세 페이지
-const [product, setProduct] = useState([]);
+  //상품 상세 페이지 가져오기
+  const getProductIdFetch = async () => {
+    try {
+      const productIdJson = await getProductId(pid);
+      setProduct(productIdJson);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-//상품 상세 페이지 가져오기
-const getProductIdFatch = async () => {
-  try {
-    const productIdJson = await getProductId();
-    setProduct(productIdJson);
-  } catch (err) {
-    console.log(err);
-  }
-};
-useEffect(() => {
-  getProductIdFatch();
-}, []);
-
+  useEffect(() => {
+    getProductIdFetch();
+    window.scrollTo(0, 0);
+  }, []);
 
   const subImages = [
     { img: "http://fpoimg.com/150x150" },
@@ -34,8 +32,6 @@ useEffect(() => {
     { img: "http://fpoimg.com/300x300" },
   ];
   const [mainImage, setMainImage] = useState(subImages[0]);
-
-
 
   const handleSubImageClick = image => {
     setMainImage(image);
@@ -51,7 +47,8 @@ useEffect(() => {
 
   return (
     <div
-      className="constent-wrap"
+      className="content-wrap"
+      id="content-top"
       style={{
         position: "relative",
         margin: "0 auto",
@@ -79,8 +76,6 @@ useEffect(() => {
             style={{ width: "450px", height: "450px", margin: "50px 0" }}
           />
 
-
-          
           <div style={{ display: "flex", gap: "15px" }}>
             {subImages.map((subImage, index) => (
               <img
@@ -96,10 +91,9 @@ useEffect(() => {
         <div>
           <ul>
             <li>[1단계]</li>
-            <li>한우 사과 묽은 죽</li>
+            <li>{product?.name}</li>
             <li>원산지 : 상품정보 참조</li>
-            <li>판매가 : 4,800 원</li>
-            <li>판매가 : 4,800 원 </li>
+            <li>판매가 : {parseInt(product?.price).toLocaleString()}원 </li>
             <li>총 합계 금액</li>
           </ul>
         </div>
@@ -158,6 +152,7 @@ useEffect(() => {
             }}
           >
             <h1>상품 상세정보</h1>
+            <div>{product && product.description}</div>
           </div>
           <div
             id="detail-section02"
@@ -170,12 +165,12 @@ useEffect(() => {
             style={{ height: "500px", display: "block" }}
           >
             <h1>상품리뷰</h1>
+            <Review />
           </div>
           <div id="detail-section04" style={{ height: "500px" }}>
             <h1>상품문의</h1>
           </div>
         </div>
-        <Review />
       </div>
     </div>
   );

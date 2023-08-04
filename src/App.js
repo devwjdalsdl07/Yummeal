@@ -28,7 +28,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/search" element={<SearchList />} />
-        <Route path="/product" element={<ItemDetail />} />
+        <Route path="/product/:pid" element={<ItemDetail />} />
         <Route path="/cart" element={<ShopCart />} />
         <Route path="/order" element={<Order />} />
         <Route path="/orderdetail" element={<OrderDetail />} />
