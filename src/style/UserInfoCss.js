@@ -13,7 +13,6 @@ export const JoinArea = styled.div`
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  padding-bottom: 140px;
 `;
 export const JoinText = styled.div`
   text-align: center;
@@ -76,7 +75,7 @@ export const JoinFormGroup = styled.div`
   .ant-picker .ant-picker-input > input:focus {
     border-color: #ccc;
   } */
-  .test {
+  .adress {
     input {
       margin: 3px;
       height: 35px;
@@ -115,9 +114,9 @@ export const JoinPw = styled.div`
 `;
 export const JoinPwConfirm = styled.div``;
 export const JoinBtn = styled.button`
-  width: 100%;
+  width: 45%;
   position: relative;
-  margin-top: 20px;
+  margin: 20px 5px 0px 5px;
   background: #f9f6f1;
   border: 1px solid #f9f6f1;
   border-radius: 10px;
