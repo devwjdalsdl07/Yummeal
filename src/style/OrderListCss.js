@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 export const OrderListContainer = styled.div`
   width: 80%;
+  min-height: 300px;
   .top {
     width: 100%;
     height: 50px;
@@ -23,6 +24,9 @@ export const OrderListContainer = styled.div`
     justify-content: space-around;
     margin-top: 30px;
     margin-bottom: 50px;
+    @media screen and (max-width:600px){
+    margin-bottom: 10px;
+    }
     .active {
       background: pink;
       color: #fff;
@@ -36,6 +40,14 @@ export const OrderListContainer = styled.div`
       border-radius: 10px;
       background: #eee;
       cursor: pointer;
+    }
+  }
+  .text-wrap {
+    text-align: center;
+    span {
+      font-size: 30px;
+      font-weight: 700;
+      color: grey;
     }
   }
 `;

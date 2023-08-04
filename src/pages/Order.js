@@ -2,36 +2,28 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import OrderItem from "../components/OrderItem";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
+import { getCart } from "../api/cartaxios";
 
 const Order = () => {
-  const [orderItems, setOrderItems] = useState([
-    {
-      title: "Product 1",
-      price: 15000,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-    {
-      title: "Product 2",
-      price: 10000,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-    {
-      title: "Product 3",
-      price: 7500,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-  ]);
+  const [orderItems, setOrderItems] = useState([]);
   const [point, setPoint] = useState(5000);
   const [usePoint, setUsePoint] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const [orderPayFixed, setOrderPayFixed] = useState(false);
   const navigate = useNavigate();
 
-  const handleUsePoint = e => {
+  const cartList = async () => {
+    const result = await getCart();
+    setOrderItems(result);
+  };
+
+  useEffect(() => {
+    cartList();
+  }, []);
+
+    const handleUsePoint = e => {
     const inputValue = e.target.value.replace(/[^0-9]/g, "");
     const availablePoint = point;
     const enteredPoint = inputValue === "" ? "" : inputValue;
@@ -42,7 +34,7 @@ const Order = () => {
     ) {
       setUsePoint(inputValue);
     } else {
-      setUsePoint(availablePoint.toString());
+      setUsePoint(availablePoint);
     }
   };
 
@@ -70,7 +62,7 @@ const Order = () => {
   };
 
   const prodTotalPrice = orderItems.reduce((item, idx) => {
-    const productPrice = idx.price * idx.quantity;
+    const productPrice = idx.price * idx.count;
     return item + productPrice;
   }, 0);
 
@@ -123,7 +115,7 @@ const Order = () => {
           <div className="point-box">
             <div className="point-view">
               <p>포인트</p>
-              <p>{point}P</p>
+              <p>{point.toLocaleString()}P</p>
             </div>
             <div className="point-text">
               <input
@@ -137,20 +129,20 @@ const Order = () => {
           </div>
         </div>
       </OrderInfo>
-      <OrderPay>
+      <OrderPay orderPayFixed={orderPayFixed}>
         <h2>결제 금액</h2>
         <div className="paywrap">
           <div className="price">
             <p>상품금액</p>
-            <p>{prodTotalPrice}원</p>
+            <p>{prodTotalPrice.toLocaleString()}원</p>
           </div>
           <div className="price">
             <p>할인금액</p>
-            <p>{usePoint !== "" ? `${usePoint}` : "0"}원</p>
+            <p>{usePoint !== "" ? `${parseInt(usePoint).toLocaleString()}` : 0}원</p>
           </div>
           <div className="price">
             <p>총 결제예정금액</p>
-            <p>{totalPrice}원</p>
+            <p>{totalPrice.toLocaleString()}원</p>
           </div>
         </div>
         <div className="order_btn" onClick={handleOrder}>

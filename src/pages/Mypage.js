@@ -5,37 +5,59 @@ import OrderList from "../components/OrderList";
 import UserInfo from "../components/UserInfo";
 
 const Mypage = () => {
-  const [cate, setCate] = useState(true);
-  const handleOrderClick = () => {
-    setCate(true);
+  const [activeComponent, setActiveComponent] = useState("order");
+
+  const handleComponentChange = component => {
+    setActiveComponent(component);
   };
-  const handleUserClick = () => {
-    setCate(false);
+
+  const renderActiveComponent = () => {
+    switch (activeComponent) {
+      case "order":
+        return <OrderList />;
+      case "user":
+        return <UserInfo />;
+      default:
+        return null;
+    }
   };
+
   return (
     <MypageContainer>
       <div className="side-nav">
         <h1>마이 페이지</h1>
         <ul className="menu-list">
-          <li onClick={handleOrderClick}>
+          <li onClick={() => handleComponentChange("order")}>
             <p>나의 주문 관리</p>
             <ul className="two-depth">
               <li>
-                <p style={cate ? { color: "hotpink" } : null}>주문 배송</p>
+                <p
+                  style={
+                    activeComponent === "order" ? { color: "hotpink" } : null
+                  }
+                >
+                  주문 배송
+                </p>
               </li>
             </ul>
           </li>
-          <li onClick={handleUserClick}>
+          <li onClick={() => handleComponentChange("user")}>
             <p>나의 정보 관리</p>
             <ul className="two-depth">
               <li>
-                <p style={cate ? null : { color: "hotpink" }}>정보 수정</p>
+                <p
+                  style={
+                    activeComponent === "user" ? { color: "hotpink" } : null
+                  }
+                >
+                  정보 수정
+                </p>
               </li>
             </ul>
           </li>
         </ul>
       </div>
-      {cate ? <OrderList /> : <UserInfo />}
+      {renderActiveComponent()}
     </MypageContainer>
   );
 };

@@ -6,6 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { Head } from "../style/HeaderCss";
 
@@ -16,6 +17,7 @@ function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const cookies = new Cookies();
 
   // 스크롤 이벤트
   const handleScroll = () => {
@@ -59,6 +61,12 @@ function Header() {
   //   setSearch(suggestion);
   //   setSuggestions([]);
   // };
+
+  const handleRemove = () => {
+    cookies.remove("accessToken");
+    cookies.remove("refreshToken");
+    navigate("/login");
+  };
 
   return (
     <Head
@@ -161,6 +169,7 @@ function Header() {
       <ul className="header_right">
         <li onClick={() => navigate("/login")}>로그인</li>
         <li onClick={() => navigate("/signup")}>회원가입</li>
+        <li onClick={handleRemove}>로그아웃</li>
       </ul>
     </Head>
   );

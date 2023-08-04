@@ -34,7 +34,7 @@ export const Cart = styled.div`
   }
 `;
 export const Payment = styled.div`
-  width: 80%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -69,7 +69,7 @@ export const Payment = styled.div`
     font-weight: bold;
     font-size: 2rem;
     cursor: pointer;
-    &:hover{
+    &:hover {
       opacity: 0.8;
     }
   }

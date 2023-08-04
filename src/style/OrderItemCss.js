@@ -10,12 +10,18 @@ export const OrderItems = styled.div`
     .order-prod-info {
       display: flex;
       align-items: center;
+      .order-prod-img{
+        width: 10rem;
+        height: 10rem;
+      }
       .order-prod-title {
+        width: 20rem;
         padding-left: 1.5rem;
         font-size: 2rem;
       }
     }
     .order-prod-count {
+      width: 12rem;
       text-align: end;
       font-size: 2rem;
     }

@@ -17,30 +17,39 @@ export const CartItems = styled.div`
     display: flex;
     align-items: center;
     width: 70%;
-    .prod_text {
+    .prod-img{
+      width: 15rem;
+      height: 15rem;
+    }
+    .prod-text {
       padding-left: 2rem;
+      width: 30rem;
       p {
         padding: 0.5rem 0;
         font-size: 2rem;
       }
     }
   }
-  .prod_info {
-    width: 30%;
+  .prod-info {
+    width: 50%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 10rem;
     padding-right: 1rem;
     font-size: 2rem;
+    p{
+      width: 7rem;
+      text-align: center;
+    }
     .counter {
       padding: 0 1rem;
       display: flex;
       gap: 2rem;
-      .counter_btn {
+      .counter-btn {
         cursor: pointer;
       }
-      .counter_number {
+      .counter-number {
         width: 3rem;
         text-align: center;
       }
@@ -55,28 +64,32 @@ export const CartItems = styled.div`
   }
   @media screen and (max-width: 1024px) {
     .prodwrap {
-      img {
-        width: 10rem;
-        height: 10rem;
+      .prod-img {
+        min-width: 7rem;
+        min-height: 10rem;
       }
-      .prod_text {
+      .prod-text {
         p {
           font-size: 1.5rem;
         }
       }
     }
-    .prod_info {
+    .prod-info {
       font-size: 1.5rem;
       gap: 7rem;
     }
   }
   @media screen and (max-width: 800px) {
-    .prodwrap {
-      min-width: 20rem;
+    .list{
+      flex-wrap: wrap;
     }
-    .prod_info {
-      min-width: 13rem;
-      gap: 2rem;
+    .prodwrap {
+      width: 100%;
+      justify-content: space-around;
+    }
+    .prod-info {
+      width: 100%;
+      justify-content: center;
     }
   }
 `;

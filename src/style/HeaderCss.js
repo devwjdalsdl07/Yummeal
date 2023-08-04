@@ -117,7 +117,7 @@ export const Head = styled.div`
 
   @media screen and (max-width: 1024px) {
     flex-wrap: wrap;
-    min-width: 40rem;
+    min-width: 45rem;
 
     .header_right {
       display: ${props => (props.userToggled ? "flex" : "none")};

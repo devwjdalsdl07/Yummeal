@@ -44,9 +44,7 @@ const UserInfo = () => {
       // 여기서 다음 스크립트를 사용하여 우편번호 찾기 기능을 구현할 수 있습니다.
     };
   }, []);
-  const handleSignUp = () => {
-    navigate("/login");
-  };
+
   const onBirthChange = dateString => {
     setBirth(dateString);
   };
@@ -91,10 +89,12 @@ const UserInfo = () => {
       },
     }).open();
   };
-  const handleDetailAddressChange = e => {
-    setDetailAddress(e.target.value);
+  const handleEidt = () => {
+    navigate("/");
   };
-
+  const handleCancle = () => {
+    navigate(-1);
+  };
   return (
     <JoinContainer>
       <JoinArea>
@@ -106,7 +106,7 @@ const UserInfo = () => {
               <i>
                 <FontAwesomeIcon icon={faCircle} />
               </i>
-              <span>는 수정가능 항목 입니다.</span>
+              <span>는 수정불가 항목 입니다.</span>
             </div>
           </JoinTitleWrapTop>
           <JoinFormGroup>
@@ -123,15 +123,11 @@ const UserInfo = () => {
                 value={id}
                 maxLength={100}
                 onChange={e => setId(e.target.value)}
+                readOnly
               />
             </JoinId>
             <div>
-              <span>
-                <i>
-                  <FontAwesomeIcon icon={faCircle} />
-                </i>
-                닉네임
-              </span>
+              <span>닉네임</span>
               <input
                 type="text"
                 placeholder="닉네임을 입력하세요"
@@ -141,12 +137,7 @@ const UserInfo = () => {
               />
             </div>
             <JoinPw>
-              <span>
-                <i>
-                  <FontAwesomeIcon icon={faCircle} />
-                </i>
-                비밀번호
-              </span>
+              <span>비밀번호</span>
               <input
                 type="password"
                 placeholder="비밀번호를 입력하세요"
@@ -156,12 +147,7 @@ const UserInfo = () => {
               />
             </JoinPw>
             <JoinPwConfirm>
-              <span>
-                <i>
-                  <FontAwesomeIcon icon={faCircle} />
-                </i>
-                비밀번호 확인
-              </span>
+              <span>비밀번호 확인</span>
               <input
                 type="password"
                 placeholder="비밀번호를 한번 더 입력하세요"
@@ -171,12 +157,7 @@ const UserInfo = () => {
               />
             </JoinPwConfirm>
             <div className="pw-group">
-              <span>
-                <i>
-                  <FontAwesomeIcon icon={faCircle} />
-                </i>
-                이름
-              </span>
+              <span>이름</span>
               <input
                 type="text"
                 placeholder="이름을 입력하세요"
@@ -186,12 +167,7 @@ const UserInfo = () => {
               />
             </div>
             <div>
-              <span>
-                <i>
-                  <FontAwesomeIcon icon={faCircle} />
-                </i>
-                휴대전화
-              </span>
+              <span>휴대전화</span>
               <input
                 type="text"
                 placeholder="전화번호를 입력하세요 ( - 없이 입력)"
@@ -203,12 +179,7 @@ const UserInfo = () => {
 
             {/* 생년월일 드랍박스 들어갈 자리 */}
             <div>
-              <span>
-                <i>
-                  <FontAwesomeIcon icon={faCircle} />
-                </i>
-                아이 생년월일
-              </span>
+              <span>아이 생년월일</span>
               <Space direction="vertical">
                 <DatePicker
                   onChange={onBirthChange}
@@ -224,13 +195,8 @@ const UserInfo = () => {
                 maxLength={100}
               /> */}
             </div>
-            <div className="test">
-              <span>
-                <i>
-                  <FontAwesomeIcon icon={faCircle} />
-                </i>
-                주소
-              </span>
+            <div className="adress">
+              <span>주소</span>
               <input
                 style={{ width: "150px", cursor: "pointer" }}
                 type="text"
@@ -239,6 +205,7 @@ const UserInfo = () => {
                 placeholder="우편번호"
                 onChange={e => setPostcode(e.target.value)}
                 onClick={handleExecDaumPostcode}
+                readOnly
               />
               {/* <input
               type="button"
@@ -253,6 +220,7 @@ const UserInfo = () => {
                 placeholder="주소"
                 disabled={false}
                 onChange={e => setAddress(e.target.value)}
+                readOnly
               />
               <br />
               <input
@@ -271,7 +239,8 @@ const UserInfo = () => {
               /> */}
             </div>
           </JoinFormGroup>
-          <JoinBtn onClick={handleSignUp}>회원가입</JoinBtn>
+          <JoinBtn onClick={handleEidt}>수정</JoinBtn>
+          <JoinBtn onClick={handleCancle}>취소</JoinBtn>
         </JoinWrap>
       </JoinArea>
     </JoinContainer>
