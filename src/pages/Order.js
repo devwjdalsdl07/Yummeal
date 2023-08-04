@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import OrderItem from "../components/OrderItem";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
 
@@ -25,15 +26,15 @@ const Order = () => {
   ]);
   const [point, setPoint] = useState(5000);
   const [usePoint, setUsePoint] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const navigate = useNavigate();
 
-  const handlePoint = e => {
+  const handleUsePoint = e => {
     const inputValue = e.target.value.replace(/[^0-9]/g, "");
-    const availablePoint = parseInt(point);
-    const enteredPoint = inputValue === "" ? "" : parseInt(inputValue);
+    const availablePoint = point;
+    const enteredPoint = inputValue === "" ? "" : inputValue;
 
     if (
       enteredPoint === "" ||
@@ -41,7 +42,7 @@ const Order = () => {
     ) {
       setUsePoint(inputValue);
     } else {
-      setUsePoint(availablePoint.toString());
+      setUsePoint(availablePoint);
     }
   };
 
@@ -50,11 +51,14 @@ const Order = () => {
   };
 
   const handleOrder = () => {
-    window.open(
+    const newWindow = window.open(
       "/payment",
       "결제페이지",
       "width=430, height=500, location=no, status=no, scrollbars=yes",
     );
+    newWindow.addEventListener("beforeunload", () => {
+      navigate("/orderdetail", { state: { usePoint: usePoint } });
+    });
   };
 
   const handleNameChange = e => {
@@ -66,7 +70,7 @@ const Order = () => {
   };
 
   const prodTotalPrice = orderItems.reduce((item, idx) => {
-    const productPrice = parseInt(idx.price) * parseInt(idx.quantity);
+    const productPrice = idx.price * idx.quantity;
     return item + productPrice;
   }, 0);
 
@@ -119,14 +123,14 @@ const Order = () => {
           <div className="point-box">
             <div className="point-view">
               <p>포인트</p>
-              <p>{point}P</p>
+              <p>{point.toLocaleString()}P</p>
             </div>
             <div className="point-text">
               <input
                 type="text"
                 value={usePoint}
                 placeholder="Point 입력"
-                onChange={handlePoint}
+                onChange={handleUsePoint}
               />
               <button onClick={handleAllPoint}>전액 사용</button>
             </div>
@@ -138,15 +142,15 @@ const Order = () => {
         <div className="paywrap">
           <div className="price">
             <p>상품금액</p>
-            <p>{prodTotalPrice}원</p>
+            <p>{prodTotalPrice.toLocaleString()}원</p>
           </div>
           <div className="price">
             <p>할인금액</p>
-            <p>{usePoint !== "" ? `${usePoint}` : "0"}원</p>
+            <p>{usePoint !== "" ? `${parseInt(usePoint).toLocaleString()}` : 0}원</p>
           </div>
           <div className="price">
             <p>총 결제예정금액</p>
-            <p>{totalPrice}원</p>
+            <p>{totalPrice.toLocaleString()}원</p>
           </div>
         </div>
         <div className="order_btn" onClick={handleOrder}>

@@ -1,37 +1,38 @@
 import { faEquals, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router";
+import { getOrderEnd } from "../api/cartaxios";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
 
 const OrderDetail = () => {
-  const [orderEnds, setOrderEnds] = useState([
-    {
-      title: "Product 1",
-      price: 15000,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-    {
-      title: "Product 2",
-      price: 10000,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-    {
-      title: "Product 3",
-      price: 7500,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-  ]);
+  const [orderEnds, setOrderEnds] = useState([]);
+console.log(orderEnds)
+  const orderEndData = async () => {
+    const result = await getOrderEnd();
+    setOrderEnds(result);
+  };
 
-  const handleInCart = ()=>{}
+  useEffect(() => {
+    orderEndData();
+  }, []);
+
+  const handleInCart = () => {};
+
+  const prodTotalPrice = orderEnds.reduce((item, idx) => {
+    const productPrice = idx.price * parseInt(idx.count);
+    return item + productPrice;
+  }, 0);
+
+  const location = useLocation();
+  const { state } = location;
+  const usePoint = state?.usePoint ? state.usePoint : 0;
 
   return (
     <OrderDetailWrap>
       <div className="container">
         <h2>결제내역</h2>
-        <h3>주문날짜</h3>
+        <h3>{orderEnds[0]?.createdAt}</h3>
         <div className="order-prodwrap">
           <h3>주문상품</h3>
           <hr />
@@ -42,8 +43,8 @@ const OrderDetail = () => {
               </div>
               <div className="order-textwrap">
                 <p>{item.title}</p>
-                <p>{item.price}</p>
-                <p>{item.quantity}</p>
+                <p>{(item.price * parseInt(item.count)).toLocaleString()}</p>
+                <p>{item.count}</p>
                 <div className="order-prodbtn">
                   <button onClick={handleInCart}>장바구니 담기</button>
                 </div>
@@ -57,7 +58,7 @@ const OrderDetail = () => {
           <div className="order-infowrap">
             <div className="info-data">
               <p>받는분</p>
-              <div>데이터자리</div>
+              <div>{orderEnds[0]?.reciever}</div>
             </div>
             <div className="info-data">
               <p>주소</p>
@@ -69,7 +70,7 @@ const OrderDetail = () => {
             </div>
             <div className="info-data">
               <p>메세지</p>
-              <div>데이터자리</div>
+              <div>{orderEnds[0]?.request}</div>
             </div>
           </div>
         </div>
@@ -79,7 +80,7 @@ const OrderDetail = () => {
           <div className="order-pricewrap">
             <div className="price-data">
               <p>주문금액</p>
-              <span>원</span>
+              <span>{prodTotalPrice.toLocaleString()}원</span>
             </div>
             <div>
               <i>
@@ -88,7 +89,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>할인금액</p>
-              <span>원</span>
+              <span>{usePoint.toLocaleString()}원</span>
             </div>
             <div>
               <i>
@@ -97,7 +98,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>총 결제금액</p>
-              <span>원</span>
+              <span>{(prodTotalPrice - usePoint).toLocaleString()}원</span>
             </div>
           </div>
         </div>

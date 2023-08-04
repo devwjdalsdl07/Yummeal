@@ -14,29 +14,7 @@ export const MainDiv = styled.div`
       max-width: 1400px;
       height: 100%;
       min-height: 700px;
-      /* div{
-        display: flex;
-      justify-content: space-between;
-
-      text-align: center;
-      margin: 50px 0;
-      font-weight: 500;
-      font-size: 32px;
-      h1{
-        text-align: center;
-        font-weight: 500;
-        font-size: 32px;
-      }
-      button{
-        background-color: #000;
-        color: #fff;
-        cursor: pointer;
-        border: none;
-        padding: 10px 10px;
-
-        border-radius: 4px;
-      }
-      } */
+      
     }
     .best-item {
       display: flex;
@@ -57,7 +35,6 @@ export const MainDiv = styled.div`
         cursor: pointer;
         border: none;
         padding: 10px 10px;
-
         border-radius: 4px;
       }
     }
@@ -70,7 +47,6 @@ export const MainDiv = styled.div`
       .product-card {
         position: relative;
         display: inline-block;
-
         &:hover .product-description {
           opacity: 0.5;
         }
@@ -78,8 +54,6 @@ export const MainDiv = styled.div`
         .product-image {
           width: 250px;
           height: 250px;
-
-          background: skyblue;
         }
         .item-numbering {
           display: flex;
@@ -96,10 +70,10 @@ export const MainDiv = styled.div`
           justify-content: flex-end;
           align-items: center;
           position: absolute;
-          bottom: 0;
+          top: 0;
           left: 0;
-          width: 100%;
-          height: 100%;
+          width: 250px;
+          height: 250px;
           background-color: rgba(0, 0, 0, 0.8);
           color: #fff;
           padding: 8px;
@@ -109,8 +83,12 @@ export const MainDiv = styled.div`
             color: #fff;
             position: relative;
             left: 90px;
-            bottom: 110px;
-       
+            bottom: 10%;
+            font-size: x-large;
+            
+            &:hover {
+              color: green;
+            }
           }
         }
         .item-info {
@@ -206,7 +184,7 @@ export const PaginationDiv = styled.div`
     font-size: 1rem;
   }
 
-  ul.pagination li:first-child {
+  ul.pagination li:first-of-type {
     border-radius: 5px 0 0 5px;
   }
 
@@ -237,5 +215,29 @@ export const PaginationDiv = styled.div`
     width: 48px;
     height: 30px;
     color: #337ab7;
+  }
+`;
+
+export const ItemDetailDiv = styled.div`
+  .wrap {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    padding: 100px 0;
+    background: #f9f6f1;
+    .info {
+      margin: 0 auto;
+      margin-top: 50px;
+      width: 1440px;
+      max-width: 1400px;
+      height: 100%;
+      min-height: 700px;
+      img {
+        max-width: 480px;
+        max-width: 480px;
+        overflow: hidden;
+      }
+    }
   }
 `;

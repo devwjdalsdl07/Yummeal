@@ -22,8 +22,8 @@ const Payment = () => {
 
   const handleGoBack = () => {
     window.close();
-    window.opener.location.href = "/orderdetail";
   };
+  
   return (
     <PaymentWrap>
       <div>

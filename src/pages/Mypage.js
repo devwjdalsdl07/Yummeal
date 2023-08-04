@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import "../style/MypageCss";
-import { MypageContainer } from "../style/MypageCss";
-import OrderList from "../components/OrderList";
-import UserInfo from "../components/UserInfo";
+import React, { useState } from “react”;
+import “../style/MypageCss”;
+import { MypageContainer } from “../style/MypageCss”;
+import OrderList from “../components/OrderList”;
+import UserInfo from “../components/UserInfo”;
 
 const Mypage = () => {
   const [activeComponent, setActiveComponent] = useState("order");
