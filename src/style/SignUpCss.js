@@ -130,6 +130,12 @@ export const JoinId = styled.div`
     color: #ff2727;
   } */
 `;
+export const JoinNickNm = styled.div`
+  /* height: 80px;
+  .button {
+    margin-bottom: 15px;
+  } */
+`;
 export const JoinPw = styled.div`
   height: 80px;
   /* display: flex;
