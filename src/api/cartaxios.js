@@ -88,7 +88,6 @@ export const cartDelete = async cartId => {
   try {
     const res = await axios.delete(`/api/orderbasket?cartId=${cartId}`);
     const result = res.data;
-    console.log(result);
   } catch (error) {
     console.log(error);
   }

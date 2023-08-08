@@ -9,6 +9,10 @@ const OrderDetail = () => {
   const [orderList, setOrderList] = useState([]);
   const [userInfo, setUserInfo] = useState({});
 
+  const location = useLocation();
+  const { state } = location;
+  console.log(state);
+
   const orderEndData = async () => {
     const result = await getOrderEnd(state?.orderId);
     setOrderList(result.orderlist);
@@ -33,14 +37,6 @@ const OrderDetail = () => {
       console.error("주문 처리 중 오류 발생:", err);
     }
   };
-
-  const totalPriceSum = orderList.reduce((acc, item) => {
-    return acc + parseInt(item.totalPrice);
-  }, 0);
-
-  const location = useLocation();
-  const { state } = location;
-  const usePoint = state?.point ? state.point : 0;
 
   return (
     <OrderDetailWrap>
@@ -99,7 +95,7 @@ const OrderDetail = () => {
           <div className="order-pricewrap">
             <div className="price-data">
               <p>주문금액</p>
-              <span>{totalPriceSum}원</span>
+              <span>{state?.paymentprice}원</span>
             </div>
             <div>
               <i>
@@ -108,7 +104,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>할인금액</p>
-              <span>{usePoint.toLocaleString()}원</span>
+              <span>{state?.point.toLocaleString()}원</span>
             </div>
             <div>
               <i>
@@ -117,7 +113,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>총 결제금액</p>
-              <span>{(totalPriceSum - usePoint).toLocaleString()}원</span>
+              <span>{state?.totalprice.toLocaleString()}원</span>
             </div>
           </div>
         </div>

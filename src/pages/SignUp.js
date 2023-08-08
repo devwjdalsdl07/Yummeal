@@ -10,6 +10,7 @@ import {
   JoinContainer,
   JoinFormGroup,
   JoinId,
+  JoinNickNm,
   JoinPw,
   JoinPwConfirm,
   JoinText,
