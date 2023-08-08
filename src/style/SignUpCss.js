@@ -78,13 +78,17 @@ export const JoinFormGroup = styled.div`
   .ant-picker .ant-picker-input > input:focus {
     border-color: #ccc;
   } */
-  .test {
+  .postBox {
     input {
       margin: 3px;
       height: 35px;
     }
-    button {
-    }
+  }
+  .success {
+    color: darkseagreen;
+  }
+  .error {
+    color: crimson;
   }
 `;
 export const JoinTitleWrapTop = styled.div`
@@ -130,6 +134,12 @@ export const JoinId = styled.div`
       font-family: "Pretendard", "SUITE", sans-serif;
     }
   }
+  /* .success {
+    color: darkolivegreen;
+  }
+  .error {
+    color: indianred;
+  } */
   /* position: relative;
   margin-bottom: 30px;
   .message {
@@ -149,7 +159,7 @@ export const JoinId = styled.div`
   } */
 `;
 export const JoinNickNm = styled.div`
-  /* height: 80px; */
+  height: 75px;
   .nmBox {
     display: flex;
     width: 90%;
@@ -166,14 +176,32 @@ export const JoinNickNm = styled.div`
       font-family: "Pretendard", "SUITE", sans-serif;
     }
   }
+  /* .success {
+    color: darkseagreen;
+  }
+  .error {
+    color: indianred;
+  } */
 `;
 export const JoinPw = styled.div`
-  height: 80px;
+  height: 75px;
   /* display: flex;
   align-items: center; */
+  /* .success {
+    color: darkseagreen;
+  }
+  .error {
+    color: indianred;
+  } */
 `;
 export const JoinPwConfirm = styled.div`
-  height: 80px;
+  height: 75px;
+  /* .success {
+    color: darkseagreen;
+  }
+  .error {
+    color: indianred;
+  } */
 `;
 export const JoinBtn = styled.button`
   width: 100%;
@@ -187,6 +215,7 @@ export const JoinBtn = styled.button`
   font-weight: 700;
   height: 50px;
   cursor: pointer;
+  font-family: "Pretendard", "SUITE", sans-serif;
   & span {
     position: absolute;
     transform: translate(-50%, -50%);
