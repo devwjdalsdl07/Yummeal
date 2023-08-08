@@ -40,7 +40,6 @@ const Review = () => {
   
   return (
     <ReviewWrap>
-      <h2>상품 리뷰</h2>
       <div className="review-list">
         {reviews.map((review, index) => (
           <div key={index} className="review">
@@ -52,7 +51,7 @@ const Review = () => {
               <h3>{review.title}</h3>
               <p>{review.content}</p>
             </div>
-            {review.image && <img src={review.image} alt="Review" />}
+            {/* {review.image && <img src={review.image} alt="Review" />} */}
           </div>
         ))}
       </div>
