@@ -1,10 +1,11 @@
+import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { cartIn } from "../api/cartaxios";
+import { getBestProduct } from "../api/mainFatch";
 import Slick from "../components/Slick";
 import { MainDiv } from "../style/MainCss";
-import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
-import { getBestProduct } from "../api/mainFatch";
 
 const Main = () => {
   const [bestProduct, setBestProduct] = useState([]);
@@ -29,8 +30,21 @@ const Main = () => {
   const handleMoveViewClick = _more_view => {
     navigate(`/productlist`);
   };
-  const handleShoppingClick = () => {
-    navigate(`/cart`);
+  const handleShoppingClick = async _item => {
+    console.log(_item.productId);
+    try {
+      const cartItem = {
+        productId: _item.productId,
+        iuser: 1,
+        count: 1,
+      };
+      const result = await cartIn(cartItem);
+      console.log(result);
+      navigate(`/cart`);
+      return result;
+    } catch (err) {
+      console.error("주문 처리 중 오류 발생:", err);
+    }
   };
   const handleItemClick = _id => {
     navigate(`/product/${_id}`);
@@ -70,7 +84,7 @@ const Main = () => {
                     <FontAwesomeIcon
                       icon={faBasketShopping}
                       className="shopping-icon"
-                      onClick={() => handleShoppingClick()}
+                      onClick={() => handleShoppingClick(item)}
                     />
                   </span>
                   <div className="item-info">

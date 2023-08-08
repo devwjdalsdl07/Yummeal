@@ -43,7 +43,7 @@ const Order = () => {
   };
 
   const handleOrder = () => {
-    const orderBasket = orderItems.map((item,idx) => ({
+    const orderBasket = orderItems.map((item, idx) => ({
       key: idx,
       cartId: item.cartId,
       productId: item.productId,
@@ -72,7 +72,12 @@ const Order = () => {
       try {
         const result = await orderPost(item);
         navigate("/orderdetail", {
-          state: { orderId: result.orderId, point: result.point },
+          state: {
+            orderId: result.orderId,
+            point: result.point,
+            totalprice: result.totalprice,
+            paymentprice: result.paymentprice,
+          },
         });
       } catch (err) {
         console.err("주문 처리 중 오류 발생:", err);
