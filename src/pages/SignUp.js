@@ -10,6 +10,7 @@ import {
   JoinContainer,
   JoinFormGroup,
   JoinId,
+  JoinNickNm,
   JoinPw,
   JoinPwConfirm,
   JoinText,
@@ -139,19 +140,45 @@ const SignUp = () => {
       setIdMessage("올바른 이메일 형식이에요 : )");
       setIsId(true);
     }
+    // setIdMessage("");
+    // setIsId(false);
   };
   // 아이디 중복 체크
   const onIdCheck = e => {
     e.preventDefault();
     console.log("아이디 중복체크 axios");
-    if (e.target.value.length == 0 || e.target.value.length > 0) {
+    if (isId) {
       setIdMessage("사용 가능한 아이디에요");
-      setIsId(false);
-    } else {
-      setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
       setIsId(true);
+    } else if (!isId) {
+      setIdMessage("이메일 형식이 아니에요");
+      setIsId(false);
     }
+    // if (e.target.value.length == 0 || e.target.value.length > 0) {
+    //   setIdMessage("사용 가능한 아이디에요");
+    //   setIsId(true);
+    // } else {
+    //   setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+    //   setIsId(false);
+    // }
   };
+  // const onIdCheck = async e => {
+  //   e.preventDefault();
+  //   try {
+  //     // 서버에 이메일 중복 체크 요청을 보내고 응답을 받아 처리
+  //     const response = await checkEmailDuplicate(e.target.value);
+  //     if (response.data.isDuplicate) {
+  //       setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+  //       setIsId(false);
+  //     } else {
+  //       setIdMessage("사용 가능한 아이디에요");
+  //       setIsId(true);
+  //     }
+  //   } catch (error) {
+  //     // 에러 처리
+  //     console.error("이메일 중복 체크 오류:", error);
+  //   }
+  // };
   // 닉네임 (추후 업데이트)
   const onNickNameChange = e => {
     const nickNameRegex = /^[a-zA-Z0-9ㄱ-힣]{3,5}$/;
@@ -166,21 +193,47 @@ const SignUp = () => {
     // if (e.target.value.length == 0) {
     //   setNickNameMessage("닉네임을 입력해주세요.");
     // }
+    // setNickNameMessage("");
+    // setIsNickName(false);
   };
   // 닉네임 중복 체크
   const onNickNameCheck = e => {
     e.preventDefault();
     console.log("닉네임 중복체크 axios");
-    if (e.target.value.length == 0 || e.target.value.length > 0) {
+    if (isNickName) {
       setNickNameMessage("사용 가능한 닉네임이에요");
       setIsNickName(true);
-    } else {
+    } else if (!isNickName) {
       setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
       setIsNickName(false);
     }
+    // if (e.target.value.length == 0 || e.target.value.length > 0) {
+    //   setNickNameMessage("사용 가능한 닉네임이에요");
+    //   setIsNickName(true);
+    // } else {
+    //   setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+    //   setIsNickName(false);
+    // }
   };
-  //pw
+  // const onNickNameCheck = async e => {
+  //   e.preventDefault();
+  //   try {
+  //     // 서버에 닉네임 중복 체크 요청을 보내고 응답을 받아 처리
+  //     const response = await checkNickNameDuplicate(e.target.value);
+  //     if (response.data.isDuplicate) {
+  //       setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+  //       setIsNickName(false);
+  //     } else {
+  //       setNickNameMessage("사용 가능한 닉네임이에요");
+  //       setIsNickName(true);
+  //     }
+  //   } catch (error) {
+  //     // 에러 처리
+  //     console.error("닉네임 중복 체크 오류:", error);
+  //   }
+  // };
 
+  //pw
   const onPwChange = e => {
     const pwRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
     const pwCurrent = e.target.value.replace(/\s/gi, "");
@@ -193,6 +246,8 @@ const SignUp = () => {
       setPwMessage("안전한 비밀번호에요 : )");
       setIsPw(true);
     }
+    // setPwMessage("");
+    // setIsPw(false);
   };
   //pwConfirm
   const onPwConfirmChange = e => {
@@ -225,6 +280,8 @@ const SignUp = () => {
       setNameMessage("정상적으로 이름을 입력하셨습니다.");
       setIsName(true);
     }
+    // setNameMessage("");
+    // setIsName(false);
   };
 
   // 전화번호
@@ -241,6 +298,8 @@ const SignUp = () => {
       setPhoneMessage("전화번호를 입력하여 주세요. ");
       setIsPhone(false);
     }
+    // setNameMessage("");
+    // setIsName(false);
   };
 
   // 생년월일 변경
@@ -287,32 +346,37 @@ const SignUp = () => {
     console.log("입력");
     if (!isId) {
       setIdMessage("이메일을 입력해주세요.");
-      alert("이메일을 입력해주세요.");
+      // alert("이메일을 입력해주세요.");
       return;
     }
     if (!isNickName) {
       setNickNameMessage("닉네임을 입력해주세요.");
-      alert("닉네임을 입력해주세요.");
+      // alert("닉네임을 입력해주세요.");
       return;
     }
     if (!isPw) {
       setPwMessage("비밀번호를 확인해주세요.");
-      alert("비밀번호를 확인해주세요.");
+      // alert("비밀번호를 확인해주세요.");
       return;
     }
     if (!isPwConfirm) {
       setPwMessage("비밀번호 재입력을 확인해주세요.");
-      alert("비밀번호 재입력을 확인해주세요.");
+      // alert("비밀번호 재입력을 확인해주세요.");
       return;
     }
     if (!isName) {
       setNameMessage("이름을 입력하여 주세요. ");
-      alert("씨발");
+      // alert("이름을 입력해 주세요");
       return;
     }
     if (!isPhone) {
       setPhoneMessage("전화번호를 입력하여 주세요. ");
-      alert("병신");
+      // alert("전화번호를 입력해 주세요");
+      return;
+    }
+    if (!isPostCode) {
+      detailAddressMessage("주소를 입력하여 주세요. ");
+      // alert("주소를 입력해 주세요");
       return;
     }
     const item = {
@@ -374,7 +438,7 @@ const SignUp = () => {
                   type="text"
                   placeholder="이메일 형식으로 입력하세요"
                   value={id}
-                  maxLength={100}
+                  maxLength={50}
                   onChange={onIdChange}
                 />
                 <button onClick={onIdCheck}>중복확인</button>
@@ -422,7 +486,7 @@ const SignUp = () => {
                 placeholder="비밀번호를 입력하세요"
                 value={pw}
                 onChange={onPwChange}
-                maxLength={100}
+                maxLength={30}
               />
               {pw.length > 0 && (
                 <span className={`message ${isPw ? "success" : "error"}`}>
@@ -442,7 +506,7 @@ const SignUp = () => {
                 placeholder="비밀번호를 한번 더 입력하세요"
                 value={pwConfirm}
                 onChange={onPwConfirmChange}
-                maxLength={100}
+                maxLength={30}
               />
               {pwConfirm.length > 0 && (
                 <span
@@ -452,7 +516,7 @@ const SignUp = () => {
                 </span>
               )}
             </JoinPwConfirm>
-            <div>
+            <div style={{ height: "70px" }}>
               <span>
                 <i>
                   <FontAwesomeIcon icon={faCircle} />
@@ -489,7 +553,7 @@ const SignUp = () => {
             </div>
 
             {/* 생년월일 드랍박스 들어갈 자리 */}
-            <div>
+            <div style={{ height: "50px" }}>
               <span>
                 <i>
                   <FontAwesomeIcon icon={faCircle} />
@@ -516,7 +580,7 @@ const SignUp = () => {
                 maxLength={100}
               /> */}
             </div>
-            <div className="test">
+            <div className="postBox">
               <span>
                 <i>
                   <FontAwesomeIcon icon={faCircle} />
@@ -564,7 +628,6 @@ const SignUp = () => {
               /> */}
             </div>
           </JoinFormGroup>
-
           <JoinBtn onClick={handleSignUp}>회원가입</JoinBtn>
         </JoinWrap>
       </JoinArea>
