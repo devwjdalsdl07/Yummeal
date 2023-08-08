@@ -145,9 +145,29 @@ const SignUp = () => {
       setIsId(true);
     }
   };
+  // 아이디 중복 체크
+  const onIdCheck = e => {
+    e.preventDefault();
+    console.log("아이디 중복체크 axios");
+    if (e.target.value.length == 0 || e.target.value.length > 0) {
+      setIdMessage("사용 가능한 아이디에요");
+      setIsId(false);
+    } else {
+      setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+      setIsId(true);
+    }
+  };
   // 닉네임 (추후 업데이트)
   const onNickNameChange = e => {
-    setNickName(e.target.value.replace(/\s/gi, ""));
+    const nickNameRegex = /^[a-zA-Z0-9ㄱ-힣]{3,5}$/;
+    // setNickName(e.target.value.replace(/\s/gi, ""));
+
+    setNickName(
+      e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""),
+    );
+    if (!nickNameRegex.test(nickName)) {
+      setNickNameMessage("알파벳, 숫자, 한글만 사용해서 설정해주세요 !");
+    }
     // if (e.target.value.length == 0) {
     //   setNickNameMessage("닉네임을 입력해주세요.");
     // }
@@ -155,7 +175,7 @@ const SignUp = () => {
   // 닉네임 중복 체크
   const onNickNameCheck = e => {
     e.preventDefault();
-    console.log("중복체크 axios");
+    console.log("닉네임 중복체크 axios");
     if (e.target.value.length == 0 || e.target.value.length > 0) {
       setNickNameMessage("사용 가능한 닉네임이에요");
       setIsNickName(true);
@@ -202,7 +222,7 @@ const SignUp = () => {
   };
   // 이름 작성
   const onChangeName = e => {
-    setName(e.target.value.replace(/\s/gi, ""));
+    setName(e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""));
     if (e.target.value.length === 0) {
       setNameMessage("이름을 입력하여 주세요. ");
       setIsName(false);
@@ -263,7 +283,9 @@ const SignUp = () => {
 
   // 상세주소 변경
   const onDetailAddressChange = e => {
-    setDetailAddress(e.target.value.replace(/\s/gi, ""));
+    setDetailAddress(
+      e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""),
+    );
   };
 
   const handleSignUp = () => {
@@ -352,13 +374,16 @@ const SignUp = () => {
                 </i>
                 아이디
               </span>
-              <input
-                type="text"
-                placeholder="이메일 형식으로 입력하세요"
-                value={id}
-                maxLength={100}
-                onChange={onIdChange}
-              />
+              <div className="idBox">
+                <input
+                  type="text"
+                  placeholder="이메일 형식으로 입력하세요"
+                  value={id}
+                  maxLength={100}
+                  onChange={onIdChange}
+                />
+                <button onClick={onIdCheck}>중복확인</button>
+              </div>
               <span>
                 {id.length > 0 && (
                   <span className={`message ${isId ? "success" : "error"}`}>
@@ -374,14 +399,16 @@ const SignUp = () => {
                 </i>
                 닉네임
               </span>
-              <input
-                type="text"
-                placeholder="닉네임을 입력하세요"
-                value={nickName}
-                onChange={onNickNameChange}
-                maxLength={100}
-              />
-              <button onClick={onNickNameCheck}>중복확인</button>
+              <div className="nmBox">
+                <input
+                  type="text"
+                  placeholder="닉네임을 입력하세요"
+                  value={nickName}
+                  onChange={onNickNameChange}
+                  maxLength={5}
+                />
+                <button onClick={onNickNameCheck}>중복확인</button>
+              </div>
               {nickName.length > 0 && (
                 <span className={`message ${isNickName ? "success" : "error"}`}>
                   {nickNameMessage}
