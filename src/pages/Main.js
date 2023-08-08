@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import Slick from "../components/Slick";
 import { MainDiv } from "../style/MainCss";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { getBestProduct } from "../api/mainFatch";
 
 const Main = () => {
   const [bestProduct, setBestProduct] = useState([]);
+  
+
   //제일 많이 팔린 상품 가져오기
   const getBestProductFetch = async () => {
     try {
@@ -21,15 +22,12 @@ const Main = () => {
 
   useEffect(() => {
     getBestProductFetch();
-    // window.scrollTo(0, 0);
   }, []);
 
   const navigate = useNavigate();
-  const handleClick = () => {
-    navigate(`/search`);
-  };
-  const handleBestClick = () => {
-    navigate(`/search`);
+
+  const handleMoveViewClick = _more_view => {
+    navigate(`/productlist`);
   };
   const handleShoppingClick = () => {
     navigate(`/cart`);
@@ -45,15 +43,17 @@ const Main = () => {
           <Slick />
           <div className=" best-item">
             <h1 className="best-title">요즘, 많이 찾는 상품</h1>
-            <button type="button" className="confirm" onClick={handleClick}>
+            <button
+              type="button"
+              className="confirm"
+              onClick={() => handleMoveViewClick()}
+            >
               더보기
             </button>
           </div>
-
-          {/* <Link to="/product"> */}
           <ul className="list-area">
-            {bestProduct.map(item => (
-              <>
+            {bestProduct.map((item, index) => (
+              <div key={index}>
                 <li className="product-card">
                   <img
                     src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
@@ -63,14 +63,14 @@ const Main = () => {
                   <span className="product-description">
                     <span
                       className="item-numbering"
-                      onClick={() => handleItemClick(2)}
+                      onClick={() => handleItemClick(1)}
                     >
-                      1단계
+                      상품보기
                     </span>
                     <FontAwesomeIcon
                       icon={faBasketShopping}
                       className="shopping-icon"
-                      onClick={handleShoppingClick}
+                      onClick={() => handleShoppingClick()}
                     />
                   </span>
                   <div className="item-info">
@@ -78,72 +78,9 @@ const Main = () => {
                     <p>가격 :{item.price.toLocaleString()}원</p>
                   </div>
                 </li>
-              </>
+              </div>
             ))}
           </ul>
-          {/* </Link> */}
-
-          <h1 className="best-item">
-            추천 상품
-            <button type="button" className="confirm" onClick={handleBestClick}>
-              더보기
-            </button>
-          </h1>
-          <Link to="/product">
-            <ul className="list-area">
-              <li className="product-card">
-                <img
-                  src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                  alt="상품 이미지"
-                  className="product-image"
-                />
-
-                <span className="product-description">
-                  <p>타이틀</p>
-                  <p>가격</p>
-                </span>
-              </li>
-
-              <li className="product-card">
-                <img
-                  src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                  alt="상품 이미지"
-                  className="product-image"
-                />
-
-                <span className="product-description">
-                  <p>타이틀</p>
-                  <p>가격</p>
-                </span>
-              </li>
-
-              <li className="product-card">
-                <img
-                  src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                  alt="상품 이미지"
-                  className="product-image"
-                />
-
-                <span className="product-description">
-                  <p>타이틀</p>
-                  <p>가격</p>
-                </span>
-              </li>
-
-              <li className="product-card">
-                <img
-                  src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                  alt="상품 이미지"
-                  className="product-image"
-                />
-
-                <span className="product-description">
-                  <p>타이틀</p>
-                  <p>가격</p>
-                </span>
-              </li>
-            </ul>
-          </Link>
         </div>
       </div>
     </MainDiv>

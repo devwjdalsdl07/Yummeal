@@ -14,7 +14,6 @@ export const MainDiv = styled.div`
       max-width: 1400px;
       height: 100%;
       min-height: 700px;
-      
     }
     .best-item {
       display: flex;
@@ -85,7 +84,7 @@ export const MainDiv = styled.div`
             left: 90px;
             bottom: 10%;
             font-size: x-large;
-            
+
             &:hover {
               color: green;
             }
@@ -219,24 +218,98 @@ export const PaginationDiv = styled.div`
 `;
 
 export const ItemDetailDiv = styled.div`
-  .wrap {
+  .content-wrap {
     position: relative;
     margin: 0 auto;
     width: 100%;
     height: 100%;
     padding: 100px 0;
-    background: #f9f6f1;
-    .info {
+    /* background: #f9f6f1; */
+
+    .goods {
       margin: 0 auto;
       margin-top: 50px;
       width: 1440px;
       max-width: 1400px;
       height: 100%;
       min-height: 700px;
-      img {
-        max-width: 480px;
-        max-width: 480px;
-        overflow: hidden;
+  
+
+      .item-img {
+        width: 450px;
+        height: 450px;
+        margin: 50px 0;
+      }
+      .item-info {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 50px;
+
+        img {
+          width: 100px;
+          height: 100px;
+        }
+      }
+
+      .goods-details {
+        width: 40%;
+        float: right;
+        flex-direction: column;
+        position: relative;
+        bottom: 300px;
+        /* right: 300px; */
+        .goods-title {
+          font-size: 40px;
+          font-weight: bold;
+          line-height: 40px;
+          margin-bottom: 17px;
+        }
+        .goods-info {
+          font-size: 40px;
+          font-weight: bold;
+          line-height: 40px;
+          margin-bottom: 17px;
+        }
+        .goods-price {
+          padding-top: 10px;
+          border-top: 1px solid rgb(230, 230, 230);
+        }
+        .order-total-price {
+          
+        }
+      }
+      .product-tabs {
+        ul {
+          display: flex;
+          justify-content: space-between;
+          font-size: 20px;
+          width: 100%;
+          padding: 2% 10%;
+          border-top: 1px solid #313133;
+          border-bottom: 1px solid #e7e7e7;
+        }
+      }
+      .menu-info {
+        display: block;
+        height: 500px;
+      }
+      .container {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(30px, auto));
+        border-top: 1px solid rgb(230, 230, 230);
+        margin: 20px 0;
+        width: 860px;
+
+        .item-title {
+          border-bottom: 1px solid rgb(230, 230, 230);
+          padding: 10px 0 10px 10px;
+          background: #fafafa;
+        }
+        .item {
+          border-bottom: 1px solid rgb(230, 230, 230);
+          padding: 10px 0 10px 10px;
+          /* background: #fff; */
+        }
       }
     }
   }
