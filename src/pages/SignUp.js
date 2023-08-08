@@ -1,22 +1,21 @@
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { DatePicker, Space } from "antd";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { postSignUp } from "../api/signupaxios";
 import {
   JoinArea,
   JoinBtn,
   JoinContainer,
   JoinFormGroup,
   JoinId,
-  JoinPost,
   JoinPw,
   JoinPwConfirm,
   JoinText,
   JoinTitleWrapTop,
   JoinWrap,
 } from "../style/SignUpCss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { DatePicker, Space } from "antd";
-import { postSignUp } from "../api/signupaxios";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -46,9 +45,6 @@ const SignUp = () => {
   const [nickName, setNickName] = useState("");
   const [birth, setBirth] = useState("");
 
-  // 전체 폼 유효성 검사
-  const [isFormValid, setIsFormValid] = useState(false);
-
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
     const script = document.createElement("script");
@@ -61,17 +57,6 @@ const SignUp = () => {
       // Daum 우편번호 스크립트가 로드된 후에는 여기에서 코드를 실행할 수 있습니다.
       // 여기서 다음 스크립트를 사용하여 우편번호 찾기 기능을 구현할 수 있습니다.
     };
-    const isValid =
-      isNickName &&
-      isId &&
-      isPw &&
-      isPwConfirm &&
-      name !== "" &&
-      phone !== "" &&
-      birth !== "" &&
-      postcode !== "" &&
-      address !== "" &&
-      detailAddress !== "";
   }, []);
   const handleSignUp = () => {
     const item = {
@@ -147,7 +132,7 @@ const SignUp = () => {
   };
   // 이름 (추후 업데이트)
   const onNickNameChange = e => {
-    setNickName(e.target.value);
+    setNickName(e.target.value.replace(/\s/gi, ""));
     if (e.target.value.length == 0 || e.target.value.length > 0) {
       setNickNameMessage("사용 가능한 닉네임이에요");
       setIsNickName(true);
@@ -160,7 +145,7 @@ const SignUp = () => {
   const onIdChange = e => {
     const idRegex =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    const idCurrent = e.target.value;
+    const idCurrent = e.target.value.replace(/\s/gi, "");
     setId(idCurrent);
 
     if (!idRegex.test(idCurrent)) {
@@ -175,7 +160,7 @@ const SignUp = () => {
 
   const onPwChange = e => {
     const pwRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-    const pwCurrent = e.target.value;
+    const pwCurrent = e.target.value.replace(/\s/gi, "");
     setPw(pwCurrent);
 
     if (!pwRegex.test(pwCurrent)) {
@@ -190,7 +175,7 @@ const SignUp = () => {
   const onPwConfirmChange = e => {
     const pwConfirmRegex =
       /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-    const pwConfirmCurrent = e.target.value;
+    const pwConfirmCurrent = e.target.value.replace(/\s/gi, "");
     setPwConfirm(pwConfirmCurrent);
 
     if (!pwConfirmRegex.test(pwConfirmCurrent)) {
@@ -312,7 +297,7 @@ const SignUp = () => {
                 type="text"
                 placeholder="이름을 입력하세요"
                 value={name}
-                onChange={e => setName(e.target.value)}
+                onChange={e => setName(e.target.value.replace(/\s/gi, ""))}
                 maxLength={100}
               />
             </div>
@@ -327,7 +312,7 @@ const SignUp = () => {
                 type="text"
                 placeholder="전화번호를 입력하세요 ( - 없이 입력)"
                 value={phone}
-                onChange={e => setPhone(e.target.value)}
+                onChange={e => setPhone(e.target.value.replace(/\s/gi, ""))}
                 maxLength={11}
               />
             </div>
@@ -404,7 +389,7 @@ const SignUp = () => {
             </div>
           </JoinFormGroup>
 
-          <JoinBtn onClick={handleSignUp} disabled>
+          <JoinBtn onClick={handleSignUp} >
             회원가입
           </JoinBtn>
         </JoinWrap>

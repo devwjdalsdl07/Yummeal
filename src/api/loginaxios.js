@@ -1,6 +1,7 @@
 import axios from "axios";
+import { getCookie } from "./cookie";
 
-//회원가입 post
+// 회원가입 post
 export const postLogin = async () => {
   try {
     const res = await axios.post("/sign-api/sign-in");
@@ -10,3 +11,4 @@ export const postLogin = async () => {
     console.log(err);
   }
 };
+

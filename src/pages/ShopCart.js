@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCart } from "../api/cartaxios";
+import { getCookie } from "../api/cookie";
 import CartItem from "../components/CartItem";
 import { Cart, NotList, Payment, ShopWrap } from "../style/ShopCartCss";
 
 const ShopCart = () => {
   const [cartItems, setCartItems] = useState([]);
-
   const cartList = async () => {
     const result = await getCart();
     setCartItems(result);
