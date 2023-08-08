@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { MainDiv } from "../style/MainCss";
+import { Link } from "react-router-dom";
 
 const Search = () => {
   const [searchData, setSearchData] = useState([]);
@@ -83,7 +84,7 @@ const Search = () => {
               </li>
             </ul>
           </Link>
-          <Paging />
+          {/* <Paging /> */}
         </div>
       </div>
     </MainDiv>

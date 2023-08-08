@@ -246,6 +246,13 @@ const SignUp = () => {
       setPwMessage("안전한 비밀번호에요 : )");
       setIsPw(true);
     }
+    if (pwConfirm !== pwCurrent) {
+      setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
+      setIsPwConfirm(false);
+    } else {
+      setPwConfirmMessage("비밀번호가 동일해요 :)"); // 비밀번호가 동일하면 메시지를 지워줍니다.
+      setIsPwConfirm(true);
+    }
     // setPwMessage("");
     // setIsPw(false);
   };
