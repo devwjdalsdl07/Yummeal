@@ -52,6 +52,7 @@ export const Head = styled.div`
     font-size: 2rem;
     transform: translateY(30%);
     z-index: 99;
+    transition: all 0.5s;
     & > li {
       position: relative;
       & > ul {
@@ -114,11 +115,16 @@ export const Head = styled.div`
     scale: 2.5;
     cursor: pointer;
   }
-
+  @media screen and (max-width: 1130px) {
+    .header_menulist {
+      gap: 7rem;
+    }
+  }
   @media screen and (max-width: 1024px) {
     flex-wrap: wrap;
     min-width: 45rem;
-
+    height: 20rem;
+    align-items: baseline;
     .header_right {
       display: ${props => (props.userToggled ? "flex" : "none")};
       flex-direction: column;
@@ -128,7 +134,11 @@ export const Head = styled.div`
     }
 
     .searchwrap {
-      display: none;
+      top: 70%;
+      width: 60%;
+      .search {
+        width: 100%;
+      }
     }
 
     .header_menulist {

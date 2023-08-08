@@ -1,22 +1,22 @@
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { DatePicker, Space } from "antd";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { postSignUp } from "../api/signupaxios";
 import {
   JoinArea,
   JoinBtn,
   JoinContainer,
   JoinFormGroup,
   JoinId,
-  JoinPost,
+  JoinNickNm,
   JoinPw,
   JoinPwConfirm,
   JoinText,
   JoinTitleWrapTop,
   JoinWrap,
 } from "../style/SignUpCss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { DatePicker, Space } from "antd";
-import { postSignUp } from "../api/signupaxios";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -31,12 +31,23 @@ const SignUp = () => {
   const [idMessage, setIdMessage] = useState("");
   const [pwMessage, setPwMessage] = useState("");
   const [pwConfirmMessage, setPwConfirmMessage] = useState("");
+  const [nameMessage, setNameMessage] = useState("");
+  const [phoneMessage, setPhoneMessage] = useState("");
+  const [birthMessage, setBirthMessage] = useState("");
+  const [detailAddressMessage, setDetailAddressMessage] = useState("");
 
   // 유효성 검사
   const [isNickName, setIsNickName] = useState(false);
   const [isId, setIsId] = useState(false);
   const [isPw, setIsPw] = useState(false);
   const [isPwConfirm, setIsPwConfirm] = useState(false);
+  const [isName, setIsName] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
+  const [isBirth, setIsBirth] = useState(false);
+  const [isPostCode, setIsPostCode] = useState(false);
+  const [isAddress, setIsAddress] = useState(false);
+  // 회원가입 버튼 활성화 여부
+  const [isSignup, setIsSignup] = useState(true);
 
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
@@ -45,9 +56,6 @@ const SignUp = () => {
   const [phone, setPhone] = useState("");
   const [nickName, setNickName] = useState("");
   const [birth, setBirth] = useState("");
-
-  // 전체 폼 유효성 검사
-  const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
@@ -61,54 +69,13 @@ const SignUp = () => {
       // Daum 우편번호 스크립트가 로드된 후에는 여기에서 코드를 실행할 수 있습니다.
       // 여기서 다음 스크립트를 사용하여 우편번호 찾기 기능을 구현할 수 있습니다.
     };
-    const isValid =
-      isNickName &&
-      isId &&
-      isPw &&
-      isPwConfirm &&
-      name !== "" &&
-      phone !== "" &&
-      birth !== "" &&
-      postcode !== "" &&
-      address !== "" &&
-      detailAddress !== "";
-    setIsFormValid(false);
-  }, [
-    isNickName,
-    isId,
-    isPw,
-    isPwConfirm,
-    name,
-    phone,
-    birth,
-    postcode,
-    address,
-    detailAddress,
-  ]);
-  const handleSignUp = () => {
-    const item = {
-      email: id,
-      password: pw,
-      name: name,
-      mobileNb: phone,
-      zipCode: postcode,
-      address: address,
-      addressDetail: detailAddress,
-      nickNm: nickName,
-    };
-    if (isFormValid) {
-      const result = postSignUp(item);
-    }
-  };
+  }, []);
+
   const handleOpenAddressSearch = () => {
     setAddressSearchOpen(true);
   };
   const handleCloseAddressSearch = () => {
     setAddressSearchOpen(false);
-  };
-
-  const onBirthChange = dateString => {
-    setBirth(dateString);
   };
 
   const handleExecDaumPostcode = () => {
@@ -159,22 +126,11 @@ const SignUp = () => {
       }).open();
     }
   };
-  // 이름 (추후 업데이트)
-  const onNickNameChange = e => {
-    setNickName(e.target.value);
-    if (e.target.value.length == 0 || e.target.value.length > 0) {
-      setNickNameMessage("사용 가능한 닉네임이에요");
-      setIsNickName(true);
-    } else {
-      setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-      setIsNickName(false);
-    }
-  };
   // id
   const onIdChange = e => {
     const idRegex =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    const idCurrent = e.target.value;
+    const idCurrent = e.target.value.replace(/\s/gi, "");
     setId(idCurrent);
 
     if (!idRegex.test(idCurrent)) {
@@ -184,12 +140,103 @@ const SignUp = () => {
       setIdMessage("올바른 이메일 형식이에요 : )");
       setIsId(true);
     }
+    // setIdMessage("");
+    // setIsId(false);
   };
-  //pw
+  // 아이디 중복 체크
+  const onIdCheck = e => {
+    e.preventDefault();
+    console.log("아이디 중복체크 axios");
+    if (isId) {
+      setIdMessage("사용 가능한 아이디에요");
+      setIsId(true);
+    } else if (!isId) {
+      setIdMessage("이메일 형식이 아니에요");
+      setIsId(false);
+    }
+    // if (e.target.value.length == 0 || e.target.value.length > 0) {
+    //   setIdMessage("사용 가능한 아이디에요");
+    //   setIsId(true);
+    // } else {
+    //   setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+    //   setIsId(false);
+    // }
+  };
+  // const onIdCheck = async e => {
+  //   e.preventDefault();
+  //   try {
+  //     // 서버에 이메일 중복 체크 요청을 보내고 응답을 받아 처리
+  //     const response = await checkEmailDuplicate(e.target.value);
+  //     if (response.data.isDuplicate) {
+  //       setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+  //       setIsId(false);
+  //     } else {
+  //       setIdMessage("사용 가능한 아이디에요");
+  //       setIsId(true);
+  //     }
+  //   } catch (error) {
+  //     // 에러 처리
+  //     console.error("이메일 중복 체크 오류:", error);
+  //   }
+  // };
+  // 닉네임 (추후 업데이트)
+  const onNickNameChange = e => {
+    const nickNameRegex = /^[a-zA-Z0-9ㄱ-힣]{3,5}$/;
+    // setNickName(e.target.value.replace(/\s/gi, ""));
 
+    setNickName(
+      e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""),
+    );
+    if (!nickNameRegex.test(nickName)) {
+      setNickNameMessage("알파벳, 숫자, 한글만 사용해서 설정해주세요 !");
+    }
+    // if (e.target.value.length == 0) {
+    //   setNickNameMessage("닉네임을 입력해주세요.");
+    // }
+    // setNickNameMessage("");
+    // setIsNickName(false);
+  };
+  // 닉네임 중복 체크
+  const onNickNameCheck = e => {
+    e.preventDefault();
+    console.log("닉네임 중복체크 axios");
+    if (isNickName) {
+      setNickNameMessage("사용 가능한 닉네임이에요");
+      setIsNickName(true);
+    } else if (!isNickName) {
+      setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+      setIsNickName(false);
+    }
+    // if (e.target.value.length == 0 || e.target.value.length > 0) {
+    //   setNickNameMessage("사용 가능한 닉네임이에요");
+    //   setIsNickName(true);
+    // } else {
+    //   setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+    //   setIsNickName(false);
+    // }
+  };
+  // const onNickNameCheck = async e => {
+  //   e.preventDefault();
+  //   try {
+  //     // 서버에 닉네임 중복 체크 요청을 보내고 응답을 받아 처리
+  //     const response = await checkNickNameDuplicate(e.target.value);
+  //     if (response.data.isDuplicate) {
+  //       setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+  //       setIsNickName(false);
+  //     } else {
+  //       setNickNameMessage("사용 가능한 닉네임이에요");
+  //       setIsNickName(true);
+  //     }
+  //   } catch (error) {
+  //     // 에러 처리
+  //     console.error("닉네임 중복 체크 오류:", error);
+  //   }
+  // };
+
+  //pw
   const onPwChange = e => {
     const pwRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-    const pwCurrent = e.target.value;
+    const pwCurrent = e.target.value.replace(/\s/gi, "");
     setPw(pwCurrent);
 
     if (!pwRegex.test(pwCurrent)) {
@@ -199,22 +246,170 @@ const SignUp = () => {
       setPwMessage("안전한 비밀번호에요 : )");
       setIsPw(true);
     }
+    // setPwMessage("");
+    // setIsPw(false);
   };
   //pwConfirm
   const onPwConfirmChange = e => {
-    const pwConfirmRegex =
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-    const pwConfirmCurrent = e.target.value;
+    const pwConfirmCurrent = e.target.value.replace(/\s/gi, "");
     setPwConfirm(pwConfirmCurrent);
 
-    if (!pwConfirmRegex.test(pwConfirmCurrent)) {
+    if (pw !== pwConfirmCurrent) {
       setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
-      setIsPwConfirm(true);
+      setIsPwConfirm(false);
     } else {
       setPwConfirmMessage("비밀번호가 동일해요 :)");
-      setIsPwConfirm(false);
+      setIsPwConfirm(true);
+    }
+
+    // if (!pwConfirmRegex.test(pwConfirmCurrent)) {
+    //   setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
+    //   setIsPwConfirm(true);
+    // } else {
+    //   setPwConfirmMessage("비밀번호가 동일해요 :)");
+    //   setIsPwConfirm(false);
+    // }
+  };
+  // 이름 작성
+  const onChangeName = e => {
+    setName(e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""));
+    if (e.target.value.length === 0) {
+      setNameMessage("이름을 입력하여 주세요. ");
+      setIsName(false);
+    } else {
+      setNameMessage("정상적으로 이름을 입력하셨습니다.");
+      setIsName(true);
+    }
+    // setNameMessage("");
+    // setIsName(false);
+  };
+
+  // 전화번호
+  const onChangePhone = e => {
+    // 한국 휴대폰 번호 형식에 맞는 정규표현식
+    const koreanPhoneNumberRegex = /^01(?:0|1|[6-9])(\d{3}|\d{4})\d{4}$/;
+    // 검증할 휴대폰 번호 (하이픈 제거)
+    const phoneNumber = e.target.value.replace(/[^\d]/g, "");
+    setPhone(phoneNumber);
+    if (koreanPhoneNumberRegex.test(phoneNumber)) {
+      setPhoneMessage("정상적으로 전화번호를 입력하셨습니다.");
+      setIsPhone(true);
+    } else {
+      setPhoneMessage("전화번호를 입력하여 주세요. ");
+      setIsPhone(false);
+    }
+    // setNameMessage("");
+    // setIsName(false);
+  };
+
+  // 생년월일 변경
+  const onBirthChange = (value, dateString) => {
+    setBirth(dateString);
+    if (birth) {
+      setIsBirth(true);
+    } else {
+      setIsBirth(false);
     }
   };
+
+  // 우편번호 변경
+  const onPostChange = e => {
+    setPostcode(e.target.value);
+    console.log("우편번호", e.target);
+
+    if (postcode) {
+      setIsPostCode(true);
+    } else {
+      setIsPostCode(false);
+    }
+  };
+
+  // 주소 변경
+  const onAddressChange = e => {
+    setAddress(e.target.value);
+    console.log("주소", address);
+    if (address) {
+      setIsAddress(true);
+    } else {
+      setIsAddress(false);
+    }
+  };
+
+  // 상세주소 변경
+  const onDetailAddressChange = e => {
+    setDetailAddress(
+      e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""),
+    );
+  };
+
+  const handleSignUp = () => {
+    console.log("입력");
+    if (!isId) {
+      setIdMessage("이메일을 입력해주세요.");
+      // alert("이메일을 입력해주세요.");
+      return;
+    }
+    if (!isNickName) {
+      setNickNameMessage("닉네임을 입력해주세요.");
+      // alert("닉네임을 입력해주세요.");
+      return;
+    }
+    if (!isPw) {
+      setPwMessage("비밀번호를 확인해주세요.");
+      // alert("비밀번호를 확인해주세요.");
+      return;
+    }
+    if (!isPwConfirm) {
+      setPwMessage("비밀번호 재입력을 확인해주세요.");
+      // alert("비밀번호 재입력을 확인해주세요.");
+      return;
+    }
+    if (!isName) {
+      setNameMessage("이름을 입력하여 주세요. ");
+      // alert("이름을 입력해 주세요");
+      return;
+    }
+    if (!isPhone) {
+      setPhoneMessage("전화번호를 입력하여 주세요. ");
+      // alert("전화번호를 입력해 주세요");
+      return;
+    }
+    if (!isPostCode) {
+      detailAddressMessage("주소를 입력하여 주세요. ");
+      // alert("주소를 입력해 주세요");
+      return;
+    }
+    const item = {
+      email: id,
+      password: pw,
+      name: name,
+      mobileNb: phone,
+      zipCode: postcode,
+      address: address,
+      addressDetail: detailAddress,
+      nickNm: nickName,
+    };
+    const result = postSignUp(item);
+    navigate("/login");
+  };
+
+  // useEffect(() => {
+  //   if (
+  //     isNickName &&
+  //     isId &&
+  //     isPw &&
+  //     isPwConfirm &&
+  //     isName &&
+  //     isPhone &&
+  //     isBirth &&
+  //     isPostCode &&
+  //     isAddress
+  //   ) {
+  //     setIsSignup(false);
+  //   } else {
+  //     setIsSignup(true);
+  //   }
+  // }, [id, nickName, pw, pwConfirm, name, phone, birth, postcode, address]);
 
   return (
     <JoinContainer>
@@ -238,13 +433,16 @@ const SignUp = () => {
                 </i>
                 아이디
               </span>
-              <input
-                type="text"
-                placeholder="이메일 형식으로 입력하세요"
-                value={id}
-                maxLength={100}
-                onChange={onIdChange}
-              />
+              <div className="idBox">
+                <input
+                  type="text"
+                  placeholder="이메일 형식으로 입력하세요"
+                  value={id}
+                  maxLength={50}
+                  onChange={onIdChange}
+                />
+                <button onClick={onIdCheck}>중복확인</button>
+              </div>
               <span>
                 {id.length > 0 && (
                   <span className={`message ${isId ? "success" : "error"}`}>
@@ -253,26 +451,29 @@ const SignUp = () => {
                 )}
               </span>
             </JoinId>
-            <div>
+            <JoinNickNm>
               <span>
                 <i>
                   <FontAwesomeIcon icon={faCircle} />
                 </i>
                 닉네임
               </span>
-              <input
-                type="text"
-                placeholder="닉네임을 입력하세요"
-                value={nickName}
-                onChange={onNickNameChange}
-                maxLength={100}
-              />
+              <div className="nmBox">
+                <input
+                  type="text"
+                  placeholder="닉네임을 입력하세요"
+                  value={nickName}
+                  onChange={onNickNameChange}
+                  maxLength={5}
+                />
+                <button onClick={onNickNameCheck}>중복확인</button>
+              </div>
               {nickName.length > 0 && (
                 <span className={`message ${isNickName ? "success" : "error"}`}>
                   {nickNameMessage}
                 </span>
               )}
-            </div>
+            </JoinNickNm>
             <JoinPw>
               <span>
                 <i>
@@ -285,7 +486,7 @@ const SignUp = () => {
                 placeholder="비밀번호를 입력하세요"
                 value={pw}
                 onChange={onPwChange}
-                maxLength={100}
+                maxLength={30}
               />
               {pw.length > 0 && (
                 <span className={`message ${isPw ? "success" : "error"}`}>
@@ -305,7 +506,7 @@ const SignUp = () => {
                 placeholder="비밀번호를 한번 더 입력하세요"
                 value={pwConfirm}
                 onChange={onPwConfirmChange}
-                maxLength={100}
+                maxLength={30}
               />
               {pwConfirm.length > 0 && (
                 <span
@@ -315,7 +516,7 @@ const SignUp = () => {
                 </span>
               )}
             </JoinPwConfirm>
-            <div className="pw-group">
+            <div style={{ height: "70px" }}>
               <span>
                 <i>
                   <FontAwesomeIcon icon={faCircle} />
@@ -326,11 +527,11 @@ const SignUp = () => {
                 type="text"
                 placeholder="이름을 입력하세요"
                 value={name}
-                onChange={e => setName(e.target.value)}
-                maxLength={100}
+                onChange={onChangeName}
+                maxLength={8}
               />
             </div>
-            <div>
+            <div style={{ height: "75px" }}>
               <span>
                 <i>
                   <FontAwesomeIcon icon={faCircle} />
@@ -341,13 +542,18 @@ const SignUp = () => {
                 type="text"
                 placeholder="전화번호를 입력하세요 ( - 없이 입력)"
                 value={phone}
-                onChange={e => setPhone(e.target.value)}
+                onChange={onChangePhone}
                 maxLength={11}
               />
+              {phone.length > 0 && (
+                <span className={`message ${isPhone ? "success" : "error"}`}>
+                  {phoneMessage}
+                </span>
+              )}
             </div>
 
             {/* 생년월일 드랍박스 들어갈 자리 */}
-            <div>
+            <div style={{ height: "50px" }}>
               <span>
                 <i>
                   <FontAwesomeIcon icon={faCircle} />
@@ -363,13 +569,18 @@ const SignUp = () => {
                   }}
                 />
               </Space>
+
+              <span className={`message ${isBirth ? "success" : "error"}`}>
+                {birthMessage}
+              </span>
+
               {/* <input
                 type="text"
                 placeholder="이메일을 입력하세요"
                 maxLength={100}
               /> */}
             </div>
-            <div className="test">
+            <div className="postBox">
               <span>
                 <i>
                   <FontAwesomeIcon icon={faCircle} />
@@ -382,7 +593,7 @@ const SignUp = () => {
                 id="sample6_postcode"
                 value={postcode}
                 placeholder="우편번호"
-                onChange={e => setPostcode(e.target.value)}
+                onChange={onPostChange}
                 onClick={handleExecDaumPostcode}
                 readOnly
               />
@@ -397,7 +608,7 @@ const SignUp = () => {
                 id="sample6_address"
                 value={address}
                 placeholder="주소"
-                onChange={e => setAddress(e.target.value)}
+                onChange={onAddressChange}
                 readOnly
               />
               <br />
@@ -405,7 +616,7 @@ const SignUp = () => {
                 type="text"
                 id="sample6_detailAddress"
                 value={detailAddress}
-                onChange={e => setDetailAddress(e.target.value)}
+                onChange={onDetailAddressChange}
                 placeholder="상세주소"
               />
               {/* <input
@@ -417,10 +628,7 @@ const SignUp = () => {
               /> */}
             </div>
           </JoinFormGroup>
-
-          <JoinBtn onClick={handleSignUp} disabled={!isFormValid}>
-            회원가입
-          </JoinBtn>
+          <JoinBtn onClick={handleSignUp}>회원가입</JoinBtn>
         </JoinWrap>
       </JoinArea>
     </JoinContainer>

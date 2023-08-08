@@ -9,3 +9,7 @@ export const setCookie = (_name, value) => {
 export const getCookie = _name => {
   return cookies.get(_name);
 };
+
+export const removeCookie = _name => {
+  return cookies.remove(_name);
+};

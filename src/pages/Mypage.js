@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import "../style/MypageCss";
-import { MypageContainer } from "../style/MypageCss";
+import React, { useEffect, useState } from "react";
+import { getUserInfo } from "../api/cartaxios";
 import OrderList from "../components/OrderList";
 import UserInfo from "../components/UserInfo";
+import "../style/MypageCss";
+import { MypageContainer } from "../style/MypageCss";
 
 const Mypage = () => {
   const [activeComponent, setActiveComponent] = useState("order");
