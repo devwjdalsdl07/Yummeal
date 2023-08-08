@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slick from "../components/Slick";
 import { MainDiv } from "../style/MainCss";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
+import { getBestProduct } from "../api/mainFatch";
 
 const Main = () => {
+  const [bestProduct, setBestProduct] = useState([]);
+  //제일 많이 팔린 상품 가져오기
+  const getBestProductFetch = async () => {
+    try {
+      const productIdJson = await getBestProduct();
+      setBestProduct(productIdJson);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getBestProductFetch();
+    // window.scrollTo(0, 0);
+  }, []);
+
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(`/search`);
@@ -17,8 +34,8 @@ const Main = () => {
   const handleShoppingClick = () => {
     navigate(`/cart`);
   };
-  const handleItemClick = () => {
-    navigate(`/product`);
+  const handleItemClick = _id => {
+    navigate(`/product/${_id}`);
   };
 
   return (
@@ -35,96 +52,34 @@ const Main = () => {
 
           {/* <Link to="/product"> */}
           <ul className="list-area">
-            <li className="product-card">
-              <img
-                src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                alt="상품 이미지"
-                className="product-image"
-              />
-              <span className="product-description">
-                <span className="item-numbering" onClick={handleItemClick}>
-                  1단계
-                </span>
-                <FontAwesomeIcon
-                  icon={faBasketShopping}
-                  className="shopping-icon"
-                  onClick={handleShoppingClick}
-                />
-              </span>
-              <div className="item-info">
-                <h2>[1단계] 한우 배추 죽 </h2>
-                <p>가격 : 4,500원</p>
-              </div>
-            </li>
-
-            <li className="product-card">
-              <img
-                src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                alt="상품 이미지"
-                className="product-image"
-              />
-              <span className="product-description">
-                <span className="item-numbering" onClick={handleItemClick}>
-                  2단계
-                </span>
-                <FontAwesomeIcon
-                  icon={faBasketShopping}
-                  size="xl"
-                  className="shopping-icon"
-                  onClick={handleShoppingClick}
-                />
-              </span>
-              <div className="item-info">
-                <h2>[1단계] 한우 배추 죽 </h2>
-                <p>가격 : 4,500원</p>
-              </div>
-            </li>
-
-            <li className="product-card">
-              <img
-                src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                alt="상품 이미지"
-                className="product-image"
-              />
-              <span className="product-description">
-                <span className="item-numbering" onClick={handleItemClick}>
-                  3단계
-                </span>
-                <FontAwesomeIcon
-                  icon={faBasketShopping}
-                  size="xl"
-                  className="shopping-icon"
-                  onClick={handleShoppingClick}
-                />
-              </span>
-              <div className="item-info">
-                <h2>[1단계] 한우 배추 죽 </h2>
-                <p>가격 : 4,500원</p>
-              </div>
-            </li>
-
-            <li className="product-card">
-              <img
-                src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
-                alt="상품 이미지"
-                className="product-image"
-              />
-              <div className="product-description">
-                <span className="item-numbering" onClick={handleItemClick}>
-                  4단계
-                </span>
-                <FontAwesomeIcon
-                  icon={faBasketShopping}
-                  size="xl"
-                  className="shopping-icon"
-                  onClick={handleShoppingClick}
-                />
-              </div>
-              <div className="item-info">
-                <h2>[1단계] 한우 배추 죽 </h2>
-                <p>가격 : 4,500원</p>
-              </div>
-            </li>
+            {bestProduct.map(item => (
+              <>
+                <li className="product-card">
+                  <img
+                    src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
+                    alt="상품 이미지"
+                    className="product-image"
+                  />
+                  <span className="product-description">
+                    <span
+                      className="item-numbering"
+                      onClick={() => handleItemClick(2)}
+                    >
+                      1단계
+                    </span>
+                    <FontAwesomeIcon
+                      icon={faBasketShopping}
+                      className="shopping-icon"
+                      onClick={handleShoppingClick}
+                    />
+                  </span>
+                  <div className="item-info">
+                    <h2>{item.name}</h2>
+                    <p>가격 :{item.price.toLocaleString()}원</p>
+                  </div>
+                </li>
+              </>
+            ))}
           </ul>
           {/* </Link> */}
 
@@ -160,7 +115,7 @@ const Main = () => {
                   <p>타이틀</p>
                   <p>가격</p>
                 </span>
-              </li>ㅠ
+              </li>
 
               <li className="product-card">
                 <img
