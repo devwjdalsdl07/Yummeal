@@ -1,35 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { getCart, orderPost } from "../api/cartaxios";
 import OrderItem from "../components/OrderItem";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
 
 const Order = () => {
-  const [orderItems, setOrderItems] = useState([
-    {
-      title: "Product 1",
-      price: 15000,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-    {
-      title: "Product 2",
-      price: 10000,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-    {
-      title: "Product 3",
-      price: 7500,
-      image: "https://via.placeholder.com/150",
-      quantity: 1,
-    },
-  ]);
+  const [orderItems, setOrderItems] = useState([]);
   const [point, setPoint] = useState(5000);
   const [usePoint, setUsePoint] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const [orderPayFixed, setOrderPayFixed] = useState(false);
   const navigate = useNavigate();
+
+  const cartList = async () => {
+    const result = await getCart();
+    setOrderItems(result);
+  };
+
+  useEffect(() => {
+    cartList();
+  }, []);
 
   const handleUsePoint = e => {
     const inputValue = e.target.value.replace(/[^0-9]/g, "");
@@ -51,13 +43,45 @@ const Order = () => {
   };
 
   const handleOrder = () => {
+    const orderBasket = orderItems.map((item, idx) => ({
+      key: idx,
+      cartId: item.cartId,
+      productId: item.productId,
+      iuser: 1,
+      count: item.count,
+      totalprice: item.price * item.count,
+    }));
+    const item = {
+      receiver: name,
+      address: "주소1",
+      addressDetail: "주소2",
+      phoneNm: "전화번호",
+      request: message,
+      payment: 1,
+      iuser: 1,
+      point: usePoint !== "" ? usePoint : 0,
+      orderbasket: orderBasket,
+    };
+    console.log(item);
     const newWindow = window.open(
       "/payment",
       "결제페이지",
       "width=430, height=500, location=no, status=no, scrollbars=yes",
     );
-    newWindow.addEventListener("beforeunload", () => {
-      navigate("/orderdetail", { state: { usePoint: usePoint } });
+    newWindow.addEventListener("beforeunload", async () => {
+      try {
+        const result = await orderPost(item);
+        navigate("/orderdetail", {
+          state: {
+            orderId: result.orderId,
+            point: result.point,
+            totalprice: result.totalprice,
+            paymentprice: result.paymentprice,
+          },
+        });
+      } catch (err) {
+        console.err("주문 처리 중 오류 발생:", err);
+      }
     });
   };
 
@@ -70,7 +94,7 @@ const Order = () => {
   };
 
   const prodTotalPrice = orderItems.reduce((item, idx) => {
-    const productPrice = idx.price * idx.quantity;
+    const productPrice = idx.price * idx.count;
     return item + productPrice;
   }, 0);
 
@@ -137,7 +161,7 @@ const Order = () => {
           </div>
         </div>
       </OrderInfo>
-      <OrderPay>
+      <OrderPay orderPayFixed={orderPayFixed}>
         <h2>결제 금액</h2>
         <div className="paywrap">
           <div className="price">
@@ -146,7 +170,9 @@ const Order = () => {
           </div>
           <div className="price">
             <p>할인금액</p>
-            <p>{usePoint !== "" ? `${parseInt(usePoint).toLocaleString()}` : 0}원</p>
+            <p>
+              {usePoint !== "" ? `${parseInt(usePoint).toLocaleString()}` : 0}원
+            </p>
           </div>
           <div className="price">
             <p>총 결제예정금액</p>

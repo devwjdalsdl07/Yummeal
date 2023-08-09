@@ -6,11 +6,6 @@ export const ReviewWrap = styled.div`
   margin: 0 auto;
   width: 70rem;
   gap: 2rem;
-  h2 {
-    font-size: 2.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  }
   .review-list {
     .review {
       display: flex;
@@ -30,7 +25,7 @@ export const ReviewWrap = styled.div`
               width: 2px;
               height: 15px;
               vertical-align: middle;
-              background: rgba(0,0,0,0.3);
+              background: rgba(0, 0, 0, 0.3);
               margin: -0.5rem 2.5rem 0 0;
             }
           }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// 장바구니 데이터 get
+// 장바구니 get
 export const getCart = async () => {
   try {
     const res = await axios.get("/api/orderbasket?iuser=1");
@@ -88,44 +88,42 @@ export const cartDelete = async cartId => {
   try {
     const res = await axios.delete(`/api/orderbasket?cartId=${cartId}`);
     const result = res.data;
-    console.log(result);
   } catch (error) {
     console.log(error);
   }
 };
 
-// 결제내역 데이터 get
-export const getOrderEnd = async () => {
+// 장바구니 post
+export const cartIn = async _item => {
+  try {
+    const res = await axios.post("/api/orderbasket", _item);
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 결제내역 get
+export const getOrderEnd = async _orderId => {
   try {
     const res = await axios.get(
-      "/api/mypage/orderlist/detail?iuser=1&orderId=4",
+      `/api/mypage/orderlist/detail?iuser=1&orderId=${_orderId}`,
     );
     const result = res.data;
     return result;
   } catch (error) {
-    [
-      {
-        orderId: 4,
-        reciever: "서영기",
-        request: "요청사항없음",
-        createdAt: "2023-08-02 15:28:20",
-        title: "미음",
-        name: "고구마미음",
-        count: "3",
-        price: 3300,
-        shipment: "1",
-      },
-      {
-        orderId: 4,
-        reciever: "서영기",
-        request: "요청사항없음",
-        createdAt: "2023-08-02 15:28:20",
-        title: "미음",
-        name: "배미음-(초기1단계)",
-        count: "1",
-        price: 4500,
-        shipment: "1",
-      },
-    ];
+    console.log(error);
+  }
+};
+
+// 주문 post
+export const orderPost = async _item => {
+  try {
+    const res = await axios.post("/api/buy/order", _item);
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
   }
 };

@@ -6,6 +6,7 @@ export const OrderWrap = styled.div`
   padding: 5rem;
   margin: 0 auto;
   max-width: 140rem;
+  position: relative;
   @media screen and (max-width: 1024px) {
     padding: 2rem;
     min-width: 40rem;
@@ -164,7 +165,7 @@ export const OrderPay = styled.div`
     font-weight: bold;
     font-size: 2rem;
     cursor: pointer;
-    &:hover{
+    &:hover {
       opacity: 0.8;
     }
   }

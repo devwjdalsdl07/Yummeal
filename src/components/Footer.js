@@ -14,7 +14,7 @@ const Footer = () => {
       </div>
       <div className="footer-cs">
         <div className="imgbox">
-          <img src="img/footerlogo.png" alt="logo" />
+          <img src="/img/footerlogo.png" alt="logo" />
         </div>
         <div className="csbox">
           <h3>고객센터</h3>

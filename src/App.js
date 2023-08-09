@@ -1,18 +1,19 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import AdminAddItem from "./pages/AdminAddItem";
+import AdminMain from "./pages/AdminMain";
 import ItemDetail from "./pages/ItemDetail";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Mypage from "./pages/Mypage";
 import Order from "./pages/Order";
 import OrderDetail from "./pages/OrderDetail";
+import Payment from "./pages/Payment";
+import Search from "./pages/Search";
 import SearchList from "./pages/SearchList";
 import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
-import AdminMain from "./pages/AdminMain";
-import AdminAddItem from "./pages/AdminAddItem";
-import Payment from "./pages/Payment";
 
 function App() {
   const location = useLocation();
@@ -27,8 +28,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/mypage" element={<Mypage />} />
-        <Route path="/search" element={<SearchList />} />
-        <Route path="/product" element={<ItemDetail />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/productlist" element={<SearchList />} />
+        <Route path="/product/:pid" element={<ItemDetail />} />
         <Route path="/cart" element={<ShopCart />} />
         <Route path="/order" element={<Order />} />
         <Route path="/orderdetail" element={<OrderDetail />} />
