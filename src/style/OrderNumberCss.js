@@ -4,29 +4,35 @@ export const OrderNumberContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 10px;
   height: 150px;
   border-bottom: 2px solid #eee;
   align-items: center;
+  @media screen and (max-width: 950px) {
+  }
   @media screen and (max-width: 600px) {
     flex-direction: column;
     height: auto;
     margin-top: 10px;
   }
-  div {
+  > div {
     height: 100px;
     @media screen and (max-width: 600px) {
       height: auto;
     }
   }
-  .responsive-1 {
-    
-  }
   .orderInfo {
     display: flex;
     width: 15%;
-    justify-content: center;
+    justify-content: space-evenly;
     flex-direction: column;
+    @media screen and (max-width: 950px) {
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-evenly;
+      height: auto;
+    }
     @media screen and (max-width: 600px) {
       justify-content: space-between;
       flex-direction: row;
@@ -100,10 +106,10 @@ export const OrderNumberContainer = styled.div`
       font-size: 15px;
     }
   }
-  .responsive-2 {
+  .responsive {
     display: flex;
     gap: 50px;
-    @media screen and (max-width:600px){
+    @media screen and (max-width: 600px) {
       width: 100%;
       display: flex;
       justify-content: space-around;
