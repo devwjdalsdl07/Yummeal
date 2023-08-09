@@ -46,6 +46,7 @@ export const MainDiv = styled.div`
       .product-card {
         position: relative;
         display: inline-block;
+        cursor: pointer;
         &:hover .product-description {
           opacity: 0.5;
         }
@@ -233,7 +234,6 @@ export const ItemDetailDiv = styled.div`
       max-width: 1400px;
       height: 100%;
       min-height: 700px;
-  
 
       .item-img {
         width: 450px;
@@ -275,7 +275,6 @@ export const ItemDetailDiv = styled.div`
           border-top: 1px solid rgb(230, 230, 230);
         }
         .order-total-price {
-          
         }
       }
       .product-tabs {

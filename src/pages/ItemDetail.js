@@ -18,6 +18,7 @@ const ItemDetail = () => {
       const productIdJson = await getProductId(pid);
       setProduct(productIdJson);
       setMainImage(productIdJson.img);
+      console.log(mainImage);
     } catch (err) {
       console.log(err);
     }

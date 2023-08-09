@@ -200,20 +200,20 @@ const SignUp = () => {
   const onNickNameCheck = e => {
     e.preventDefault();
     console.log("닉네임 중복체크 axios");
-    if (isNickName) {
-      setNickNameMessage("사용 가능한 닉네임이에요");
-      setIsNickName(true);
-    } else if (!isNickName) {
-      setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-      setIsNickName(false);
-    }
-    // if (e.target.value.length == 0 || e.target.value.length > 0) {
+    // if (isNickName) {
     //   setNickNameMessage("사용 가능한 닉네임이에요");
     //   setIsNickName(true);
-    // } else {
+    // } else if (!isNickName) {
     //   setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
     //   setIsNickName(false);
     // }
+    if (e.target.value.length == 0 || e.target.value.length > 0) {
+      setNickNameMessage("사용 가능한 닉네임이에요");
+      setIsNickName(true);
+    } else {
+      setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+      setIsNickName(false);
+    }
   };
   // const onNickNameCheck = async e => {
   //   e.preventDefault();
@@ -375,7 +375,7 @@ const SignUp = () => {
       return;
     }
     if (!isPostCode) {
-      detailAddressMessage("주소를 입력하여 주세요. ");
+      setDetailAddressMessage("주소를 입력하여 주세요. ");
       // alert("주소를 입력해 주세요");
       return;
     }
