@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DatePicker, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postSignUp } from "../api/signupaxios";
+import { postIdCheck, postNickNameCheck, postSignUp } from "../api/signupaxios";
 import {
   JoinArea,
   JoinBtn,
@@ -149,53 +149,27 @@ const SignUp = () => {
     // setIsId(false);
   };
   // 아이디 중복 체크
-  const onIdCheck = e => {
+  const onIdCheck = async e => {
     e.preventDefault();
-    console.log("아이디 중복체크 axios");
+    const fetchId = await postIdCheck(id);
     if (isId) {
-      setIdMessage("사용 가능한 아이디에요");
-      setIsId(true);
-    } else if (!isId) {
-      setIdMessage("이메일 형식이 아니에요");
-      setIsId(false);
+      if (fetchId === 0) {
+        setIdMessage("사용 가능한 아이디에요 :)");
+      } else if (fetchId === 1) {
+        setIdMessage("중복된 이메일이에요 ㅜㅜ");
+        setIsId(false);
+      }
     }
-
-    // if (e.target.value.length == 0 || e.target.value.length > 0) {
-    //   setIdMessage("사용 가능한 아이디에요");
-    //   setIsId(true);
-    // } else {
-    //   setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-    //   setIsId(false);
-    // }
   };
-  // const onIdCheck = async e => {
-  //   e.preventDefault();
-  //   try {
-  //     // 서버에 이메일 중복 체크 요청을 보내고 응답을 받아 처리
-  //     const response = await checkEmailDuplicate(e.target.value);
-  //     if (response.data.isDuplicate) {
-  //       setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-  //       setIsId(false);
-  //     } else {
-  //       setIdMessage("사용 가능한 아이디에요");
-  //       setIsId(true);
-  //     }
-  //   } catch (error) {
-  //     // 에러 처리
-  //     console.error("이메일 중복 체크 오류:", error);
-  //   }
-  // };
   // 닉네임 (추후 업데이트)
   const onNickNameChange = e => {
     const nickNameRegex = /^[a-zA-Z0-9ㄱ-힣]{3,5}$/;
     // setNickName(e.target.value.replace(/\s/gi, ""));
-
+    setNickNameMessage(null);
     setNickName(
       e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""),
     );
-    if (!nickNameRegex.test(nickName)) {
-      setNickNameMessage("알파벳, 숫자, 한글만 사용해서 설정해주세요 !");
-    }
+
     // if (e.target.value.length == 0) {
     //   setNickNameMessage("닉네임을 입력해주세요.");
     // }
@@ -203,23 +177,26 @@ const SignUp = () => {
     // setIsNickName(false);
   };
   // 닉네임 중복 체크
-  const onNickNameCheck = e => {
+  const onNickNameCheck = async e => {
     e.preventDefault();
-    console.log("닉네임 중복체크 axios");
-    // if (isNickName) {
+    const fetchNickName = await postNickNameCheck(nickName);
+    if (nickName) {
+      if (fetchNickName === 0) {
+        setNickNameMessage("사용 가능한 닉네임이에요");
+        setIsNickName(true);
+      } else if (fetchNickName === 1) {
+        setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+        setIsNickName(false);
+      }
+    }
+
+    // if (e.target.value.length == 0 || e.target.value.length > 0) {
     //   setNickNameMessage("사용 가능한 닉네임이에요");
     //   setIsNickName(true);
-    // } else if (!isNickName) {
+    // } else {
     //   setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
     //   setIsNickName(false);
     // }
-    if (e.target.value.length == 0 || e.target.value.length > 0) {
-      setNickNameMessage("사용 가능한 닉네임이에요");
-      setIsNickName(true);
-    } else {
-      setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-      setIsNickName(false);
-    }
   };
   // const onNickNameCheck = async e => {
   //   e.preventDefault();
@@ -259,13 +236,16 @@ const SignUp = () => {
   const onPwConfirmChange = e => {
     const pwConfirmCurrent = e.target.value.replace(/\s/gi, "");
     setPwConfirm(pwConfirmCurrent);
-
-    if (pw !== pwConfirmCurrent) {
-      setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
-      setIsPwConfirm(false);
-    } else {
-      setPwConfirmMessage("비밀번호가 동일해요 :)");
-      setIsPwConfirm(true);
+    if (isPw) {
+      if (pw !== pwConfirmCurrent) {
+        setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
+        setIsPwConfirm(false);
+      } else {
+        setPwConfirmMessage("비밀번호가 동일해요 :)");
+        setIsPwConfirm(true);
+      }
+    } else if (!isPw) {
+      setPwConfirmMessage("비밀번호를 먼저 확인해 주세요");
     }
 
     // if (!pwConfirmRegex.test(pwConfirmCurrent)) {
@@ -381,6 +361,7 @@ const SignUp = () => {
       address: address,
       addressDetail: detailAddress,
       nickNm: nickName,
+      birthday: birth,
     };
     postSignUp(item);
     navigate("/login");
