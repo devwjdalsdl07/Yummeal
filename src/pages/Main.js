@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Slick from "../components/Slick";
 import { MainDiv } from "../style/MainCss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { getBestProduct } from "../api/mainFatch";
 
 const Main = () => {
   const [bestProduct, setBestProduct] = useState([]);
-  
+  // uri 에서 값 읽기
+  const { pid } = useParams();
 
   //제일 많이 팔린 상품 가져오기
   const getBestProductFetch = async () => {
     try {
-      const productIdJson = await getBestProduct();
+      const productIdJson = await getBestProduct(pid);
       setBestProduct(productIdJson);
     } catch (err) {
       console.log(err);
@@ -22,7 +23,7 @@ const Main = () => {
 
   useEffect(() => {
     getBestProductFetch();
-  }, []);
+  }, [pid]);
 
   const navigate = useNavigate();
 
@@ -63,10 +64,9 @@ const Main = () => {
                   <span className="product-description">
                     <span
                       className="item-numbering"
-                      onClick={() => handleItemClick(1)}
-                    >
-                      상품보기
-                    </span>
+                      onClick={() => handleItemClick(item.productId)}
+                    />
+                 
                     <FontAwesomeIcon
                       icon={faBasketShopping}
                       className="shopping-icon"
