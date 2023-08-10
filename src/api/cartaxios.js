@@ -143,13 +143,41 @@ export const searchResult = async _product => {
 };
 
 // 필터 정렬 get
-export const filterSort = async (_product, _selectSort) => {
+export const filterSort = async (_item) => {
   try {
-    const res = await axios.get(
-      `/api/Search/filter?product=${_product}&page=1&row=30&sorter=${_selectSort}`,
+    const res = await axios.post(
+      // `/api/Search/filter?product=${_product}&page=1&row=30&sorter=${_selectSort}`,
+      "/api/Search/filter",
+      _item,
     );
     const result = res.data;
     console.log("검색필터결과 : ", result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 카테고리 메뉴 get
+export const menuCate = async () => {
+  try {
+    const res = await axios.get("/api/cate/all");
+    const result = res.data;
+    console.log("카테고리 메뉴 : ", result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 서브메뉴 클릭 시 품목 get
+export const subCateGet = async (_cateId, _subCate) => {
+  try {
+    const res = await axios.post(
+      `/api/cate/list?cateId=${_cateId}&cateDetailId=${_subCate}&page=1&row=16`,
+    );
+    const result = res.data;
+    console.log("카테고리 가냐? : ", result);
     return result;
   } catch (err) {
     console.log(err);

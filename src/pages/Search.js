@@ -39,7 +39,7 @@ const allergyArr = [
 const Search = () => {
   const [searchData, setSearchData] = useState([]);
   const [selectSort, setSelectSort] = useState("");
-  const [selectAllergy, setSelectAllergy] = useState("");
+  const [selectAllergy, setSelectAllergy] = useState([]);
   const location = useLocation();
   const { state } = location;
   const product = state?.product;
@@ -54,22 +54,48 @@ const Search = () => {
 
   useEffect(() => {
     searchRes();
+    setSelectSort("");
+    setSelectAllergy([]);
+    allergyStrings = [];
   }, [product]);
 
   // 정렬 기능 get
   const sortData = async () => {
-    const result = await filterSort(product, selectSort);
+    const item = {
+      product: product,
+      row: 16,
+      page: 1,
+      sorter: selectSort.value !== undefined ? selectSort.value : null,
+      filter: allergyStrings,
+    };
+    console.log("아이템에 뭐 담기냐", item);
+    const result = await filterSort(item);
     console.log(result);
     setSearchData(result);
     return result;
   };
 
+  // 알레르기 value값
+  const newAllergyData = selectAllergy.map(selected => selected.value);
+  let allergyStrings = newAllergyData.map(value => value.toString());
+  // console.log("알레르기 밸류 담기냐!?!?!?!", allergyStrings);
+
   // 정렬 기능이 선택될 때만 데이터 불러오기
   useEffect(() => {
     if (selectSort !== "") {
       sortData();
+    } else if (selectAllergy.length > 0) {
+      sortData();
     }
-  }, [selectSort]);
+  }, [selectSort, selectAllergy]);
+
+  const handleSortChange = sortArr => {
+    setSelectSort(sortArr);
+  };
+
+  const handleAllergy = allergyArr => {
+    setSelectAllergy(allergyArr);
+  };
 
   return (
     <SearchWrap>
@@ -81,7 +107,7 @@ const Search = () => {
             <Select
               className="sortwrap"
               options={sortArr}
-              onChange={e => setSelectSort(e.value)}
+              onChange={sortArr => handleSortChange(sortArr)}
               placeholder="옵션을 선택하세요"
               value={selectSort}
               isSearchable={false}
@@ -93,7 +119,7 @@ const Search = () => {
               className="allergy"
               closeMenuOnSelect={false}
               components={animatedComponents}
-              onChange={e => setSelectAllergy(e.value)}
+              onChange={allergyArr => handleAllergy(allergyArr)}
               value={selectAllergy}
               isMulti
               options={allergyArr}
