@@ -3,20 +3,35 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImgUpload from "../components/ImgUpload";
 import { AdminWrapper } from "../style/AdminCss";
+import {
+  deleteProduct,
+  getCate,
+  getProductId,
+  postImage,
+} from "../api/adminAddAxios";
+import { useNavigate } from "react-router-dom";
 
 const AdminAddItem = () => {
-  // 카테고리 더미데이터
-  const exCateValue = [
-    { value: 1, cate: "하하" },
-    { value: 2, cate: "호호" },
-    { value: 3, cate: "힝힝" },
-  ];
+  const navigate = useNavigate();
   const quillRef = useRef();
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
+  const [cateList, setCateList] = useState([]);
+  const [subCateList, setSubCateList] = useState([]);
+  const [content, setContent] = useState();
+  const [title, setTitle] = useState();
   const [price, setPrice] = useState();
   const [commaPrice, setCommaPrice] = useState();
-  const [cate, setCate] = useState("");
+  const [cate, setCate] = useState();
+  const [selectedCateDetail, setSelectedCateDetail] = useState();
+  const [product, setProduct] = useState();
+  const storage = {
+    product,
+    title,
+    price,
+    cate,
+    selectedCateDetail,
+    content,
+  };
+  const productRef = useRef(product);
   const handleTitleChange = e => {
     setTitle(e.target.value);
   };
@@ -28,8 +43,85 @@ const AdminAddItem = () => {
   };
   const handleCateChange = e => {
     setCate(e.target.value);
+    setCate(e.target.value);
+    const selectedCate = cateList.find(
+      item => item.cateId === Number(e.target.value),
+    );
+    if (selectedCate && selectedCate.list) {
+      setSubCateList(selectedCate.list);
+    } else {
+      setSubCateList([]);
+    }
   };
-  
+  const handleSubCateChange = e => {
+    const selectedCateDetailId = e.target.value;
+    const selectedSubCate = subCateList.find(
+      item => item.cateDetailId === Number(selectedCateDetailId),
+    );
+    setSelectedCateDetail([selectedSubCate]);
+  };
+  const handleCancleClick = () => {
+    deleteProduct(product);
+    localStorage.removeItem("adminStorage");
+    navigate("/admin");
+  };
+  const imgUpload = async (_product, _file) => {
+    const result = await postImage(_product, _file);
+    return result;
+  };
+  const imageHandler = () => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+    input.addEventListener("change", async () => {
+      const editor = quillRef.current.getEditor();
+      const file = input.files[0];
+      const range = editor.getSelection(true);
+      try {
+        const img = await imgUpload(productRef.current, file);
+        console.log("받아오는 값", img);
+        editor.insertEmbed(range.index, "image", img);
+        editor.setSelection(range.index + 1);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
+
+  // useEffect(() => {
+  //   // storage 값이 변경될 때마다 값을 로컬스토리지에 저장
+  //   localStorage.setItem("adminStorage", JSON.stringify(storage));
+  // }, [storage]); // storage 값이 변경될 때만 이펙트 실행
+  const fetchProductId = async () => {
+    const result = await getProductId();
+    setProduct(result);
+    productRef.current = result;
+  };
+  const fetchCate = async () => {
+    const result = await getCate();
+    setCateList(result);
+  };
+  useEffect(() => {
+    // const storedStorage = localStorage.getItem("adminStorage");
+    // const parsedStorage = JSON.parse(storedStorage);
+    // console.log(parsedStorage);
+    // if (!parsedStorage.product === null) {
+    //   console.log("안비어있습니다.");
+    //   setProduct(parsedStorage.product);
+    //   setTitle(parsedStorage.title);
+    //   setPrice(parsedStorage.price);
+    //   setCommaPrice(parsedStorage.price?.toLocaleString());
+    //   setCate(parsedStorage.cate);
+    //   setSelectedCateDetail(parsedStorage.selectedCateDetail);
+    //   setContent(parsedStorage.content);
+    // }
+    // if (parsedStorage.product === null) {
+    //   console.log("비었습니다.");
+    // }
+    fetchProductId();
+    fetchCate();
+  }, []);
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -42,7 +134,7 @@ const AdminAddItem = () => {
           [{ align: [] }, "link", "image"],
         ],
         handlers: {
-          // image: imageHandler,
+          image: imageHandler,
         },
       },
     };
@@ -66,12 +158,21 @@ const AdminAddItem = () => {
             type="text"
             value={commaPrice}
             onChange={e => handlePriceChange(e)}
-          ></input><p>원</p>
+          ></input>
+          <p>원</p>
           <select onChange={handleCateChange}>
+            <option value="">단계</option>
+            {cateList.map((item, idx) => (
+              <option key={idx} value={item.cateId}>
+                {item.cateName}
+              </option>
+            ))}
+          </select>
+          <select onChange={e => handleSubCateChange(e)}>
             <option value="">카테고리</option>
-            {exCateValue.map((item, idx) => (
-              <option key={idx} value={item.value}>
-                {item.cate}
+            {subCateList.map((subCate, idx) => (
+              <option key={idx} value={subCate.cateDetailId}>
+                {subCate.cateName}
               </option>
             ))}
           </select>
@@ -80,14 +181,18 @@ const AdminAddItem = () => {
       <div className="editorWrapper">
         <button onClick={() => console.log(content)}>Value</button>
         <ReactQuill
-          style={{ width: "800px", height: "2000px" }}
-          placeholder="Quill Content"
+          style={{ width: "800px", height: "500px" }}
+          placeholder="상세정보"
           theme="snow"
           ref={quillRef}
           value={content}
           onChange={setContent}
           modules={modules}
         />
+      </div>
+      <div>
+        <button>확인</button>
+        <button onClick={handleCancleClick}>취소</button>
       </div>
     </AdminWrapper>
   );

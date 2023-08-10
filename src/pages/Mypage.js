@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { getUserInfo } from "../api/cartaxios";
-import OrderList from "../components/OrderList";
-import UserInfo from "../components/UserInfo";
+import React, { useState } from "react";
 import "../style/MypageCss";
 import { MypageContainer } from "../style/MypageCss";
+import OrderList from "../components/OrderList";
+import UserInfo from "../components/UserInfo";
 
 const Mypage = () => {
   const [activeComponent, setActiveComponent] = useState("order");
@@ -17,7 +16,7 @@ const Mypage = () => {
       case "order":
         return <OrderList />;
       case "user":
-        return <UserInfo />;
+        return <UserInfo setActiveComponent={setActiveComponent}/>;
       default:
         return null;
     }

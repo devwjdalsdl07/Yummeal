@@ -46,6 +46,7 @@ export const MainDiv = styled.div`
       .product-card {
         position: relative;
         display: inline-block;
+        cursor: pointer;
         &:hover .product-description {
           opacity: 0.5;
         }
@@ -226,7 +227,6 @@ export const ItemDetailDiv = styled.div`
       width: 1440px;
       max-width: 1400px;
       height: 100%;
-
       .item-img {
         width: 450px;
         height: 450px;

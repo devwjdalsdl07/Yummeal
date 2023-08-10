@@ -1,9 +1,9 @@
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DatePicker, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postSignUp } from "../api/signupaxios";
+import { postIdCheck, postNickNameCheck, postSignUp } from "../api/signupaxios";
 import {
   JoinArea,
   JoinBtn,
@@ -34,6 +34,8 @@ const SignUp = () => {
   const [nameMessage, setNameMessage] = useState("");
   const [phoneMessage, setPhoneMessage] = useState("");
   const [birthMessage, setBirthMessage] = useState("");
+  const [postCodeMessage, setPostCodeMessage] = useState("");
+  const [addressMessage, setAddressMessage] = useState("");
   const [detailAddressMessage, setDetailAddressMessage] = useState("");
 
   // 유효성 검사
@@ -46,6 +48,7 @@ const SignUp = () => {
   const [isBirth, setIsBirth] = useState(false);
   const [isPostCode, setIsPostCode] = useState(false);
   const [isAddress, setIsAddress] = useState(false);
+  const [isDetailAddress, setIsDetailAddress] = useState(false);
   // 회원가입 버튼 활성화 여부
   const [isSignup, setIsSignup] = useState(true);
 
@@ -115,7 +118,9 @@ const SignUp = () => {
 
           // 우편번호와 주소 정보를 상태에 저장한다.
           setPostcode(data.zonecode);
+          setIsPostCode(true);
           setAddress(addr);
+          setIsAddress(true);
           // 커서를 상세주소 필드로 이동한다.
           document.getElementById("sample6_detailAddress").focus();
           handleCloseAddressSearch();
@@ -144,52 +149,27 @@ const SignUp = () => {
     // setIsId(false);
   };
   // 아이디 중복 체크
-  const onIdCheck = e => {
+  const onIdCheck = async e => {
     e.preventDefault();
-    console.log("아이디 중복체크 axios");
+    const fetchId = await postIdCheck(id);
     if (isId) {
-      setIdMessage("사용 가능한 아이디에요");
-      setIsId(true);
-    } else if (!isId) {
-      setIdMessage("이메일 형식이 아니에요");
-      setIsId(false);
+      if (fetchId === 0) {
+        setIdMessage("사용 가능한 아이디에요 :)");
+      } else if (fetchId === 1) {
+        setIdMessage("중복된 이메일이에요 ㅜㅜ");
+        setIsId(false);
+      }
     }
-    // if (e.target.value.length == 0 || e.target.value.length > 0) {
-    //   setIdMessage("사용 가능한 아이디에요");
-    //   setIsId(true);
-    // } else {
-    //   setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-    //   setIsId(false);
-    // }
   };
-  // const onIdCheck = async e => {
-  //   e.preventDefault();
-  //   try {
-  //     // 서버에 이메일 중복 체크 요청을 보내고 응답을 받아 처리
-  //     const response = await checkEmailDuplicate(e.target.value);
-  //     if (response.data.isDuplicate) {
-  //       setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-  //       setIsId(false);
-  //     } else {
-  //       setIdMessage("사용 가능한 아이디에요");
-  //       setIsId(true);
-  //     }
-  //   } catch (error) {
-  //     // 에러 처리
-  //     console.error("이메일 중복 체크 오류:", error);
-  //   }
-  // };
   // 닉네임 (추후 업데이트)
   const onNickNameChange = e => {
     const nickNameRegex = /^[a-zA-Z0-9ㄱ-힣]{3,5}$/;
     // setNickName(e.target.value.replace(/\s/gi, ""));
-
+    setNickNameMessage(null);
     setNickName(
       e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""),
     );
-    if (!nickNameRegex.test(nickName)) {
-      setNickNameMessage("알파벳, 숫자, 한글만 사용해서 설정해주세요 !");
-    }
+
     // if (e.target.value.length == 0) {
     //   setNickNameMessage("닉네임을 입력해주세요.");
     // }
@@ -197,16 +177,19 @@ const SignUp = () => {
     // setIsNickName(false);
   };
   // 닉네임 중복 체크
-  const onNickNameCheck = e => {
+  const onNickNameCheck = async e => {
     e.preventDefault();
-    console.log("닉네임 중복체크 axios");
-    if (isNickName) {
-      setNickNameMessage("사용 가능한 닉네임이에요");
-      setIsNickName(true);
-    } else if (!isNickName) {
-      setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-      setIsNickName(false);
+    const fetchNickName = await postNickNameCheck(nickName);
+    if (nickName) {
+      if (fetchNickName === 0) {
+        setNickNameMessage("사용 가능한 닉네임이에요");
+        setIsNickName(true);
+      } else if (fetchNickName === 1) {
+        setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+        setIsNickName(false);
+      }
     }
+
     // if (e.target.value.length == 0 || e.target.value.length > 0) {
     //   setNickNameMessage("사용 가능한 닉네임이에요");
     //   setIsNickName(true);
@@ -253,13 +236,16 @@ const SignUp = () => {
   const onPwConfirmChange = e => {
     const pwConfirmCurrent = e.target.value.replace(/\s/gi, "");
     setPwConfirm(pwConfirmCurrent);
-
-    if (pw !== pwConfirmCurrent) {
-      setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
-      setIsPwConfirm(false);
-    } else {
-      setPwConfirmMessage("비밀번호가 동일해요 :)");
-      setIsPwConfirm(true);
+    if (isPw) {
+      if (pw !== pwConfirmCurrent) {
+        setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
+        setIsPwConfirm(false);
+      } else {
+        setPwConfirmMessage("비밀번호가 동일해요 :)");
+        setIsPwConfirm(true);
+      }
+    } else if (!isPw) {
+      setPwConfirmMessage("비밀번호를 먼저 확인해 주세요");
     }
 
     // if (!pwConfirmRegex.test(pwConfirmCurrent)) {
@@ -305,36 +291,12 @@ const SignUp = () => {
   // 생년월일 변경
   const onBirthChange = (value, dateString) => {
     setBirth(dateString);
-    if (birth) {
+    if (dateString) {
       setIsBirth(true);
-    } else {
+    } else if (!dateString) {
       setIsBirth(false);
     }
   };
-
-  // 우편번호 변경
-  const onPostChange = e => {
-    setPostcode(e.target.value);
-    console.log("우편번호", e.target);
-
-    if (postcode) {
-      setIsPostCode(true);
-    } else {
-      setIsPostCode(false);
-    }
-  };
-
-  // 주소 변경
-  const onAddressChange = e => {
-    setAddress(e.target.value);
-    console.log("주소", address);
-    if (address) {
-      setIsAddress(true);
-    } else {
-      setIsAddress(false);
-    }
-  };
-
   // 상세주소 변경
   const onDetailAddressChange = e => {
     setDetailAddress(
@@ -346,39 +308,50 @@ const SignUp = () => {
     console.log("입력");
     if (!isId) {
       setIdMessage("이메일을 입력해주세요.");
-      // alert("이메일을 입력해주세요.");
+      alert("이메일을 입력해주세요.");
       return;
     }
     if (!isNickName) {
       setNickNameMessage("닉네임을 입력해주세요.");
-      // alert("닉네임을 입력해주세요.");
+      alert("닉네임을 입력해주세요.");
       return;
     }
     if (!isPw) {
       setPwMessage("비밀번호를 확인해주세요.");
-      // alert("비밀번호를 확인해주세요.");
+      alert("비밀번호를 확인해주세요.");
       return;
     }
     if (!isPwConfirm) {
       setPwMessage("비밀번호 재입력을 확인해주세요.");
-      // alert("비밀번호 재입력을 확인해주세요.");
+      alert("비밀번호 재입력을 확인해주세요.");
       return;
     }
     if (!isName) {
       setNameMessage("이름을 입력하여 주세요. ");
-      // alert("이름을 입력해 주세요");
+      alert("이름을 입력해 주세요");
       return;
     }
     if (!isPhone) {
       setPhoneMessage("전화번호를 입력하여 주세요. ");
-      // alert("전화번호를 입력해 주세요");
+      alert("전화번호를 입력해 주세요");
+      return;
+    }
+    if (!isBirth) {
+      setBirthMessage("생일을 입력하여 주세요. ");
+      alert("생일을 입력해 주세요");
       return;
     }
     if (!isPostCode) {
-      detailAddressMessage("주소를 입력하여 주세요. ");
-      // alert("주소를 입력해 주세요");
+      setPostCodeMessage("우편번호를 입력하여 주세요. ");
+      alert("주소를 입력해 주세요");
       return;
     }
+    if (!isAddress) {
+      setAddressMessage("주소를 입력하여 주세요. ");
+      alert("주소를 입력해 주세요");
+      return;
+    }
+
     const item = {
       email: id,
       password: pw,
@@ -388,28 +361,11 @@ const SignUp = () => {
       address: address,
       addressDetail: detailAddress,
       nickNm: nickName,
+      birthday: birth,
     };
-    const result = postSignUp(item);
+    postSignUp(item);
     navigate("/login");
   };
-
-  // useEffect(() => {
-  //   if (
-  //     isNickName &&
-  //     isId &&
-  //     isPw &&
-  //     isPwConfirm &&
-  //     isName &&
-  //     isPhone &&
-  //     isBirth &&
-  //     isPostCode &&
-  //     isAddress
-  //   ) {
-  //     setIsSignup(false);
-  //   } else {
-  //     setIsSignup(true);
-  //   }
-  // }, [id, nickName, pw, pwConfirm, name, phone, birth, postcode, address]);
 
   return (
     <JoinContainer>
@@ -559,7 +515,10 @@ const SignUp = () => {
                   <FontAwesomeIcon icon={faCircle} />
                 </i>
                 아이 생년월일
+                {/* 아이 생년월일 추가 */}
+                {/* <FontAwesomeIcon icon={faPlus} /> */}
               </span>
+
               <Space direction="vertical">
                 <DatePicker
                   onChange={onBirthChange}
@@ -593,7 +552,6 @@ const SignUp = () => {
                 id="sample6_postcode"
                 value={postcode}
                 placeholder="우편번호"
-                onChange={onPostChange}
                 onClick={handleExecDaumPostcode}
                 readOnly
               />
@@ -608,7 +566,6 @@ const SignUp = () => {
                 id="sample6_address"
                 value={address}
                 placeholder="주소"
-                onChange={onAddressChange}
                 readOnly
               />
               <br />

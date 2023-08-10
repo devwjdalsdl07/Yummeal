@@ -10,6 +10,10 @@ export const FooterWrap = styled.div`
       li {
         font-size: 1.8rem;
         padding: 1.5rem 0;
+        color: #000;
+      }
+      li:hover {
+        color: #8eb111;
       }
     }
   }

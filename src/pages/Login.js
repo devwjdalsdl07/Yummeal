@@ -1,11 +1,9 @@
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import { React, useEffect, useState } from "react";
-import { Cookies } from "react-cookie";
+import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContainer } from "../style/LoginCss";
-import { postLogin } from "../api/loginaxios";
+import { fetchLogin } from "../api/client";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,7 +14,7 @@ const Login = () => {
   };
 
   const handleLoginClick = async () => {
-    const login = await postLogin(id, pw);
+    const login = await fetchLogin(id, pw);
     navigate("/");
   };
   return (

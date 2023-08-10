@@ -16,36 +16,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { DatePicker, Space } from "antd";
+import { fetchUserInfo, getUserInfo } from "../api/mypageAxios";
+import dayjs from "dayjs";
+import locale from "antd/locale/ko_KR";
 
-const UserInfo = () => {
+const UserInfo = ({ setActiveComponent }) => {
   const navigate = useNavigate();
   const [postcode, setPostcode] = useState("");
-  const [address, setAddress] = useState("");
-  const [detailAddress, setDetailAddress] = useState("");
+  const [address, setAddress] = useState();
+  const [detailAddress, setDetailAddress] = useState();
   // const [extraAddress, setExtraAddress] = useState("");
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
-  const [pwConfirm, setPwConfirm] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [nickName, setNickName] = useState("");
-  const [birth, setBirth] = useState("");
+  const [id, setId] = useState();
+  const [pw, setPw] = useState(null);
+  const [pwConfirm, setPwConfirm] = useState(null);
+  const [name, setName] = useState();
+  const [phone, setPhone] = useState();
+  const [nickName, setNickName] = useState();
+  const [birth, setBirth] = useState();
 
-  useEffect(() => {
-    // Daum 우편번호 스크립트를 동적으로 로드
-    const script = document.createElement("script");
-    script.src =
-      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
-    document.body.appendChild(script);
-
-    // 스크립트가 로드되면 실행할 콜백 함수
-    script.onload = () => {
-      // Daum 우편번호 스크립트가 로드된 후에는 여기에서 코드를 실행할 수 있습니다.
-      // 여기서 다음 스크립트를 사용하여 우편번호 찾기 기능을 구현할 수 있습니다.
-    };
-  }, []);
-
-  const onBirthChange = dateString => {
+  const onBirthChange = (value, dateString) => {
     setBirth(dateString);
   };
 
@@ -89,12 +78,50 @@ const UserInfo = () => {
       },
     }).open();
   };
-  const handleEidt = () => {
-    navigate("/");
+
+  const handleEidt = async () => {
+    const profile = {
+      iuser: 1,
+      nickNm: nickName,
+      password: pw,
+      passwordcheck: pwConfirm,
+      phoneNumber: phone,
+      birthday: birth,
+      postcode: postcode,
+      address: address,
+      addressDetail: detailAddress,
+    };
+    const result = await fetchUserInfo(profile);
   };
   const handleCancle = () => {
-    navigate(-1);
+    setActiveComponent("order");
   };
+  const userProfile = async () => {
+    const result = await getUserInfo(1);
+    setPostcode(result.postcode);
+    setAddress(result.address);
+    setDetailAddress(result.addressDetail);
+    setId(result.email);
+    setName(result.name);
+    setPhone(result.mobileNb);
+    setBirth(result.birthday);
+    setNickName(result.nickNm);
+  };
+  useEffect(() => {
+    // Daum 우편번호 스크립트를 동적으로 로드
+    const script = document.createElement("script");
+    script.src =
+      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    document.body.appendChild(script);
+
+    // 스크립트가 로드되면 실행할 콜백 함수
+    script.onload = () => {
+      // Daum 우편번호 스크립트가 로드된 후에는 여기에서 코드를 실행할 수 있습니다.
+      // 여기서 다음 스크립트를 사용하여 우편번호 찾기 기능을 구현할 수 있습니다.
+    };
+    userProfile();
+  }, []);
+
   return (
     <JoinContainer>
       <JoinArea>
@@ -182,8 +209,9 @@ const UserInfo = () => {
               <span>아이 생년월일</span>
               <Space direction="vertical">
                 <DatePicker
+                  locale={locale}
                   onChange={onBirthChange}
-                  placeholder="YYYY-MM-DD"
+                  value={dayjs(birth, "YYYY-MM-DD")}
                   style={{
                     height: "30px",
                   }}
