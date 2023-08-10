@@ -58,10 +58,10 @@ export const getCart = async () => {
 };
 
 // 장바구니 업카운트 patch
-export const upPatch = async (cartId, newCount) => {
+export const upPatch = async (_cartId, _newCount) => {
   try {
-    const res = await axios.patch(`/api/orderbasket/plus?cartId=${cartId}`, {
-      count: newCount,
+    const res = await axios.patch(`/api/orderbasket/plus?cartId=${_cartId}`, {
+      count: _newCount,
     });
     const result = res.data;
     console.log(result);
@@ -71,10 +71,10 @@ export const upPatch = async (cartId, newCount) => {
 };
 
 // 장바구니 다운카운트 patch
-export const downPatch = async (cartId, newCount) => {
+export const downPatch = async (_cartId, _newCount) => {
   try {
-    const res = await axios.patch(`/api/orderbasket/minus?cartId=${cartId}`, {
-      count: newCount,
+    const res = await axios.patch(`/api/orderbasket/minus?cartId=${_cartId}`, {
+      count: _newCount,
     });
     const result = res.data;
     console.log(result);
@@ -84,9 +84,9 @@ export const downPatch = async (cartId, newCount) => {
 };
 
 // 장바구니 목록삭제 delete
-export const cartDelete = async cartId => {
+export const cartDelete = async _cartId => {
   try {
-    const res = await axios.delete(`/api/orderbasket?cartId=${cartId}`);
+    const res = await axios.delete(`/api/orderbasket?cartId=${_cartId}`);
     const result = res.data;
   } catch (error) {
     console.log(error);
@@ -122,6 +122,62 @@ export const orderPost = async _item => {
   try {
     const res = await axios.post("/api/buy/order", _item);
     const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 검색 결과 get
+export const searchResult = async _product => {
+  try {
+    const res = await axios.get(
+      `/api/Search?product=${_product}&page=1&row=16`,
+    );
+    const result = res.data;
+    console.log("검색결과 : ", result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 필터 정렬 get
+export const filterSort = async (_item) => {
+  try {
+    const res = await axios.post(
+      // `/api/Search/filter?product=${_product}&page=1&row=30&sorter=${_selectSort}`,
+      "/api/Search/filter",
+      _item,
+    );
+    const result = res.data;
+    console.log("검색필터결과 : ", result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 카테고리 메뉴 get
+export const menuCate = async () => {
+  try {
+    const res = await axios.get("/api/cate/all");
+    const result = res.data;
+    console.log("카테고리 메뉴 : ", result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 서브메뉴 클릭 시 품목 get
+export const subCateGet = async (_cateId, _subCate) => {
+  try {
+    const res = await axios.post(
+      `/api/cate/list?cateId=${_cateId}&cateDetailId=${_subCate}&page=1&row=16`,
+    );
+    const result = res.data;
+    console.log("카테고리 가냐? : ", result);
     return result;
   } catch (err) {
     console.log(err);

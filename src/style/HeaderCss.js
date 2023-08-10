@@ -131,6 +131,8 @@ export const Head = styled.div`
       width: 100%;
       background-color: #000;
       color: #fff;
+      transform: translateY(5rem);
+      z-index: 99;
     }
 
     .searchwrap {
@@ -149,7 +151,7 @@ export const Head = styled.div`
       color: #fff;
       gap: 1rem;
       padding: 0;
-      transform: translateY(0);
+      transform: translateY(5rem);
       & > li {
         & > ul {
           & > li {

@@ -6,30 +6,49 @@ export const client = axios.create({
   // timeout: 1000,
   headers: {
     "Content-Type": "application/json",
-    // withCredentials: true,
   },
 });
 
-// Request 처리
-// export const ClientHeaders = token => {
-//   client.interceptors.request.use(
-//     config => {
-//       // cookie를 활용 한 경우
-//       if (token) {
-//         config.headers.Authorization = `Bearer ${token}`;
-//       }
-//       return config;
-//     },
-//     error => console.log(error),
-//   );
+// const cookieString = document.cookie;
+
+// // 쿠키 문자열을 세미콜론(`;`)을 기준으로 분리하여 배열로 만듦
+// const cookieArray = cookieString.split(";");
+
+// // 각 쿠키 문자열을 순회하면서 accessToken 값을 찾음
+// let accessToken = null;
+// for (const cookie of cookieArray) {
+//   const trimmedCookie = cookie.trim();
+//   if (trimmedCookie.startsWith("accessToken=")) {
+//     accessToken = trimmedCookie.substring("accessToken=".length);
+//     console.log(accessToken);
+//     break;
+//   }
+// }
+
+// const setAccessToken = accessToken => {
+//   client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 // };
+
+// Request 처리
+export const ClientHeaders = token => {
+  client.interceptors.request.use(
+    config => {
+      // cookie를 활용 한 경우
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    error => console.log(error),
+  );
+};
 
 client.interceptors.request.use(
   config => {
     // cookie를 활용 한 경우
     const token = getCookie("accessToken");
     if (token) {
-      config.headers.common["Authorization"] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },
@@ -75,8 +94,8 @@ export const fetchLogin = async (id, pw) => {
       // httpOnly: true,
     });
     const token = getCookie("accessToken");
-    console.log(token);
-    // ClientHeaders(token);
+    ClientHeaders(token);
+    // setAccessToken(accessToken);
   } catch (error) {
     console.log(error);
   }

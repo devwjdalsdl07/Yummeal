@@ -7,9 +7,9 @@ import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <CookiesProvider>
+  <CookiesProvider>
+    <BrowserRouter>
       <App />
-    </CookiesProvider>
-  </BrowserRouter>,
+    </BrowserRouter>
+  </CookiesProvider>,
 );
