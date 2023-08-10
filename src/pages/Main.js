@@ -66,7 +66,7 @@ const Main = () => {
             </button>
           </div>
           <ul className="list-area">
-            {bestProduct.map((item, index) => (
+            {bestProduct?.map((item, index) => (
               <div key={index}>
                 <li className="product-card">
                   <img
