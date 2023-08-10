@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { getBestProductAll } from "../api/mainFatch";
-import Paging from "../components/Paging";
 import { MainDiv } from "../style/MainCss";
+import Paging from "../components/Paging";
+import { getBestProductAll } from "../api/mainFatch";
+import { useNavigate } from "react-router";
 
 const SearchList = () => {
   const [bestProductAll, setBestProductAll] = useState({});
   const navigate = useNavigate();
+
   //제일 많이 팔린 상품 가져오기 더보기
-  const getBestProductAllFetch = async () => {
+  const getBestProductAllFetch = async _page => {
     try {
-      const productIdJson = await getBestProductAll();
+      const productIdJson = await getBestProductAll(_page);
       setBestProductAll(productIdJson);
     } catch (err) {
       console.log(err);
@@ -18,11 +19,15 @@ const SearchList = () => {
   };
 
   useEffect(() => {
-    getBestProductAllFetch();
+    getBestProductAllFetch(1);
   }, []);
 
   const handleItemClick = _id => {
     navigate(`/product/${_id}`);
+  };
+
+  const handlePageChange = newPage => {
+    getBestProductAllFetch(newPage);
   };
 
   return (
@@ -54,7 +59,7 @@ const SearchList = () => {
               </div>
             ))}
           </ul>
-          <Paging />
+          <Paging onPageChange={handlePageChange} />
         </div>
       </div>
     </MainDiv>
