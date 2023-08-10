@@ -143,7 +143,7 @@ export const searchResult = async _product => {
 };
 
 // 필터 정렬 get
-export const filterSort = async (_item) => {
+export const filterSort = async _item => {
   try {
     const res = await axios.post(
       // `/api/Search/filter?product=${_product}&page=1&row=30&sorter=${_selectSort}`,
@@ -170,12 +170,10 @@ export const menuCate = async () => {
   }
 };
 
-// 서브메뉴 클릭 시 품목 get
-export const subCateGet = async (_cateId, _subCate) => {
+// 메뉴 클릭 시 품목 get
+export const CateProdList = async _item => {
   try {
-    const res = await axios.post(
-      `/api/cate/list?cateId=${_cateId}&cateDetailId=${_subCate}&page=1&row=16`,
-    );
+    const res = await axios.post("/api/cate/list", _item);
     const result = res.data;
     console.log("카테고리 가냐? : ", result);
     return result;
