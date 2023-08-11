@@ -168,7 +168,6 @@ const SignUp = () => {
     setNickName(
       e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""),
     );
-
     // if (e.target.value.length == 0) {
     //   setNickNameMessage("닉네임을 입력해주세요.");
     // }
@@ -256,7 +255,6 @@ const SignUp = () => {
       setPwConfirmMessage("비밀번호를 먼저 확인해 주세요");
       setIsPwConfirm(false);
     }
-
     // if (!pwConfirmRegex.test(pwConfirmCurrent)) {
     //   setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
     //   setIsPwConfirm(true);
