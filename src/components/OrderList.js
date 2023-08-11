@@ -42,8 +42,8 @@ const OrderList = () => {
   const handleDateClick = async value => {
     setActive(value);
     // filterDate(value);
-    // const data = await getOrderList(value);
-    // setOrderList(data);
+    const data = await getOrderList(value);
+    setOrderList(data);
   };
   // const filterDate = active => {
   //   const now = new Date();
