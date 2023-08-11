@@ -19,6 +19,7 @@ import { DatePicker, Space } from "antd";
 import { fetchUserInfo, getUserInfo } from "../api/mypageAxios";
 import dayjs from "dayjs";
 import locale from "antd/locale/ko_KR";
+import { Modal } from "antd";
 
 const UserInfo = ({ setActiveComponent }) => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const UserInfo = ({ setActiveComponent }) => {
   const [phone, setPhone] = useState();
   const [nickName, setNickName] = useState();
   const [birth, setBirth] = useState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onBirthChange = (value, dateString) => {
     setBirth(dateString);
@@ -78,27 +80,37 @@ const UserInfo = ({ setActiveComponent }) => {
       },
     }).open();
   };
-
-  const handleEidt = async () => {
+  const showModal = () => {
+    console.log("시발것");
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+  const handleEdit = async () => {
+    showModal();
     const profile = {
       iuser: 1,
       nickNm: nickName,
       password: pw,
       passwordcheck: pwConfirm,
-      phoneNumber: phone,
+      mobileNb: phone,
       birthday: birth,
-      postcode: postcode,
+      zipcode: postcode,
       address: address,
       addressDetail: detailAddress,
     };
     const result = await fetchUserInfo(profile);
   };
-  const handleCancle = () => {
+  const handleCancel = () => {
     setActiveComponent("order");
   };
   const userProfile = async () => {
     const result = await getUserInfo(1);
-    setPostcode(result.postcode);
+    setPostcode(result.zipcode);
     setAddress(result.address);
     setDetailAddress(result.addressDetail);
     setId(result.email);
@@ -107,6 +119,14 @@ const UserInfo = ({ setActiveComponent }) => {
     setBirth(result.birthday);
     setNickName(result.nickNm);
   };
+  const handleDelete = () => {
+    Modal.error({
+      title: "회원 탈퇴",
+      content: "정말 탈퇴하시겠습니까 ? ",
+      button: "cancel",
+    });
+  };
+
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
     const script = document.createElement("script");
@@ -267,8 +287,21 @@ const UserInfo = ({ setActiveComponent }) => {
               /> */}
             </div>
           </JoinFormGroup>
-          <JoinBtn onClick={handleEidt}>수정</JoinBtn>
-          <JoinBtn onClick={handleCancle}>취소</JoinBtn>
+          <div className="btnWrap">
+            <JoinBtn onClick={handleEdit}>수정</JoinBtn>
+            <JoinBtn onClick={handleCancel}>취소</JoinBtn>
+          </div>
+          <button className="userDelete" onClick={handleDelete}>
+            회원탈퇴
+          </button>
+          <Modal
+            title="회원수정"
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleModalClose}
+          >
+            <p>회원수정을 마치시겠어요 ?</p>
+          </Modal>
         </JoinWrap>
       </JoinArea>
     </JoinContainer>

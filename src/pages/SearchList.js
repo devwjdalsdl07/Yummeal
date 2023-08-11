@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { MainDiv } from "../style/MainCss";
-import Paging from "../components/Paging";
-import { getBestProductAll } from "../api/mainFatch";
 import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { cartIn } from "../api/cartaxios";
+import { getBestProductAll } from "../api/mainFatch";
+import Paging from "../components/Paging";
+import { MainDiv } from "../style/MainCss";
 
 const SearchList = () => {
   const [bestProductAll, setBestProductAll] = useState({});
@@ -56,7 +56,7 @@ const SearchList = () => {
     <MainDiv>
       <div className="wrap">
         <div className="info">
-          <div className=" best-item">
+          <div className="best-item">
             <h1 className="best-title">요즘, 많이 찾는 상품</h1>
           </div>
           <ul className="list-area">

@@ -1,15 +1,19 @@
 import styled from "@emotion/styled";
 
 export const ShopWrap = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  margin: 0 auto;
-  padding: 5rem;
-  max-width: 140rem;
-  @media screen and (max-width: 1024px) {
-    padding: 3rem;
-    min-width: 40rem;
+  background: #f9f6f1;
+  .wrap {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 5rem;
+    width: 100%;
+    max-width: 140rem;
+    @media screen and (max-width: 1024px) {
+      padding: 3rem;
+      min-width: 40rem;
+    }
   }
 `;
 export const Cart = styled.div`
@@ -87,14 +91,18 @@ export const Payment = styled.div`
   }
 `;
 export const NotList = styled.div`
-  margin: 10rem auto;
-  width: 50rem;
-  height: 50rem;
+  margin: 0 auto;
+  max-width: 140rem;
+  width: 80rem;
+  height: 80rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  .wrap {
+    margin: 10rem 0;
+  }
   .icon-box {
     .fa-cart-arrow-down {
       font-size: 10rem;

@@ -1,18 +1,23 @@
 import styled from "@emotion/styled";
 export const SearchWrap = styled.div`
+    background: #f9f6f1;
   .wrap {
     position: relative;
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    padding: 100px 0;
-    background: #f9f6f1;
+    padding: 50px 0;
+    min-width: 500px;
+    max-width: 1400px;
     .searchbox {
-      font-size: 20px;
-      padding: 0 30px;
+      font-size: 15px;
+      padding: 20px;
       width: 90%;
       margin: 0 auto;
       min-width: 450px;
+      border: 1px solid #000;
+      border-radius: 10px;
+      box-shadow: 10px 10px 3px -4px rgba(0,0,0,0.4);
       h3 {
         width: 100px;
       }

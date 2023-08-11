@@ -8,6 +8,20 @@ export const JoinContainer = styled.div`
     /* font-weight: 500; */
     margin-bottom: 25px;
   }
+  .btnWrap {
+    display: flex;
+    justify-content: space-around;
+  }
+  .userDelete {
+    border: none;
+    background: transparent;
+    color: crimson;
+    cursor: pointer;
+    float: right;
+    margin-right: 15px;
+    font-family: "Pretendard", "SUITE", sans-serif;
+    font-weight: 500;
+  }
 `;
 export const JoinArea = styled.div`
   width: 100%;
@@ -116,7 +130,7 @@ export const JoinPwConfirm = styled.div``;
 export const JoinBtn = styled.button`
   width: 45%;
   position: relative;
-  margin: 20px 5px 0px 5px;
+  margin: 20px 0px;
   background: #f9f6f1;
   border: 1px solid #f9f6f1;
   border-radius: 10px;

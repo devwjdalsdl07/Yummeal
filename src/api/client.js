@@ -1,7 +1,9 @@
 import axios from "axios";
-import { getCookie, setCookie } from "./cookie";
+import { getCookie, removeCookie, setCookie } from "./cookie";
+import { useDispatch } from "react-redux";
+import { loginReducer } from "../reducers/userSlice";
 
-export const client = axios.create({
+export const instance = axios.create({
   baseURL: "http://localhost:3000",
   // timeout: 1000,
   headers: {
@@ -9,73 +11,27 @@ export const client = axios.create({
   },
 });
 
-// const cookieString = document.cookie;
-
-// // 쿠키 문자열을 세미콜론(`;`)을 기준으로 분리하여 배열로 만듦
-// const cookieArray = cookieString.split(";");
-
-// // 각 쿠키 문자열을 순회하면서 accessToken 값을 찾음
-// let accessToken = null;
-// for (const cookie of cookieArray) {
-//   const trimmedCookie = cookie.trim();
-//   if (trimmedCookie.startsWith("accessToken=")) {
-//     accessToken = trimmedCookie.substring("accessToken=".length);
-//     console.log(accessToken);
-//     break;
-//   }
-// }
-
-// const setAccessToken = accessToken => {
-//   client.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-// };
-
-// Request 처리
-export const ClientHeaders = token => {
-  client.interceptors.request.use(
-    config => {
-      // cookie를 활용 한 경우
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    },
-    error => console.log(error),
-  );
-};
-
-client.interceptors.request.use(
-  config => {
-    // cookie를 활용 한 경우
-    const token = getCookie("accessToken");
+instance.interceptors.request.use(
+  async config => {
+    // 여기서 작업을 수행합니다. 예: 토큰 작업 및 헤더 변경
+    const token = await getCookie("accessToken");
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`; // 헤더에 토큰을 추가합니다.
     }
     return config;
   },
-  error => console.log(error),
+  error => {
+    // 요청 오류 처리
+    return Promise.reject(error);
+  },
 );
-
-// client.interceptors.request.use(
-//   config => {
-//     const token = getCookie("accessToken");
-//     config.headers["Content-Type"] = "application/json";
-//     config.headers["Authorization"] = `Bearer ${token}`;
-//     if (!token) {
-//       return config;
-//     }
-//     return config;
-//   },
-//   error => {
-//     console.log(error);
-//     return Promise.reject(error);
-//   },
-// );
 
 // 쿠키 set 하기
 // 로그인
 export const fetchLogin = async (id, pw) => {
+  console.log("fetchLogin 진행");
   try {
-    const res = await client.post(`/sign-api/sign-in`, {
+    const res = await instance.post(`/sign-api/sign-in`, {
       email: id,
       password: pw,
     });
@@ -93,9 +49,7 @@ export const fetchLogin = async (id, pw) => {
       // sameSite: "none",
       // httpOnly: true,
     });
-    const token = getCookie("accessToken");
-    ClientHeaders(token);
-    // setAccessToken(accessToken);
+    return result;
   } catch (error) {
     console.log(error);
   }
@@ -104,9 +58,32 @@ export const fetchLogin = async (id, pw) => {
 // 로그아웃 post
 export const postLogout = async () => {
   try {
-    const res = await client.post("/sign-api/logout");
+    const res = await instance.post("/sign-api/logout");
     console.log("로그아웃");
+    removeCookie("accessToken");
+    removeCookie("refreshToken");
     const result = await res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getUser = async _iuser => {
+  try {
+    const res = await instance.get(`/api/mypage/profile?iuser=${_iuser}`);
+    const result = {
+      iuser: res.data.iuser,
+      email: res.data.email,
+      name: res.data.name,
+      mobileNb: res.data.mobileNb,
+      zipcode: res.data.zipcode,
+      address: res.data.address,
+      addressDetail: res.data.addressDetail,
+      nickNm: res.data.nickNm,
+      point: res.data.point,
+      birthday: res.data.birthday,
+    };
     return result;
   } catch (err) {
     console.log(err);

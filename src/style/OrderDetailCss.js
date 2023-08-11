@@ -1,13 +1,14 @@
 import styled from "@emotion/styled";
 
 export const OrderDetailWrap = styled.div`
-  max-width: 140rem;
-  width: 100%;
-  margin: 0 auto;
+  background: #f9f6f1;
   padding: 5rem;
-  display: flex;
-  flex-direction: column;
   .container {
+    max-width: 140rem;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
     padding: 0 2rem;
   }
   h2 {

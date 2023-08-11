@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { menuCate, subCateGet } from "../api/cartaxios";
+import { CateProdList, menuCate } from "../api/cartaxios";
 import { postLogout } from "../api/client";
 import { removeCookie } from "../api/cookie";
 import { Head } from "../style/HeaderCss";
@@ -31,16 +31,29 @@ function Header() {
   }, []);
 
   // 카테고리 메뉴 클릭 시 이동
-  const handleCateClick = async (subMenu, mainMenu) => {
-    const result = await subCateGet(mainMenu.cateId, subMenu.cateDetailId);
-    navigate("/productlist", {
-      state: { maxPaige: result.maxPaige, list: result.list },
+  const handleCateClick = async (mainMenu, subMenu) => {
+    console.log("카테고리 번호 찍자", mainMenu?.cateId, subMenu?.cateDetailId);
+    const item = {
+      cateId: mainMenu?.cateId,
+      cateDetailId:
+        subMenu?.cateDetailId == undefined ? 0 : subMenu.cateDetailId,
+      page: 1,
+      row: 16,
+    };
+    const result = await CateProdList(item);
+    navigate("/search", {
+      state: {
+        maxPaige: result.maxPaige,
+        list: result.list,
+        cateId: mainMenu?.cateId,
+        subCate: subMenu?.cateDetailId,
+      },
     });
   };
 
   // 검색어 업데이트
   const handleSearch = e => {
-    setSearch(e.target.value);
+    setSearch(e.target.value.replace(" ", ""));
   };
 
   // 검색결과창 이동
@@ -100,13 +113,13 @@ function Header() {
       </form>
       <ul className="header_menulist">
         {cate.map(mainMenu => (
-          <li key={mainMenu.cateName}>
+          <li key={mainMenu.cateName} onClick={() => handleCateClick(mainMenu)}>
             {mainMenu.cateId}단계
             <ul>
               {mainMenu.list?.map(subMenu => (
                 <li
                   key={subMenu.cateDetailId}
-                  onClick={() => handleCateClick(subMenu, mainMenu)}
+                  onClick={() => handleCateClick(mainMenu, subMenu)}
                 >
                   {subMenu.cateName}
                 </li>
