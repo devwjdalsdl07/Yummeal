@@ -23,7 +23,6 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   },
 );
-
 // 로그인
 export const fetchLogin = async (id, pw) => {
   console.log("fetchLogin 진행");
@@ -86,7 +85,7 @@ export const getUser = async _iuser => {
     console.log(err);
   }
 };
-export const getOrderList = async (_iuser, _date) => {
+export const getOrderList = async (_date) => {
   try {
     const res = await instance.get(`/api/mypage/orderlist?month=${_date}`);
     const result = res.data;

@@ -7,6 +7,8 @@ import {
   deleteProduct,
   getCate,
   getProductId,
+  imgAdd,
+  itemAdd,
   postImage,
 } from "../api/adminAddAxios";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +25,7 @@ const AdminAddItem = () => {
   const [cate, setCate] = useState();
   const [selectedCateDetail, setSelectedCateDetail] = useState();
   const [product, setProduct] = useState();
+  const [imgArr, setImgArr] = useState([]);
   const storage = {
     product,
     title,
@@ -42,7 +45,6 @@ const AdminAddItem = () => {
     setPrice(removedCommaValue);
   };
   const handleCateChange = e => {
-    setCate(e.target.value);
     setCate(e.target.value);
     const selectedCate = cateList.find(
       item => item.cateId === Number(e.target.value),
@@ -89,6 +91,9 @@ const AdminAddItem = () => {
     });
   };
 
+  useEffect(() => {
+    console.log(storage);
+  }, [storage]);
   // useEffect(() => {
   //   // storage 값이 변경될 때마다 값을 로컬스토리지에 저장
   //   localStorage.setItem("adminStorage", JSON.stringify(storage));
@@ -101,6 +106,25 @@ const AdminAddItem = () => {
   const fetchCate = async () => {
     const result = await getCate();
     setCateList(result);
+  };
+  const handleOkCliclk = async () => {
+    console.log(imgArr);
+    const data = {
+      productId: product,
+      title: title,
+      name: "test",
+      price: price,
+      quantity: 0,
+      description: content,
+      saleVolume: 0,
+      allergy: 0,
+      category: cate,
+      cateDetail: selectedCateDetail.cateDetailId,
+    };
+    console.log("넘기는 데이터", data);
+    const imgResult = await imgAdd(product, imgArr);
+    const itemResult = await itemAdd(data);
+    navigate("/adminmain");
   };
   useEffect(() => {
     // const storedStorage = localStorage.getItem("adminStorage");
@@ -122,6 +146,9 @@ const AdminAddItem = () => {
     fetchProductId();
     fetchCate();
   }, []);
+  useEffect(() => {
+    console.log(imgArr);
+  }, [imgArr]);
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -143,10 +170,10 @@ const AdminAddItem = () => {
     <AdminWrapper>
       <div className="titleArea">
         <div className="uploadContainer">
-          <ImgUpload />
-          <ImgUpload />
-          <ImgUpload />
-          <ImgUpload />
+          <ImgUpload imgArr={imgArr} setImgArr={setImgArr} />
+          <ImgUpload imgArr={imgArr} setImgArr={setImgArr} />
+          <ImgUpload imgArr={imgArr} setImgArr={setImgArr} />
+          <ImgUpload imgArr={imgArr} setImgArr={setImgArr} />
         </div>
         <div>
           <input
@@ -191,7 +218,7 @@ const AdminAddItem = () => {
         />
       </div>
       <div>
-        <button>확인</button>
+        <button onClick={handleOkCliclk}>확인</button>
         <button onClick={handleCancleClick}>취소</button>
       </div>
     </AdminWrapper>
