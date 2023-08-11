@@ -16,7 +16,7 @@ export const getProductId = async _productId => {
 //기본으로 보여줄 상품(비로그인)
 export const getMain = async () => {
   try {
-    const res = await axios.get(`/api/main?paige=1&row=16`);
+    const res = await axios.get(`/api/main?page=1&row=16`);
     const result = res.data;
     console.log("getMain 요청성공!!", result);
     return result;

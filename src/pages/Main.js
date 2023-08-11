@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const Main = () => {
   const [bestProduct, setBestProduct] = useState([]);
+  const [mainImage, setItemImage] = useState([]);
   // uri 에서 값 읽기
   const { pid } = useParams();
 
@@ -17,6 +18,7 @@ const Main = () => {
     try {
       const productIdJson = await getBestProduct(pid);
       setBestProduct(productIdJson);
+      setItemImage(productIdJson.map(item => item.thumbnail));
     } catch (err) {
       console.log(err);
     }
@@ -36,7 +38,6 @@ const Main = () => {
     try {
       const cartItem = {
         productId: _item.productId,
-        iuser: 1,
         count: 1,
       };
       const result = await cartIn(cartItem);
@@ -71,7 +72,7 @@ const Main = () => {
               <div key={index}>
                 <li className="product-card">
                   <img
-                    src="http://fpoimg.com/150x150" // 이미지 파일 경로를 넣으세요.
+                    src={mainImage[index]}
                     alt="상품 이미지"
                     className="product-image"
                   />
@@ -80,7 +81,7 @@ const Main = () => {
                       className="item-numbering"
                       onClick={() => handleItemClick(item.productId)}
                     />
-                 
+
                     <FontAwesomeIcon
                       icon={faBasketShopping}
                       className="shopping-icon"
@@ -89,7 +90,7 @@ const Main = () => {
                   </span>
                   <div className="item-info">
                     <h2>{item.name}</h2>
-                    <p>가격 :{item.price.toLocaleString()}원</p>
+                    <p> 판매가 :{item.price.toLocaleString()}원</p>
                   </div>
                 </li>
               </div>

@@ -105,6 +105,7 @@ const Order = () => {
 
   return (
     <OrderWrap>
+      <div className="wrap">
       <OrderInfo>
         <h2>결제하기</h2>
         <div className="user-text">
@@ -183,6 +184,7 @@ const Order = () => {
           결제하기
         </div>
       </OrderPay>
+      </div>
     </OrderWrap>
   );
 };
