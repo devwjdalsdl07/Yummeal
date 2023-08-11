@@ -11,6 +11,7 @@ import {
   JoinText,
   JoinTitleWrapTop,
   JoinWrap,
+  JoinNickNm,
 } from "../style/UserInfoCss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
@@ -43,21 +44,20 @@ const UserInfo = ({ setActiveComponent }) => {
   const [detailAddress, setDetailAddress] = useState();
   // const [extraAddress, setExtraAddress] = useState("");
   const [id, setId] = useState();
-  const [pw, setPw] = useState(null);
-  const [pwConfirm, setPwConfirm] = useState(null);
+  const [pw, setPw] = useState("");
+  const [pwConfirm, setPwConfirm] = useState("");
   const [userName, setUserName] = useState();
-  const [phone, setPhone] = useState();
+  const [phone, setPhone] = useState("");
   const [nickName, setNickName] = useState([]);
   const [birth, setBirth] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   // 유효성 검사
-  const [isNickName, setIsNickName] = useState(false);
-  const [isId, setIsId] = useState(false);
-  const [isPw, setIsPw] = useState(false);
-  const [isPwConfirm, setIsPwConfirm] = useState(false);
-  const [isPhone, setIsPhone] = useState(false);
+  const [isNickName, setIsNickName] = useState(true);
+  const [isPw, setIsPw] = useState(true);
+  const [isPwConfirm, setIsPwConfirm] = useState(true);
+  const [isPhone, setIsPhone] = useState(true);
 
   // 오류메시지 상태 저장
   const [idMessage, setIdMessage] = useState("");
@@ -65,6 +65,10 @@ const UserInfo = ({ setActiveComponent }) => {
   const [pwMessage, setPwMessage] = useState("");
   const [pwConfirmMessage, setPwConfirmMessage] = useState("");
   const [phoneMessage, setPhoneMessage] = useState("");
+
+  const validationStates = [isNickName, isPw, isPwConfirm, isPhone];
+
+  const canEdit = validationStates.every(state => state);
 
   const onBirthChange = (value, dateString) => {
     setBirth(dateString);
@@ -105,6 +109,81 @@ const UserInfo = ({ setActiveComponent }) => {
     //   setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
     //   setIsNickName(false);
     // }
+  };
+
+  //pw
+  const onPwChange = e => {
+    const pwRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const pwCurrent = e.target.value.replace(/\s/gi, "");
+    setPw(pwCurrent);
+
+    if (pwCurrent === pwConfirm) {
+      setPwConfirmMessage("비밀번호가 동일해요");
+      setIsPwConfirm(true);
+    } else if (pwCurrent !== pwConfirm) {
+      setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요");
+      setIsPwConfirm(false);
+    }
+
+    if (!pwRegex.test(pwCurrent)) {
+      setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
+      setIsPw(false);
+    } else {
+      setPwMessage("안전한 비밀번호에요 : )");
+      setIsPw(true);
+    }
+
+    // setPwMessage("");
+    // setIsPw(false);
+  };
+  //pwConfirm
+  const onPwConfirmChange = e => {
+    const pwConfirmCurrent = e.target.value.replace(/\s/gi, "");
+    setPwConfirm(pwConfirmCurrent);
+    if (isPw) {
+      if (pw !== pwConfirmCurrent) {
+        setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
+        setIsPwConfirm(false);
+      } else {
+        setPwConfirmMessage("비밀번호가 동일해요 :)");
+        setIsPwConfirm(true);
+      }
+    } else if (!isPw) {
+      setPwConfirmMessage("비밀번호를 먼저 확인해 주세요");
+      setIsPwConfirm(false);
+    }
+    // if (!pwConfirmRegex.test(pwConfirmCurrent)) {
+    //   setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
+    //   setIsPwConfirm(true);
+    // } else {
+    //   setPwConfirmMessage("비밀번호가 동일해요 :)");
+    //   setIsPwConfirm(false);
+    // }
+  };
+
+  // 전화번호
+  const onChangePhone = e => {
+    // 한국 휴대폰 번호 형식에 맞는 정규표현식
+    const koreanPhoneNumberRegex = /^01(?:0|1|[6-9])(\d{3}|\d{4})\d{4}$/;
+    // 검증할 휴대폰 번호 (하이픈 제거)
+    const phoneNumber = e.target.value.replace(/[^\d]/g, "");
+    setPhone(phoneNumber);
+    if (koreanPhoneNumberRegex.test(phoneNumber)) {
+      setPhoneMessage("정상적으로 전화번호를 입력하셨습니다.");
+      setIsPhone(true);
+    } else {
+      setPhoneMessage("전화번호를 입력하여 주세요. ");
+      setIsPhone(false);
+    }
+    // setNameMessage("");
+    // setIsName(false);
+  };
+
+  // 상세주소 변경
+  const onDetailAddressChange = e => {
+    setDetailAddress(
+      e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""),
+    );
   };
 
   const handleExecDaumPostcode = () => {
@@ -172,7 +251,12 @@ const UserInfo = ({ setActiveComponent }) => {
     setIsDeleteModalOpen(true);
   };
   const handleEdit = async () => {
-    showModal();
+    if (canEdit) {
+      showModal();
+    } else {
+      // 유효성 검사가 통과되지 않았을 때 처리
+      alert("입력값을 다시 확인해주세요.");
+    }
   };
   const handleCancel = () => {
     setActiveComponent("order");
@@ -246,31 +330,38 @@ const UserInfo = ({ setActiveComponent }) => {
                 readOnly
               />
             </JoinId>
-            <div>
+            <JoinNickNm>
               <span>닉네임</span>
-              <input
-                type="text"
-                placeholder="닉네임을 입력하세요"
-                value={nickName}
-                onChange={onNickNameCheck}
-                maxLength={5}
-              />
-              <button onClick={onNickNameCheck}>중복확인</button>
-            </div>
-            {nickName.length > 0 && (
-              <span className={`message ${isNickName ? "success" : "error"}`}>
-                {nickNameMessage}
-              </span>
-            )}
+              <div className="nmBox">
+                <input
+                  type="text"
+                  placeholder="닉네임을 입력하세요"
+                  value={nickName}
+                  onChange={onNickNameChange}
+                  maxLength={5}
+                />
+                <button onClick={onNickNameCheck}>중복확인</button>
+              </div>
+              {nickName.length > 0 && (
+                <span className={`message ${isNickName ? "success" : "error"}`}>
+                  {nickNameMessage}
+                </span>
+              )}
+            </JoinNickNm>
             <JoinPw>
               <span>새 비밀번호</span>
               <input
                 type="password"
                 placeholder="비밀번호를 입력하세요"
                 value={pw}
-                onChange={e => setPw(e.target.value)}
-                maxLength={100}
+                onChange={onPwChange}
+                maxLength={30}
               />
+              {pw.length > 0 && (
+                <span className={`message ${isPw ? "success" : "error"}`}>
+                  {pwMessage}
+                </span>
+              )}
             </JoinPw>
             <JoinPwConfirm>
               <span>새 비밀번호 확인</span>
@@ -278,33 +369,45 @@ const UserInfo = ({ setActiveComponent }) => {
                 type="password"
                 placeholder="비밀번호를 한번 더 입력하세요"
                 value={pwConfirm}
-                onChange={e => setPwConfirm(e.target.value)}
-                maxLength={100}
+                onChange={onPwConfirmChange}
+                maxLength={30}
               />
+              {pwConfirm.length > 0 && (
+                <span
+                  className={`message ${isPwConfirm ? "success" : "error"}`}
+                >
+                  {pwConfirmMessage}
+                </span>
+              )}
             </JoinPwConfirm>
-            <div className="pw-group">
+            <div style={{ height: "70px" }}>
               <span>이름</span>
               <input
                 type="text"
                 placeholder="이름을 입력하세요"
                 value={userName}
                 onChange={e => setUserName(e.target.value)}
-                maxLength={100}
+                maxLength={8}
               />
             </div>
-            <div>
+            <div style={{ height: "75px" }}>
               <span>휴대전화</span>
               <input
                 type="text"
                 placeholder="전화번호를 입력하세요 ( - 없이 입력)"
                 value={phone}
-                onChange={e => setPhone(e.target.value)}
+                onChange={onChangePhone}
                 maxLength={11}
               />
+              {phone.length > 0 && (
+                <span className={`message ${isPhone ? "success" : "error"}`}>
+                  {phoneMessage}
+                </span>
+              )}
             </div>
 
             {/* 생년월일 드랍박스 들어갈 자리 */}
-            <div>
+            <div style={{ height: "50px" }}>
               <span>아이 생년월일</span>
               <Space direction="vertical">
                 <DatePicker
@@ -330,7 +433,6 @@ const UserInfo = ({ setActiveComponent }) => {
                 id="sample6_postcode"
                 value={postcode}
                 placeholder="우편번호"
-                onChange={e => setPostcode(e.target.value)}
                 onClick={handleExecDaumPostcode}
                 readOnly
               />
@@ -345,7 +447,6 @@ const UserInfo = ({ setActiveComponent }) => {
                 id="sample6_address"
                 value={userAddress}
                 placeholder="주소"
-                disabled={false}
                 readOnly
               />
               <br />
@@ -353,7 +454,7 @@ const UserInfo = ({ setActiveComponent }) => {
                 type="text"
                 id="sample6_detailAddress"
                 value={detailAddress}
-                onChange={e => setDetailAddress(e.target.value)}
+                onChange={onDetailAddressChange}
                 placeholder="상세주소"
               />
               {/* <input

@@ -19,10 +19,15 @@ const Login = () => {
   const handleLoginClick = async () => {
     const login = await fetchLogin(id, pw);
     console.log("로그인 시 넘어오는 : ", login);
-    if (login.success) {
-      const fetchUser = await getUser(1);
-      dispatch(loginReducer(fetchUser));
-      navigate("/");
+    if (!login) {
+      alert("로그인에 실패 하였습니다.");
+    }
+    if (login) {
+      if (login.success) {
+        const fetchUser = await getUser(1);
+        dispatch(loginReducer(fetchUser));
+        navigate("/");
+      }
     }
   };
   return (
