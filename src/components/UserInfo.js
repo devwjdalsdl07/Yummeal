@@ -19,6 +19,7 @@ import { DatePicker, Space } from "antd";
 import { fetchUserInfo, getUserInfo } from "../api/mypageAxios";
 import dayjs from "dayjs";
 import locale from "antd/locale/ko_KR";
+import { Modal, Button } from "antd";
 
 const UserInfo = ({ setActiveComponent }) => {
   const navigate = useNavigate();
@@ -92,8 +93,12 @@ const UserInfo = ({ setActiveComponent }) => {
       addressDetail: detailAddress,
     };
     const result = await fetchUserInfo(profile);
+    Modal.success({
+      title: "회원 수정",
+      content: "정말로 수정하시겠습니까 ? ",
+    });
   };
-  const handleCancle = () => {
+  const handleCancel = () => {
     setActiveComponent("order");
   };
   const userProfile = async () => {
@@ -106,6 +111,13 @@ const UserInfo = ({ setActiveComponent }) => {
     setPhone(result.mobileNb);
     setBirth(result.birthday);
     setNickName(result.nickNm);
+  };
+  const handleDelete = () => {
+    Modal.error({
+      title: "회원 탈퇴",
+      content: "정말 탈퇴하시겠습니까 ? ",
+      button: "cancel",
+    });
   };
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
@@ -267,8 +279,13 @@ const UserInfo = ({ setActiveComponent }) => {
               /> */}
             </div>
           </JoinFormGroup>
-          <JoinBtn onClick={handleEidt}>수정</JoinBtn>
-          <JoinBtn onClick={handleCancle}>취소</JoinBtn>
+          <div className="btnWrap">
+            <JoinBtn onClick={handleEidt}>수정</JoinBtn>
+            <JoinBtn onClick={handleCancel}>취소</JoinBtn>
+          </div>
+          <button className="userDelete" onClick={handleDelete}>
+            회원탈퇴
+          </button>
         </JoinWrap>
       </JoinArea>
     </JoinContainer>

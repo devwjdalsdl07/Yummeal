@@ -14,6 +14,10 @@ import Search from "./pages/Search";
 import SearchList from "./pages/SearchList";
 import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
+import About from "./pages/About";
+import UseService from "./pages/UseService";
+import Policy from "./pages/Policy";
+import UseGuide from "./pages/UseGuide";
 
 function App() {
   const location = useLocation();
@@ -35,6 +39,10 @@ function App() {
         <Route path="/order" element={<Order />} />
         <Route path="/orderdetail" element={<OrderDetail />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/useservice" element={<UseService />} />
+        <Route path="/policy" element={<Policy />} />
+        <Route path="/useguide" element={<UseGuide />} />
       </Routes>
       {!isAdminPage && !isPaymentPage && <Footer />}
       <Routes>

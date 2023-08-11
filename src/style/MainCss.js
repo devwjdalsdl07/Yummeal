@@ -41,11 +41,12 @@ export const MainDiv = styled.div`
     .list-area {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 40px;
       justify-content: space-evenly;
       .product-card {
         position: relative;
         display: inline-block;
+        cursor: pointer;
         &:hover .product-description {
           opacity: 0.5;
         }
@@ -219,22 +220,13 @@ export const PaginationDiv = styled.div`
 
 export const ItemDetailDiv = styled.div`
   .content-wrap {
-    position: relative;
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    padding: 100px 0;
     /* background: #f9f6f1; */
-
     .goods {
       margin: 0 auto;
-      margin-top: 50px;
+      margin-top: 10%;
       width: 1440px;
       max-width: 1400px;
       height: 100%;
-      min-height: 700px;
-  
-
       .item-img {
         width: 450px;
         height: 450px;
@@ -254,41 +246,94 @@ export const ItemDetailDiv = styled.div`
       .goods-details {
         width: 40%;
         float: right;
-        flex-direction: column;
         position: relative;
-        bottom: 300px;
-        /* right: 300px; */
+        bottom: 640px;
+
         .goods-title {
-          font-size: 40px;
+          font-size: 50px;
           font-weight: bold;
           line-height: 40px;
-          margin-bottom: 17px;
+          margin-bottom: 40px;
         }
         .goods-info {
           font-size: 40px;
           font-weight: bold;
           line-height: 40px;
-          margin-bottom: 17px;
+          margin-bottom: 25px;
         }
         .goods-price {
-          padding-top: 10px;
-          border-top: 1px solid rgb(230, 230, 230);
+          padding: 20px 0;
+          border-top: 1px inset rgb(230, 230, 230);
+          font-size: 30px;
         }
-        .order-total-price {
-          
-        }
-      }
-      .product-tabs {
-        ul {
+        .order-title {
+          padding-top: 50px;
+          border-top: 3px inset #313133;
+          font-size: 35px;
           display: flex;
           justify-content: space-between;
-          font-size: 20px;
-          width: 100%;
-          padding: 2% 10%;
-          border-top: 1px solid #313133;
-          border-bottom: 1px solid #e7e7e7;
+        }
+
+        .order-button {
+          display: flex;
+          align-items: center;
+
+          button {
+            width: 35px;
+            height: 35px;
+            font-size: 16px;
+            text-align: center;
+            border: none;
+            background-color: #f7dece;
+            color: #313133;
+          }
+          input {
+            width: 30px;
+            font-size: 20px;
+            text-align: center;
+            border: none;
+            outline: none;
+          }
+        }
+        .order-total-price {
+          padding-top: 20%;
+          font-size: 25px;
+          font-weight: 700;
+          strong {
+            float: right;
+            font-size: 40px;
+          }
+        }
+        .shopping-cart {
+          margin-top: 15%;
+          display: flex;
+          justify-content: space-between;
+          button {
+            font-weight: bold;
+            width: 45%;
+            height: 60px;
+            padding: 15px 47px 15px 48px;
+            background: #fff;
+            color: #313133;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            line-height: 25px;
+            border: 1px solid #d1d1d1;
+          }
         }
       }
+
+      .product-tabs {
+        display: flex;
+        justify-content: space-between;
+        font-size: 20px;
+        width: 100%;
+        padding: 2% 10%;
+        border-top: 1px solid #313133;
+        border-bottom: 1px solid #e7e7e7;
+      }
+
       .menu-info {
         display: block;
         height: 500px;

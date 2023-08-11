@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DatePicker, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postEmail, postNickName, postSignUp } from "../api/signupaxios";
+import { postIdCheck, postNickNameCheck, postSignUp } from "../api/signupaxios";
 import {
   JoinArea,
   JoinBtn,
@@ -36,7 +36,6 @@ const SignUp = () => {
   const [birthMessage, setBirthMessage] = useState("");
   const [postCodeMessage, setPostCodeMessage] = useState("");
   const [addressMessage, setAddressMessage] = useState("");
-  const [detailAddressMessage, setDetailAddressMessage] = useState("");
 
   // 유효성 검사
   const [isNickName, setIsNickName] = useState(false);
@@ -151,41 +150,16 @@ const SignUp = () => {
   // 아이디 중복 체크
   const onIdCheck = async e => {
     e.preventDefault();
+    const fetchId = await postIdCheck(id);
     if (isId) {
-      const fetchEmail = await postEmail(id);
-      if (fetchEmail === 0) {
-        setIdMessage("사용 가능한 이메일이에요!");
-      } else if (fetchEmail === 1) {
-        setIdMessage("중복된 이메일이에요!");
+      if (fetchId === 0) {
+        setIdMessage("사용 가능한 아이디에요 :)");
+      } else if (fetchId === 1) {
+        setIdMessage("중복된 이메일이에요 ㅜㅜ");
         setIsId(false);
       }
     }
-
-    // if (e.target.value.length == 0 || e.target.value.length > 0) {
-    //   setIdMessage("사용 가능한 아이디에요");
-    //   setIsId(true);
-    // } else {
-    //   setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-    //   setIsId(false);
-    // }
   };
-  // const onIdCheck = async e => {
-  //   e.preventDefault();
-  //   try {
-  //     // 서버에 이메일 중복 체크 요청을 보내고 응답을 받아 처리
-  //     const response = await checkEmailDuplicate(e.target.value);
-  //     if (response.data.isDuplicate) {
-  //       setIdMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-  //       setIsId(false);
-  //     } else {
-  //       setIdMessage("사용 가능한 아이디에요");
-  //       setIsId(true);
-  //     }
-  //   } catch (error) {
-  //     // 에러 처리
-  //     console.error("이메일 중복 체크 오류:", error);
-  //   }
-  // };
   // 닉네임 (추후 업데이트)
   const onNickNameChange = e => {
     const nickNameRegex = /^[a-zA-Z0-9ㄱ-힣]{3,5}$/;
@@ -203,8 +177,8 @@ const SignUp = () => {
   // 닉네임 중복 체크
   const onNickNameCheck = async e => {
     e.preventDefault();
+    const fetchNickName = await postNickNameCheck(nickName);
     if (nickName) {
-      const fetchNickName = await postNickName(nickName);
       if (fetchNickName === 0) {
         setNickNameMessage("사용 가능한 닉네임이에요");
         setIsNickName(true);
@@ -246,6 +220,14 @@ const SignUp = () => {
     const pwCurrent = e.target.value.replace(/\s/gi, "");
     setPw(pwCurrent);
 
+    if (pwCurrent === pwConfirm) {
+      setPwConfirmMessage("비밀번호가 동일해요");
+      setIsPwConfirm(true);
+    } else if (pwCurrent !== pwConfirm) {
+      setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요");
+      setIsPwConfirm(false);
+    }
+
     if (!pwRegex.test(pwCurrent)) {
       setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
       setIsPw(false);
@@ -253,6 +235,7 @@ const SignUp = () => {
       setPwMessage("안전한 비밀번호에요 : )");
       setIsPw(true);
     }
+
     // setPwMessage("");
     // setIsPw(false);
   };
@@ -268,6 +251,9 @@ const SignUp = () => {
         setPwConfirmMessage("비밀번호가 동일해요 :)");
         setIsPwConfirm(true);
       }
+    } else if (!isPw) {
+      setPwConfirmMessage("비밀번호를 먼저 확인해 주세요");
+      setIsPwConfirm(false);
     }
     // if (!pwConfirmRegex.test(pwConfirmCurrent)) {
     //   setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
@@ -330,46 +316,55 @@ const SignUp = () => {
     if (!isId) {
       setIdMessage("이메일을 입력해주세요.");
       alert("이메일을 입력해주세요.");
+
       return;
     }
     if (!isNickName) {
       setNickNameMessage("닉네임을 입력해주세요.");
       alert("닉네임을 입력해주세요.");
+
       return;
     }
     if (!isPw) {
       setPwMessage("비밀번호를 확인해주세요.");
       alert("비밀번호를 확인해주세요.");
+
       return;
     }
     if (!isPwConfirm) {
       setPwMessage("비밀번호 재입력을 확인해주세요.");
       alert("비밀번호 재입력을 확인해주세요.");
+
       return;
     }
     if (!isName) {
       setNameMessage("이름을 입력하여 주세요. ");
       alert("이름을 입력해 주세요");
+
       return;
     }
     if (!isPhone) {
       setPhoneMessage("전화번호를 입력하여 주세요. ");
       alert("전화번호를 입력해 주세요");
+
       return;
     }
     if (!isBirth) {
       setBirthMessage("생일을 입력하여 주세요. ");
       alert("생일을 입력해 주세요");
+
       return;
     }
     if (!isPostCode) {
       setPostCodeMessage("우편번호를 입력하여 주세요. ");
       alert("주소를 입력해 주세요");
+
       return;
     }
     if (!isAddress) {
       setAddressMessage("주소를 입력하여 주세요. ");
       alert("주소를 입력해 주세요");
+
       return;
     }
 
@@ -382,7 +377,9 @@ const SignUp = () => {
       address: address,
       addressDetail: detailAddress,
       nickNm: nickName,
+      birthday: birth,
     };
+    alert("회원가입이 성공적으로 이루어졌어요 !!");
     postSignUp(item);
     navigate("/login");
   };

@@ -8,23 +8,8 @@ export const instance = axios.create({
   // timeout: 1000,
   headers: {
     "Content-Type": "application/json",
-    // withCredentials: true,
   },
 });
-
-// Request 처리
-// export const ClientHeaders = token => {
-//   client.interceptors.request.use(
-//     config => {
-//       // cookie를 활용 한 경우
-//       if (token) {
-//         config.headers.Authorization = `Bearer ${token}`;
-//       }
-//       return config;
-//     },
-//     error => console.log(error),
-//   );
-// };
 
 instance.interceptors.request.use(
   async config => {

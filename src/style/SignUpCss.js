@@ -9,6 +9,7 @@ export const JoinContainer = styled.div`
     /* font-weight: 500; */
     margin-bottom: 25px;
   }
+  
 `;
 export const JoinArea = styled.div`
   width: 80%;

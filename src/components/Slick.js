@@ -24,6 +24,7 @@ const Slick = () => {
   // }, []);
 
   const [main, setMain] = useState([]);
+
   //기본으로 보여줄 상품(비로그인)
   const getMainFetch = async () => {
     try {
@@ -87,16 +88,17 @@ const Slick = () => {
         type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
       />
+      
       <SlickDiv>
-        <h1 className="title">ㅇㅇ님의 추천 상품 </h1>
+        <h1 className="title">추천 상품 </h1>
         <Slider {...settings}>
           {main.map(item => (
             <div key={item.productId}>
-              <div onClick={() => handleItemClick(2)}>
+              <div onClick={() => handleItemClick(item.productId)}>
                 {/* <h3>1</h3> */}
                 <span>
-                  <p>타이틀{item.name}</p>
-                  <p>가격{item.price}</p>
+                  <p>{item.name}</p>
+                  <p>판매가 : {parseInt(item?.price).toLocaleString()}원</p>
                 </span>
               </div>
             </div>

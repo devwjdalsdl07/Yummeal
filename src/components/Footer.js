@@ -1,15 +1,28 @@
-import React from "react";
 import { FooterWrap } from "../style/FooterCss";
+import { Link, useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const handleAbout = () => {
+    navigate("/about");
+  };
+  const handleUseService = () => {
+    navigate("/useservice");
+  };
+  const handlePolicy = () => {
+    navigate("policy");
+  };
+  const handleUseGuide = () => {
+    navigate("useguide");
+  };
   return (
     <FooterWrap>
       <div className="footer-menu">
         <ul className="footer-menu-list">
-          <li>회사소개</li>
-          <li>이용약관</li>
-          <li>개인정보처리방침</li>
-          <li>이용안내</li>
+          <li onClick={handleAbout}>회사소개</li>
+          <li onClick={handleUseService}>이용약관</li>
+          <li onClick={handlePolicy}>개인정보처리방침</li>
+          <li onClick={handleUseGuide}>이용안내</li>
         </ul>
       </div>
       <div className="footer-cs">

@@ -5,31 +5,63 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CateProdList, menuCate } from "../api/cartaxios";
 import { postLogout } from "../api/client";
 import { removeCookie } from "../api/cookie";
 import { Head } from "../style/HeaderCss";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutReducer } from "../reducers/userSlice";
 
-// export default Header;
 function Header() {
   const { iuser } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
   const [search, setSearch] = useState("");
+  const [cate, setCate] = useState([]);
+  const [subCate, setSubCate] = useState([]);
   const navigate = useNavigate();
 
+  // 카테고리 메뉴 불러오기
+  const cateGet = async () => {
+    const result = await menuCate();
+    setCate(result);
+  };
+
+  useEffect(() => {
+    cateGet();
+  }, []);
+
+  // 카테고리 메뉴 클릭 시 이동
+  const handleCateClick = async (mainMenu, subMenu) => {
+    console.log("카테고리 번호 찍자", mainMenu?.cateId, subMenu?.cateDetailId);
+    const item = {
+      cateId: mainMenu?.cateId,
+      cateDetailId:
+        subMenu?.cateDetailId == undefined ? 0 : subMenu.cateDetailId,
+      page: 1,
+      row: 16,
+    };
+    const result = await CateProdList(item);
+    navigate("/productlist", {
+      state: { maxPaige: result.maxPaige, list: result.list },
+    });
+  };
+
+  // 검색어 업데이트
   const handleSearch = e => {
     setSearch(e.target.value);
   };
+
+  // 검색결과창 이동
   const handleSearchPost = e => {
     e.preventDefault();
     navigate("/search", { state: { product: search } });
   };
 
+  // 로그아웃
   const handleRemove = () => {
     postLogout();
     dispatch(logoutReducer());
@@ -77,46 +109,24 @@ function Header() {
         </button>
         {/* 메뉴 리스트 */}
       </form>
-      <ul className="header_menulist">
-        <li onClick={() => navigate("/")}>
-          1단계
-          <ul>
-            <li>곡물류</li>
-            <li>야채류</li>
-          </ul>
-        </li>
-        <li onClick={() => navigate("/")}>
-          2단계
-          <ul>
-            <li>곡물류</li>
-            <li>야채류</li>
-            <li>고기류</li>
-            <li>해산물류</li>
-            <li>과일류</li>
-          </ul>
-        </li>
-        <li onClick={() => navigate("/")}>
-          3단계
-          <ul>
-            <li>곡물류</li>
-            <li>야채류</li>
-            <li>고기류</li>
-            <li>해산물류</li>
-            <li>과일류</li>
-          </ul>
-        </li>
-        <li onClick={() => navigate("/")}>
-          4단계
-          <ul>
-            <li>곡물류</li>
-            <li>야채류</li>
-            <li>고기류</li>
-            <li>해산물류</li>
-            <li>과일류</li>
-          </ul>
-        </li>
+      {/* <ul className="header_menulist">
+        {cate.map(mainMenu => (
+          <li key={mainMenu.cateName} onClick={() => handleCateClick(mainMenu)}>
+            {mainMenu.cateId}단계
+            <ul>
+              {mainMenu.list?.map(subMenu => (
+                <li
+                  key={subMenu.cateDetailId}
+                  onClick={() => handleCateClick(mainMenu, subMenu)}
+                >
+                  {subMenu.cateName}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
         <li onClick={() => navigate("/")}>전체보기</li>
-      </ul>
+      </ul> */}
       {/* User 메뉴 리스트 */}
       <ul className="header_right">
         {iuser ? (
