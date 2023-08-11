@@ -95,6 +95,12 @@ export const JoinFormGroup = styled.div`
       height: 35px;
     }
   }
+  .success {
+    color: darkseagreen;
+  }
+  .error {
+    color: crimson;
+  }
 `;
 export const JoinTitleWrapTop = styled.div`
   display: flex;
@@ -121,12 +127,42 @@ export const JoinTitleWrapTop = styled.div`
     }
   }
 `;
-export const JoinId = styled.div``;
+export const JoinId = styled.div`
+  height: 75px;
+`;
+export const JoinNickNm = styled.div`
+  height: 75px;
+  .nmBox {
+    display: flex;
+    width: 90%;
+    gap: 5%;
+    button {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      background: #f9f6f1;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: "Pretendard", "SUITE", sans-serif;
+    }
+  }
+  /* .success {
+    color: darkseagreen;
+  }
+  .error {
+    color: indianred;
+  } */
+`;
 export const JoinPw = styled.div`
   /* display: flex;
   align-items: center; */
+  height: 75px;
 `;
-export const JoinPwConfirm = styled.div``;
+export const JoinPwConfirm = styled.div`
+  height: 75px;
+`;
 export const JoinBtn = styled.button`
   width: 45%;
   position: relative;
