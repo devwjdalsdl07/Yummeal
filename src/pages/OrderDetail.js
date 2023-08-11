@@ -94,7 +94,7 @@ const OrderDetail = () => {
           <div className="order-pricewrap">
             <div className="price-data">
               <p>주문금액</p>
-              <span>{state?.paymentprice}원</span>
+              <span>{state?.paymentprice.toLocaleString()}원</span>
             </div>
             <div>
               <i>

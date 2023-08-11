@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CateProdList, menuCate } from "../api/cartaxios";
 import { postLogout } from "../api/client";
-import { removeCookie } from "../api/cookie";
+import { getMain } from "../api/mainFatch";
 import { Head } from "../style/HeaderCss";
 
 function Header() {
@@ -33,14 +33,10 @@ function Header() {
   // 카테고리 메뉴 클릭 시 이동
   const handleCateClick = async (mainMenu, subMenu) => {
     console.log("카테고리 번호 찍자", mainMenu?.cateId, subMenu?.cateDetailId);
-    const item = {
-      cateId: mainMenu?.cateId,
-      cateDetailId:
-        subMenu?.cateDetailId == undefined ? 0 : subMenu.cateDetailId,
-      page: 1,
-      row: 16,
-    };
-    const result = await CateProdList(item);
+    const cateId = mainMenu.cateId;
+    const subCateId =
+      subMenu?.cateDetailId == undefined ? 0 : subMenu?.cateDetailId;
+    const result = await CateProdList(cateId, subCateId);
     navigate("/search", {
       state: {
         maxPaige: result.maxPaige,
@@ -59,15 +55,21 @@ function Header() {
   // 검색결과창 이동
   const handleSearchPost = e => {
     e.preventDefault();
-    navigate("/search", { state: { product: search } });
+    navigate("/search", { state: { product: search }});
   };
 
   // 로그아웃
   const handleRemove = () => {
     postLogout();
-    removeCookie("accessToken");
-    removeCookie("refreshToken");
     navigate("/login");
+  };
+
+  // 전체보기
+  const handleAllProd = async () => {
+    const AllProd = await getMain();
+    navigate("/search", {
+      state: { maxPage: AllProd.maxPage, list: AllProd.list },
+    });
   };
 
   return (
@@ -127,7 +129,7 @@ function Header() {
             </ul>
           </li>
         ))}
-        <li onClick={() => navigate("/")}>전체보기</li>
+        <li onClick={handleAllProd}>전체보기</li>
       </ul>
       {/* User 메뉴 리스트 */}
       <ul className="header_right">

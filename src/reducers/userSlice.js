@@ -35,8 +35,11 @@ const userSlice = createSlice({
       Object.assign(state, initialState);
       console.log("로그아웃 디스패치", state);
     },
+    pointReducer: (state, action) => {
+      state.point = action.payload;
+    },
   },
 });
 
 export default userSlice;
-export const { loginReducer, logoutReducer } = userSlice.actions;
+export const { loginReducer, logoutReducer, pointReducer } = userSlice.actions;

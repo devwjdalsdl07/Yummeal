@@ -1,4 +1,3 @@
-import axios from "axios";
 import { instance } from "./client";
 
 // 장바구니 get
@@ -6,7 +5,7 @@ export const getCart = async () => {
   try {
     const res = await instance.get("/api/orderbasket");
     const result = res.data;
-    console.log("장바구니 겟겟겟겟", result)
+    console.log("장바구니 겟겟겟겟", result);
     return result;
   } catch (error) {
     [
@@ -62,9 +61,12 @@ export const getCart = async () => {
 // 장바구니 업카운트 patch
 export const upPatch = async (_cartId, _newCount) => {
   try {
-    const res = await axios.patch(`/api/orderbasket/plus?cartId=${_cartId}`, {
-      count: _newCount,
-    });
+    const res = await instance.patch(
+      `/api/orderbasket/plus?cartId=${_cartId}`,
+      {
+        count: _newCount,
+      },
+    );
     const result = res.data;
     console.log(result);
   } catch (error) {
@@ -75,9 +77,12 @@ export const upPatch = async (_cartId, _newCount) => {
 // 장바구니 다운카운트 patch
 export const downPatch = async (_cartId, _newCount) => {
   try {
-    const res = await axios.patch(`/api/orderbasket/minus?cartId=${_cartId}`, {
-      count: _newCount,
-    });
+    const res = await instance.patch(
+      `/api/orderbasket/minus?cartId=${_cartId}`,
+      {
+        count: _newCount,
+      },
+    );
     const result = res.data;
     console.log(result);
   } catch (error) {
@@ -88,7 +93,7 @@ export const downPatch = async (_cartId, _newCount) => {
 // 장바구니 목록삭제 delete
 export const cartDelete = async _cartId => {
   try {
-    const res = await axios.delete(`/api/orderbasket?cartId=${_cartId}`);
+    const res = await instance.delete(`/api/orderbasket?cartId=${_cartId}`);
     const result = res.data;
   } catch (error) {
     console.log(error);
@@ -110,7 +115,7 @@ export const cartIn = async _item => {
 // 결제내역 get
 export const getOrderEnd = async _orderId => {
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/mypage/orderlist/detail?iuser=1&orderId=${_orderId}`,
     );
     const result = res.data;
@@ -123,7 +128,7 @@ export const getOrderEnd = async _orderId => {
 // 주문 post
 export const orderPost = async _item => {
   try {
-    const res = await axios.post("/api/buy/order", _item);
+    const res = await instance.post("/api/buy/order", _item);
     const result = res.data;
     return result;
   } catch (err) {
@@ -134,7 +139,7 @@ export const orderPost = async _item => {
 // 검색 결과 get
 export const searchResult = async _product => {
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/Search?product=${_product}&page=1&row=16`,
     );
     const result = res.data;
@@ -148,11 +153,7 @@ export const searchResult = async _product => {
 // 필터 정렬 get
 export const filterSort = async _item => {
   try {
-    const res = await axios.post(
-      // `/api/Search/filter?product=${_product}&page=1&row=30&sorter=${_selectSort}`,
-      "/api/Search/filter",
-      _item,
-    );
+    const res = await instance.post("/api/search/filter", _item);
     const result = res.data;
     console.log("검색필터결과 : ", result);
     return result;
@@ -164,7 +165,7 @@ export const filterSort = async _item => {
 // 카테고리 메뉴 get
 export const menuCate = async () => {
   try {
-    const res = await axios.get("/api/cate/all");
+    const res = await instance.get("/api/cate/all");
     const result = res.data;
     console.log("카테고리 메뉴 : ", result);
     return result;
@@ -174,9 +175,11 @@ export const menuCate = async () => {
 };
 
 // 메뉴 클릭 시 품목 get
-export const CateProdList = async _item => {
+export const CateProdList = async (cateId, subCateId) => {
   try {
-    const res = await axios.post("/api/cate/list", _item);
+    const res = await instance.get(
+      `/api/cate/list?cateId=${cateId}&cateDetailId=${subCateId}&page=1&row=16`,
+    );
     const result = res.data;
     console.log("카테고리 가냐? : ", result);
     return result;

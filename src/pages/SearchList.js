@@ -1,7 +1,7 @@
+import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { cartIn } from "../api/cartaxios";
 import { getBestProductAll } from "../api/mainFatch";
 import Paging from "../components/Paging";
@@ -32,7 +32,6 @@ const SearchList = () => {
     try {
       const cartItem = {
         productId: _item.productId,
-        iuser: 1,
         count: 1,
       };
       const result = await cartIn(cartItem);
