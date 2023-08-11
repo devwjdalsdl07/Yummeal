@@ -1,7 +1,6 @@
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { React, useEffect, useState } from "react";
-import { Cookies } from "react-cookie";
+import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContainer } from "../style/LoginCss";
 import { fetchLogin, getUser } from "../api/client";

@@ -16,28 +16,95 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { DatePicker, Space } from "antd";
-import { fetchUserInfo, getUserInfo } from "../api/mypageAxios";
+import { deleteUser, fetchUserInfo } from "../api/client";
 import dayjs from "dayjs";
 import locale from "antd/locale/ko_KR";
-import { Modal } from "antd";
+import { Modal, Button } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { userEditReducer } from "../reducers/userSlice";
+import { postNickNameCheck } from "../api/signupaxios";
 
 const UserInfo = ({ setActiveComponent }) => {
+  const {
+    email,
+    name,
+    birthday,
+    mobileNb,
+    zipcode,
+    address,
+    addressDetail,
+    nickNm,
+    point,
+  } = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [postcode, setPostcode] = useState("");
-  const [address, setAddress] = useState();
+  const [userAddress, setUserAddress] = useState();
   const [detailAddress, setDetailAddress] = useState();
   // const [extraAddress, setExtraAddress] = useState("");
   const [id, setId] = useState();
   const [pw, setPw] = useState(null);
   const [pwConfirm, setPwConfirm] = useState(null);
-  const [name, setName] = useState();
+  const [userName, setUserName] = useState();
   const [phone, setPhone] = useState();
-  const [nickName, setNickName] = useState();
+  const [nickName, setNickName] = useState([]);
   const [birth, setBirth] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  // 유효성 검사
+  const [isNickName, setIsNickName] = useState(false);
+  const [isId, setIsId] = useState(false);
+  const [isPw, setIsPw] = useState(false);
+  const [isPwConfirm, setIsPwConfirm] = useState(false);
+  const [isPhone, setIsPhone] = useState(false);
+
+  // 오류메시지 상태 저장
+  const [idMessage, setIdMessage] = useState("");
+  const [nickNameMessage, setNickNameMessage] = useState("");
+  const [pwMessage, setPwMessage] = useState("");
+  const [pwConfirmMessage, setPwConfirmMessage] = useState("");
+  const [phoneMessage, setPhoneMessage] = useState("");
 
   const onBirthChange = (value, dateString) => {
     setBirth(dateString);
+  };
+
+  // 닉네임 (추후 업데이트)
+  const onNickNameChange = e => {
+    const nickNameRegex = /^[a-zA-Z0-9ㄱ-힣]{3,5}$/;
+    // setNickName(e.target.value.replace(/\s/gi, ""));
+    setNickNameMessage(null);
+    setNickName(
+      e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""),
+    );
+    // if (e.target.value.length == 0) {
+    //   setNickNameMessage("닉네임을 입력해주세요.");
+    // }
+    // setNickNameMessage("");
+    // setIsNickName(false);
+  };
+  // 닉네임 중복 체크
+  const onNickNameCheck = async e => {
+    e.preventDefault();
+    const fetchNickName = await postNickNameCheck(nickName);
+    if (nickName) {
+      if (fetchNickName === 0) {
+        setNickNameMessage("사용 가능한 닉네임이에요");
+        setIsNickName(true);
+      } else if (fetchNickName === 1) {
+        setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+        setIsNickName(false);
+      }
+    }
+
+    // if (e.target.value.length == 0 || e.target.value.length > 0) {
+    //   setNickNameMessage("사용 가능한 닉네임이에요");
+    //   setIsNickName(true);
+    // } else {
+    //   setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+    //   setIsNickName(false);
+    // }
   };
 
   const handleExecDaumPostcode = () => {
@@ -74,57 +141,63 @@ const UserInfo = ({ setActiveComponent }) => {
 
         // 우편번호와 주소 정보를 상태에 저장한다.
         setPostcode(data.zonecode);
-        setAddress(addr);
+        setUserAddress(addr);
         // 커서를 상세주소 필드로 이동한다.
         document.getElementById("sample6_detailAddress").focus();
       },
     }).open();
   };
   const showModal = () => {
-    console.log("시발것");
     setIsModalOpen(true);
   };
-  const handleOk = () => {
+  const handleOk = async () => {
     setIsModalOpen(false);
+    const profile = {
+      name: userName,
+      nickNm: nickName,
+      password: pw,
+      phoneNumber: phone,
+      birthday: birth,
+      zipcode: postcode,
+      address: userAddress,
+      addressDetail: detailAddress,
+    };
+    const result = await fetchUserInfo(profile);
+    dispatch(userEditReducer(profile));
   };
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
+  const showDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+  };
   const handleEdit = async () => {
     showModal();
-    const profile = {
-      iuser: 1,
-      nickNm: nickName,
-      password: pw,
-      passwordcheck: pwConfirm,
-      mobileNb: phone,
-      birthday: birth,
-      zipcode: postcode,
-      address: address,
-      addressDetail: detailAddress,
-    };
-    const result = await fetchUserInfo(profile);
   };
   const handleCancel = () => {
     setActiveComponent("order");
   };
-  const userProfile = async () => {
-    const result = await getUserInfo(1);
-    setPostcode(result.zipcode);
-    setAddress(result.address);
-    setDetailAddress(result.addressDetail);
-    setId(result.email);
-    setName(result.name);
-    setPhone(result.mobileNb);
-    setBirth(result.birthday);
-    setNickName(result.nickNm);
+  const userProfile = () => {
+    setPostcode(zipcode);
+    setUserAddress(address);
+    setDetailAddress(addressDetail);
+    setId(email);
+    setUserName(name);
+    setPhone(mobileNb);
+    setBirth(birthday);
+    setNickName(nickNm);
   };
   const handleDelete = () => {
-    Modal.error({
-      title: "회원 탈퇴",
-      content: "정말 탈퇴하시겠습니까 ? ",
-      button: "cancel",
-    });
+    showDeleteModal();
+  };
+  const handleDeleteOk = async () => {
+    setIsDeleteModalOpen(false);
+    const result = await deleteUser();
+    alert("회원탈퇴가 완료 되었습니다.");
+    navigate("/");
+  };
+  const handleDeleteModalClose = () => {
+    setIsDeleteModalOpen(false);
   };
 
   useEffect(() => {
@@ -179,12 +252,18 @@ const UserInfo = ({ setActiveComponent }) => {
                 type="text"
                 placeholder="닉네임을 입력하세요"
                 value={nickName}
-                onChange={e => setNickName(e.target.value)}
-                maxLength={100}
+                onChange={onNickNameCheck}
+                maxLength={5}
               />
+              <button onClick={onNickNameCheck}>중복확인</button>
             </div>
+            {nickName.length > 0 && (
+              <span className={`message ${isNickName ? "success" : "error"}`}>
+                {nickNameMessage}
+              </span>
+            )}
             <JoinPw>
-              <span>비밀번호</span>
+              <span>새 비밀번호</span>
               <input
                 type="password"
                 placeholder="비밀번호를 입력하세요"
@@ -194,7 +273,7 @@ const UserInfo = ({ setActiveComponent }) => {
               />
             </JoinPw>
             <JoinPwConfirm>
-              <span>비밀번호 확인</span>
+              <span>새 비밀번호 확인</span>
               <input
                 type="password"
                 placeholder="비밀번호를 한번 더 입력하세요"
@@ -208,8 +287,8 @@ const UserInfo = ({ setActiveComponent }) => {
               <input
                 type="text"
                 placeholder="이름을 입력하세요"
-                value={name}
-                onChange={e => setName(e.target.value)}
+                value={userName}
+                onChange={e => setUserName(e.target.value)}
                 maxLength={100}
               />
             </div>
@@ -264,10 +343,9 @@ const UserInfo = ({ setActiveComponent }) => {
               <input
                 type="text"
                 id="sample6_address"
-                value={address}
+                value={userAddress}
                 placeholder="주소"
                 disabled={false}
-                onChange={e => setAddress(e.target.value)}
                 readOnly
               />
               <br />
@@ -291,6 +369,27 @@ const UserInfo = ({ setActiveComponent }) => {
             <JoinBtn onClick={handleEdit}>수정</JoinBtn>
             <JoinBtn onClick={handleCancel}>취소</JoinBtn>
           </div>
+          <Modal
+            title="회원탈퇴"
+            open={isDeleteModalOpen}
+            onOk={handleDeleteOk}
+            onCancel={handleDeleteModalClose}
+            footer={[
+              <Button
+                onClick={handleDeleteOk}
+                style={{ backgroundColor: "#red", color: "white" }}
+                key="submit"
+                type="primary"
+              >
+                탈퇴
+              </Button>,
+              <Button key="back" onClick={handleDeleteModalClose}>
+                취소
+              </Button>,
+            ]}
+          >
+            <p>정말 탈퇴 하시겠어요 ?</p>
+          </Modal>
           <button className="userDelete" onClick={handleDelete}>
             회원탈퇴
           </button>
@@ -299,6 +398,19 @@ const UserInfo = ({ setActiveComponent }) => {
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleModalClose}
+            footer={[
+              <Button
+                onClick={handleOk}
+                style={{ backgroundColor: "#8eb111" }}
+                key="submit"
+                type="primary"
+              >
+                수정
+              </Button>,
+              <Button key="back" onClick={handleModalClose}>
+                취소
+              </Button>,
+            ]}
           >
             <p>회원수정을 마치시겠어요 ?</p>
           </Modal>

@@ -1,7 +1,5 @@
 import axios from "axios";
 import { getCookie, removeCookie, setCookie } from "./cookie";
-import { useDispatch } from "react-redux";
-import { loginReducer } from "../reducers/userSlice";
 
 export const instance = axios.create({
   baseURL: "http://localhost:3000",
@@ -26,7 +24,6 @@ instance.interceptors.request.use(
   },
 );
 
-// 쿠키 set 하기
 // 로그인
 export const fetchLogin = async (id, pw) => {
   console.log("fetchLogin 진행");
@@ -84,6 +81,62 @@ export const getUser = async _iuser => {
       point: res.data.point,
       birthday: res.data.birthday,
     };
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const getOrderList = async (_iuser, _date) => {
+  try {
+    const res = await instance.get(`/api/mypage/orderlist?month=${_date}`);
+    const result = res.data;
+    console.log(result);
+    return result;
+  } catch (err) {
+    [
+      {
+        orderId: 5,
+        createdAt: "2023-08-04",
+        thumbnail: "main1.pic",
+        name: "닭고기파스타",
+        price: 5000,
+        shipment: "상품 준비중",
+      },
+      {
+        orderId: 4,
+        createdAt: "2023-08-02",
+        thumbnail: "porridge.png",
+        name: "고구마미음 외1개",
+        price: 3300,
+        shipment: "상품 준비중",
+      },
+      {
+        orderId: 3,
+        createdAt: "2023-07-26",
+        thumbnail: "main5.png",
+        name: "봉골레파스타",
+        price: 40000,
+        shipment: "상품 준비중",
+      },
+    ];
+  }
+};
+export const fetchUserInfo = async _data => {
+  console.log(_data);
+  try {
+    const res = await instance.patch(`/api/mypage/profile`, _data);
+    const result = res.data;
+    console.log("유저 패치 진행 : ", result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+// 회원 탈퇴
+export const deleteUser = async () => {
+  try {
+    const res = await instance.delete("/api/mypage/profile");
+    const result = res.data;
     return result;
   } catch (err) {
     console.log(err);
