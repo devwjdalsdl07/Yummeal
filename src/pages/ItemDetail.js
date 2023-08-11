@@ -5,13 +5,14 @@ import { getProductId } from "../api/mainFatch";
 import { ItemDetailDiv } from "../style/MainCss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+import Slick from "../components/Slick";
 
 const ItemDetail = () => {
   // uri 에서 값 읽기
   const { pid } = useParams();
 
   const [product, setProduct] = useState({});
-  const [mainImage, setMainImage] = useState([]);
+  const [itemImage, setItemImage] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -20,7 +21,7 @@ const ItemDetail = () => {
     try {
       const productIdJson = await getProductId(pid);
       setProduct(productIdJson);
-      setMainImage(productIdJson.img);
+      setItemImage(productIdJson.img);
       setTotalPrice(parseInt(productIdJson.price));
     } catch (err) {
       console.log(err);
@@ -32,15 +33,8 @@ const ItemDetail = () => {
     window.scrollTo(0, 0);
   }, [pid]);
 
-  // const subImages = [
-  //   { img: "http://fpoimg.com/150x150" },
-  //   { img: "http://fpoimg.com/100x100" },
-  //   { img: "http://fpoimg.com/200x200" },
-  //   { img: "http://fpoimg.com/300x300" },
-  // ];
-
-  const handleSubImageClick = (img) => {
-    setMainImage([img]);
+  const handleSubImageClick = img => {
+    setItemImage([img]);
   };
 
   const handleplusClick = () => {
@@ -63,52 +57,58 @@ const ItemDetail = () => {
     }
   };
 
-
   return (
     <ItemDetailDiv>
       <div className="content-wrap" id="content-top">
-        <div className="goods">
-          <img className="item-img" src={mainImage[0]} alt="MainImage" />
-
-          <div className="item-info">
-            {mainImage?.map((subImage, index) => (
-              <img
-                key={index}
-                src={subImage}
-                alt={`${index + 1}`}
-                onClick={() => handleSubImageClick(subImage)}
-              />
-            ))}
+        <div className="goods-wrap">
+          <div className="goods-img">
+            <img className="item-img" src={itemImage[0]} alt="MainImage" />
+            <div className="item-info">
+              {itemImage?.map((subImage, index) => (
+                <img
+                  key={index}
+                  src={subImage}
+                  alt={`${index + 1}`}
+                  onClick={() => handleSubImageClick(subImage)}
+                />
+              ))}
+            </div>
           </div>
-          <ul className="goods-details">
-            <li className="goods-title">{product?.name}</li>
-            <li className="goods-info">원산지 : 기본정보 참조</li>
-            <li className="goods-price">
-              판매가 : {parseInt(product?.price).toLocaleString()}원
-            </li>
-            <li className="order-title">
-              {product?.name}
-              <span className="order-button">
-                <button onClick={handleMinusClick}>-</button>
-                <input value={quantity} />
-                <button onClick={handleplusClick}>+</button>
-              </span>
-            </li>
 
-            <li className="order-total-price">
-              총 합계 금액
-              <strong>{totalPrice.toLocaleString()}원</strong>
-            </li>
-            <li className="shopping-cart">
-              <button onClick={handleMinusClick}>
-                <FontAwesomeIcon icon={faCartArrowDown} />
-                장바구니
-              </button>
-              <button onClick={handleMinusClick}>바로구매하기</button>
-            </li>
-          </ul>
-
-          {/* <span className="product-tabs"> */}
+          <div>
+            <ul className="goods-details">
+              <li className="goods-title">{product?.name}</li>
+              <li className="goods-info">원산지 : 기본정보 참조</li>
+              <li className="goods-price">
+                판매가 : {parseInt(product?.price).toLocaleString()}원
+              </li>
+              <li className="order-title">
+                {product?.name}
+                <span className="order-button">
+                  <button onClick={handleMinusClick}>-</button>
+                  <input
+                    value={quantity}
+                    onChange={e => setQuantity(parseInt(e.target.value) || 0)}
+                  />
+                  <button onClick={handleplusClick}>+</button>
+                </span>
+              </li>
+              <li className="order-total-price">
+                총 합계 금액
+                <strong>{totalPrice.toLocaleString()}원</strong>
+              </li>
+              <li className="shopping-cart">
+                <button onClick={handleMinusClick}>
+                  <FontAwesomeIcon icon={faCartArrowDown} />
+                  장바구니
+                </button>
+                <button onClick={handleMinusClick}>바로구매하기</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+          <Slick />
+        <div>
           <ul className="product-tabs">
             <li>
               <a
@@ -178,7 +178,6 @@ const ItemDetail = () => {
             <h1>상품리뷰</h1>
             <Review />
           </div>
-          {/* </span> */}
         </div>
       </div>
     </ItemDetailDiv>
