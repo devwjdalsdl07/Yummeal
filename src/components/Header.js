@@ -11,8 +11,12 @@ import { CateProdList, menuCate } from "../api/cartaxios";
 import { postLogout } from "../api/client";
 import { getMain } from "../api/mainFatch";
 import { Head } from "../style/HeaderCss";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutReducer } from "../reducers/userSlice";
 
 function Header() {
+  const { iuser } = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
   const [search, setSearch] = useState("");
@@ -49,7 +53,7 @@ function Header() {
 
   // 검색어 업데이트
   const handleSearch = e => {
-    setSearch(e.target.value.replace(" ", ""));
+    setSearch(e.target.value);
   };
 
   // 검색결과창 이동
@@ -61,15 +65,8 @@ function Header() {
   // 로그아웃
   const handleRemove = () => {
     postLogout();
-    navigate("/login");
-  };
-
-  // 전체보기
-  const handleAllProd = async () => {
-    const AllProd = await getMain();
-    navigate("/search", {
-      state: { maxPage: AllProd.maxPage, list: AllProd.list },
-    });
+    dispatch(logoutReducer());
+    navigate("/");
   };
 
   return (
@@ -133,9 +130,17 @@ function Header() {
       </ul>
       {/* User 메뉴 리스트 */}
       <ul className="header_right">
-        <li onClick={() => navigate("/login")}>로그인</li>
-        <li onClick={() => navigate("/signup")}>회원가입</li>
-        <li onClick={handleRemove}>로그아웃</li>
+        {iuser ? (
+          <>
+            <li onClick={handleRemove}>로그아웃</li>
+            <li onClick={() => navigate("/mypage")}>마이페이지</li>
+          </>
+        ) : (
+          <>
+            <li onClick={() => navigate("/login")}>로그인</li>
+            <li onClick={() => navigate("/signup")}>회원가입</li>
+          </>
+        )}
       </ul>
     </Head>
   );

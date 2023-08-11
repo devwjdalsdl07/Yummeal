@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { OrderListContainer } from "../style/OrderListCss";
 import OrderNumber from "./OrderNumber";
-import { getOrderList } from "../api/mypageAxios";
+import { getOrderList } from "../api/client";
 
 const OrderList = () => {
   const button = [
@@ -12,13 +12,38 @@ const OrderList = () => {
   ];
   const [active, setActive] = useState(1);
   // orderNumber 컴포넌트 더미데이터
-  const [orderList, setOrderList] = useState([]);
+  const [orderList, setOrderList] = useState([
+    {
+      orderId: 5,
+      createdAt: "2023-08-04",
+      thumbnail: "main1.pic",
+      name: "닭고기파스타",
+      price: 5000,
+      shipment: "상품 준비중",
+    },
+    {
+      orderId: 4,
+      createdAt: "2023-08-02",
+      thumbnail: "porridge.png",
+      name: "고구마미음 외1개",
+      price: 3300,
+      shipment: "상품 준비중",
+    },
+    {
+      orderId: 3,
+      createdAt: "2023-07-26",
+      thumbnail: "main5.png",
+      name: "봉골레파스타",
+      price: 40000,
+      shipment: "상품 준비중",
+    },
+  ]);
   // const [filteredOrderList, setFilteredOrderList] = useState(orderList);
   const handleDateClick = async value => {
     setActive(value);
     // filterDate(value);
-    const data = await getOrderList(1, value);
-    setOrderList(data);
+    // const data = await getOrderList(value);
+    // setOrderList(data);
   };
   // const filterDate = active => {
   //   const now = new Date();
@@ -40,7 +65,7 @@ const OrderList = () => {
   //   setFilteredOrderList(filteredOrders);
   // };
   useEffect(() => {
-    handleDateClick(1)
+    handleDateClick(1);
   }, []);
   return (
     <OrderListContainer>

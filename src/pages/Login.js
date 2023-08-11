@@ -1,7 +1,6 @@
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { React, useEffect, useState } from "react";
-import { Cookies } from "react-cookie";
+import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContainer } from "../style/LoginCss";
 import { fetchLogin, getUser } from "../api/client";
@@ -20,10 +19,15 @@ const Login = () => {
   const handleLoginClick = async () => {
     const login = await fetchLogin(id, pw);
     console.log("로그인 시 넘어오는 : ", login);
-    if (login.success) {
-      const fetchUser = await getUser(1);
-      dispatch(loginReducer(fetchUser));
-      navigate("/");
+    if (!login) {
+      alert("로그인에 실패 하였습니다.");
+    }
+    if (login) {
+      if (login.success) {
+        const fetchUser = await getUser(1);
+        dispatch(loginReducer(fetchUser));
+        navigate("/");
+      }
     }
   };
   return (
