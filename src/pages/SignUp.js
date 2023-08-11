@@ -36,7 +36,6 @@ const SignUp = () => {
   const [birthMessage, setBirthMessage] = useState("");
   const [postCodeMessage, setPostCodeMessage] = useState("");
   const [addressMessage, setAddressMessage] = useState("");
-  const [detailAddressMessage, setDetailAddressMessage] = useState("");
 
   // 유효성 검사
   const [isNickName, setIsNickName] = useState(false);
@@ -222,6 +221,14 @@ const SignUp = () => {
     const pwCurrent = e.target.value.replace(/\s/gi, "");
     setPw(pwCurrent);
 
+    if (pwCurrent === pwConfirm) {
+      setPwConfirmMessage("비밀번호가 동일해요");
+      setIsPwConfirm(true);
+    } else if (pwCurrent !== pwConfirm) {
+      setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요");
+      setIsPwConfirm(false);
+    }
+
     if (!pwRegex.test(pwCurrent)) {
       setPwMessage("숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!");
       setIsPw(false);
@@ -229,6 +236,7 @@ const SignUp = () => {
       setPwMessage("안전한 비밀번호에요 : )");
       setIsPw(true);
     }
+
     // setPwMessage("");
     // setIsPw(false);
   };
@@ -246,6 +254,7 @@ const SignUp = () => {
       }
     } else if (!isPw) {
       setPwConfirmMessage("비밀번호를 먼저 확인해 주세요");
+      setIsPwConfirm(false);
     }
 
     // if (!pwConfirmRegex.test(pwConfirmCurrent)) {
@@ -309,46 +318,55 @@ const SignUp = () => {
     if (!isId) {
       setIdMessage("이메일을 입력해주세요.");
       alert("이메일을 입력해주세요.");
+
       return;
     }
     if (!isNickName) {
       setNickNameMessage("닉네임을 입력해주세요.");
       alert("닉네임을 입력해주세요.");
+
       return;
     }
     if (!isPw) {
       setPwMessage("비밀번호를 확인해주세요.");
       alert("비밀번호를 확인해주세요.");
+
       return;
     }
     if (!isPwConfirm) {
       setPwMessage("비밀번호 재입력을 확인해주세요.");
       alert("비밀번호 재입력을 확인해주세요.");
+
       return;
     }
     if (!isName) {
       setNameMessage("이름을 입력하여 주세요. ");
       alert("이름을 입력해 주세요");
+
       return;
     }
     if (!isPhone) {
       setPhoneMessage("전화번호를 입력하여 주세요. ");
       alert("전화번호를 입력해 주세요");
+
       return;
     }
     if (!isBirth) {
       setBirthMessage("생일을 입력하여 주세요. ");
       alert("생일을 입력해 주세요");
+
       return;
     }
     if (!isPostCode) {
       setPostCodeMessage("우편번호를 입력하여 주세요. ");
       alert("주소를 입력해 주세요");
+
       return;
     }
     if (!isAddress) {
       setAddressMessage("주소를 입력하여 주세요. ");
       alert("주소를 입력해 주세요");
+
       return;
     }
 
@@ -363,6 +381,7 @@ const SignUp = () => {
       nickNm: nickName,
       birthday: birth,
     };
+    alert("회원가입이 성공적으로 이루어졌어요 !!");
     postSignUp(item);
     navigate("/login");
   };

@@ -16,7 +16,7 @@ const Mypage = () => {
       case "order":
         return <OrderList />;
       case "user":
-        return <UserInfo setActiveComponent={setActiveComponent}/>;
+        return <UserInfo setActiveComponent={setActiveComponent} />;
       default:
         return null;
     }
@@ -33,7 +33,7 @@ const Mypage = () => {
               <li>
                 <p
                   style={
-                    activeComponent === "order" ? { color: "hotpink" } : null
+                    activeComponent === "order" ? { color: "#8EB111" } : null
                   }
                 >
                   주문 배송
@@ -47,7 +47,7 @@ const Mypage = () => {
               <li>
                 <p
                   style={
-                    activeComponent === "user" ? { color: "hotpink" } : null
+                    activeComponent === "user" ? { color: "#8EB111" } : null
                   }
                 >
                   정보 수정
