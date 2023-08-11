@@ -10,9 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { postLogout } from "../api/client";
 import { removeCookie } from "../api/cookie";
 import { Head } from "../style/HeaderCss";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutReducer } from "../reducers/userSlice";
 
 // export default Header;
 function Header() {
+  const { iuser } = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
   const [search, setSearch] = useState("");
@@ -28,9 +32,8 @@ function Header() {
 
   const handleRemove = () => {
     postLogout();
-    removeCookie("accessToken");
-    removeCookie("refreshToken");
-    navigate("/login");
+    dispatch(logoutReducer());
+    navigate("/");
   };
 
   return (
@@ -116,9 +119,17 @@ function Header() {
       </ul>
       {/* User 메뉴 리스트 */}
       <ul className="header_right">
-        <li onClick={() => navigate("/login")}>로그인</li>
-        <li onClick={() => navigate("/signup")}>회원가입</li>
-        <li onClick={handleRemove}>로그아웃</li>
+        {iuser ? (
+          <>
+            <li onClick={handleRemove}>로그아웃</li>
+            <li onClick={() => navigate("/mypage")}>마이페이지</li>
+          </>
+        ) : (
+          <>
+            <li onClick={() => navigate("/login")}>로그인</li>
+            <li onClick={() => navigate("/signup")}>회원가입</li>
+          </>
+        )}
       </ul>
     </Head>
   );

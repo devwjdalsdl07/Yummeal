@@ -1,13 +1,15 @@
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { React, useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { LoginContainer } from "../style/LoginCss";
-import { postLogin } from "../api/loginaxios";
+import { fetchLogin, getUser } from "../api/client";
+import { useDispatch } from "react-redux";
+import { loginReducer } from "../reducers/userSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
@@ -16,8 +18,13 @@ const Login = () => {
   };
 
   const handleLoginClick = async () => {
-    const login = await postLogin(id, pw);
-    navigate("/");
+    const login = await fetchLogin(id, pw);
+    console.log("로그인 시 넘어오는 : ", login);
+    if (login.success) {
+      const fetchUser = await getUser(1);
+      dispatch(loginReducer(fetchUser));
+      navigate("/");
+    }
   };
   return (
     <LoginContainer>
