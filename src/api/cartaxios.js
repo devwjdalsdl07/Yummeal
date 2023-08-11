@@ -1,10 +1,12 @@
 import axios from "axios";
+import { instance } from "./client";
 
 // 장바구니 get
 export const getCart = async () => {
   try {
-    const res = await axios.get("/api/orderbasket?iuser=1");
+    const res = await instance.get("/api/orderbasket");
     const result = res.data;
+    console.log("장바구니 겟겟겟겟", result)
     return result;
   } catch (error) {
     [
@@ -96,8 +98,9 @@ export const cartDelete = async _cartId => {
 // 장바구니 post
 export const cartIn = async _item => {
   try {
-    const res = await axios.post("/api/orderbasket", _item);
+    const res = await instance.post("/api/orderbasket", _item);
     const result = res.data;
+    console.log("장바구니 담기는거 맞아?", result);
     return result;
   } catch (err) {
     console.log(err);

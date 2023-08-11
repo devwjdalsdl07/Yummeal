@@ -25,21 +25,6 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   },
 );
-// client.interceptors.request.use(
-//   config => {
-//     const token = getCookie("accessToken");
-//     config.headers["Content-Type"] = "application/json";
-//     config.headers["Authorization"] = `Bearer ${token}`;
-//     if (!token) {
-//       return config;
-//     }
-//     return config;
-//   },
-//   error => {
-//     console.log(error);
-//     return Promise.reject(error);
-//   },
-// );
 
 // 쿠키 set 하기
 // 로그인

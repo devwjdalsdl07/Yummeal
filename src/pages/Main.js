@@ -36,7 +36,6 @@ const Main = () => {
     try {
       const cartItem = {
         productId: _item.productId,
-        iuser: 1,
         count: 1,
       };
       const result = await cartIn(cartItem);

@@ -1,18 +1,21 @@
 import styled from "@emotion/styled";
 
 export const OrderWrap = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  padding: 5rem;
-  margin: 0 auto;
-  max-width: 140rem;
-  position: relative;
-  @media screen and (max-width: 1024px) {
-    padding: 2rem;
-    min-width: 40rem;
-    flex-direction: column;
-    justify-content: center;
-    gap: 3rem 0;
+  background: #f9f6f1;
+  .wrap {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 5rem;
+    margin: 0 auto;
+    max-width: 140rem;
+    position: relative;
+    @media screen and (max-width: 1024px) {
+      padding: 2rem;
+      min-width: 40rem;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3rem 0;
+    }
   }
 `;
 export const OrderInfo = styled.div`
