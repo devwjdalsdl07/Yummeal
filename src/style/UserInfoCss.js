@@ -19,7 +19,8 @@ export const JoinContainer = styled.div`
     cursor: pointer;
     float: right;
     margin-right: 15px;
-    font-weight: 600;
+    font-family: "Pretendard", "SUITE", sans-serif;
+    font-weight: 500;
   }
 `;
 export const JoinArea = styled.div`

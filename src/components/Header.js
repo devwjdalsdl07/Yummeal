@@ -106,7 +106,7 @@ function Header() {
         </button>
         {/* 메뉴 리스트 */}
       </form>
-      {/* <ul className="header_menulist">
+      <ul className="header_menulist">
         {cate.map(mainMenu => (
           <li key={mainMenu.cateName} onClick={() => handleCateClick(mainMenu)}>
             {mainMenu.cateId}단계
@@ -123,7 +123,7 @@ function Header() {
           </li>
         ))}
         <li onClick={() => navigate("/")}>전체보기</li>
-      </ul> */}
+      </ul>
       {/* User 메뉴 리스트 */}
       <ul className="header_right">
         <li onClick={() => navigate("/login")}>로그인</li>
