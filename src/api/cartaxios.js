@@ -1,4 +1,5 @@
 import axios from "axios";
+import { client, instance } from "./client";
 
 // 장바구니 get
 export const getCart = async () => {
@@ -96,7 +97,7 @@ export const cartDelete = async _cartId => {
 // 장바구니 post
 export const cartIn = async _item => {
   try {
-    const res = await axios.post("/api/orderbasket", _item);
+    const res = await client.post("/api/orderbasket", _item);
     const result = res.data;
     return result;
   } catch (err) {

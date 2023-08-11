@@ -24,6 +24,7 @@ const Slick = () => {
   // }, []);
 
   const [main, setMain] = useState([]);
+  const [mainImage, setItemImage] = useState([]);
 
   //기본으로 보여줄 상품(비로그인)
   const getMainFetch = async () => {
@@ -31,6 +32,7 @@ const Slick = () => {
       const mainJson = await getMain();
       console.log(mainJson);
       setMain(mainJson.list);
+      setItemImage(mainJson.list.map(item => item.thumbnail));
     } catch (err) {
       console.log(err);
     }
@@ -78,29 +80,21 @@ const Slick = () => {
 
   return (
     <div className="container">
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
-      />
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
-      />
-      
       <SlickDiv>
         <h1 className="title">추천 상품 </h1>
         <Slider {...settings}>
-          {main.map(item => (
+          {main.map((item, index) => (
             <div key={item.productId}>
-              <div onClick={() => handleItemClick(item.productId)}>
-                {/* <h3>1</h3> */}
-                <span>
-                  <p>{item.name}</p>
-                  <p>판매가 : {parseInt(item?.price).toLocaleString()}원</p>
-                </span>
-              </div>
+              <img
+                key={index}
+                src={mainImage[index]}
+                alt={`Product ${index + 1}`}
+                onClick={() => handleItemClick(item.productId)}
+              />
+              <span>
+                <p>{item.name}</p>
+                <p>판매가 : {parseInt(item?.price).toLocaleString()}원</p>
+              </span>
             </div>
           ))}
         </Slider>
