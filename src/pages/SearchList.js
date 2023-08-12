@@ -32,7 +32,6 @@ const SearchList = () => {
     try {
       const cartItem = {
         productId: _item.productId,
-        iuser: 1,
         count: 1,
       };
       const result = await cartIn(cartItem);
@@ -89,7 +88,10 @@ const SearchList = () => {
             ))}
           </ul>
 
-          <Paging onPageChange={handlePageChange} />
+          <Paging
+            onPageChange={handlePageChange}
+            bestProductAll={bestProductAll}
+          />
         </div>
       </div>
     </MainDiv>

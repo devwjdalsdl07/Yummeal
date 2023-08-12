@@ -11,6 +11,8 @@ import { CateProdList, menuCate } from "../api/cartaxios";
 import { postLogout } from "../api/client";
 import { removeCookie } from "../api/cookie";
 import { Head } from "../style/HeaderCss";
+import { logoutReducer } from "../reducers/userSlice";
+import { useDispatch } from "react-redux";
 
 function Header() {
   const [isToggled, setIsToggled] = useState(false);
@@ -19,6 +21,7 @@ function Header() {
   const [cate, setCate] = useState([]);
   const [subCate, setSubCate] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // 카테고리 메뉴 불러오기
   const cateGet = async () => {
@@ -65,9 +68,8 @@ function Header() {
   // 로그아웃
   const handleRemove = () => {
     postLogout();
-    removeCookie("accessToken");
-    removeCookie("refreshToken");
-    navigate("/login");
+    dispatch(logoutReducer());
+    navigate("/");
   };
 
   return (

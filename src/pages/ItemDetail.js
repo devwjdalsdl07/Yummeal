@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Review from "../components/Review";
 import { getProductId } from "../api/mainFatch";
 import { ItemDetailDiv } from "../style/MainCss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import Slick from "../components/Slick";
+import { cartIn } from "../api/cartaxios";
 
 const ItemDetail = () => {
-  // uri 에서 값 읽기
-  const { pid } = useParams();
-
   const [product, setProduct] = useState({});
   const [itemImage, setItemImage] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  // uri 에서 값 읽기
+  const { pid } = useParams();
+  const navigate = useNavigate();
 
   //상품 상세 페이지 가져오기
   const getProductIdFetch = async () => {
@@ -54,6 +56,22 @@ const ItemDetail = () => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleShoppingClick = async _item => {
+    console.log(_item);
+    try {
+      const cartItem = {
+        productId: _item,
+        count: quantity,
+      };
+      const result = await cartIn(cartItem);
+      console.log(result);
+      navigate(`/cart`);
+      return result;
+    } catch (err) {
+      console.error("주문 처리 중 오류 발생:", err);
     }
   };
 
@@ -98,7 +116,7 @@ const ItemDetail = () => {
                 <strong>{totalPrice.toLocaleString()}원</strong>
               </li>
               <li className="shopping-cart">
-                <button onClick={handleMinusClick}>
+                <button onClick={() => handleShoppingClick(pid)}>
                   <FontAwesomeIcon icon={faCartArrowDown} />
                   장바구니
                 </button>
@@ -107,7 +125,7 @@ const ItemDetail = () => {
             </ul>
           </div>
         </div>
-          <Slick />
+        <Slick />
         <div>
           <ul className="product-tabs">
             <li>
