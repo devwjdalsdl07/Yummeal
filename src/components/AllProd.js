@@ -1,8 +1,14 @@
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import Paging from "./Paging";
 
-const AllProd = ({ state, handleItemClick, handleShoppingClick }) => {
+const AllProd = ({
+  state,
+  handleItemClick,
+  handleShoppingClick,
+  handlePageChange,
+}) => {
   return (
     <>
       <div className=" best-item">
@@ -13,7 +19,7 @@ const AllProd = ({ state, handleItemClick, handleShoppingClick }) => {
           <div key={productId}>
             <li className="product-card">
               <img
-                src="http://fpoimg.com/150x150"
+                src={item.thumbnail}
                 alt="상품 이미지"
                 className="product-image"
               />
@@ -36,6 +42,7 @@ const AllProd = ({ state, handleItemClick, handleShoppingClick }) => {
           </div>
         ))}
       </ul>
+      <Paging onPageChange={handlePageChange} />
     </>
   );
 };

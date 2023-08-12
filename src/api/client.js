@@ -9,6 +9,7 @@ export const instance = axios.create({
   },
 });
 
+// 요청 인터셉터
 instance.interceptors.request.use(
   async config => {
     // 여기서 작업을 수행합니다. 예: 토큰 작업 및 헤더 변경
@@ -23,6 +24,7 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
 // 로그인
 export const fetchLogin = async (id, pw) => {
   console.log("fetchLogin 진행");
@@ -65,6 +67,7 @@ export const postLogout = async () => {
   }
 };
 
+// 유저정보 get
 export const getUser = async _iuser => {
   try {
     const res = await instance.get(`/api/mypage/profile?iuser=${_iuser}`);
@@ -85,6 +88,8 @@ export const getUser = async _iuser => {
     console.log(err);
   }
 };
+
+// 주문내역 get
 export const getOrderList = async (_date) => {
   try {
     const res = await instance.get(`/api/mypage/orderlist?month=${_date}`);
@@ -120,6 +125,8 @@ export const getOrderList = async (_date) => {
     ];
   }
 };
+
+// 유저정보 수정 patch
 export const fetchUserInfo = async _data => {
   console.log(_data);
   try {
@@ -131,10 +138,129 @@ export const fetchUserInfo = async _data => {
     console.log(err);
   }
 };
+
 // 회원 탈퇴
 export const deleteUser = async () => {
   try {
     const res = await instance.delete("/api/mypage/profile");
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 장바구니 get
+export const getCart = async () => {
+  try {
+    const res = await instance.get("/api/orderbasket");
+    const result = res.data;
+    console.log("장바구니 겟겟겟겟", result);
+    return result;
+  } catch (error) {
+    [
+      {
+        cartId: 16,
+        title: "덮밥",
+        name: "연어덮밥",
+        count: 20,
+        price: 9000,
+        thumbnail: "main4.png",
+        createdAt: "2023-08-03 17:47:32",
+      },
+      {
+        cartId: 15,
+        title: "닭볶음탕",
+        name: "닭볶음탕",
+        count: 15,
+        price: 15000,
+        thumbnail: "main3.png",
+        createdAt: "2023-08-03 17:47:19",
+      },
+      {
+        cartId: 14,
+        title: "과일",
+        name: "사과",
+        count: 10,
+        price: 20000,
+        thumbnail: "main2.pic",
+        createdAt: "2023-08-03 17:47:14",
+      },
+    ];
+  }
+};
+
+// 장바구니 업카운트 patch
+export const upPatch = async (_cartId, _newCount) => {
+  try {
+    const res = await instance.patch(
+      `/api/orderbasket/plus?cartId=${_cartId}`,
+      {
+        count: _newCount,
+      },
+    );
+    const result = res.data;
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 장바구니 다운카운트 patch
+export const downPatch = async (_cartId, _newCount) => {
+  try {
+    const res = await instance.patch(
+      `/api/orderbasket/minus?cartId=${_cartId}`,
+      {
+        count: _newCount,
+      },
+    );
+    const result = res.data;
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 장바구니 목록삭제 delete
+export const cartDelete = async _cartId => {
+  try {
+    const res = await instance.delete(`/api/orderbasket?cartId=${_cartId}`);
+    const result = res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 장바구니 post
+export const cartIn = async _item => {
+  try {
+    const res = await instance.post("/api/orderbasket", _item);
+    const result = res.data;
+    console.log("장바구니 담기는거 맞아?", result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 결제내역 get
+export const getOrderEnd = async _orderId => {
+  try {
+    const res = await instance.get(
+      `/api/mypage/orderlist/detail?iuser=1&orderId=${_orderId}`,
+    );
+    const result = res.data;
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 주문 post
+export const orderPost = async _item => {
+  try {
+    const res = await instance.post("/api/buy/order", _item);
     const result = res.data;
     return result;
   } catch (err) {

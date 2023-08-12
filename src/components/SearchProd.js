@@ -31,7 +31,7 @@ const SearchProd = ({
           <div key={productId}>
             <li className="product-card">
               <img
-                src="http://fpoimg.com/150x150"
+                src={item.thumbnail}
                 alt="상품 이미지"
                 className="product-image"
               />

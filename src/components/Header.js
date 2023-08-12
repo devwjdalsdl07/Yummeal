@@ -6,13 +6,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CateProdList, menuCate } from "../api/cartaxios";
 import { postLogout } from "../api/client";
 import { getMain } from "../api/mainFatch";
-import { Head } from "../style/HeaderCss";
-import { useDispatch, useSelector } from "react-redux";
 import { logoutReducer } from "../reducers/userSlice";
+import { Head } from "../style/HeaderCss";
 
 function Header() {
   const { iuser } = useSelector(state => state.user);
@@ -34,19 +34,34 @@ function Header() {
     cateGet();
   }, []);
 
-  // 카테고리 메뉴 클릭 시 이동
-  const handleCateClick = async (mainMenu, subMenu) => {
+  // 서브 메뉴 클릭 시 이동
+  const handleSubMenuClick = async (mainMenu, subMenu, e) => {
+    e.stopPropagation();
     console.log("카테고리 번호 찍자", mainMenu?.cateId, subMenu?.cateDetailId);
     const cateId = mainMenu.cateId;
     const subCateId =
       subMenu?.cateDetailId == undefined ? 0 : subMenu?.cateDetailId;
     const result = await CateProdList(cateId, subCateId);
-    navigate("/search", {
+    navigate("/productlist", {
       state: {
         maxPaige: result.maxPaige,
         list: result.list,
         cateId: mainMenu?.cateId,
         subCate: subMenu?.cateDetailId,
+      },
+    });
+  };
+
+  // 메인 메뉴 클릭 시 이동
+  const handleMainMenuClick = async mainMenu => {
+    console.log("메인메뉴 번호 찍자", mainMenu?.cateId);
+    const cateId = mainMenu.cateId;
+    const result = await CateProdList(cateId, 0);
+    navigate("/productlist", {
+      state: {
+        maxPaige: result.maxPaige,
+        list: result.list,
+        cateId: mainMenu.cateId,
       },
     });
   };
@@ -59,7 +74,7 @@ function Header() {
   // 검색결과창 이동
   const handleSearchPost = e => {
     e.preventDefault();
-    navigate("/search", { state: { product: search }});
+    navigate("/search", { state: { product: search } });
   };
 
   // 로그아웃
@@ -67,6 +82,16 @@ function Header() {
     postLogout();
     dispatch(logoutReducer());
     navigate("/");
+  };
+
+  const handleAllProd = async () => {
+    const result = await getMain();
+    navigate("/productlist", {
+      state: {
+        maxPage: result.maxPage,
+        list: result.list,
+      },
+    });
   };
 
   return (
@@ -112,13 +137,16 @@ function Header() {
       </form>
       <ul className="header_menulist">
         {cate.map(mainMenu => (
-          <li key={mainMenu.cateName} onClick={() => handleCateClick(mainMenu)}>
+          <li
+            key={mainMenu.cateName}
+            onClick={() => handleMainMenuClick(mainMenu)}
+          >
             {mainMenu.cateId}단계
             <ul>
               {mainMenu.list?.map(subMenu => (
                 <li
                   key={subMenu.cateDetailId}
-                  onClick={() => handleCateClick(mainMenu, subMenu)}
+                  onClick={e => handleSubMenuClick(mainMenu, subMenu, e)}
                 >
                   {subMenu.cateName}
                 </li>

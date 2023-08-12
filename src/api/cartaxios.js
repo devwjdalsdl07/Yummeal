@@ -1,3 +1,4 @@
+import axios from "axios";
 import { instance } from "./client";
 
 // 장바구니 get
@@ -35,24 +36,6 @@ export const getCart = async () => {
         price: 20000,
         thumbnail: "main2.pic",
         createdAt: "2023-08-03 17:47:14",
-      },
-      {
-        cartId: 13,
-        title: "파스타",
-        name: "닭고기파스타",
-        count: 5,
-        price: 0,
-        thumbnail: "main1.pic",
-        createdAt: "2023-08-03 17:47:09",
-      },
-      {
-        cartId: 4,
-        title: "과일",
-        name: "사과",
-        count: 3,
-        price: 20000,
-        thumbnail: "main2.pic",
-        createdAt: "2023-07-25 09:27:42",
       },
     ];
   }
@@ -139,8 +122,8 @@ export const orderPost = async _item => {
 // 검색 결과 get
 export const searchResult = async _product => {
   try {
-    const res = await instance.get(
-      `/api/Search?product=${_product}&page=1&row=16`,
+    const res = await axios.get(
+      `/api/search?product=${_product}&page=1&row=16`,
     );
     const result = res.data;
     console.log("검색결과 : ", result);
@@ -153,7 +136,7 @@ export const searchResult = async _product => {
 // 필터 정렬 get
 export const filterSort = async _item => {
   try {
-    const res = await instance.post("/api/search/filter", _item);
+    const res = await axios.post("/api/search/filter", _item);
     const result = res.data;
     console.log("검색필터결과 : ", result);
     return result;
@@ -165,7 +148,7 @@ export const filterSort = async _item => {
 // 카테고리 메뉴 get
 export const menuCate = async () => {
   try {
-    const res = await instance.get("/api/cate/all");
+    const res = await axios.get("/api/cate/all");
     const result = res.data;
     console.log("카테고리 메뉴 : ", result);
     return result;
@@ -177,7 +160,7 @@ export const menuCate = async () => {
 // 메뉴 클릭 시 품목 get
 export const CateProdList = async (cateId, subCateId) => {
   try {
-    const res = await instance.get(
+    const res = await axios.get(
       `/api/cate/list?cateId=${cateId}&cateDetailId=${subCateId}&page=1&row=16`,
     );
     const result = res.data;

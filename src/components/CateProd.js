@@ -1,13 +1,16 @@
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import Paging from "./Paging";
 
 const CateProd = ({
   state,
   getCategoryLabel,
   handleItemClick,
   handleShoppingClick,
+  handlePageChange,
 }) => {
+  console.log("카테컴포넌트에 넘어오나??", state);
   return (
     <>
       <div className="best-item">
@@ -23,7 +26,7 @@ const CateProd = ({
           <div key={productId}>
             <li className="product-card">
               <img
-                src="http://fpoimg.com/150x150"
+                src={item.thumbnail}
                 alt="상품 이미지"
                 className="product-image"
               />
@@ -46,6 +49,7 @@ const CateProd = ({
           </div>
         ))}
       </ul>
+      <Paging onPageChange={handlePageChange} />
     </>
   );
 };
