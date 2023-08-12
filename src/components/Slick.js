@@ -1,44 +1,38 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
+import { getRandom, getRecommend } from "../api/mainFatch";
+import { useNavigate } from "react-router";
+import { getCookie } from "../api/cookie";
+import { SlickDiv } from "../style/MainCss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { SlickDiv } from "../style/MainCss";
-import { getMain, getRecommend } from "../api/mainFatch";
-import { useNavigate } from "react-router";
 
 const Slick = () => {
-  // const [recommend, setRecommend] = useState([]);
+  const [randomProduct, setRandomProduct] = useState([]);
+  const [recommend, setRecommend] = useState([]);
+  const [itemImage, setItemImage] = useState([]);
 
-  // //회원 자녀의 개월에 따라 상품추천 가져오기
-  // const getRecommendFetch = async () => {
-  //   try {
-  //     const recommendJson = await getRecommend();
-  //     setRecommend(recommendJson);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  //로그인 여부 확인
+  const isLoggedIn = getCookie("accessToken") ? true : false;
 
-  // useEffect(() => {
-  //   getRecommendFetch();
-  // }, []);
-
-  const [main, setMain] = useState([]);
-  const [mainImage, setItemImage] = useState([]);
-
-  //기본으로 보여줄 상품(비로그인)
-  const getMainFetch = async () => {
+  const getProductRecommenderFetch = async () => {
     try {
-      const mainJson = await getMain();
-      console.log(mainJson);
-      setMain(mainJson.list);
-      setItemImage(mainJson.list.map(item => item.thumbnail));
+      if (isLoggedIn) {
+        const recommendJson = await getRecommend();
+        setRecommend(recommendJson);
+        setItemImage(recommendJson.map(item => item.thumbnail));
+      } else {
+        const randomJson = await getRandom();
+        setRandomProduct(randomJson);
+        setItemImage(randomJson.map(item => item.thumbnail));
+      }
     } catch (err) {
       console.log(err);
     }
   };
+
   useEffect(() => {
-    getMainFetch();
+    getProductRecommenderFetch();
   }, []);
 
   const navigate = useNavigate();
@@ -79,15 +73,17 @@ const Slick = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container-slick">
       <SlickDiv>
-        <h1 className="title">추천 상품 </h1>
+        <h1 className="title">
+          {isLoggedIn ? "님네임 위한 추천 상품" : "추천 상품"}
+        </h1>
         <Slider {...settings}>
-          {main.map((item, index) => (
+          {(isLoggedIn ? recommend : randomProduct).map((item, index) => (
             <div key={item.productId}>
               <img
                 key={index}
-                src={mainImage[index]}
+                src={itemImage[index]}
                 alt={`Product ${index + 1}`}
                 onClick={() => handleItemClick(item.productId)}
               />

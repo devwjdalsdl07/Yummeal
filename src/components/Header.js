@@ -13,6 +13,8 @@ import { postLogout } from "../api/client";
 import { getMain } from "../api/mainFatch";
 import { logoutReducer } from "../reducers/userSlice";
 import { Head } from "../style/HeaderCss";
+import { logoutReducer } from "../reducers/userSlice";
+import { useDispatch } from "react-redux";
 
 function Header() {
   const { iuser } = useSelector(state => state.user);
@@ -23,6 +25,7 @@ function Header() {
   const [cate, setCate] = useState([]);
   const [subCate, setSubCate] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // 카테고리 메뉴 불러오기
   const cateGet = async () => {

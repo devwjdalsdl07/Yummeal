@@ -110,12 +110,13 @@ export const MainDiv = styled.div`
   }
 `;
 export const SlickDiv = styled.div`
-  .container {
+  .container-slick {
     position: relative;
     display: inline-block;
     margin: 0 auto;
     padding: 0px 40px 40px 40px;
     width: 400px;
+
     &:hover .product-description {
       opacity: 0.5;
     }
@@ -230,7 +231,8 @@ export const ItemDetailDiv = styled.div`
     .goods-wrap {
       display: flex;
       justify-content: space-around;
-      padding-bottom: 15%;
+      padding-bottom: 13%;
+
       .goods-img {
         .item-img {
           width: 450px;
@@ -250,17 +252,17 @@ export const ItemDetailDiv = styled.div`
     }
 
     .goods-details {
-      //width는 나중에 수정하기 
+      //width는 나중에 수정하기
       width: 500px;
       bottom: 610px;
       .goods-title {
-        font-size: 50px;
+        font-size: 45px;
         font-weight: bold;
         margin-bottom: 40px;
       }
       .goods-info {
-        font-size: 40px;
-        font-weight: bold;
+        font-size: 37px;
+        font-weight: 500;
         line-height: 40px;
         margin-bottom: 25px;
       }
@@ -270,7 +272,7 @@ export const ItemDetailDiv = styled.div`
         font-size: 30px;
       }
       .order-title {
-        padding-top: 50px;
+        padding-top: 60px;
         border-top: 3px inset #313133;
         font-size: 35px;
         display: flex;
