@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-const ImgUpload = () => {
+const ImgUpload = ({ imgArr, setImgArr }) => {
   const [imgPreview, setImgPreview] = useState(null);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const fileInput = useRef(null);
@@ -9,7 +9,8 @@ const ImgUpload = () => {
   };
   const handleImgChange = e => {
     const file = e.target.files[0];
-
+    const newImageArray = [...imgArr, file];
+    setImgArr(newImageArray);
     if (file) {
       const reader = new FileReader();
       reader.onload = function (event) {

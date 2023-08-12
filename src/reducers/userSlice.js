@@ -33,10 +33,22 @@ const userSlice = createSlice({
     logoutReducer: state => {
       // state = initialState;
       Object.assign(state, initialState);
-      console.log("로그아웃 디스패치", state);
+    },
+    userEditReducer: (state, action) => {
+      (state.name = action.payload.name),
+        (state.email = action.payload.email),
+        (state.mobileNb = action.payload.phoneNumber),
+        (state.birthday = action.payload.birthday),
+        (state.zipcode = action.payload.zipcode),
+        (state.address = action.payload.address),
+        (state.addressDetail = action.payload.addressDetail),
+        (state.nickNm = action.payload.nickNm);
+    },
+    pointReducer: (state, action) => {
+      state.point = action.payload;
     },
   },
 });
 
 export default userSlice;
-export const { loginReducer, logoutReducer } = userSlice.actions;
+export const { loginReducer, logoutReducer, pointReducer, userEditReducer } = userSlice.actions;

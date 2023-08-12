@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getProductId = async () => {
   try {
-    const res = await axios.post("/admin", {
+    const res = await axios.post("/api/admin/product", {
       ProductId: 0,
     });
     const result = res.data;
@@ -126,7 +126,7 @@ export const postImage = async (_iproduct, img) => {
   try {
     console.log("폼데이타", formData);
     const res = await axios.post(
-      `admin/img?productId=${_iproduct}`,
+      `/api/admin/product/img?productId=${_iproduct}`,
       formData,
       config,
     );
@@ -140,10 +140,40 @@ export const postImage = async (_iproduct, img) => {
 
 export const deleteProduct = async _iproduct => {
   try {
-    const res = axios.delete(`/admin?product=${_iproduct}`);
+    const res = axios.delete(
+      `/api/admin/product/cancelation?product=${_iproduct}`,
+    );
     return res.data;
   } catch (err) {
     console.log(_iproduct);
+    console.log(err);
+  }
+};
+
+export const itemAdd = async _data => {
+  try {
+    const res = await axios.patch("/api/admin/product/registration", _data);
+    return res.data;
+  } catch (err) {
+    console.log("아이템 등록 실패");
+    console.log(err);
+  }
+};
+export const imgAdd = async (_iproduct, imgArr) => {
+  const formData = new FormData();
+  for (const img of imgArr) {
+    formData.append("img", img);
+  }
+  try {
+    const res = await axios.post(
+      `/api/admin/product/imglist/thumbnail?productId=${_iproduct}`,
+      formData,
+      config,
+    );
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log("이미지 등록 실패");
     console.log(err);
   }
 };

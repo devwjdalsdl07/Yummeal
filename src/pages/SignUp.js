@@ -27,12 +27,12 @@ const SignUp = () => {
   // const [extraAddress, setExtraAddress] = useState("");
 
   //오류메시지 상태저장
-  const [nickNameMessage, setNickNameMessage] = useState("");
   const [idMessage, setIdMessage] = useState("");
+  const [nickNameMessage, setNickNameMessage] = useState("");
   const [pwMessage, setPwMessage] = useState("");
   const [pwConfirmMessage, setPwConfirmMessage] = useState("");
-  const [nameMessage, setNameMessage] = useState("");
   const [phoneMessage, setPhoneMessage] = useState("");
+  const [nameMessage, setNameMessage] = useState("");
   const [birthMessage, setBirthMessage] = useState("");
   const [postCodeMessage, setPostCodeMessage] = useState("");
   const [addressMessage, setAddressMessage] = useState("");
@@ -42,15 +42,13 @@ const SignUp = () => {
   const [isId, setIsId] = useState(false);
   const [isPw, setIsPw] = useState(false);
   const [isPwConfirm, setIsPwConfirm] = useState(false);
-  const [isName, setIsName] = useState(false);
   const [isPhone, setIsPhone] = useState(false);
+  const [isName, setIsName] = useState(false);
   const [isBirth, setIsBirth] = useState(false);
   const [isPostCode, setIsPostCode] = useState(false);
   const [isAddress, setIsAddress] = useState(false);
   const [isDetailAddress, setIsDetailAddress] = useState(false);
-  // 회원가입 버튼 활성화 여부
-  const [isSignup, setIsSignup] = useState(true);
-
+  
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");

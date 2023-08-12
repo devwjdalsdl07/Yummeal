@@ -1,18 +1,39 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { getCart, orderPost } from "../api/cartaxios";
 import OrderItem from "../components/OrderItem";
+import { pointReducer } from "../reducers/userSlice";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
 
 const Order = () => {
   const [orderItems, setOrderItems] = useState([]);
-  const [point, setPoint] = useState(5000);
+  const [userPoint, setUserPoint] = useState(0);
   const [usePoint, setUsePoint] = useState("");
-  const [name, setName] = useState("");
+  const [receiver, setReceiver] = useState("");
   const [message, setMessage] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const [orderPayFixed, setOrderPayFixed] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { name, mobileNb, address, addressDetail, point } = useSelector(
+    state => state.user,
+  );
+  const addressAll = address + addressDetail;
+
+  console.log(
+    "네임",
+    name,
+    "폰",
+    mobileNb,
+    "주소1",
+    address,
+    "주소2",
+    addressDetail,
+    "돈",
+    point,
+  );
 
   const cartList = async () => {
     const result = await getCart();
@@ -21,11 +42,13 @@ const Order = () => {
 
   useEffect(() => {
     cartList();
+    setReceiver(name);
+    setUserPoint(point);
   }, []);
 
   const handleUsePoint = e => {
     const inputValue = e.target.value.replace(/[^0-9]/g, "");
-    const availablePoint = point;
+    const availablePoint = userPoint;
     const enteredPoint = inputValue === "" ? "" : inputValue;
 
     if (
@@ -39,7 +62,7 @@ const Order = () => {
   };
 
   const handleAllPoint = () => {
-    setUsePoint(point);
+    setUsePoint(userPoint);
   };
 
   const handleOrder = () => {
@@ -47,20 +70,18 @@ const Order = () => {
       key: idx,
       cartId: item.cartId,
       productId: item.productId,
-      iuser: 1,
       count: item.count,
       totalprice: item.price * item.count,
     }));
     const item = {
       receiver: name,
-      address: "주소1",
-      addressDetail: "주소2",
-      phoneNm: "전화번호",
+      address: address,
+      addressDetail: addressDetail,
+      phoneNm: mobileNb,
       request: message,
       payment: 1,
-      iuser: 1,
       point: usePoint !== "" ? usePoint : 0,
-      orderbasket: orderBasket,
+      insorderbasket: orderBasket,
     };
     console.log(item);
     const newWindow = window.open(
@@ -70,13 +91,14 @@ const Order = () => {
     );
     newWindow.addEventListener("beforeunload", async () => {
       try {
+        dispatch(pointReducer(point-usePoint));
         const result = await orderPost(item);
         navigate("/orderdetail", {
           state: {
             orderId: result.orderId,
             point: result.point,
-            totalprice: result.totalprice,
-            paymentprice: result.paymentprice,
+            totalprice: result.paymentprice,
+            paymentprice: result.totalprice,
           },
         });
       } catch (err) {
@@ -86,7 +108,7 @@ const Order = () => {
   };
 
   const handleNameChange = e => {
-    setName(e.target.value);
+    setReceiver(e.target.value.replace(/\s/gi, ""));
   };
 
   const handleMessage = e => {
@@ -106,84 +128,85 @@ const Order = () => {
   return (
     <OrderWrap>
       <div className="wrap">
-      <OrderInfo>
-        <h2>결제하기</h2>
-        <div className="user-text">
-          <h3>배송지 정보</h3>
-          <hr />
-          <div className="user-info">
-            <p>받는분</p>
-            <input
-              type="text"
-              value={name}
-              onChange={e => handleNameChange(e)}
-            />
-          </div>
-          <div className="user-info">
-            <p>주소</p>
-            <input type="text" value="주소" readOnly />
-          </div>
-          <div className="user-info">
-            <p>휴대폰</p>
-            <input type="text" value="휴대폰" readOnly />
-          </div>
-        </div>
-        <div className="request-box">
-          <h3>배송 요청사항</h3>
-          <hr />
-          <div className="message">
-            <p>메세지</p>
-            <input
-              type="text"
-              value={message}
-              onChange={e => handleMessage(e)}
-              placeholder="메세지를 입력해주세요."
-            />
-          </div>
-        </div>
-        <OrderItem orderItems={orderItems} />
-        <div className="point-wrap">
-          <h3>포인트 사용</h3>
-          <hr />
-          <div className="point-box">
-            <div className="point-view">
-              <p>포인트</p>
-              <p>{point.toLocaleString()}P</p>
-            </div>
-            <div className="point-text">
+        <OrderInfo>
+          <h2>결제하기</h2>
+          <div className="user-text">
+            <h3>배송지 정보</h3>
+            <hr />
+            <div className="user-info">
+              <p>받는분</p>
               <input
                 type="text"
-                value={usePoint}
-                placeholder="Point 입력"
-                onChange={handleUsePoint}
+                value={receiver}
+                onChange={e => handleNameChange(e)}
               />
-              <button onClick={handleAllPoint}>전액 사용</button>
+            </div>
+            <div className="user-info">
+              <p>주소</p>
+              <input type="text" value={addressAll} readOnly />
+            </div>
+            <div className="user-info">
+              <p>휴대폰</p>
+              <input type="text" value={mobileNb} readOnly />
             </div>
           </div>
-        </div>
-      </OrderInfo>
-      <OrderPay orderPayFixed={orderPayFixed}>
-        <h2>결제 금액</h2>
-        <div className="paywrap">
-          <div className="price">
-            <p>상품금액</p>
-            <p>{prodTotalPrice.toLocaleString()}원</p>
+          <div className="request-box">
+            <h3>배송 요청사항</h3>
+            <hr />
+            <div className="message">
+              <p>메세지</p>
+              <input
+                type="text"
+                value={message}
+                onChange={e => handleMessage(e)}
+                placeholder="메세지를 입력해주세요."
+              />
+            </div>
           </div>
-          <div className="price">
-            <p>할인금액</p>
-            <p>
-              {usePoint !== "" ? `${parseInt(usePoint).toLocaleString()}` : 0}원
-            </p>
+          <OrderItem orderItems={orderItems} />
+          <div className="point-wrap">
+            <h3>포인트 사용</h3>
+            <hr />
+            <div className="point-box">
+              <div className="point-view">
+                <p>포인트</p>
+                <p>{userPoint.toLocaleString()}P</p>
+              </div>
+              <div className="point-text">
+                <input
+                  type="text"
+                  value={usePoint}
+                  placeholder="Point 입력"
+                  onChange={handleUsePoint}
+                />
+                <button onClick={handleAllPoint}>전액 사용</button>
+              </div>
+            </div>
           </div>
-          <div className="price">
-            <p>총 결제예정금액</p>
-            <p>{totalPrice.toLocaleString()}원</p>
+        </OrderInfo>
+        <OrderPay orderPayFixed={orderPayFixed}>
+          <h2>결제 금액</h2>
+          <div className="paywrap">
+            <div className="price">
+              <p>상품금액</p>
+              <p>{prodTotalPrice.toLocaleString()}원</p>
+            </div>
+            <div className="price">
+              <p>할인금액</p>
+              <p>
+                {usePoint !== "" ? `${parseInt(usePoint).toLocaleString()}` : 0}
+                원
+              </p>
+            </div>
+            <div className="price">
+              <p>총 결제예정금액</p>
+              <p>{totalPrice.toLocaleString()}원</p>
+            </div>
           </div>
-        </div>
-        <div className="order_btn" onClick={handleOrder}>
-          결제하기
-        </div>
-      </OrderPay>
+          <div className="order_btn" onClick={handleOrder}>
+            결제하기
+          </div>
+        </OrderPay>
       </div>
     </OrderWrap>
   );
