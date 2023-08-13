@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  iuser: null,
-  email: "",
-  name: "",
-  birthday: "",
-  mobileNb: "",
-  zipcode: "",
-  address: "",
-  addressDetail: "",
-  nickNm: "",
+  iuser: 1,
+  email: "test@test.net",
+  name: "김빵빵",
+  birthday: "2020-07-21",
+  mobileNb: "01012345678",
+  zipcode: "13477",
+  address: "경기도 성남시 판교공원로4길 27",
+  addressDetail: "test",
+  nickNm: "김옥지",
   point: 0,
 };
 
