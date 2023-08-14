@@ -11,6 +11,7 @@ import { cartIn } from "../api/cartaxios";
 const ItemDetail = () => {
   const [product, setProduct] = useState({});
   const [itemImage, setItemImage] = useState([]);
+  const [bigImage, setBigImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -24,6 +25,7 @@ const ItemDetail = () => {
       const productIdJson = await getProductId(pid);
       setProduct(productIdJson);
       setItemImage(productIdJson.img);
+      setBigImage(productIdJson.img[0]);
       setTotalPrice(parseInt(productIdJson.price));
     } catch (err) {
       console.log(err);
@@ -36,7 +38,7 @@ const ItemDetail = () => {
   }, [pid]);
 
   const handleSubImageClick = img => {
-    setItemImage([img]);
+    setBigImage(img);
   };
 
   const handleplusClick = () => {
@@ -80,7 +82,7 @@ const ItemDetail = () => {
       <div className="content-wrap" id="content-top">
         <div className="goods-wrap">
           <div className="goods-img">
-            <img className="item-img" src={itemImage[0]} alt="MainImage" />
+            <img className="item-img" src={bigImage} alt="MainImage" />
             <div className="item-info">
               {itemImage?.map((subImage, index) => (
                 <img
