@@ -346,7 +346,9 @@ export const ItemDetailDiv = styled.div`
 
     .menu-info {
       display: block;
-      height: 500px;
+      > img {
+        margin-bottom: 10%;
+      }
     }
     .container {
       display: grid;
@@ -357,12 +359,12 @@ export const ItemDetailDiv = styled.div`
       .item-title {
         border-bottom: 1px solid rgb(230, 230, 230);
         padding: 10px 0 10px 10px;
-        background: #ffefe5;
+        background: #fff;
       }
       .item {
         border-bottom: 1px solid rgb(230, 230, 230);
         padding: 10px 0 10px 10px;
-        /* background: #fff; */
+        background: #fff;
       }
     }
   }
