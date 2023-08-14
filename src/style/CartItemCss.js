@@ -17,9 +17,13 @@ export const CartItems = styled.div`
     display: flex;
     align-items: center;
     width: 70%;
-    .prod-img{
+    .prod-img {
       width: 15rem;
       height: 15rem;
+      img {
+        width: 15rem;
+        height: 15rem;
+      }
     }
     .prod-text {
       padding-left: 2rem;
@@ -38,7 +42,7 @@ export const CartItems = styled.div`
     gap: 10rem;
     padding-right: 1rem;
     font-size: 2rem;
-    p{
+    p {
       width: 7rem;
       text-align: center;
     }
@@ -67,6 +71,10 @@ export const CartItems = styled.div`
       .prod-img {
         min-width: 7rem;
         min-height: 10rem;
+        img {
+          min-width: 7rem;
+          min-height: 10rem;
+        }
       }
       .prod-text {
         p {
@@ -80,16 +88,27 @@ export const CartItems = styled.div`
     }
   }
   @media screen and (max-width: 800px) {
-    .list{
+    .list {
       flex-wrap: wrap;
     }
     .prodwrap {
       width: 100%;
       justify-content: space-around;
+      .prod-text{
+        padding-left: 0;
+        width: 37rem;
+      }
     }
     .prod-info {
       width: 100%;
       justify-content: center;
+    }
+  }
+  @media screen and (max-width: 670px){
+    .prodwrap{
+      .prod-text{
+        width: 18rem;
+      }
     }
   }
 `;

@@ -1,15 +1,17 @@
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { cartIn } from "../api/cartaxios";
+import { useNavigate, useParams } from "react-router-dom";
+import { cartIn } from "../api/client";
 import { getBestProduct } from "../api/mainFatch";
 import Slick from "../components/Slick";
 import { MainDiv } from "../style/MainCss";
-import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Main = () => {
   const [bestProduct, setBestProduct] = useState([]);
   const [mainImage, setItemImage] = useState([]);
+  const { iuser } = useSelector(state => state.user);
   // uri 에서 값 읽기
   const { pid } = useParams();
 
@@ -42,7 +44,11 @@ const Main = () => {
       };
       const result = await cartIn(cartItem);
       console.log(result);
-      navigate(`/cart`);
+      if (iuser) {
+        navigate(`/cart`);
+      } else {
+        navigate(`/login`);
+      }
       return result;
     } catch (err) {
       console.error("주문 처리 중 오류 발생:", err);

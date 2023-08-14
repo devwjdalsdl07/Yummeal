@@ -8,6 +8,7 @@ const AllProd = ({
   handleItemClick,
   handleShoppingClick,
   handlePageChange,
+  bestProductAll
 }) => {
   return (
     <>
@@ -42,7 +43,7 @@ const AllProd = ({
           </div>
         ))}
       </ul>
-      <Paging onPageChange={handlePageChange} />
+      <Paging onPageChange={handlePageChange} bestProductAll={bestProductAll} />
     </>
   );
 };

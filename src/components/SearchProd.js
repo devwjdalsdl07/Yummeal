@@ -1,7 +1,7 @@
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
-import { searchResult } from "../api/cartaxios";
+import { searchResult } from "../api/axios";
 
 const SearchProd = ({
   product,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { cartIn } from "../api/cartaxios";
+import { cartIn } from "../api/client";
 import Paging from "../components/Paging";
 import SearchProd from "../components/SearchProd";
 import SortFilter from "../components/SortFilter";

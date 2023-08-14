@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { getCart, orderPost } from "../api/cartaxios";
 import OrderItem from "../components/OrderItem";
 import { pointReducer } from "../reducers/userSlice";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
+import { getCart, orderPost } from "../api/client";
 
 const Order = () => {
   const [orderItems, setOrderItems] = useState([]);
@@ -97,8 +97,6 @@ const Order = () => {
           state: {
             orderId: result.orderId,
             point: result.point,
-            totalprice: result.paymentprice,
-            paymentprice: result.totalprice,
           },
         });
       } catch (err) {

@@ -1,9 +1,9 @@
-import { faCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DatePicker, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postIdCheck, postNickNameCheck, postSignUp } from "../api/signupaxios";
+import { postIdCheck, postNickNameCheck, postSignUp } from "../api/axios";
 import {
   JoinArea,
   JoinBtn,
@@ -47,8 +47,8 @@ const SignUp = () => {
   const [isBirth, setIsBirth] = useState(false);
   const [isPostCode, setIsPostCode] = useState(false);
   const [isAddress, setIsAddress] = useState(false);
-  const [isDetailAddress, setIsDetailAddress] = useState(false);
-  
+  // const [isDetailAddress, setIsDetailAddress] = useState(false);
+
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [pwConfirm, setPwConfirm] = useState("");

@@ -8,11 +8,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { CateProdList, menuCate } from "../api/cartaxios";
+import { CateProdList, menuCate } from "../api/axios";
 import { postLogout } from "../api/client";
 import { getMain } from "../api/mainFatch";
-import { Head } from "../style/HeaderCss";
 import { logoutReducer } from "../reducers/userSlice";
+import { Head } from "../style/HeaderCss";
 
 function Header() {
   const { iuser } = useSelector(state => state.user);
@@ -21,8 +21,8 @@ function Header() {
   const [userToggled, setUserToggled] = useState(false);
   const [search, setSearch] = useState("");
   const [cate, setCate] = useState([]);
-  const [subCate, setSubCate] = useState([]);
   const navigate = useNavigate();
+  console.log("아이유저 테스트", iuser);
 
   // 카테고리 메뉴 불러오기
   const cateGet = async () => {

@@ -1,18 +1,20 @@
+import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Review from "../components/Review";
+import { cartIn } from "../api/client";
 import { getProductId } from "../api/mainFatch";
-import { ItemDetailDiv } from "../style/MainCss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
+import Review from "../components/Review";
 import Slick from "../components/Slick";
-import { cartIn } from "../api/cartaxios";
+import { ItemDetailDiv } from "../style/MainCss";
+import { useSelector } from "react-redux";
 
 const ItemDetail = () => {
   const [product, setProduct] = useState({});
   const [itemImage, setItemImage] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
+  const { iuser } = useSelector(state => state.user);
 
   // uri 에서 값 읽기
   const { pid } = useParams();
@@ -68,7 +70,11 @@ const ItemDetail = () => {
       };
       const result = await cartIn(cartItem);
       console.log(result);
-      navigate(`/cart`);
+      if (iuser) {
+        navigate(`/cart`);
+      } else {
+        navigate(`/login`);
+      }
       return result;
     } catch (err) {
       console.error("주문 처리 중 오류 발생:", err);
