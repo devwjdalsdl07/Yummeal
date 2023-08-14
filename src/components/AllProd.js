@@ -1,22 +1,38 @@
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getMain } from "../api/mainFatch";
 import Paging from "./Paging";
 
 const AllProd = ({
   state,
   handleItemClick,
   handleShoppingClick,
-  handlePageChange,
-  bestProductAll
+  bestProductAll,
 }) => {
+  const [allProdList, setAllProdList] = useState({});
+
+  // 전체상품 데이터 불러오기
+  const allProdData = async _page => {
+    const result = await getMain(_page);
+    setAllProdList(result);
+  };
+
+  useEffect(() => {
+    allProdData(1);
+  }, [state]);
+
+  // 페이지네이션 기능
+  const handleAllPaging = newPage => {
+    allProdData(newPage);
+  };
   return (
     <>
-      <div className=" best-item">
+      <div className="best-item">
         <h1 className="best-title">전체 상품</h1>
       </div>
       <ul className="list-area">
-        {state.list?.map((item, productId) => (
+        {allProdList?.list?.map((item, productId) => (
           <div key={productId}>
             <li className="product-card">
               <img
@@ -43,7 +59,7 @@ const AllProd = ({
           </div>
         ))}
       </ul>
-      <Paging onPageChange={handlePageChange} bestProductAll={bestProductAll} />
+      <Paging onPageChange={handleAllPaging} bestProductAll={bestProductAll} />
     </>
   );
 };

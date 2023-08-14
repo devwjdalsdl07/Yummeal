@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 const Main = () => {
   const [bestProduct, setBestProduct] = useState([]);
   const [mainImage, setItemImage] = useState([]);
-  const { iuser } = useSelector(state => state.user);
   // uri 에서 값 읽기
   const { pid } = useParams();
 
@@ -44,11 +43,7 @@ const Main = () => {
       };
       const result = await cartIn(cartItem);
       console.log(result);
-      if (iuser) {
         navigate(`/cart`);
-      } else {
-        navigate(`/login`);
-      }
       return result;
     } catch (err) {
       console.error("주문 처리 중 오류 발생:", err);

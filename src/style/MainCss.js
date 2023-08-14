@@ -151,6 +151,11 @@ export const SlickDiv = styled.div`
   .center h3 {
     transition: all 0.1s ease;
   }
+  .center img {
+    width: 400px;
+    height: 400px;
+    cursor: pointer;
+  }
 
   .center .slick-center span {
     color: #e67e22;

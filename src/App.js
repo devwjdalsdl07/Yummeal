@@ -1,6 +1,8 @@
 import { Route, Routes, useLocation } from "react-router-dom";
+import { getCookie } from "./api/cookie";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import About from "./pages/About";
 import AdminAddItem from "./pages/AdminAddItem";
 import AdminMain from "./pages/AdminMain";
 import ItemDetail from "./pages/ItemDetail";
@@ -10,16 +12,16 @@ import Mypage from "./pages/Mypage";
 import Order from "./pages/Order";
 import OrderDetail from "./pages/OrderDetail";
 import Payment from "./pages/Payment";
-import Search from "./pages/Search";
-import SearchList from "./pages/SearchList";
-import ShopCart from "./pages/ShopCart";
-import SignUp from "./pages/SignUp";
-import About from "./pages/About";
-import UseService from "./pages/UseService";
 import Policy from "./pages/Policy";
+import Search from "./pages/Search";
+import ShopCart from "./pages/ShopCart";
+import SearchList from "./pages/SearchList";
+import SignUp from "./pages/SignUp";
 import UseGuide from "./pages/UseGuide";
+import UseService from "./pages/UseService";
 
 function App() {
+  const token = getCookie("accessToken");
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith("/admin");
   const isPaymentPage = location.pathname === "/payment";
@@ -35,7 +37,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/productlist" element={<SearchList />} />
         <Route path="/product/:pid" element={<ItemDetail />} />
-        <Route path="/cart" element={<ShopCart />} />
+        <Route path="/cart" element={token ? <ShopCart /> : <Login />} />
         <Route path="/order" element={<Order />} />
         <Route path="/orderdetail" element={<OrderDetail />} />
         <Route path="/payment" element={<Payment />} />

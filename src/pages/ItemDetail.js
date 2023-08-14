@@ -1,13 +1,13 @@
 import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { cartIn } from "../api/client";
 import { getProductId } from "../api/mainFatch";
 import Review from "../components/Review";
 import Slick from "../components/Slick";
 import { ItemDetailDiv } from "../style/MainCss";
-import { useSelector } from "react-redux";
 
 const ItemDetail = () => {
   const [product, setProduct] = useState({});
@@ -72,15 +72,20 @@ const ItemDetail = () => {
       };
       const result = await cartIn(cartItem);
       console.log(result);
-      if (iuser) {
-        navigate(`/cart`);
-      } else {
-        navigate(`/login`);
-      }
+      navigate(`/cart`);
       return result;
     } catch (err) {
       console.error("주문 처리 중 오류 발생:", err);
     }
+  };
+
+  const handleblabla = () => {
+    navigate("/order", {
+      state: {
+        productId: pid,
+        count: quantity,
+      },
+    });
   };
 
   return (
@@ -128,7 +133,7 @@ const ItemDetail = () => {
                   <FontAwesomeIcon icon={faCartArrowDown} />
                   장바구니
                 </button>
-                <button onClick={handleMinusClick}>바로구매하기</button>
+                <button onClick={handleblabla}>바로구매하기</button>
               </li>
             </ul>
           </div>

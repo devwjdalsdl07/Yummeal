@@ -35,10 +35,10 @@ export const postNickNameCheck = async _nickName => {
 };
 
 // 검색 결과 get
-export const searchResult = async _product => {
+export const searchResult = async (_product, _page) => {
   try {
     const res = await axios.get(
-      `/api/search?product=${_product}&page=1&row=16`,
+      `/api/search?product=${_product}&page=${_page}&row=16`,
     );
     const result = res.data;
     console.log("검색결과 : ", result);
@@ -73,13 +73,27 @@ export const menuCate = async () => {
 };
 
 // 메뉴 클릭 시 품목 get
-export const CateProdList = async (cateId, subCateId) => {
+export const cateProdList = async (_page, cateId, subCateId) => {
+  console.log("카테액시오스 순서 테스트", _page, cateId, subCateId);
   try {
     const res = await axios.get(
-      `/api/cate/list?cateId=${cateId}&cateDetailId=${subCateId}&page=1&row=16`,
+      `/api/cate/list?cateId=${cateId}&cateDetailId=${subCateId}&page=${_page}&row=16`,
     );
     const result = res.data;
     console.log("카테고리 가냐? : ", result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 상세정보 바로구매 get
+export const quickBuy = async (_productId, count) => {
+  try {
+    const res = await axios.get(
+      `/api/buy/product?productId=${_productId}&count=${count}`,
+    );
+    const result = res.data;
     return result;
   } catch (err) {
     console.log(err);

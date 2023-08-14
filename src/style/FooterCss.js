@@ -11,6 +11,7 @@ export const FooterWrap = styled.div`
         font-size: 1.8rem;
         padding: 1.5rem 0;
         color: #000;
+        cursor: pointer;
       }
       li:hover {
         color: #8eb111;
