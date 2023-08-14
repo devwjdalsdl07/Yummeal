@@ -16,7 +16,7 @@ const SearchList = () => {
   const { state } = location;
   const navigate = useNavigate();
 
-  console.log("스테이트에 뭐 담겨?", state);
+  // console.log("스테이트에 뭐 담겨?", state);
 
   //제일 많이 팔린 상품 가져오기 더보기
   const getBestProductAllFetch = async _page => {
@@ -132,7 +132,10 @@ const SearchList = () => {
             </div>
           ))}
         </ul>
-        <Paging onPageChange={handlePageChange} />
+        <Paging
+          onPageChange={handlePageChange}
+          bestProductAll={bestProductAll}
+        />
       </>
     );
   }

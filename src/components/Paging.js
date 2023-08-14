@@ -4,11 +4,13 @@ import React, { useState } from "react";
 import Pagination from "react-js-pagination";
 import { PaginationDiv } from "../style/MainCss";
 
-const Paging = ({ bestProductAll }) => {
+const Paging = ({ onPageChange, bestProductAll }) => {
   const [page, setPage] = useState(1);
 
   const handlePageChange = page => {
     setPage(page);
+    onPageChange(page);
+
   };
 
   return (
