@@ -16,14 +16,13 @@ import { getCookie } from "../api/cookie";
 import { Head } from "../style/HeaderCss";
 
 function Header() {
-  const accessToken = sessionStorage.getItem("accessToken")
+  const accessToken = sessionStorage.getItem("accessToken");
   const dispatch = useDispatch();
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
   const [search, setSearch] = useState("");
   const [cate, setCate] = useState([]);
   const navigate = useNavigate();
-  console.log("아이유저 테스트", iuser);
 
   // 카테고리 메뉴 불러오기
   const cateGet = async () => {
