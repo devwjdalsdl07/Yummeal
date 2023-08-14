@@ -12,7 +12,6 @@ export const ContentsWrap = styled.div`
   padding-top: 122px;
   background: #f5f5f5;
   padding-bottom: 96px;
-  margin-bottom: -100px;
   position: relative;
 `;
 export const ContentHeader = styled.span`
@@ -39,4 +38,12 @@ export const ContentTxtWrap = styled.div`
   margin: 0 auto;
   word-break: break-all;
   white-space: pre-line;
+  height: 800px;
+  overflow-y: auto;
+  .title{
+    font-size: 20px;
+  }
+  .content{
+    font-size: 15px;
+  }
 `;

@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import Pagination from "react-js-pagination";
 import { PaginationDiv } from "../style/MainCss";
 
-const Paging = ({ onPageChange, bestProductAll,searchData }) => {
+const Paging = ({ onPageChange, bestProductAll, searchData }) => {
   const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
 
   const handlePageChange = page => {
     setPage(page);
@@ -18,7 +19,8 @@ const Paging = ({ onPageChange, bestProductAll,searchData }) => {
         activePage={page}
         itemsCountPerPage={16}
         totalItemsCount={bestProductAll?.pageCount || searchData?.count}
-        pageRangeDisplayed={bestProductAll?.maxPage || searchData?.maxPage}
+        // pageRangeDisplayed={bestProductAll?.maxPage || searchData?.maxPage}
+        pageRangeDisplayed={maxPage}
         prevPageText={"‹"}
         nextPageText={"›"}
         onChange={handlePageChange}

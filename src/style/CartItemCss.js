@@ -18,8 +18,6 @@ export const CartItems = styled.div`
     align-items: center;
     width: 70%;
     .prod-img {
-      width: 15rem;
-      height: 15rem;
       img {
         width: 15rem;
         height: 15rem;
@@ -69,11 +67,9 @@ export const CartItems = styled.div`
   @media screen and (max-width: 1024px) {
     .prodwrap {
       .prod-img {
-        min-width: 7rem;
-        min-height: 10rem;
         img {
-          min-width: 7rem;
-          min-height: 10rem;
+          width: 10rem;
+          height: 10rem;
         }
       }
       .prod-text {
@@ -94,7 +90,8 @@ export const CartItems = styled.div`
     .prodwrap {
       width: 100%;
       justify-content: space-around;
-      .prod-text{
+      transition: all 0.5s;
+      .prod-text {
         padding-left: 0;
         width: 37rem;
       }
@@ -102,12 +99,14 @@ export const CartItems = styled.div`
     .prod-info {
       width: 100%;
       justify-content: center;
+      transition: all 0.5s;
     }
   }
-  @media screen and (max-width: 670px){
-    .prodwrap{
-      .prod-text{
+  @media screen and (max-width: 670px) {
+    .prodwrap {
+      .prod-text {
         width: 18rem;
+        transition: all 0.5s;
       }
     }
   }

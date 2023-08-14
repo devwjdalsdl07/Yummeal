@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { searchResult } from "../api/axios";
 import { cartIn } from "../api/client";
 import Paging from "../components/Paging";
 import SearchProd from "../components/SearchProd";
@@ -13,12 +14,29 @@ const Search = () => {
   const product = state?.product;
   const navigate = useNavigate();
 
+  // 검색 결과 불러오기
+  const searchRes = async () => {
+    const result = await searchResult(product, 1);
+    setSearchData(result);
+    console.log("검색결과 뭐 넘어와", searchData);
+    return result;
+  };
+
+  useEffect(() => {
+    searchRes();
+  }, [product]);
+
+  // 제품 상세정보 이동
   const handleItemClick = _id => {
     navigate(`/product/${_id}`);
   };
 
-  const handlePageChange = () => {};
+  // 페이지네이션 기능
+  const handleSearchPaging = _page => {
+    searchResult(product, _page);
+  };
 
+  // 장바구니 담기
   const handleShoppingClick = async _item => {
     console.log(_item.productId);
     try {
@@ -44,10 +62,9 @@ const Search = () => {
             product={product}
             handleItemClick={handleItemClick}
             searchData={searchData}
-            setSearchData={setSearchData}
             handleShoppingClick={handleShoppingClick}
           />
-          <Paging onPageChange={handlePageChange} />
+          <Paging onPageChange={handleSearchPaging} searchData={searchData} />
         </div>
       </div>
     </SearchWrap>

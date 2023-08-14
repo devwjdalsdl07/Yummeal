@@ -141,6 +141,7 @@ export const OrderPay = styled.div`
   border: 0.1rem solid rgba(0, 0, 0, 0.3);
   padding: 3rem;
   margin: auto 0;
+  transition: all 0.5s;
   h2 {
     font-size: 2.5rem;
   }

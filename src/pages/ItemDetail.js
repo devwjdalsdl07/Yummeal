@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { cartIn } from "../api/client";
@@ -88,6 +89,15 @@ const ItemDetail = () => {
   const handleCartShow = () => {
     setShowModal(false);
     navigate(`/cart`);
+  };
+
+  const handleblabla = () => {
+    navigate("/order", {
+      state: {
+        productId: pid,
+        count: quantity,
+      },
+    });
   };
 
   return (

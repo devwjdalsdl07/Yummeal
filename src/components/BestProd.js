@@ -1,42 +1,26 @@
-import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import { getMain } from "../api/mainFatch";
+import React from "react";
 import Paging from "./Paging";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 
-const AllProd = ({
-  state,
+const BestProd = ({
+  bestProductAll,
+  mainImage,
   handleItemClick,
   handleShoppingClick,
-  bestProductAll,
+  onPageChange,
 }) => {
-  const [allProdList, setAllProdList] = useState({});
-
-  // 전체상품 데이터 불러오기
-  const allProdData = async _page => {
-    const result = await getMain(_page);
-    setAllProdList(result);
-  };
-
-  useEffect(() => {
-    allProdData(1);
-  }, [state]);
-
-  // 페이지네이션 기능
-  const handleAllPaging = newPage => {
-    allProdData(newPage);
-  };
   return (
     <>
       <div className="best-item">
-        <h1 className="best-title">전체 상품</h1>
+        <h1 className="best-title">요즘, 많이 찾는 상품</h1>
       </div>
       <ul className="list-area">
-        {allProdList?.list?.map((item, productId) => (
+        {bestProductAll.list?.map((item, productId) => (
           <div key={productId}>
             <li className="product-card">
               <img
-                src={item.thumbnail}
+                src={mainImage[productId]}
                 alt="상품 이미지"
                 className="product-image"
               />
@@ -53,15 +37,15 @@ const AllProd = ({
               </span>
               <div className="item-info">
                 <h2>{item.name}</h2>
-                <p>판매가 : {item.price.toLocaleString()}원</p>
+                <p>판매가 :{item.price.toLocaleString()}원</p>
               </div>
             </li>
           </div>
         ))}
       </ul>
-      <Paging onPageChange={handleAllPaging} bestProductAll={bestProductAll} />
+      <Paging onPageChange={onPageChange} bestProductAll={bestProductAll} />
     </>
   );
 };
 
-export default AllProd;
+export default BestProd;

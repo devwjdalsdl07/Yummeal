@@ -54,10 +54,10 @@ const UserInfo = ({ setActiveComponent }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   // 유효성 검사
-  const [isNickName, setIsNickName] = useState(true);
   const [isPw, setIsPw] = useState(true);
   const [isPwConfirm, setIsPwConfirm] = useState(true);
   const [isPhone, setIsPhone] = useState(true);
+  const [isNickNameCheck, setIsNickNameCheck] = useState(true);
 
   // 오류메시지 상태 저장
   const [idMessage, setIdMessage] = useState("");
@@ -66,7 +66,7 @@ const UserInfo = ({ setActiveComponent }) => {
   const [pwConfirmMessage, setPwConfirmMessage] = useState("");
   const [phoneMessage, setPhoneMessage] = useState("");
 
-  const validationStates = [isNickName, isPw, isPwConfirm, isPhone];
+  const validationStates = [isPw, isPwConfirm, isPhone, isNickNameCheck];
 
   const canEdit = validationStates.every(state => state);
 
@@ -76,6 +76,7 @@ const UserInfo = ({ setActiveComponent }) => {
 
   // 닉네임 (추후 업데이트)
   const onNickNameChange = e => {
+    setIsNickNameCheck(false);
     const nickNameRegex = /^[a-zA-Z0-9ㄱ-힣]{3,5}$/;
     // setNickName(e.target.value.replace(/\s/gi, ""));
     setNickNameMessage(null);
@@ -95,10 +96,10 @@ const UserInfo = ({ setActiveComponent }) => {
     if (nickName) {
       if (fetchNickName === 0) {
         setNickNameMessage("사용 가능한 닉네임이에요");
-        setIsNickName(true);
+        setIsNickNameCheck(true);
       } else if (fetchNickName === 1) {
         setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-        setIsNickName(false);
+        setIsNickNameCheck(false);
       }
     }
 
@@ -251,6 +252,23 @@ const UserInfo = ({ setActiveComponent }) => {
     setIsDeleteModalOpen(true);
   };
   const handleEdit = async () => {
+    if (!isNickNameCheck) {
+      alert("닉네임 중복검사를 해 주세요 !");
+      return;
+    }
+    if (!isPw) {
+      alert("비밀번호를 확인 해 주세요");
+      return;
+    }
+    if (!isPwConfirm) {
+      alert("동일한 비밀번호가 아니에요 ");
+      return;
+    }
+    if (!isPhone) {
+      alert("전화번호를 확인 해주세요");
+      return;
+    }
+
     if (canEdit) {
       showModal();
     } else {
@@ -343,7 +361,9 @@ const UserInfo = ({ setActiveComponent }) => {
                 <button onClick={onNickNameCheck}>중복확인</button>
               </div>
               {nickName.length > 0 && (
-                <span className={`message ${isNickName ? "success" : "error"}`}>
+                <span
+                  className={`message ${isNickNameCheck ? "success" : "error"}`}
+                >
                   {nickNameMessage}
                 </span>
               )}

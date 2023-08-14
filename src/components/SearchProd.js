@@ -1,26 +1,13 @@
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
-import { searchResult } from "../api/axios";
+import React from "react";
 
 const SearchProd = ({
   product,
   searchData,
-  setSearchData,
   handleShoppingClick,
   handleItemClick,
 }) => {
-  // 검색 결과 get
-  const searchRes = async () => {
-    const result = await searchResult(product);
-    setSearchData(result);
-    return result;
-  };
-
-  useEffect(() => {
-    searchRes();
-  }, [product]);
-
   return (
     <>
       <div className="best-item">

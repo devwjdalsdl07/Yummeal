@@ -1,6 +1,7 @@
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { cateProdList } from "../api/axios";
 import Paging from "./Paging";
 
 const CateProd = ({
@@ -8,10 +9,28 @@ const CateProd = ({
   getCategoryLabel,
   handleItemClick,
   handleShoppingClick,
-  handlePageChange,
   bestProductAll,
 }) => {
-  console.log("카테컴포넌트에 넘어오나??", state);
+  const [prodList, setProdList] = useState({});
+
+  // 카테고리별 상품 목록 불러오기
+  const cateProdData = async _page => {
+    console.log("왜 얘만 안되냐", _page);
+    const cateId = state?.cateId;
+    const subCataId = state?.subCate == undefined ? 0 : state?.subCate;
+    const result = await cateProdList(_page, cateId, subCataId);
+    setProdList(result);
+  };
+
+  useEffect(() => {
+    cateProdData(1);
+  }, [state]);
+
+  // 페이지네이션 업데이트
+  const handleCatePaging = newPage => {
+    cateProdData(newPage, state?.cateId, state?.subCate);
+  };
+
   return (
     <>
       <div className="best-item">
@@ -23,7 +42,7 @@ const CateProd = ({
         </h1>
       </div>
       <ul className="list-area">
-        {state.list?.map((item, productId) => (
+        {prodList?.list?.map((item, productId) => (
           <div key={productId}>
             <li className="product-card">
               <img
@@ -50,7 +69,7 @@ const CateProd = ({
           </div>
         ))}
       </ul>
-      <Paging onPageChange={handlePageChange} bestProductAll={bestProductAll} />
+      <Paging onPageChange={handleCatePaging} bestProductAll={bestProductAll} />
     </>
   );
 };

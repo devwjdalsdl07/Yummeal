@@ -8,19 +8,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { CateProdList, menuCate } from "../api/axios";
+import { cateProdList, menuCate } from "../api/axios";
 import { postLogout } from "../api/client";
 import { getMain } from "../api/mainFatch";
 import { logoutReducer } from "../reducers/userSlice";
+import { getCookie } from "../api/cookie";
 import { Head } from "../style/HeaderCss";
 
 function Header() {
-  const { iuser } = useSelector(state => state.user);
+  const accessToken = sessionStorage.getItem("accessToken")
   const dispatch = useDispatch();
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
   const [search, setSearch] = useState("");
   const [cate, setCate] = useState([]);
+  const [subCate, setSubCate] = useState([]);
   const navigate = useNavigate();
   console.log("아이유저 테스트", iuser);
 
@@ -41,7 +43,7 @@ function Header() {
     const cateId = mainMenu.cateId;
     const subCateId =
       subMenu?.cateDetailId == undefined ? 0 : subMenu?.cateDetailId;
-    const result = await CateProdList(cateId, subCateId);
+    const result = await cateProdList(1, cateId, subCateId);
     navigate("/productlist", {
       state: {
         maxPaige: result.maxPaige,
@@ -56,7 +58,7 @@ function Header() {
   const handleMainMenuClick = async mainMenu => {
     console.log("메인메뉴 번호 찍자", mainMenu?.cateId);
     const cateId = mainMenu.cateId;
-    const result = await CateProdList(cateId, 0);
+    const result = await cateProdList(1, cateId, 0);
     navigate("/productlist", {
       state: {
         maxPaige: result.maxPaige,
@@ -78,14 +80,17 @@ function Header() {
   };
 
   // 로그아웃
-  const handleRemove = () => {
-    postLogout();
-    dispatch(logoutReducer());
+  const handleRemove = async () => {
+    const logout = await postLogout();
+    if (!logout) {
+      dispatch(logoutReducer());
+    }
     navigate("/");
   };
 
+  // 상품 전체보기
   const handleAllProd = async () => {
-    const result = await getMain();
+    const result = await getMain(1);
     navigate("/productlist", {
       state: {
         maxPage: result.maxPage,
@@ -127,6 +132,7 @@ function Header() {
           value={search}
           onChange={e => handleSearch(e)}
           placeholder="검색어를 입력하세요"
+          onClick={() => setSearch("")}
         />
         <button className="glasswrap" onClick={e => handleSearchPost(e)}>
           <i className="glass">
@@ -158,10 +164,11 @@ function Header() {
       </ul>
       {/* User 메뉴 리스트 */}
       <ul className="header_right">
-        {iuser ? (
+        {accessToken ? (
           <>
             <li onClick={handleRemove}>로그아웃</li>
             <li onClick={() => navigate("/mypage")}>마이페이지</li>
+            <li onClick={() => navigate("/cart")}>장바구니</li>
           </>
         ) : (
           <>

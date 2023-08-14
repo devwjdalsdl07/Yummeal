@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { quickBuy } from "../api/axios";
+import { getCart, orderPost } from "../api/client";
 import OrderItem from "../components/OrderItem";
 import { pointReducer } from "../reducers/userSlice";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
-import { getCart, orderPost } from "../api/client";
 
 const Order = () => {
   const [orderItems, setOrderItems] = useState([]);
@@ -17,24 +18,26 @@ const Order = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // 임시테스트
+  const location = useLocation();
+  const { state } = location;
+  console.log("상품 상세정보에서 넘어오는 스테이트", state);
+
+  const [buyData, setBuyData] = useState({});
+  const quickBuyData = async () => {
+    const productId = state?.productId;
+    const count = state?.count;
+    const result = await quickBuy(productId, count);
+    setBuyData(result);
+  };
+
+  // 유저정보 접근
   const { name, mobileNb, address, addressDetail, point } = useSelector(
     state => state.user,
   );
   const addressAll = address + addressDetail;
 
-  console.log(
-    "네임",
-    name,
-    "폰",
-    mobileNb,
-    "주소1",
-    address,
-    "주소2",
-    addressDetail,
-    "돈",
-    point,
-  );
-
+  // 장바구니 정보 가져오기
   const cartList = async () => {
     const result = await getCart();
     setOrderItems(result);
@@ -44,8 +47,10 @@ const Order = () => {
     cartList();
     setReceiver(name);
     setUserPoint(point);
+    quickBuyData();
   }, []);
 
+  // 사용한 포인트 처리
   const handleUsePoint = e => {
     const inputValue = e.target.value.replace(/[^0-9]/g, "");
     const availablePoint = userPoint;
@@ -61,10 +66,13 @@ const Order = () => {
     }
   };
 
+  // 사용한 포인트값 업데이트
   const handleAllPoint = () => {
-    setUsePoint(userPoint);
+    const maxUsePoint = Math.min(userPoint, prodTotalPrice);
+    setUsePoint(maxUsePoint);
   };
 
+  // 주문하기
   const handleOrder = () => {
     const orderBasket = orderItems.map((item, idx) => ({
       key: idx,
@@ -84,6 +92,7 @@ const Order = () => {
       insorderbasket: orderBasket,
     };
     console.log(item);
+    // 결제 팝업창
     const newWindow = window.open(
       "/payment",
       "결제페이지",
@@ -91,7 +100,7 @@ const Order = () => {
     );
     newWindow.addEventListener("beforeunload", async () => {
       try {
-        dispatch(pointReducer(point-usePoint));
+        dispatch(pointReducer(point - usePoint));
         const result = await orderPost(item);
         navigate("/orderdetail", {
           state: {
@@ -105,19 +114,23 @@ const Order = () => {
     });
   };
 
+  // 유저이름 업데이트
   const handleNameChange = e => {
     setReceiver(e.target.value.replace(/\s/gi, ""));
   };
 
+  // 메세지 업데이트
   const handleMessage = e => {
     setMessage(e.target.value);
   };
 
+  // 주문금액 총합
   const prodTotalPrice = orderItems.reduce((item, idx) => {
     const productPrice = idx.price * idx.count;
     return item + productPrice;
   }, 0);
 
+  // 렌더링 시 사용포인트 값 처리
   useEffect(() => {
     const enteredPoint = usePoint === "" ? 0 : parseInt(usePoint);
     setTotalPrice(prodTotalPrice - enteredPoint);
@@ -161,7 +174,11 @@ const Order = () => {
               />
             </div>
           </div>
-          <OrderItem orderItems={orderItems} />
+          <OrderItem
+            orderItems={orderItems}
+            state={state}
+            buyData={buyData}
+          />
           <div className="point-wrap">
             <h3>포인트 사용</h3>
             <hr />
@@ -187,7 +204,12 @@ const Order = () => {
           <div className="paywrap">
             <div className="price">
               <p>상품금액</p>
-              <p>{prodTotalPrice.toLocaleString()}원</p>
+              <p>
+                {state == null
+                  ? prodTotalPrice.toLocaleString()
+                  : (buyData.price * buyData.count)?.toLocaleString()}
+                원
+              </p>
             </div>
             <div className="price">
               <p>할인금액</p>
@@ -198,7 +220,12 @@ const Order = () => {
             </div>
             <div className="price">
               <p>총 결제예정금액</p>
-              <p>{totalPrice.toLocaleString()}원</p>
+              <p>
+                {state == null
+                  ? totalPrice.toLocaleString()
+                  : (buyData.price * buyData.count).toLocaleString()}
+                원
+              </p>
             </div>
           </div>
           <div className="order_btn" onClick={handleOrder}>

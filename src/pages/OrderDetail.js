@@ -9,12 +9,11 @@ import { OrderDetailWrap } from "../style/OrderDetailCss";
 const OrderDetail = () => {
   const [orderList, setOrderList] = useState([]);
   const [userInfo, setUserInfo] = useState({});
-  const { iuser } = useSelector(state => state.user);
   const navigate = useNavigate();
-
   const location = useLocation();
   const { state } = location;
 
+  // 결제내역 불러오기
   const orderEndData = async () => {
     const result = await getOrderEnd(state?.orderId);
     setOrderList(result.orderlist);
@@ -33,11 +32,7 @@ const OrderDetail = () => {
         count: 1,
       };
       const result = await cartIn(cartItem);
-      if (iuser) {
         navigate(`/cart`);
-      } else {
-        navigate(`/login`);
-      }
       return result;
     } catch (err) {
       console.error("주문 처리 중 오류 발생:", err);

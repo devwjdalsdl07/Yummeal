@@ -47,7 +47,7 @@ const SignUp = () => {
   const [isBirth, setIsBirth] = useState(false);
   const [isPostCode, setIsPostCode] = useState(false);
   const [isAddress, setIsAddress] = useState(false);
-  // const [isDetailAddress, setIsDetailAddress] = useState(false);
+  const [isDetailAddress, setIsDetailAddress] = useState(false);
 
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
@@ -185,14 +185,6 @@ const SignUp = () => {
         setIsNickName(false);
       }
     }
-
-    // if (e.target.value.length == 0 || e.target.value.length > 0) {
-    //   setNickNameMessage("사용 가능한 닉네임이에요");
-    //   setIsNickName(true);
-    // } else {
-    //   setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-    //   setIsNickName(false);
-    // }
   };
   // const onNickNameCheck = async e => {
   //   e.preventDefault();
@@ -310,62 +302,51 @@ const SignUp = () => {
   };
 
   const handleSignUp = () => {
-    console.log("입력");
     if (!isId) {
       setIdMessage("이메일을 입력해주세요.");
       alert("이메일을 입력해주세요.");
-
       return;
     }
     if (!isNickName) {
       setNickNameMessage("닉네임을 입력해주세요.");
       alert("닉네임을 입력해주세요.");
-
       return;
     }
     if (!isPw) {
       setPwMessage("비밀번호를 확인해주세요.");
       alert("비밀번호를 확인해주세요.");
-
       return;
     }
     if (!isPwConfirm) {
       setPwMessage("비밀번호 재입력을 확인해주세요.");
       alert("비밀번호 재입력을 확인해주세요.");
-
       return;
     }
     if (!isName) {
       setNameMessage("이름을 입력하여 주세요. ");
       alert("이름을 입력해 주세요");
-
       return;
     }
     if (!isPhone) {
       setPhoneMessage("전화번호를 입력하여 주세요. ");
       alert("전화번호를 입력해 주세요");
-
       return;
     }
     if (!isBirth) {
       setBirthMessage("생일을 입력하여 주세요. ");
       alert("생일을 입력해 주세요");
-
       return;
     }
     if (!isPostCode) {
       setPostCodeMessage("우편번호를 입력하여 주세요. ");
       alert("주소를 입력해 주세요");
-
       return;
     }
     if (!isAddress) {
       setAddressMessage("주소를 입력하여 주세요. ");
       alert("주소를 입력해 주세요");
-
       return;
     }
-
     const item = {
       email: id,
       password: pw,
@@ -381,7 +362,6 @@ const SignUp = () => {
     postSignUp(item);
     navigate("/login");
   };
-
   return (
     <JoinContainer>
       <JoinArea>
