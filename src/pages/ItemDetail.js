@@ -1,13 +1,12 @@
-import { faCartArrowDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { cartIn } from "../api/client";
 import { getProductId } from "../api/mainFatch";
 import Review from "../components/Review";
 import Slick from "../components/Slick";
+import CartModal from "../components/CartModal";
 import { ItemDetailDiv } from "../style/MainCss";
-import { useSelector } from "react-redux";
 
 const ItemDetail = () => {
   const [product, setProduct] = useState({});
@@ -15,6 +14,10 @@ const ItemDetail = () => {
   const [bigImage, setBigImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const [showModal, setShowModal] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+
   const { iuser } = useSelector(state => state.user);
 
   // uri 에서 값 읽기
@@ -63,24 +66,28 @@ const ItemDetail = () => {
     }
   };
 
-  const handleShoppingClick = async _item => {
-    console.log(_item);
-    try {
-      const cartItem = {
-        productId: _item,
-        count: quantity,
-      };
-      const result = await cartIn(cartItem);
-      console.log(result);
-      if (iuser) {
-        navigate(`/cart`);
-      } else {
-        navigate(`/login`);
+  const handleShoppingCart = async () => {
+    if (iuser === null) {
+      alert(`회원 전용 페이지입니다. 로그인 페이지로 이동합니다.`);
+      navigate("/login");
+    } else {
+      try {
+        const cartItem = {
+          productId: pid,
+          count: quantity,
+        };
+        const result = await cartIn(cartItem);
+        setCartItems([...cartItems, { productId: pid, count: quantity }]);
+        setShowModal(true);
+        return result;
+      } catch (err) {
+        console.error("주문 처리 중 오류 발생:", err);
       }
-      return result;
-    } catch (err) {
-      console.error("주문 처리 중 오류 발생:", err);
     }
+  };
+  const handleCartShow = () => {
+    setShowModal(false);
+    navigate(`/cart`);
   };
 
   return (
@@ -124,13 +131,18 @@ const ItemDetail = () => {
                 <strong>{totalPrice.toLocaleString()}원</strong>
               </li>
               <li className="shopping-cart">
-                <button onClick={() => handleShoppingClick(pid)}>
-                  <FontAwesomeIcon icon={faCartArrowDown} />
-                  장바구니
-                </button>
-                <button onClick={handleMinusClick}>바로구매하기</button>
+                <button onClick={handleShoppingCart}>장바구니</button>
+                <button onClick={handleCartShow}>바로구매하기</button>
               </li>
             </ul>
+            <>
+              {showModal === true && iuser !== null ? (
+                <CartModal
+                  setShowModal={setShowModal}
+                  handleCartShow={handleCartShow}
+                />
+              ) : null}
+            </>
           </div>
         </div>
         <Slick />

@@ -16,7 +16,7 @@ const SearchList = () => {
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
-  const {iuser} = useSelector(state=>state.user);
+  const { iuser } = useSelector(state => state.user);
 
   // console.log("스테이트에 뭐 담겨?", state);
 
@@ -44,7 +44,7 @@ const SearchList = () => {
       };
       const result = await cartIn(cartItem);
       console.log(result);
-      if(iuser){
+      if (iuser) {
         navigate(`/cart`);
       } else {
         navigate(`/login`);
