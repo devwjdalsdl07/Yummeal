@@ -13,7 +13,7 @@ const Slick = () => {
   const [itemImage, setItemImage] = useState([]);
 
   //로그인 여부 확인
-  const isLoggedIn = getCookie("accessToken") ? true : false;
+  const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
 
   const getProductRecommenderFetch = async () => {
     try {

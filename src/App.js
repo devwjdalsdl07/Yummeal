@@ -18,8 +18,11 @@ import About from "./pages/About";
 import UseService from "./pages/UseService";
 import Policy from "./pages/Policy";
 import UseGuide from "./pages/UseGuide";
+import { getCookie } from "./api/cookie";
+import { useSelector } from "react-redux";
 
 function App() {
+  const accessToken = sessionStorage.getItem("accessToken")
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith("/admin");
   const isPaymentPage = location.pathname === "/payment";
@@ -31,14 +34,17 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/mypage" element={<Mypage />} />
+        <Route path="/mypage" element={accessToken ? <Mypage /> : <Login />} />
         <Route path="/search" element={<Search />} />
         <Route path="/productlist" element={<SearchList />} />
         <Route path="/product/:pid" element={<ItemDetail />} />
         <Route path="/cart" element={<ShopCart />} />
-        <Route path="/order" element={<Order />} />
-        <Route path="/orderdetail" element={<OrderDetail />} />
-        <Route path="/payment" element={<Payment />} />
+        <Route path="/order" element={accessToken ? <Order /> : <Login />} />
+        <Route
+          path="/orderdetail"
+          element={accessToken ? <OrderDetail /> : <Login />}
+        />
+        <Route path="/payment" element={accessToken ? <Payment /> : <Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/useservice" element={<UseService />} />
         <Route path="/policy" element={<Policy />} />
