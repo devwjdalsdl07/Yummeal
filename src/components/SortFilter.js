@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { filterSort } from "../api/cartaxios";
+import { filterSort } from "../api/axios";
 
 // 정렬용 배열
 const sortArr = [

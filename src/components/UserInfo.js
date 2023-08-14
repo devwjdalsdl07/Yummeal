@@ -23,7 +23,7 @@ import locale from "antd/locale/ko_KR";
 import { Modal, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { userEditReducer } from "../reducers/userSlice";
-import { postNickNameCheck } from "../api/signupaxios";
+import { postNickNameCheck } from "../api/axios";
 
 const UserInfo = ({ setActiveComponent }) => {
   const {

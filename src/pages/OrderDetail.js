@@ -1,17 +1,19 @@
 import { faEquals, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router";
-import { cartIn, getOrderEnd } from "../api/cartaxios";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router";
+import { cartIn, getOrderEnd } from "../api/client";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
 
 const OrderDetail = () => {
   const [orderList, setOrderList] = useState([]);
   const [userInfo, setUserInfo] = useState({});
+  const { iuser } = useSelector(state => state.user);
+  const navigate = useNavigate();
 
   const location = useLocation();
   const { state } = location;
-  console.log(state);
 
   const orderEndData = async () => {
     const result = await getOrderEnd(state?.orderId);
@@ -23,6 +25,7 @@ const OrderDetail = () => {
     orderEndData();
   }, []);
 
+  // 장바구니 담기
   const handleInCart = async _item => {
     try {
       const cartItem = {
@@ -30,12 +33,28 @@ const OrderDetail = () => {
         count: 1,
       };
       const result = await cartIn(cartItem);
-      console.log(result);
+      if (iuser) {
+        navigate(`/cart`);
+      } else {
+        navigate(`/login`);
+      }
       return result;
     } catch (err) {
       console.error("주문 처리 중 오류 발생:", err);
     }
   };
+
+  // 주문금액 합산
+  const priceSum = orderList.reduce((item, idx) => {
+    const totalPrice = idx.price * idx.count;
+    return item + totalPrice;
+  }, 0);
+
+  // 총 결제금액 합산
+  const totalPriceSum = orderList.reduce((item, idx) => {
+    const totalPriceSum = idx.totalPrice * idx.count;
+    return item + totalPriceSum;
+  }, 0);
 
   return (
     <OrderDetailWrap>
@@ -94,7 +113,7 @@ const OrderDetail = () => {
           <div className="order-pricewrap">
             <div className="price-data">
               <p>주문금액</p>
-              <span>{state?.paymentprice.toLocaleString()}원</span>
+              <span>{priceSum.toLocaleString()}원</span>
             </div>
             <div>
               <i>
@@ -103,7 +122,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>할인금액</p>
-              <span>{state?.point.toLocaleString()}원</span>
+              {/* <span>{state?.point.toLocaleString()}원</span> */}
             </div>
             <div>
               <i>
@@ -112,7 +131,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>총 결제금액</p>
-              <span>{state?.totalprice.toLocaleString()}원</span>
+              <span>{totalPriceSum.toLocaleString()}원</span>
             </div>
           </div>
         </div>

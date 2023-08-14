@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutReducer } from "../reducers/userSlice";
 
 export const instance = axios.create({
-  baseURL: "http://localhost:3000",
+  // baseURL: "http://localhost:3000",
   // timeout: 1000,
   headers: {
     "Content-Type": "application/json",
@@ -257,9 +257,10 @@ export const cartIn = async _item => {
 export const getOrderEnd = async _orderId => {
   try {
     const res = await instance.get(
-      `/api/mypage/orderlist/detail?iuser=1&orderId=${_orderId}`,
+      `/api/mypage/orderlist/detail?orderId=${_orderId}`,
     );
     const result = res.data;
+    console.log("오더리스트에 담기는 값", result);
     return result;
   } catch (error) {
     console.log(error);

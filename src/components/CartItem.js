@@ -1,8 +1,8 @@
 import { faMinus, faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { cartDelete, downPatch, upPatch } from "../api/cartaxios";
 import { CartItems } from "../style/CartItemCss";
+import { cartDelete, downPatch, upPatch } from "../api/client";
 
 const CartItem = ({ cartItems, setCartItems }) => {
   const handleCountUp = idx => {

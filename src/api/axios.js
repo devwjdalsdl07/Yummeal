@@ -34,31 +34,6 @@ export const postNickNameCheck = async _nickName => {
   }
 };
 
-// 이메일 중복확인 post
-export const postEmail = async _email => {
-  try {
-    const res = await axios.post(`/sign-api/email?email=${_email}`);
-    const result = res.data;
-    console.log(result);
-    console.log("이메일중복확인 axios");
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-// 닉네임 중복확인 post?????
-export const postNickName = async _name => {
-  try {
-    const res = await axios.post(`/sign-api/nickname?nickname=${_name}`)
-    const result = res.data
-    console.log("닛ㄱ네임중복검사 실행", result)
-    return result
-  }catch(err){
-    console.log(err)
-  }
-}
-
 // 검색 결과 get
 export const searchResult = async _product => {
   try {
