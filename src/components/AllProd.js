@@ -8,7 +8,8 @@ const AllProd = ({
   state,
   handleItemClick,
   handleShoppingClick,
-  bestProductAll,
+  pageRangeDisplayed,
+  totalItemsCount,
 }) => {
   const [allProdList, setAllProdList] = useState({});
 
@@ -59,7 +60,11 @@ const AllProd = ({
           </div>
         ))}
       </ul>
-      <Paging onPageChange={handleAllPaging} bestProductAll={bestProductAll} />
+      <Paging
+        onPageChange={handleAllPaging}
+        pageRangeDisplayed={pageRangeDisplayed}
+        totalItemsCount={totalItemsCount}
+      />
     </>
   );
 };

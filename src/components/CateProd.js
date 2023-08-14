@@ -9,7 +9,8 @@ const CateProd = ({
   getCategoryLabel,
   handleItemClick,
   handleShoppingClick,
-  bestProductAll,
+  pageRangeDisplayed,
+  totalItemsCount,
 }) => {
   const [prodList, setProdList] = useState({});
 
@@ -69,7 +70,11 @@ const CateProd = ({
           </div>
         ))}
       </ul>
-      <Paging onPageChange={handleCatePaging} bestProductAll={bestProductAll} />
+      <Paging
+        onPageChange={handleCatePaging}
+        pageRangeDisplayed={pageRangeDisplayed}
+        totalItemsCount={totalItemsCount}
+      />
     </>
   );
 };

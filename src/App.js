@@ -17,6 +17,7 @@ import ShopCart from "./pages/ShopCart";
 import SearchList from "./pages/SearchList";
 import SignUp from "./pages/SignUp";
 import UseGuide from "./pages/UseGuide";
+import UseService from "./pages/UseService";
 
 function App() {
   const accessToken = sessionStorage.getItem("accessToken")

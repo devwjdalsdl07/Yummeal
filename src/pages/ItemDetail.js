@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { cartIn } from "../api/client";
 import { getProductId } from "../api/mainFatch";
+import CartModal from "../components/CartModal";
 import Review from "../components/Review";
 import Slick from "../components/Slick";
-import CartModal from "../components/CartModal";
 import { ItemDetailDiv } from "../style/MainCss";
 
 const ItemDetail = () => {
@@ -15,11 +13,10 @@ const ItemDetail = () => {
   const [bigImage, setBigImage] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
-
   const [showModal, setShowModal] = useState(false);
   const [cartItems, setCartItems] = useState([]);
 
-  const { iuser } = useSelector(state => state.user);
+  const token = sessionStorage.getItem("accessToken");
 
   // uri 에서 값 읽기
   const { pid } = useParams();
@@ -68,7 +65,7 @@ const ItemDetail = () => {
   };
 
   const handleShoppingCart = async () => {
-    if (iuser === null) {
+    if (!token) {
       alert(`회원 전용 페이지입니다. 로그인 페이지로 이동합니다.`);
       navigate("/login");
     } else {
@@ -146,7 +143,7 @@ const ItemDetail = () => {
               </li>
             </ul>
             <>
-              {showModal === true && iuser !== null ? (
+              {showModal === true && token !== null ? (
                 <CartModal
                   setShowModal={setShowModal}
                   handleCartShow={handleCartShow}

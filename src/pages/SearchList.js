@@ -13,7 +13,6 @@ const SearchList = () => {
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
-  const { iuser } = useSelector(state => state.user);
 
   //제일 많이 팔린 상품 가져오기 더보기
   const getBestProductAllFetch = async _page => {
@@ -53,7 +52,7 @@ const SearchList = () => {
 
   // 페이지네이션 액티브 페이지 기능
   const handlePageChange = newPage => {
-      getBestProductAllFetch(newPage);
+    getBestProductAllFetch(newPage);
   };
 
   // 카테고리 값에 따른 이름변경
@@ -76,7 +75,6 @@ const SearchList = () => {
         return "기타";
     }
   };
-
   // state로 넘어오는 값에 따른 화면 렌더링
   let content;
   if (state && state.cateId) {
@@ -86,7 +84,8 @@ const SearchList = () => {
         handleItemClick={handleItemClick}
         handleShoppingClick={handleShoppingClick}
         getCategoryLabel={getCategoryLabel}
-        bestProductAll={bestProductAll}
+        pageRangeDisplayed={state.maxPaige}
+        totalItemsCount={state.pageCount}
       />
     );
   } else if (state && state.maxPage) {
@@ -96,6 +95,8 @@ const SearchList = () => {
         handleItemClick={handleItemClick}
         handleShoppingClick={handleShoppingClick}
         bestProductAll={bestProductAll}
+        pageRangeDisplayed={state.maxPage}
+        totalItemsCount={state.pageCount}
       />
     );
   } else if (state == null) {
@@ -106,6 +107,8 @@ const SearchList = () => {
         handleItemClick={handleItemClick}
         handleShoppingClick={handleShoppingClick}
         onPageChange={handlePageChange}
+        pageRangeDisplayed={bestProductAll.maxPage}
+        totalItemsCount={bestProductAll.pageCount}
       />
     );
   }

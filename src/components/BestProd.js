@@ -1,7 +1,7 @@
+import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import Paging from "./Paging";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 
 const BestProd = ({
   bestProductAll,
@@ -9,6 +9,8 @@ const BestProd = ({
   handleItemClick,
   handleShoppingClick,
   onPageChange,
+  totalItemsCount,
+  pageRangeDisplayed,
 }) => {
   return (
     <>
@@ -43,7 +45,11 @@ const BestProd = ({
           </div>
         ))}
       </ul>
-      <Paging onPageChange={onPageChange} bestProductAll={bestProductAll} />
+      <Paging
+        onPageChange={onPageChange}
+        totalItemsCount={totalItemsCount}
+        pageRangeDisplayed={pageRangeDisplayed}
+      />
     </>
   );
 };
