@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { cartIn } from "../api/client";
 import { getProductId } from "../api/mainFatch";
 import Review from "../components/Review";
@@ -19,7 +17,7 @@ const ItemDetail = () => {
   const [showModal, setShowModal] = useState(false);
   const [cartItems, setCartItems] = useState([]);
 
-  const { iuser } = useSelector(state => state.user);
+  const token = sessionStorage.getItem("accessToken");
 
   // uri 에서 값 읽기
   const { pid } = useParams();
@@ -68,7 +66,7 @@ const ItemDetail = () => {
   };
 
   const handleShoppingCart = async () => {
-    if (iuser === null) {
+    if (!token) {
       alert(`회원 전용 페이지입니다. 로그인 페이지로 이동합니다.`);
       navigate("/login");
     } else {
@@ -91,7 +89,7 @@ const ItemDetail = () => {
     navigate(`/cart`);
   };
 
-  const handleblabla = () => {
+  const handleShoppingOrder = () => {
     navigate("/order", {
       state: {
         productId: pid,
@@ -142,11 +140,11 @@ const ItemDetail = () => {
               </li>
               <li className="shopping-cart">
                 <button onClick={handleShoppingCart}>장바구니</button>
-                <button onClick={handleCartShow}>바로구매하기</button>
+                <button onClick={handleShoppingOrder}>바로구매하기</button>
               </li>
             </ul>
             <>
-              {showModal === true && iuser !== null ? (
+              {showModal === true && token !== null ? (
                 <CartModal
                   setShowModal={setShowModal}
                   handleCartShow={handleCartShow}
@@ -163,7 +161,7 @@ const ItemDetail = () => {
                 href="#detail-section01"
                 onClick={e => handleScrollToSection("detail-section01", e)}
               >
-                <span>상품 상세정보</span>
+                <span>기본정보</span>
               </a>
             </li>
             <li>
@@ -171,7 +169,7 @@ const ItemDetail = () => {
                 href="#detail-section02"
                 onClick={e => handleScrollToSection("detail-section02", e)}
               >
-                <span>기본정보</span>
+                <span>상품 상세정보</span>
               </a>
             </li>
             <li>
@@ -184,11 +182,7 @@ const ItemDetail = () => {
             </li>
           </ul>
 
-          <div id="detail-section01" className="menu-info">
-            <h1>상품 상세정보</h1>
-            <div>{product && product.description}</div>
-          </div>
-          <div id="detail-section02">
+          <div id="detail-section01">
             <h1>기본정보</h1>
             <div className="container">
               <div className="item-title">식품의 유형</div>
@@ -220,7 +214,12 @@ const ItemDetail = () => {
               <div className="item-title">소비자상담관련 전화번호</div>
               <div className="item">고객센터 053-572-1005</div>
             </div>
-            <img src="/img/iteminfo.png" alt="item" />
+          </div>
+          <div id="detail-section02" className="menu-info">
+            <h1>상품 상세정보</h1>
+            {/* <div>{product && product.description}</div> */}
+            <img src="/img/item.png" alt="item" />
+            <img src="/img/item2.png" alt="item-info" />
           </div>
           <div id="detail-section03" className="menu-info">
             <h1>상품리뷰</h1>

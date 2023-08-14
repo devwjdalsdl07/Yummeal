@@ -17,9 +17,10 @@ import ShopCart from "./pages/ShopCart";
 import SearchList from "./pages/SearchList";
 import SignUp from "./pages/SignUp";
 import UseGuide from "./pages/UseGuide";
+import UseService from "./pages/UseService";
 
 function App() {
-  const accessToken = sessionStorage.getItem("accessToken")
+  const accessToken = sessionStorage.getItem("accessToken");
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith("/admin");
   const isPaymentPage = location.pathname === "/payment";
@@ -41,7 +42,10 @@ function App() {
           path="/orderdetail"
           element={accessToken ? <OrderDetail /> : <Login />}
         />
-        <Route path="/payment" element={accessToken ? <Payment /> : <Login />} />
+        <Route
+          path="/payment"
+          element={accessToken ? <Payment /> : <Login />}
+        />
         <Route path="/about" element={<About />} />
         <Route path="/useservice" element={<UseService />} />
         <Route path="/policy" element={<Policy />} />
