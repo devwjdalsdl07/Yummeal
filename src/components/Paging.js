@@ -19,6 +19,7 @@ const Paging = ({ onPageChange, bestProductAll, searchData }) => {
         activePage={page}
         itemsCountPerPage={16}
         totalItemsCount={bestProductAll?.pageCount || searchData?.count}
+        // pageRangeDisplayed={bestProductAll?.maxPage || searchData?.maxPage}
         pageRangeDisplayed={maxPage}
         prevPageText={"‹"}
         nextPageText={"›"}

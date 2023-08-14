@@ -112,14 +112,15 @@ export const getBestProductAll = async _page => {
   }
 };
 
-// //상품 상세페이지 바로구매하기 버튼
-// export const postProduct = async () => {
-//   try {
-//     const res = await instance.post(`/api/product`);
-//     const result = res.data;
-//     console.log("postProduct 요청성공!!", result);
-//     return result;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+//상품 상세페이지 바로구매하기 버튼
+
+export const getProduct = async _productId => {
+  try {
+    const res = await instance.get(`/api/buy/product?productId=_productId`);
+    const result = res.data;
+    console.log("getProduct 요청성공!!", result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};

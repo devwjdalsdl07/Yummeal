@@ -13,6 +13,7 @@ const SearchList = () => {
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
+  const { iuser } = useSelector(state => state.user);
 
   //제일 많이 팔린 상품 가져오기 더보기
   const getBestProductAllFetch = async _page => {
@@ -39,7 +40,6 @@ const SearchList = () => {
       };
       const result = await cartIn(cartItem);
       console.log(result);
-      navigate(`/cart`);
       return result;
     } catch (err) {
       console.error("주문 처리 중 오류 발생:", err);
