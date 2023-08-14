@@ -9,6 +9,7 @@ const CateProd = ({
   handleItemClick,
   handleShoppingClick,
   handlePageChange,
+  bestProductAll,
 }) => {
   console.log("카테컴포넌트에 넘어오나??", state);
   return (
@@ -49,7 +50,7 @@ const CateProd = ({
           </div>
         ))}
       </ul>
-      <Paging onPageChange={handlePageChange} />
+      <Paging onPageChange={handlePageChange} bestProductAll={bestProductAll} />
     </>
   );
 };

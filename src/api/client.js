@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookie, removeCookie, setCookie } from "./cookie";
 
 export const instance = axios.create({
-  baseURL: "http://localhost:3000",
+  // baseURL: "http://localhost:3000",
   // timeout: 1000,
   headers: {
     "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export const getUser = async _iuser => {
 };
 
 // 주문내역 get
-export const getOrderList = async (_date) => {
+export const getOrderList = async _date => {
   try {
     const res = await instance.get(`/api/mypage/orderlist?month=${_date}`);
     const result = res.data;
@@ -248,9 +248,10 @@ export const cartIn = async _item => {
 export const getOrderEnd = async _orderId => {
   try {
     const res = await instance.get(
-      `/api/mypage/orderlist/detail?iuser=1&orderId=${_orderId}`,
+      `/api/mypage/orderlist/detail?orderId=${_orderId}`,
     );
     const result = res.data;
+    console.log("오더리스트에 담기는 값", result);
     return result;
   } catch (error) {
     console.log(error);

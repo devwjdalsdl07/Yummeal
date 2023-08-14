@@ -1,8 +1,9 @@
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
-import { cartIn } from "../api/cartaxios";
+import { cartIn } from "../api/client";
 import { getBestProductAll } from "../api/mainFatch";
 import AllProd from "../components/AllProd";
 import CateProd from "../components/CateProd";
@@ -15,6 +16,7 @@ const SearchList = () => {
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
+  const {iuser} = useSelector(state=>state.user);
 
   // console.log("스테이트에 뭐 담겨?", state);
 
@@ -42,7 +44,11 @@ const SearchList = () => {
       };
       const result = await cartIn(cartItem);
       console.log(result);
-      navigate(`/cart`);
+      if(iuser){
+        navigate(`/cart`);
+      } else {
+        navigate(`/login`);
+      }
       return result;
     } catch (err) {
       console.error("주문 처리 중 오류 발생:", err);
@@ -87,6 +93,7 @@ const SearchList = () => {
         handleShoppingClick={handleShoppingClick}
         getCategoryLabel={getCategoryLabel}
         handlePageChange={handlePageChange}
+        bestProductAll={bestProductAll}
       />
     );
   } else if (state && state.maxPage) {
@@ -96,6 +103,7 @@ const SearchList = () => {
         handleItemClick={handleItemClick}
         handleShoppingClick={handleShoppingClick}
         handlePageChange={handlePageChange}
+        bestProductAll={bestProductAll}
       />
     );
   } else if (state == null) {
