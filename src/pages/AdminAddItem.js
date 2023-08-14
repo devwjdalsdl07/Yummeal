@@ -18,10 +18,11 @@ const AdminAddItem = () => {
   const quillRef = useRef();
   const [cateList, setCateList] = useState([]);
   const [subCateList, setSubCateList] = useState([]);
-  const [content, setContent] = useState();
-  const [title, setTitle] = useState();
-  const [price, setPrice] = useState();
-  const [commaPrice, setCommaPrice] = useState();
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+  const [itemName, setItemName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [commaPrice, setCommaPrice] = useState(0);
   const [cate, setCate] = useState();
   const [selectedCateDetail, setSelectedCateDetail] = useState();
   const [product, setProduct] = useState();
@@ -29,6 +30,7 @@ const AdminAddItem = () => {
   const storage = {
     product,
     title,
+    itemName,
     price,
     cate,
     selectedCateDetail,
@@ -112,7 +114,7 @@ const AdminAddItem = () => {
     const data = {
       productId: product,
       title: title,
-      name: "test",
+      name: itemName,
       price: price,
       quantity: 0,
       description: content,
@@ -124,7 +126,7 @@ const AdminAddItem = () => {
     console.log("넘기는 데이터", data);
     const imgResult = await imgAdd(product, imgArr);
     const itemResult = await itemAdd(data);
-    navigate("/adminmain");
+    navigate("/admin");
   };
   useEffect(() => {
     // const storedStorage = localStorage.getItem("adminStorage");
@@ -179,11 +181,19 @@ const AdminAddItem = () => {
           <input
             type="text"
             value={title}
+            placeholder="타이틀"
             onChange={e => handleTitleChange(e)}
           ></input>
           <input
             type="text"
+            value={itemName}
+            placeholder="네임"
+            onChange={e => setItemName(e.target.value)}
+          />
+          <input
+            type="text"
             value={commaPrice}
+            placeholder="가격"
             onChange={e => handlePriceChange(e)}
           ></input>
           <p>원</p>

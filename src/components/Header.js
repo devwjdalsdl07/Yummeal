@@ -12,10 +12,11 @@ import { cateProdList, menuCate } from "../api/axios";
 import { postLogout } from "../api/client";
 import { getMain } from "../api/mainFatch";
 import { logoutReducer } from "../reducers/userSlice";
+import { getCookie } from "../api/cookie";
 import { Head } from "../style/HeaderCss";
 
 function Header() {
-  const { iuser } = useSelector(state => state.user);
+  const accessToken = sessionStorage.getItem("accessToken")
   const dispatch = useDispatch();
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
@@ -79,9 +80,11 @@ function Header() {
   };
 
   // 로그아웃
-  const handleRemove = () => {
-    postLogout();
-    dispatch(logoutReducer());
+  const handleRemove = async () => {
+    const logout = await postLogout();
+    if (!logout) {
+      dispatch(logoutReducer());
+    }
     navigate("/");
   };
 
@@ -161,7 +164,7 @@ function Header() {
       </ul>
       {/* User 메뉴 리스트 */}
       <ul className="header_right">
-        {iuser ? (
+        {accessToken ? (
           <>
             <li onClick={handleRemove}>로그아웃</li>
             <li onClick={() => navigate("/mypage")}>마이페이지</li>
