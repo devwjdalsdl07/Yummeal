@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginContainer } from "../style/LoginCss";
 import { fetchLogin, getUser } from "../api/client";
 import { useDispatch } from "react-redux";
-import { loginReducer } from "../reducers/userSlice";
+import { loginReducer, tokenReducer } from "../reducers/userSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -24,85 +24,97 @@ const Login = () => {
     }
     if (login) {
       if (login.success) {
-        const fetchUser = await getUser(1);
+        const fetchUser = await getUser();
         dispatch(loginReducer(fetchUser));
         navigate("/");
       }
     }
   };
+  const handleSubmit = event => {
+    event.preventDefault(); // 기본 엔터 동작 방지
+    if (event.key === "Enter") {
+      handleLoginClick();
+    }
+  };
   return (
     <LoginContainer>
-      <div className="login-area">
-        <div className="login-text">로그인</div>
-        <div className="login-wrap">
-          <div className="login-form">
-            <div className="id-group">
-              <span style={{ fontSize: "16px", fontWeight: "500" }}>
-                아이디
-              </span>
-              <input
-                type="text"
-                placeholder="아이디를 입력하세요"
-                value={id}
-                onChange={e => setId(e.target.value)}
-                maxLength={100}
-                style={{ height: "50px" }}
-              />
-            </div>
-            <div className="pw-group">
-              <span style={{ fontSize: "16px", fontWeight: "500" }}>
-                비밀번호
-              </span>
-              <input
-                type="password"
-                placeholder="비밀번호를 입력하세요"
-                value={pw}
-                onChange={e => setPw(e.target.value)}
-                maxLength={100}
-                style={{ height: "50px" }}
-              />
-            </div>
-            <button
-              className="login-btn"
-              style={{ height: "50px", fontSize: "15px", fontWeight: "500" }}
-              onClick={handleLoginClick}
-            >
-              로그인
-            </button>
-            <ul className="login-find">
-              <li>아이디 찾기</li>
-              <li>비밀번호 찾기</li>
-            </ul>
-          </div>
-          <div className="sns-login">
-            <ul>
-              <li>
-                <FontAwesomeIcon icon={faComment} style={{ padding: "10px" }} />
-                카카오로 시작하기
-              </li>
-            </ul>
-          </div>
-          <div>
-            <ul
-              style={{
-                textAlign: "center",
-                fontSize: "18pX",
-                fontWeight: "500",
-                color: "#ccc",
-              }}
-            >
-              <li
-                style={{
-                  cursor: "pointer",
-                }}
-                onClick={handleSignUPClick}
+      <form onSubmit={handleSubmit}>
+        <div className="login-area">
+          <div className="login-text">로그인</div>
+          <div className="login-wrap">
+            <div className="login-form">
+              <div className="id-group">
+                <span style={{ fontSize: "16px", fontWeight: "500" }}>
+                  아이디
+                </span>
+                <input
+                  type="text"
+                  placeholder="아이디를 입력하세요"
+                  value={id}
+                  onChange={e => setId(e.target.value)}
+                  maxLength={100}
+                  style={{ height: "50px" }}
+                />
+              </div>
+              <div className="pw-group">
+                <span style={{ fontSize: "16px", fontWeight: "500" }}>
+                  비밀번호
+                </span>
+                <input
+                  type="password"
+                  placeholder="비밀번호를 입력하세요"
+                  value={pw}
+                  maxLength={100}
+                  style={{ height: "50px" }}
+                  onChange={e => setPw(e.target.value)}
+                />
+              </div>
+              <button
+                className="login-btn"
+                style={{ height: "50px", fontSize: "15px", fontWeight: "500" }}
+                onClick={handleLoginClick}
+                tabIndex={0}
               >
-                회원가입
-              </li>
-            </ul>
+                로그인
+              </button>
+              <ul className="login-find">
+                <li>아이디 찾기</li>
+                <li>비밀번호 찾기</li>
+              </ul>
+            </div>
+            <div className="sns-login">
+              <ul>
+                <li>
+                  <FontAwesomeIcon
+                    icon={faComment}
+                    style={{ padding: "10px" }}
+                  />
+                  카카오로 시작하기
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul
+                style={{
+                  textAlign: "center",
+                  fontSize: "18pX",
+                  fontWeight: "500",
+                  color: "#ccc",
+                }}
+              >
+                <li
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  onClick={handleSignUPClick}
+                >
+                  회원가입
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
     </LoginContainer>
   );
 };

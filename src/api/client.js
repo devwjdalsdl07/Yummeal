@@ -1,5 +1,7 @@
 import axios from "axios";
 import { getCookie, removeCookie, setCookie } from "./cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutReducer } from "../reducers/userSlice";
 
 export const instance = axios.create({
   baseURL: "http://localhost:3000",
@@ -12,10 +14,9 @@ export const instance = axios.create({
 // 요청 인터셉터
 instance.interceptors.request.use(
   async config => {
-    // 여기서 작업을 수행합니다. 예: 토큰 작업 및 헤더 변경
-    const token = await getCookie("accessToken");
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`; // 헤더에 토큰을 추가합니다.
+    const accessToken = sessionStorage.getItem("accessToken");
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`; // 헤더에 토큰을 추가합니다.
     }
     return config;
   },
@@ -24,6 +25,10 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+instance.interceptors.response.use(
+  
+)
 
 // 로그인
 export const fetchLogin = async (id, pw) => {
@@ -41,12 +46,13 @@ export const fetchLogin = async (id, pw) => {
       // sameSite: "none",
       // httpOnly: true,
     });
-    setCookie("accessToken", result.accessToken, {
-      path: "/",
-      // secure: true,
-      // sameSite: "none",
-      // httpOnly: true,
-    });
+    // setCookie("accessToken", result.accessToken, {
+    //   path: "/",
+    //   // secure: true,
+    //   // sameSite: "none",
+    //   // httpOnly: true,
+    // });
+    sessionStorage.setItem("accessToken", result.accessToken);
     return result;
   } catch (error) {
     console.log(error);
@@ -58,9 +64,11 @@ export const postLogout = async () => {
   try {
     const res = await instance.post("/sign-api/logout");
     console.log("로그아웃");
-    removeCookie("accessToken");
+    // removeCookie("accessToken");
     removeCookie("refreshToken");
+    sessionStorage.removeItem("accessToken");
     const result = await res.data;
+    console.log("로그아웃 성공값", result);
     return result;
   } catch (err) {
     console.log(err);
@@ -70,7 +78,7 @@ export const postLogout = async () => {
 // 유저정보 get
 export const getUser = async _iuser => {
   try {
-    const res = await instance.get(`/api/mypage/profile?iuser=${_iuser}`);
+    const res = await instance.get(`/api/mypage/profile`);
     const result = {
       iuser: res.data.iuser,
       email: res.data.email,
@@ -90,14 +98,15 @@ export const getUser = async _iuser => {
 };
 
 // 주문내역 get
-export const getOrderList = async (_date) => {
+export const getOrderList = async _date => {
   try {
     const res = await instance.get(`/api/mypage/orderlist?month=${_date}`);
     const result = res.data;
     console.log(result);
     return result;
   } catch (err) {
-    [
+    console.log(err);
+    return [
       {
         orderId: 5,
         createdAt: "2023-08-04",
