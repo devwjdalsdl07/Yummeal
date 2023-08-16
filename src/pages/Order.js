@@ -14,20 +14,18 @@ const Order = () => {
   const [receiver, setReceiver] = useState("");
   const [message, setMessage] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
-  const [orderPayFixed, setOrderPayFixed] = useState(false);
+  const [buyData, setBuyData] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // 임시테스트
   const location = useLocation();
   const { state } = location;
-  console.log("상품 상세정보에서 넘어오는 스테이트", state);
 
-  const [buyData, setBuyData] = useState({});
+  // 바로 구매 시 데이터 조회
   const quickBuyData = async () => {
     const productId = state?.productId;
     const count = state?.count;
     const result = await quickBuy(productId, count);
+    console.log("바이데이터 결과물", result);
     setBuyData(result);
   };
 
@@ -54,7 +52,7 @@ const Order = () => {
   const handleUsePoint = e => {
     const inputValue = e.target.value.replace(/[^0-9]/g, "");
     const availablePoint = userPoint;
-    const enteredPoint = inputValue === "" ? "" : inputValue;
+    const enteredPoint = inputValue === "" ? 0 : inputValue;
 
     if (
       enteredPoint === "" ||
@@ -123,16 +121,23 @@ const Order = () => {
     const productPrice = idx.price * idx.count;
     return item + productPrice;
   }, 0);
+
   // 사용한 포인트값 업데이트
   const handleAllPoint = () => {
-    const maxUsePoint = Math.min(userPoint, prodTotalPrice);
-    setUsePoint(maxUsePoint);
+    if (prodTotalPrice) {
+      const maxUsePoint = Math.min(userPoint, prodTotalPrice);
+      setUsePoint(maxUsePoint);
+    } else if (state) {
+      const quickMaxUsePoint = Math.min(userPoint, buyData.price);
+      setUsePoint(quickMaxUsePoint);
+    }
   };
-  // 렌더링 시 사용포인트 값 처리
+
+  // 총 결제예정금액 처리
   useEffect(() => {
     const enteredPoint = usePoint === "" ? 0 : parseInt(usePoint);
     setTotalPrice(prodTotalPrice - enteredPoint);
-  }, [usePoint, prodTotalPrice]);
+  }, [usePoint]);
 
   return (
     <OrderWrap>
@@ -193,7 +198,7 @@ const Order = () => {
             </div>
           </div>
         </OrderInfo>
-        <OrderPay orderPayFixed={orderPayFixed}>
+        <OrderPay>
           <h2>결제 금액</h2>
           <div className="paywrap">
             <div className="price">

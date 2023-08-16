@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+
 export const Container = styled.div`
   position: relative;
   background: #f9f6f1;
@@ -39,11 +40,6 @@ export const ContentTxtWrap = styled.div`
   white-space: pre-line;
   height: 800px;
   overflow-y: auto;
+  font-size: 15px;
   line-height: 25px;
-  .title{
-    font-size: 20px;
-  }
-  .content{
-    font-size: 15px;
-  }
 `;

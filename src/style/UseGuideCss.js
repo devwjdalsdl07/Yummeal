@@ -39,11 +39,6 @@ export const ContentTxtWrap = styled.div`
   white-space: pre-line;
   height: 800px;
   overflow-y: auto;
+  font-size: 15px;
   line-height: 25px;
-  .title{
-    font-size: 20px;
-  }
-  .content{
-    font-size: 15px;
-  }
 `;

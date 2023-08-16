@@ -1,14 +1,15 @@
 import { faEquals, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { cartIn, getOrderEnd } from "../api/client";
+import CartItemModal from "../components/CartItemModal";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
 
 const OrderDetail = () => {
   const [orderList, setOrderList] = useState([]);
   const [userInfo, setUserInfo] = useState({});
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
@@ -32,11 +33,17 @@ const OrderDetail = () => {
         count: 1,
       };
       const result = await cartIn(cartItem);
-        navigate(`/cart`);
+      setShowModal(true);
       return result;
     } catch (err) {
       console.error("주문 처리 중 오류 발생:", err);
     }
+  };
+
+  // 모달창 장바구니 이동버튼
+  const handleCartShow = () => {
+    setShowModal(false);
+    navigate(`/cart`);
   };
 
   // 주문금액 합산
@@ -47,7 +54,7 @@ const OrderDetail = () => {
 
   // 총 결제금액 합산
   const totalPriceSum = orderList.reduce((item, idx) => {
-    const totalPriceSum = idx.totalPrice * idx.count;
+    const totalPriceSum = idx.totalPrice;
     return item + totalPriceSum;
   }, 0);
 
@@ -73,6 +80,12 @@ const OrderDetail = () => {
                     장바구니 담기
                   </button>
                 </div>
+                {showModal === true ? (
+                  <CartItemModal
+                    setShowModal={setShowModal}
+                    handleCartShow={handleCartShow}
+                  />
+                ) : null}
               </div>
             </div>
           ))}
@@ -117,7 +130,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>할인금액</p>
-              {/* <span>{state?.point.toLocaleString()}원</span> */}
+              <span>{userInfo.usepoint?.toLocaleString()}원</span>
             </div>
             <div>
               <i>
@@ -126,7 +139,9 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>총 결제금액</p>
-              <span>{totalPriceSum.toLocaleString()}원</span>
+              <span>
+                {(totalPriceSum - userInfo.usepoint).toLocaleString()}원
+              </span>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Container,
   ContentHeader,
   ContentInner,
   ContentTxtWrap,
@@ -8,7 +9,7 @@ import {
 
 const UseService = () => {
   return (
-    <useContainer>
+    <Container>
       <ContentsWrap>
         <ContentHeader>이용약관</ContentHeader>
         <ContentInner>
@@ -488,7 +489,7 @@ const UseService = () => {
           </ContentTxtWrap>
         </ContentInner>
       </ContentsWrap>
-    </useContainer>
+    </Container>
   );
 };
 

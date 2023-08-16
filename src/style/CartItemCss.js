@@ -83,7 +83,7 @@ export const CartItems = styled.div`
       gap: 7rem;
     }
   }
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 850px) {
     .list {
       flex-wrap: wrap;
     }

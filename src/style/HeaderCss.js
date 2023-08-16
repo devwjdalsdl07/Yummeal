@@ -129,8 +129,8 @@ export const Head = styled.div`
       display: ${props => (props.userToggled ? "flex" : "none")};
       flex-direction: column;
       width: 100%;
-      background-color: #000;
-      color: #fff;
+      background-color: #f5eeda;
+      color: #000;
       transform: translateY(5rem);
       z-index: 99;
     }
@@ -147,11 +147,12 @@ export const Head = styled.div`
       display: ${props => (props.isToggled ? "flex" : "none")};
       flex-direction: column;
       width: 100%;
-      background-color: #000;
-      color: #fff;
+      background-color: #f5eeda;
+      color: #000;
       gap: 1rem;
       padding: 0;
       transform: translateY(5rem);
+      transition: all 0.5s;
       & > li {
         & > ul {
           & > li {
