@@ -22,7 +22,7 @@ import dayjs from "dayjs";
 import locale from "antd/locale/ko_KR";
 import { Modal, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { userEditReducer } from "../reducers/userSlice";
+import { logoutReducer, userEditReducer } from "../reducers/userSlice";
 import { postNickNameCheck } from "../api/axios";
 
 const UserInfo = ({ setActiveComponent }) => {
@@ -244,6 +244,10 @@ const UserInfo = ({ setActiveComponent }) => {
     };
     const result = await fetchUserInfo(profile);
     dispatch(userEditReducer(profile));
+    setNickNameMessage("");
+    setPwMessage("");
+    setPwConfirmMessage("");
+    setPhoneMessage("");
   };
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -295,8 +299,13 @@ const UserInfo = ({ setActiveComponent }) => {
   const handleDeleteOk = async () => {
     setIsDeleteModalOpen(false);
     const result = await deleteUser();
-    alert("회원탈퇴가 완료 되었습니다.");
-    navigate("/");
+    if (result === 1) {
+      dispatch(logoutReducer());
+      alert("회원탈퇴가 완료 되었습니다.");
+      navigate("/");
+    } else {
+      alert("회원탈퇴에 실패 하였습니다.");
+    }
   };
   const handleDeleteModalClose = () => {
     setIsDeleteModalOpen(false);
