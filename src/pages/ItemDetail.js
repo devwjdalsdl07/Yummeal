@@ -164,7 +164,7 @@ const ItemDetail = () => {
           </div>
         </div>
         <Slick />
-        <div>
+        <div className="prod-dsc">
           <ul className="product-tabs">
             <li>
               <a

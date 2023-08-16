@@ -6,8 +6,10 @@ export const MainDiv = styled.div`
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    padding: 100px 0;
+    padding: 100px 20px;
     background: #f9f6f1;
+    min-width: 500px;
+    overflow: hidden;
     .info {
       margin: 0 auto;
       margin-top: 50px;
@@ -148,8 +150,6 @@ export const SlickDiv = styled.div`
   }
   .center img {
     transition: all 0.1s ease;
-  }
-  .center img {
     width: 400px;
     height: 400px;
     cursor: pointer;
@@ -166,6 +166,12 @@ export const SlickDiv = styled.div`
     text-align: center;
     margin: 20px 0;
     font-size: 20px;
+  }
+  @media screen and (max-width: 1300px) {
+    .center img {
+      width: 300px;
+      height: 300px;
+    }
   }
 `;
 
@@ -228,17 +234,19 @@ export const PaginationDiv = styled.div`
 
 export const ItemDetailDiv = styled.div`
   background: #f9f6f1;
+  min-width: 500px;
   .content-wrap {
     margin: 0 auto;
-    padding-top: 200px;
-    width: 100vw;
+    padding: 200px 20px 0 20px;
     max-width: 1400px;
     height: 100%;
+    overflow: hidden;
     .goods-wrap {
       display: flex;
       justify-content: space-around;
       padding-bottom: 13%;
-
+      flex-wrap: wrap;
+      gap: 30px;
       .goods-img {
         .item-img {
           width: 450px;
@@ -346,6 +354,10 @@ export const ItemDetailDiv = styled.div`
       }
     }
 
+    .prod-dsc {
+      min-width: 500px;
+    }
+
     .product-tabs {
       display: flex;
       justify-content: space-between;
@@ -358,6 +370,9 @@ export const ItemDetailDiv = styled.div`
 
     .menu-info {
       display: block;
+      width: 80%;
+      margin: 0 auto;
+      min-width: 500px;
       > h1 {
         margin-bottom: 50px;
       }
@@ -370,10 +385,10 @@ export const ItemDetailDiv = styled.div`
 
     .container {
       display: grid;
-      grid-template-columns: repeat(4, minmax(30px, auto));
+      grid-template-columns: repeat(4, minmax(120px, auto));
       margin: 0 auto;
       padding: 20px 0;
-      width: 860px;
+      width: 100%;
 
       .item-title {
         border: 1px solid rgb(230, 230, 230);

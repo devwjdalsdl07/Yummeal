@@ -53,7 +53,7 @@ const {nickNm} = useSelector(state => (state.user))
 
     responsive: [
       {
-        breakpoint: 1200,
+        breakpoint: 1330,
         settings: {
           slidesToShow: 3,
         },
@@ -61,11 +61,11 @@ const {nickNm} = useSelector(state => (state.user))
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 2,
         },
       },
       {
-        breakpoint: 767,
+        breakpoint: 750,
         settings: {
           slidesToShow: 1,
         },

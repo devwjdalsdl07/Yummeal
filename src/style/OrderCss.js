@@ -87,13 +87,16 @@ export const OrderInfo = styled.div`
         button {
           width: 8rem;
           height: 3rem;
-          border: 0.1rem solid ;
+          border: 0.1rem solid;
           border-radius: 1rem;
-          color: #fff;
-          /* background: #fff; */
-          background: #8eb111;
+          color: #3f3f3f;
+          background: #fff;
           line-height: 3rem;
           cursor: pointer;
+          &:hover {
+            background: #8eb111;
+            color: #fff;
+          }
         }
       }
     }

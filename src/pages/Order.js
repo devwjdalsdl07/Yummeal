@@ -51,17 +51,17 @@ const Order = () => {
   // 사용한 포인트 처리
   const handleUsePoint = e => {
     const inputValue = e.target.value.replace(/[^0-9]/g, "");
-    const availablePoint = userPoint;
     const enteredPoint = inputValue === "" ? 0 : inputValue;
 
-    if (
-      enteredPoint === "" ||
-      (enteredPoint >= 0 && enteredPoint <= availablePoint)
-    ) {
-      setUsePoint(inputValue);
+    let adjustedPoint = enteredPoint;
+
+    if (state == null) {
+      adjustedPoint = Math.min(enteredPoint, prodTotalPrice);
     } else {
-      setUsePoint(availablePoint);
+      const maxQuickUsePoint = buyData.price * buyData.count;
+      adjustedPoint = Math.min(enteredPoint, maxQuickUsePoint);
     }
+    setUsePoint(adjustedPoint);
   };
 
   // 주문하기
@@ -137,7 +137,7 @@ const Order = () => {
   useEffect(() => {
     const enteredPoint = usePoint === "" ? 0 : parseInt(usePoint);
     setTotalPrice(prodTotalPrice - enteredPoint);
-  }, [usePoint]);
+  }, [usePoint, prodTotalPrice]);
 
   return (
     <OrderWrap>
@@ -222,7 +222,9 @@ const Order = () => {
               <p>
                 {state == null
                   ? totalPrice.toLocaleString()
-                  : (buyData.price * buyData.count).toLocaleString()}
+                  : parseFloat(
+                      buyData.price * buyData.count - usePoint,
+                    ).toLocaleString()}
                 원
               </p>
             </div>
