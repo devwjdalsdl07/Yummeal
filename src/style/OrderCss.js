@@ -87,9 +87,11 @@ export const OrderInfo = styled.div`
         button {
           width: 8rem;
           height: 3rem;
-          border: 0.1rem solid #000;
+          border: 0.1rem solid ;
           border-radius: 1rem;
-          background: #fff;
+          color: #fff;
+          /* background: #fff; */
+          background: #8eb111;
           line-height: 3rem;
           cursor: pointer;
         }
@@ -164,13 +166,16 @@ export const OrderPay = styled.div`
     height: 5rem;
     line-height: 5rem;
     text-align: Center;
-    background: #f5f5dc;
-    color: #000;
+    background: #fff;
     font-weight: bold;
     font-size: 2rem;
     cursor: pointer;
+    border: 1px solid #d1d1d1;
+    color: #3f3f3f;
     &:hover {
-      opacity: 0.8;
+      background-color: #8eb111;
+      color: white;
+      border: none;
     }
   }
   @media screen and (max-width: 1024px) {

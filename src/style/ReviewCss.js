@@ -3,10 +3,11 @@ import styled from "@emotion/styled";
 export const ReviewWrap = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   width: 70rem;
   gap: 2rem;
   .review-list {
+    margin-bottom: 70px;
     .review {
       display: flex;
       justify-content: space-between;

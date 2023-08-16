@@ -6,12 +6,13 @@ import { getCookie } from "../api/cookie";
 import { SlickDiv } from "../style/MainCss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useSelector } from "react-redux";
 
 const Slick = () => {
   const [randomProduct, setRandomProduct] = useState([]);
   const [recommend, setRecommend] = useState([]);
   const [itemImage, setItemImage] = useState([]);
-
+const {nickNm} = useSelector(state => (state.user))
   //로그인 여부 확인
   const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
 
@@ -76,7 +77,7 @@ const Slick = () => {
     <div className="container-slick">
       <SlickDiv>
         <h1 className="title">
-          {isLoggedIn ? "님네임 위한 추천 상품" : "추천 상품"}
+          {isLoggedIn ? `${nickNm}님을 위한 추천 상품` : "추천 상품"}
         </h1>
         <Slider {...settings}>
           {(isLoggedIn ? recommend : randomProduct).map((item, index) => (
@@ -88,7 +89,7 @@ const Slick = () => {
                 onClick={() => handleItemClick(item.productId)}
               />
               <span>
-                <p>{item.name}</p>
+                <h3>{item.name}</h3>
                 <p>판매가 : {parseInt(item?.price).toLocaleString()}원</p>
               </span>
             </div>

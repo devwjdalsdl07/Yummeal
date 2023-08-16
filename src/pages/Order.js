@@ -66,12 +66,6 @@ const Order = () => {
     }
   };
 
-  // 사용한 포인트값 업데이트
-  const handleAllPoint = () => {
-    const maxUsePoint = Math.min(userPoint, prodTotalPrice);
-    setUsePoint(maxUsePoint);
-  };
-
   // 주문하기
   const handleOrder = () => {
     const orderBasket = orderItems.map((item, idx) => ({
@@ -129,7 +123,11 @@ const Order = () => {
     const productPrice = idx.price * idx.count;
     return item + productPrice;
   }, 0);
-
+  // 사용한 포인트값 업데이트
+  const handleAllPoint = () => {
+    const maxUsePoint = Math.min(userPoint, prodTotalPrice);
+    setUsePoint(maxUsePoint);
+  };
   // 렌더링 시 사용포인트 값 처리
   useEffect(() => {
     const enteredPoint = usePoint === "" ? 0 : parseInt(usePoint);
@@ -174,11 +172,7 @@ const Order = () => {
               />
             </div>
           </div>
-          <OrderItem
-            orderItems={orderItems}
-            state={state}
-            buyData={buyData}
-          />
+          <OrderItem orderItems={orderItems} state={state} buyData={buyData} />
           <div className="point-wrap">
             <h3>포인트 사용</h3>
             <hr />
