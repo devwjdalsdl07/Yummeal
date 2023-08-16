@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// import './Paging.css';
-
 import Pagination from "react-js-pagination";
 import { PaginationDiv } from "../style/MainCss";
 

@@ -25,7 +25,7 @@ export const CartItemModalCss = styled.div`
       margin-left: 32rem;
       font-size: 2rem;
       &:hover {
-        color: #8eb111;
+        color: rgba(255, 0, 0, 0.5);
       }
     }
     .modal-content {
@@ -90,7 +90,7 @@ export const LoginModalCss = styled.div`
       margin-left: 32rem;
       font-size: 2rem;
       &:hover {
-        color: #8eb111;
+        color: rgba(255, 0, 0, 0.5);
       }
     }
     .modal-content {
@@ -126,4 +126,3 @@ export const LoginModalCss = styled.div`
     }
   }
 `;
-

@@ -211,7 +211,7 @@ export const PaginationDiv = styled.div`
   }
 
   ul.pagination li.active {
-    background-color: #337ab7;
+    background-color: #8eb111;
   }
 
   ul.pagination li a:hover,
@@ -231,7 +231,7 @@ export const ItemDetailDiv = styled.div`
   .content-wrap {
     margin: 0 auto;
     padding-top: 200px;
-    width: 1440px;
+    width: 100vw;
     max-width: 1400px;
     height: 100%;
     .goods-wrap {
