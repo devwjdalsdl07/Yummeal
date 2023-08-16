@@ -32,10 +32,10 @@ export const OrderDetailWrap = styled.div`
       padding: 2rem 3rem;
       gap: 4rem;
       .order-imgbox {
-        width: 15rem;
-        min-width: 10rem;
-        height: 15rem;
-        min-height: 10rem;
+        img {
+          width: 15rem;
+          height: 15rem;
+        }
       }
       .order-textwrap {
         width: 90%;

@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import About from "./pages/About";
@@ -13,8 +13,8 @@ import OrderDetail from "./pages/OrderDetail";
 import Payment from "./pages/Payment";
 import Policy from "./pages/Policy";
 import Search from "./pages/Search";
-import ShopCart from "./pages/ShopCart";
 import SearchList from "./pages/SearchList";
+import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
 import UseGuide from "./pages/UseGuide";
 import UseService from "./pages/UseService";
@@ -30,8 +30,11 @@ function App() {
       {!isAdminPage && !isPaymentPage && <Header />}
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={accessToken ? <Main /> : <Login />} />
+        <Route
+          path="/signup"
+          element={accessToken ? <Navigate to="/" /> : <SignUp />}
+        />
         <Route path="/mypage" element={accessToken ? <Mypage /> : <Login />} />
         <Route path="/search" element={<Search />} />
         <Route path="/productlist" element={<SearchList />} />

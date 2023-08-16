@@ -1,7 +1,5 @@
 import axios from "axios";
-import { getCookie, removeCookie, setCookie } from "./cookie";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutReducer } from "../reducers/userSlice";
+import { removeCookie, setCookie } from "./cookie";
 
 export const instance = axios.create({
   // baseURL: "http://localhost:3000",
@@ -26,9 +24,7 @@ instance.interceptors.request.use(
   },
 );
 
-instance.interceptors.response.use(
-  
-)
+instance.interceptors.response.use();
 
 // 로그인
 export const fetchLogin = async (id, pw) => {
@@ -79,8 +75,8 @@ export const postLogout = async () => {
 export const getUser = async _iuser => {
   try {
     const res = await instance.get(`/api/mypage/profile`);
+    console.log("로그인 res는??", res);
     const result = {
-      iuser: res.data.iuser,
       email: res.data.email,
       name: res.data.name,
       mobileNb: res.data.mobileNb,

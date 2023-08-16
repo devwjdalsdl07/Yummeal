@@ -8,6 +8,9 @@ import { Cart, NotList, Payment, ShopWrap } from "../style/ShopCartCss";
 
 const ShopCart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const navigate = useNavigate();
+
+  // 장바구니 데이터 불러오기
   const cartList = async () => {
     const result = await getCart();
     setCartItems(result);
@@ -17,7 +20,6 @@ const ShopCart = () => {
     cartList();
   }, []);
 
-  const navigate = useNavigate();
 
   const handleGoOrder = () => {
     navigate("/order");
@@ -27,10 +29,10 @@ const ShopCart = () => {
     navigate("/");
   };
 
-  // const prodTotalPrice = cartItems.reduce((item, idx) => {
-  //   const productPrice = idx.price * idx.count;
-  //   return item + productPrice;
-  // }, 0);
+  const prodTotalPrice = cartItems.reduce((item, idx) => {
+    const productPrice = idx.price * idx.count;
+    return item + productPrice;
+  }, 0);
 
   return (
     <ShopWrap>
@@ -46,7 +48,7 @@ const ShopCart = () => {
             <div className="paywrap">
               <div className="price">
                 <p>상품금액</p>
-                {/* <p>{prodTotalPrice.toLocaleString()}원</p> */}
+                <p>{prodTotalPrice.toLocaleString()}원</p>
               </div>
             </div>
             <div className="order_btn" onClick={handleGoOrder}>

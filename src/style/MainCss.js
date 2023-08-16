@@ -127,30 +127,12 @@ export const SlickDiv = styled.div`
     font-weight: 500;
     font-size: 30px;
   }
-  h3 {
-    background: #3498db;
-    color: #fff;
-    font-size: 36px;
-    line-height: 350px;
-    margin: 15px;
-    padding: 2%;
-    position: relative;
-    text-align: center;
-  }
 
   .slick-next:before,
   .slick-prev:before {
     color: #000;
   }
-  .center .slick-center h3 {
-    color: #e67e22;
-    opacity: 1;
-    -ms-transform: scale(1.08);
-    transform: scale(1.08);
-  }
-  .center h3 {
-    transition: all 0.1s ease;
-  }
+
   .center img {
     width: 400px;
     height: 400px;
@@ -160,11 +142,13 @@ export const SlickDiv = styled.div`
   .center .slick-center span {
     color: #e67e22;
     opacity: 1;
-    -ms-transform: scale(1.08);
     transform: scale(1.08);
   }
   .center span {
+    display: block;
     transition: all 0.1s ease;
+    text-align: center;
+    margin: 20px 0;
   }
 `;
 
