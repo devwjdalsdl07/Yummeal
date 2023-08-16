@@ -385,7 +385,7 @@ export const ItemDetailDiv = styled.div`
 
     .container {
       display: grid;
-      grid-template-columns: repeat(4, minmax(120px, auto));
+      grid-template-columns: repeat(4, minmax(130px, auto));
       margin: 0 auto;
       padding: 20px 0;
       width: 100%;
