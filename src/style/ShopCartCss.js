@@ -68,13 +68,16 @@ export const Payment = styled.div`
     height: 5rem;
     line-height: 5rem;
     text-align: Center;
-    background: #f5f5dc;
-    color: #000;
+    border: 1px solid #d1d1d1;
+    color: #3f3f3f;
+    background-color: #fff;
     font-weight: bold;
     font-size: 2rem;
     cursor: pointer;
     &:hover {
-      opacity: 0.8;
+      background-color: #8eb111;
+      color: white;
+      border: none;
     }
   }
   @media screen and (max-width: 1024px) {
@@ -106,6 +109,7 @@ export const NotList = styled.div`
   .icon-box {
     .fa-cart-arrow-down {
       font-size: 10rem;
+      color: #8eb111;
     }
   }
   .text-box {
@@ -115,12 +119,17 @@ export const NotList = styled.div`
     }
     button {
       border-radius: 0.8rem;
-      border: 1px solid;
-      background: #000;
-      color: #fff;
+      background: #fff;
       padding: 1rem;
       margin-top: 3rem;
       font-size: 1.5rem;
+      border: 1px solid #d1d1d1;
+      color: #3f3f3f;
+      &:hover {
+        background-color: #8eb111;
+        color: white;
+        border: none;
+      }
     }
   }
 `;
