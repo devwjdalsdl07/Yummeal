@@ -30,7 +30,7 @@ export const MainDiv = styled.div`
         font-size: 32px;
       }
       .confirm {
-        background-color: #000;
+        background-color: #8eb111;
         color: #fff;
         cursor: pointer;
         border: none;
@@ -123,12 +123,11 @@ export const SlickDiv = styled.div`
   }
   .title {
     margin-bottom: 70px;
-    /* text-align: center; */
     font-weight: 500;
     font-size: 30px;
   }
-  h3 {
-    background: #3498db;
+  img {
+    /* background: #3498db; */
     color: #fff;
     font-size: 36px;
     line-height: 350px;
@@ -142,13 +141,12 @@ export const SlickDiv = styled.div`
   .slick-prev:before {
     color: #000;
   }
-  .center .slick-center h3 {
+  .center .slick-center img {
     color: #e67e22;
     opacity: 1;
-    -ms-transform: scale(1.08);
     transform: scale(1.08);
   }
-  .center h3 {
+  .center img {
     transition: all 0.1s ease;
   }
   .center img {
@@ -160,11 +158,13 @@ export const SlickDiv = styled.div`
   .center .slick-center span {
     color: #e67e22;
     opacity: 1;
-    -ms-transform: scale(1.08);
     transform: scale(1.08);
   }
   .center span {
     transition: all 0.1s ease;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 20px;
   }
 `;
 
@@ -255,7 +255,9 @@ export const ItemDetailDiv = styled.div`
         }
       }
     }
-
+    .container-slick {
+      margin-bottom: 100px;
+    }
     .goods-details {
       //width는 나중에 수정하기
       width: 500px;
@@ -293,13 +295,14 @@ export const ItemDetailDiv = styled.div`
           font-size: 16px;
           text-align: center;
           border: none;
-          background-color: #f7dece;
-          color: #313133;
+          background-color: #8eb111;
+          color: #fff;
         }
         > input {
           width: 30px;
           height: 35px;
           font-size: 20px;
+          color: #313133;
           text-align: center;
           border: none;
           outline: none;
@@ -309,9 +312,12 @@ export const ItemDetailDiv = styled.div`
         padding-top: 20%;
         font-size: 25px;
         font-weight: 700;
-        > strong {
+        div {
           float: right;
-          font-size: 40px;
+          > strong {
+            font-size: 40px;
+            color: #8eb111;
+          }
         }
       }
       .shopping-cart {
@@ -330,6 +336,11 @@ export const ItemDetailDiv = styled.div`
           border-radius: 10px;
           line-height: 25px;
           border: 1px solid #d1d1d1;
+          &:hover {
+            background-color: #8eb111;
+            color: white;
+            border: none;
+          }
         }
       }
     }
@@ -346,23 +357,30 @@ export const ItemDetailDiv = styled.div`
 
     .menu-info {
       display: block;
+      > h1 {
+        margin-bottom: 50px;
+      }
       > img {
-        margin-bottom: 10%;
+        display: block;
+        margin: 0 auto;
+        padding-bottom: 50px;
       }
     }
+
     .container {
       display: grid;
       grid-template-columns: repeat(4, minmax(30px, auto));
-      margin: 20px 0;
+      margin: 0 auto;
+      padding: 20px 0;
       width: 860px;
 
       .item-title {
-        border-bottom: 1px solid rgb(230, 230, 230);
+        border: 1px solid rgb(230, 230, 230);
         padding: 10px 0 10px 10px;
         background: #fff;
       }
       .item {
-        border-bottom: 1px solid rgb(230, 230, 230);
+        border: 1px solid rgb(230, 230, 230);
         padding: 10px 0 10px 10px;
         background: #fff;
       }

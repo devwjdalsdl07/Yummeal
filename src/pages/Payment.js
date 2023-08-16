@@ -9,21 +9,29 @@ const Payment = () => {
     height: 48rem;
     text-align: center;
     p {
-      font-size: 2rem;
+      font-size: 3rem;
       font-weight: 700;
     }
     button {
       margin-top: 2rem;
-      padding: 0.5rem;
-      border-radius: 0.7rem;
-      border: 0.1rem solid;
+      padding: 1rem 6rem;
+      font-weight: 800;
+      border-radius: 1rem;
+      background-color: #fff;
+      border: 1px solid #d1d1d1;
+      color: #3f3f3f;
+      &:hover {
+        background-color: #8eb111;
+        color: white;
+        border: none;
+      }
     }
   `;
 
   const handleGoBack = () => {
     window.close();
   };
-  
+
   return (
     <PaymentWrap>
       <div>
