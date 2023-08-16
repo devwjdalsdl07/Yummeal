@@ -149,6 +149,8 @@ export const deleteUser = async () => {
   try {
     const res = await instance.delete("/api/mypage/profile");
     const result = res.data;
+    removeCookie("refreshToken");
+    sessionStorage.removeItem("accessToken");
     return result;
   } catch (err) {
     console.log(err);
