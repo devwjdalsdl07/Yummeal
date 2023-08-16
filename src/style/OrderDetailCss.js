@@ -54,6 +54,10 @@ export const OrderDetailWrap = styled.div`
           font-size: 1.5rem;
           cursor: pointer;
           transform: translateY(2.3rem);
+          &:hover {
+            background-color: #8eb111;
+            color: white;
+          }
         }
       }
     }

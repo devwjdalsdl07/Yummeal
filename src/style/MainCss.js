@@ -11,7 +11,6 @@ export const MainDiv = styled.div`
     .info {
       margin: 0 auto;
       margin-top: 50px;
-      width: 1440px;
       max-width: 1400px;
       height: 100%;
       min-height: 700px;
@@ -40,10 +39,11 @@ export const MainDiv = styled.div`
     }
 
     .list-area {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 40px;
-      justify-content: space-evenly;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, auto));
+      column-gap: 80px;
+      row-gap: 40px;
+      justify-content: center;
       .product-card {
         position: relative;
         display: inline-block;

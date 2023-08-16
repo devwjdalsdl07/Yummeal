@@ -23,6 +23,7 @@ export const FooterWrap = styled.div`
     justify-content: space-around;
     align-items: center;
     padding: 2rem;
+    min-width: 50rem;
     h3 {
       font-size: 2rem;
       padding-bottom: 1rem;
