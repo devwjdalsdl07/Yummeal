@@ -15,6 +15,7 @@ const Footer = () => {
   const handleUseGuide = () => {
     navigate("useguide");
   };
+
   return (
     <FooterWrap>
       <div className="footer-menu">
@@ -27,7 +28,7 @@ const Footer = () => {
       </div>
       <div className="footer-cs">
         <div className="imgbox">
-          <img src="/img/footerlogo.png" alt="logo" />
+          <img src={`${process.env.PUBLIC_URL}/images/footerlogo.png`} alt="logo" />
         </div>
         <div className="csbox">
           <h3>고객센터</h3>

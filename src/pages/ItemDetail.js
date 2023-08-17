@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { cartIn } from "../api/client";
 import { getProductId } from "../api/mainFatch";
 import CartItemModal from "../components/CartItemModal";
-import  LoginModal  from "../components/LoginModal";
+import LoginModal from "../components/LoginModal";
 import Review from "../components/Review";
 import Slick from "../components/Slick";
 import { ItemDetailDiv } from "../style/MainCss";
@@ -15,7 +15,7 @@ const ItemDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  const [loginShowModal, setLoginShowModal] = useState(false)
+  const [loginShowModal, setLoginShowModal] = useState(false);
 
   const [cartItems, setCartItems] = useState([]);
 
@@ -69,7 +69,7 @@ const ItemDetail = () => {
 
   const handleShoppingCart = async () => {
     if (!token) {
-      setLoginShowModal(true)
+      setLoginShowModal(true);
     } else {
       try {
         const cartItem = {
@@ -102,8 +102,6 @@ const ItemDetail = () => {
       });
     }
   };
-  
-  
 
   return (
     <ItemDetailDiv>
@@ -143,24 +141,28 @@ const ItemDetail = () => {
               </li>
               <li className="order-total-price">
                 총 합계 금액
-                <div><strong>{totalPrice.toLocaleString()}</strong>원</div>
+                <div>
+                  <strong>{totalPrice.toLocaleString()}</strong>원
+                </div>
               </li>
               <li className="shopping-cart">
                 <button onClick={handleShoppingCart}>장바구니</button>
                 <button onClick={handleShoppingOrder}>바로구매하기</button>
               </li>
             </ul>
-              {showModal === true && token !== null ? (
-                <CartItemModal
-                  setShowModal={setShowModal}
-                  handleCartShow={handleCartShow}
-                />
-              ) : null}
-              
-                {loginShowModal === true ? ( 
-      <LoginModal loginShowModal={loginShowModal} setLoginShowModal={setLoginShowModal} />
-    ) : null}
+            {showModal === true && token !== null ? (
+              <CartItemModal
+                setShowModal={setShowModal}
+                handleCartShow={handleCartShow}
+              />
+            ) : null}
 
+            {loginShowModal === true ? (
+              <LoginModal
+                loginShowModal={loginShowModal}
+                setLoginShowModal={setLoginShowModal}
+              />
+            ) : null}
           </div>
         </div>
         <Slick />
@@ -192,7 +194,7 @@ const ItemDetail = () => {
             </li>
           </ul>
 
-          <div id="detail-section01"  className="menu-info">
+          <div id="detail-section01" className="menu-info">
             <h1>기본정보</h1>
             <div className="container">
               <div className="item-title">식품의 유형</div>
@@ -228,8 +230,11 @@ const ItemDetail = () => {
           <div id="detail-section02" className="menu-info">
             <h1>상품 상세정보</h1>
             {/* <div>{product && product.description}</div> */}
-            <img src="/img/item2.png" alt="item-info" />
-            <img src="/img/item.png" alt="item" />
+            <img
+              src={`${process.env.PUBLIC_URL}/images/item2.png`}
+              alt="item-info"
+            />
+            <img src={`${process.env.PUBLIC_URL}/images/item.png`} alt="item" />
           </div>
           <div id="detail-section03" className="menu-info">
             <h1>상품리뷰</h1>
