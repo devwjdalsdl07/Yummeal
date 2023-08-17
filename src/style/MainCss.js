@@ -133,16 +133,23 @@ export const SlickDiv = styled.div`
     color: #fff;
     font-size: 36px;
     line-height: 350px;
-    margin: 15px;
+    margin: 2%;
     padding: 2%;
     position: relative;
     text-align: center;
+   
+  }
+  .slick-slide {
+    margin: 0; 
   }
 
   .slick-next:before,
   .slick-prev:before {
-    color: #000;
+    color: #8eb111;
+    width: 40px;
+    height: 40px;
   }
+
   .center .slick-center img {
     color: #e67e22;
     opacity: 1;
@@ -172,6 +179,7 @@ export const SlickDiv = styled.div`
       width: 300px;
       height: 300px;
     }
+    
   }
 `;
 
