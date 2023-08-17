@@ -64,7 +64,7 @@ const Slick = () => {
           slidesToScroll: 2,
           centerMode: false,
           dots: true,
-          arrows: false,
+          arrows:false,
         },
       },
     ],
