@@ -62,12 +62,21 @@ const {nickNm} = useSelector(state => (state.user))
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
+          slidesToScroll: 2,
+          centerMode: false, 
+          dots: true,
+          arrows:false,
         },
       },
       {
         breakpoint: 750,
         settings: {
           slidesToShow: 1,
+          slidesToScroll: 1,
+          centerMode: false,       
+          dots: true,
+          arrows:false,
+
         },
       },
     ],
