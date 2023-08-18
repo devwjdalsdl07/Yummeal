@@ -6,8 +6,8 @@ import { getOrderList } from "../api/client";
 const OrderList = () => {
   const button = [
     { value: 1, date: "1개월" },
-    { value: 3, date: "6개월" },
-    { value: 6, date: "1년" },
+    { value: 6, date: "6개월" },
+    { value: 12, date: "1년" },
     { value: 0, date: "전체" },
   ];
   const [active, setActive] = useState(1);
