@@ -270,6 +270,7 @@ export const orderPost = async _item => {
   try {
     const res = await instance.post("/api/buy/order", _item);
     const result = res.data;
+    console.log("오더 포스트 보내는 값", result);
     return result;
   } catch (err) {
     console.log(err);

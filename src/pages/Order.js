@@ -67,7 +67,7 @@ const Order = () => {
   };
 
   // 주문하기
-  const handleOrder = () => {
+  const handleOrder = async () => {
     const orderBasket = orderItems.map((item, idx) => ({
       key: idx,
       cartId: item.cartId,
@@ -80,7 +80,7 @@ const Order = () => {
         cartId: 0,
         productId: buyData.productId,
         count: buyData.count,
-        totalPrice: buyData.price * buyData.count,
+        totalprice: buyData.price * buyData.count,
       },
     ];
     const item = {
@@ -93,38 +93,38 @@ const Order = () => {
       point: usePoint !== "" ? parseInt(usePoint) : 0,
       insorderbasket: Array.isArray(orderBasket) ? quickOrder : orderBasket,
     };
-    // try {
-    //   dispatch(pointReducer(point - usePoint));
-    //   const result = await orderPost(item);
-    //   navigate("/orderdetail", {
-    //     state: {
-    //       orderId: result.orderId,
-    //       point: result.point,
-    //     },
-    //   });
-    // } catch (err) {
-    //   console.err("주문 처리 중 오류 발생:", err);
-    // }
+    try {
+      dispatch(pointReducer(point - usePoint));
+      const result = await orderPost(item);
+      navigate("/orderdetail", {
+        state: {
+          orderId: result.orderId,
+          point: result.point,
+        },
+      });
+    } catch (err) {
+      console.err("주문 처리 중 오류 발생:", err);
+    }
     // 결제 팝업창
-    const newWindow = window.open(
-      "/payment",
-      "결제페이지",
-      "width=430, height=500, location=no, status=no, scrollbars=yes",
-    );
-    newWindow.addEventListener("beforeunload", async () => {
-      try {
-        dispatch(pointReducer(point - usePoint));
-        const result = await orderPost(item);
-        navigate("/orderdetail", {
-          state: {
-            orderId: result.orderId,
-            point: result.point,
-          },
-        });
-      } catch (err) {
-        console.err("주문 처리 중 오류 발생:", err);
-      }
-    });
+    // const newWindow = window.open(
+    //   "/payment",
+    //   "결제페이지",
+    //   "width=430, height=500, location=no, status=no, scrollbars=yes",
+    // );
+    // newWindow.addEventListener("beforeunload", async () => {
+    //   try {
+    //     dispatch(pointReducer(point - usePoint));
+    //     const result = await orderPost(item);
+    //     navigate("/orderdetail", {
+    //       state: {
+    //         orderId: result.orderId,
+    //         point: result.point,
+    //       },
+    //     });
+    //   } catch (err) {
+    //     console.err("주문 처리 중 오류 발생:", err);
+    //   }
+    // });
   };
 
   // 유저이름 업데이트
