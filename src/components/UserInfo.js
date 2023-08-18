@@ -497,7 +497,7 @@ const UserInfo = ({ setActiveComponent }) => {
           </JoinFormGroup>
           <div className="btnWrap">
             <JoinBtn onClick={handleEdit}>수정</JoinBtn>
-            <JoinBtn onClick={handleCancel}>취소</JoinBtn>
+            <JoinBtn onClick={handleCancel}>취소</JoinBtn> 
           </div>
           <Modal
             title="회원탈퇴"

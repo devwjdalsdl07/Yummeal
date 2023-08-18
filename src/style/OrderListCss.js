@@ -24,11 +24,11 @@ export const OrderListContainer = styled.div`
     justify-content: space-around;
     margin-top: 30px;
     margin-bottom: 50px;
-    @media screen and (max-width:600px){
-    margin-bottom: 10px;
+    @media screen and (max-width: 600px) {
+      margin-bottom: 10px;
     }
     .active {
-      background: pink;
+      background: #8eb111;
       color: #fff;
     }
     span {
