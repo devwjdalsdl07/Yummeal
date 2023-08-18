@@ -139,8 +139,7 @@ export const SlickDiv = styled.div`
   .slick-next:before,
   .slick-prev:before {
     color: #8eb111;
-    width: 40px;
-    height: 40px;
+   
   }
   .center .slick-center img {
     color: #e67e22;
@@ -230,7 +229,7 @@ export const ItemDetailDiv = styled.div`
   min-width: 500px;
   .content-wrap {
     margin: 0 auto;
-    padding: 200px 20px 0 20px;
+    padding: 200px 30px 0 30px;
     max-width: 1400px;
     height: 100%;
     overflow: hidden;
