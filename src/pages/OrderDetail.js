@@ -140,7 +140,7 @@ const OrderDetail = () => {
             <div className="price-data">
               <p>총 결제금액</p>
               <span>
-                {(totalPriceSum - userInfo.usepoint).toLocaleString()}원
+                {(priceSum - userInfo.usepoint).toLocaleString()}원
               </span>
             </div>
           </div>

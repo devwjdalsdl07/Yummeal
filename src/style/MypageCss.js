@@ -1,10 +1,14 @@
 import styled from "@emotion/styled";
 
+export const ContainerWrap = styled.div`
+  background: #f9f6f1;
+`;
 export const MypageContainer = styled.div`
   display: flex;
   justify-content: space-around;
   max-width: 1200px;
-  margin: 80px auto;
+  padding-top: 80px;
+  margin: 0 auto;
   .side-nav {
     display: flex;
     align-items: center;
@@ -30,7 +34,7 @@ export const MypageContainer = styled.div`
           p {
             margin: 3px 0;
             font-size: 12px;
-            color:#888;
+            color: #888;
             cursor: pointer;
           }
         }

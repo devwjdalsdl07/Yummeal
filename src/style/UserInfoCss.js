@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 export const JoinContainer = styled.div`
   width: 80%;
   position: relative;
+  margin-bottom: 100px;
   @media screen and (max-width: 1024px) {
     font-size: 25px;
     /* font-weight: 500; */

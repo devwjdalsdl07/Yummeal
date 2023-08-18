@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
-import { getRandom, getRecommend } from "../api/mainFatch";
-import { useNavigate } from "react-router";
-import { getCookie } from "../api/cookie";
-import { SlickDiv } from "../style/MainCss";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import { getRandom, getRecommend } from "../api/mainFatch";
+import { SlickDiv } from "../style/MainCss";
 
 const Slick = () => {
   const [randomProduct, setRandomProduct] = useState([]);
   const [recommend, setRecommend] = useState([]);
   const [itemImage, setItemImage] = useState([]);
-const {nickNm} = useSelector(state => (state.user))
+  const { nickNm } = useSelector(state => state.user);
   //로그인 여부 확인
   const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
 
@@ -63,7 +62,7 @@ const {nickNm} = useSelector(state => (state.user))
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          centerMode: false, 
+          centerMode: false,
           dots: true,
           arrows:false,
         },

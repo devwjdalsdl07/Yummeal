@@ -113,7 +113,7 @@ function Header() {
 
       {/* Headerle 로고 */}
       <div className="logo">
-        <img src="/img/logo.png" onClick={() => navigate("/")}></img>
+        <img src={`${process.env.PUBLIC_URL}/images/logo.png`} onClick={() => navigate("/")}></img>
       </div>
 
       {/* User 버튼 */}

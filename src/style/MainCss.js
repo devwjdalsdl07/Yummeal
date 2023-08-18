@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-
 export const MainDiv = styled.div`
   .wrap {
     position: relative;
@@ -20,7 +19,6 @@ export const MainDiv = styled.div`
     .best-item {
       display: flex;
       justify-content: space-between;
-
       text-align: center;
       margin: 50px 0;
       font-weight: 500;
@@ -39,7 +37,6 @@ export const MainDiv = styled.div`
         border-radius: 4px;
       }
     }
-
     .list-area {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, auto));
@@ -88,7 +85,6 @@ export const MainDiv = styled.div`
             left: 90px;
             bottom: 10%;
             font-size: x-large;
-
             &:hover {
               color: green;
             }
@@ -118,7 +114,6 @@ export const SlickDiv = styled.div`
     margin: 0 auto;
     padding: 0px 40px 40px 40px;
     width: 400px;
-
     &:hover .product-description {
       opacity: 0.5;
     }
@@ -129,7 +124,7 @@ export const SlickDiv = styled.div`
     font-size: 30px;
   }
   img {
-    /* background: #3498db; */
+    /* background: #3498DB; */
     color: #fff;
     font-size: 36px;
     line-height: 350px;
@@ -137,18 +132,15 @@ export const SlickDiv = styled.div`
     padding: 2%;
     position: relative;
     text-align: center;
-   
   }
   .slick-slide {
-    margin: 0; 
+    margin: 0;
   }
-
   .slick-next:before,
   .slick-prev:before {
     color: #8eb111;
    
   }
-
   .center .slick-center img {
     color: #e67e22;
     opacity: 1;
@@ -160,7 +152,6 @@ export const SlickDiv = styled.div`
     height: 400px;
     cursor: pointer;
   }
-
   .center .slick-center span {
     color: #e67e22;
     opacity: 1;
@@ -178,22 +169,24 @@ export const SlickDiv = styled.div`
       width: 300px;
       height: 300px;
     }
-    
+  }
+  @media screen and (max-width: 670px) {
+    .center img {
+      width: 200px;
+      height: 200px;
+    }
   }
 `;
-
 export const PaginationDiv = styled.div`
   .pagination {
     display: flex;
     justify-content: center;
     margin-top: 15px;
   }
-
   ul {
     list-style: none;
     padding: 0;
   }
-
   ul.pagination li {
     display: inline-block;
     width: 30px;
@@ -204,41 +197,33 @@ export const PaginationDiv = styled.div`
     align-items: center;
     font-size: 1rem;
   }
-
   ul.pagination li:first-of-type {
     border-radius: 5px 0 0 5px;
   }
-
   ul.pagination li:last-child {
     border-radius: 0 5px 5px 0;
   }
-
   ul.pagination li a {
     text-decoration: none;
     color: #337ab7;
     font-size: 1rem;
   }
-
   ul.pagination li.active a {
     color: white;
   }
-
   ul.pagination li.active {
     background-color: #8eb111;
   }
-
   ul.pagination li a:hover,
   ul.pagination li a.active {
     color: blue;
   }
-
   .page-selection {
     width: 48px;
     height: 30px;
     color: #337ab7;
   }
 `;
-
 export const ItemDetailDiv = styled.div`
   background: #f9f6f1;
   min-width: 500px;
@@ -263,7 +248,6 @@ export const ItemDetailDiv = styled.div`
         .item-info {
           display: flex;
           gap: 15px;
-
           > img {
             width: 100px;
             height: 100px;
@@ -301,7 +285,6 @@ export const ItemDetailDiv = styled.div`
         display: flex;
         justify-content: space-between;
       }
-
       .order-button {
         display: flex;
         align-items: center;
@@ -360,11 +343,9 @@ export const ItemDetailDiv = styled.div`
         }
       }
     }
-
     .prod-dsc {
       min-width: 500px;
     }
-
     .product-tabs {
       display: flex;
       justify-content: space-between;
@@ -374,7 +355,6 @@ export const ItemDetailDiv = styled.div`
       border-top: 1px solid #313133;
       border-bottom: 1px solid #e7e7e7;
     }
-
     .menu-info {
       display: block;
       width: 80%;
@@ -387,16 +367,15 @@ export const ItemDetailDiv = styled.div`
         display: block;
         margin: 0 auto;
         padding-bottom: 50px;
+        width: 100%;
       }
     }
-
     .container {
       display: grid;
       grid-template-columns: repeat(4, minmax(130px, auto));
       margin: 0 auto;
       padding: 20px 0;
       width: 100%;
-
       .item-title {
         border: 1px solid rgb(230, 230, 230);
         padding: 10px 0 10px 10px;
