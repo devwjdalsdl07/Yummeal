@@ -22,11 +22,13 @@ const Order = () => {
 
   // 바로 구매 시 데이터 조회
   const quickBuyData = async () => {
-    const productId = state?.productId;
-    const count = state?.count;
-    const result = await quickBuy(productId, count);
-    console.log("바이데이터 결과물", result);
-    setBuyData(result);
+    if (state !== null) {
+      const productId = state?.productId;
+      const count = state?.count;
+      const result = await quickBuy(productId, count);
+      console.log("바이데이터 결과물", result);
+      setBuyData(result);
+    }
   };
 
   // 유저정보 접근
@@ -73,6 +75,14 @@ const Order = () => {
       count: item.count,
       totalprice: item.price * item.count,
     }));
+    const quickOrder = [
+      {
+        cartId: 0,
+        productId: buyData.productId,
+        count: buyData.count,
+        totalPrice: buyData.price * buyData.count,
+      },
+    ];
     const item = {
       receiver: name,
       address: address,
@@ -80,10 +90,21 @@ const Order = () => {
       phoneNm: mobileNb,
       request: message,
       payment: 1,
-      point: usePoint !== "" ? usePoint : 0,
-      insorderbasket: orderBasket,
+      point: usePoint !== "" ? parseInt(usePoint) : 0,
+      insorderbasket: Array.isArray(orderBasket) ? quickOrder : orderBasket,
     };
-    console.log(item);
+    // try {
+    //   dispatch(pointReducer(point - usePoint));
+    //   const result = await orderPost(item);
+    //   navigate("/orderdetail", {
+    //     state: {
+    //       orderId: result.orderId,
+    //       point: result.point,
+    //     },
+    //   });
+    // } catch (err) {
+    //   console.err("주문 처리 중 오류 발생:", err);
+    // }
     // 결제 팝업창
     const newWindow = window.open(
       "/payment",
@@ -124,10 +145,10 @@ const Order = () => {
 
   // 사용한 포인트값 업데이트
   const handleAllPoint = () => {
-    if (prodTotalPrice) {
+    if (state == null) {
       const maxUsePoint = Math.min(userPoint, prodTotalPrice);
       setUsePoint(maxUsePoint);
-    } else if (state) {
+    } else {
       const quickMaxUsePoint = Math.min(userPoint, buyData.price);
       setUsePoint(quickMaxUsePoint);
     }

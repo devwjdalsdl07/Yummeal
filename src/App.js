@@ -18,6 +18,7 @@ import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
 import UseGuide from "./pages/UseGuide";
 import UseService from "./pages/UseService";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const accessToken = sessionStorage.getItem("accessToken");
@@ -53,6 +54,7 @@ function App() {
         <Route path="/useservice" element={<UseService />} />
         <Route path="/policy" element={<Policy />} />
         <Route path="/useguide" element={<UseGuide />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       {!isAdminPage && !isPaymentPage && <Footer />}
       <Routes>

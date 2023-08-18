@@ -96,7 +96,7 @@ const SortFilter = ({ product, setSearchData }) => {
         />
       </div>
       <div className="search-form">
-        <h3>알러지</h3>
+        <h3>알레르기</h3>
         <Select
           className="allergy"
           closeMenuOnSelect={false}

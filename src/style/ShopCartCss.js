@@ -77,7 +77,6 @@ export const Payment = styled.div`
     &:hover {
       background-color: #8eb111;
       color: white;
-      border: none;
     }
   }
   @media screen and (max-width: 1024px) {
@@ -125,10 +124,10 @@ export const NotList = styled.div`
       font-size: 1.5rem;
       border: 1px solid #d1d1d1;
       color: #3f3f3f;
+      cursor: pointer;
       &:hover {
         background-color: #8eb111;
         color: white;
-        border: none;
       }
     }
   }
