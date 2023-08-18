@@ -103,7 +103,9 @@ const ItemDetail = () => {
     }
   };
   
-  
+  const settings = {
+    dots: true
+  };
 
   return (
     <ItemDetailDiv>
@@ -137,7 +139,7 @@ const ItemDetail = () => {
                   <input
                     value={quantity}
                     onChange={e => setQuantity(parseInt(e.target.value) || 0)}
-                  />
+                    readOnly/>
                   <button onClick={handleplusClick}>+</button>
                 </span>
               </li>
