@@ -91,11 +91,12 @@ const Order = () => {
       request: message,
       payment: 1,
       point: usePoint !== "" ? parseInt(usePoint) : 0,
-      insorderbasket: Array.isArray(orderBasket) ? quickOrder : orderBasket,
+      insorderbasket: orderBasket.length < 0 ? quickOrder : orderBasket,
     };
     try {
       dispatch(pointReducer(point - usePoint));
       const result = await orderPost(item);
+      console.log("오더보내면?", result);
       navigate("/orderdetail", {
         state: {
           orderId: result.orderId,
@@ -103,28 +104,8 @@ const Order = () => {
         },
       });
     } catch (err) {
-      console.err("주문 처리 중 오류 발생:", err);
+      console.log("주문 처리 중 오류 발생:", err);
     }
-    // 결제 팝업창
-    // const newWindow = window.open(
-    //   "/payment",
-    //   "결제페이지",
-    //   "width=430, height=500, location=no, status=no, scrollbars=yes",
-    // );
-    // newWindow.addEventListener("beforeunload", async () => {
-    //   try {
-    //     dispatch(pointReducer(point - usePoint));
-    //     const result = await orderPost(item);
-    //     navigate("/orderdetail", {
-    //       state: {
-    //         orderId: result.orderId,
-    //         point: result.point,
-    //       },
-    //     });
-    //   } catch (err) {
-    //     console.err("주문 처리 중 오류 발생:", err);
-    //   }
-    // });
   };
 
   // 유저이름 업데이트
