@@ -64,7 +64,11 @@ const Search = () => {
             searchData={searchData}
             handleShoppingClick={handleShoppingClick}
           />
-          <Paging onPageChange={handleSearchPaging} searchData={searchData} />
+          <Paging
+            onPageChange={handleSearchPaging}
+            pageRangeDisplayed={searchData.maxpage}
+            totalItemsCount={searchData.count}
+          />
         </div>
       </div>
     </SearchWrap>
