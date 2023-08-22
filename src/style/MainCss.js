@@ -139,7 +139,6 @@ export const SlickDiv = styled.div`
   .slick-next:before,
   .slick-prev:before {
     color: #8eb111;
-   
   }
   .center .slick-center img {
     color: #e67e22;
