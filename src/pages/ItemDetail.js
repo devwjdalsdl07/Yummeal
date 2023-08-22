@@ -69,7 +69,24 @@ const ItemDetail = () => {
 
   const handleShoppingCart = async () => {
     if (!token) {
-      setLoginShowModal(true);
+      const baskets = JSON.parse(localStorage.getItem("baskets") ?? "[]");
+      const existingItemIndex = baskets.findIndex(
+        item => item.productId === parseInt(pid),
+      );
+      if (existingItemIndex === -1) {
+        const item = {
+          productId: parseInt(pid),
+          count: quantity,
+          name: product.name,
+          thumbnail: bigImage,
+          price: product.price,
+        };
+        baskets.push(item);
+      } else {
+        baskets[existingItemIndex].count += 1;
+      }
+      localStorage.setItem("baskets", JSON.stringify(baskets));
+      setShowModal(true);
     } else {
       try {
         const cartItem = {
@@ -101,9 +118,6 @@ const ItemDetail = () => {
         },
       });
     }
-  };
-  const settings = {
-    dots: true
   };
 
   return (
@@ -138,7 +152,8 @@ const ItemDetail = () => {
                   <input
                     value={quantity}
                     onChange={e => setQuantity(parseInt(e.target.value) || 0)}
-                    readOnly/>
+                    readOnly
+                  />
                   <button onClick={handleplusClick}>+</button>
                 </span>
               </li>
@@ -153,7 +168,7 @@ const ItemDetail = () => {
                 <button onClick={handleShoppingOrder}>바로구매하기</button>
               </li>
             </ul>
-            {showModal === true && token !== null ? (
+            {showModal === true ? (
               <CartItemModal
                 setShowModal={setShowModal}
                 handleCartShow={handleCartShow}

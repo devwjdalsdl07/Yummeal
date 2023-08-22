@@ -113,7 +113,10 @@ function Header() {
 
       {/* Headerle 로고 */}
       <div className="logo">
-        <img src={`${process.env.PUBLIC_URL}/images/logo.png`} onClick={() => navigate("/")}></img>
+        <img
+          src={`${process.env.PUBLIC_URL}/images/logo.png`}
+          onClick={() => navigate("/")}
+        ></img>
       </div>
 
       {/* User 버튼 */}
@@ -174,6 +177,7 @@ function Header() {
           <>
             <li onClick={() => navigate("/login")}>로그인</li>
             <li onClick={() => navigate("/signup")}>회원가입</li>
+            <li onClick={() => navigate("/cart")}>장바구니</li>
           </>
         )}
       </ul>

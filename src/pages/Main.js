@@ -6,11 +6,11 @@ import { cartIn } from "../api/client";
 import { getBestProduct } from "../api/mainFatch";
 import Slick from "../components/Slick";
 import { MainDiv } from "../style/MainCss";
-import { useSelector } from "react-redux";
 
 const Main = () => {
   const [bestProduct, setBestProduct] = useState([]);
   const [mainImage, setItemImage] = useState([]);
+  const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
   // uri 에서 값 읽기
   const { pid } = useParams();
 
@@ -35,18 +35,35 @@ const Main = () => {
     navigate(`/productlist`);
   };
   const handleShoppingClick = async _item => {
-    console.log(_item.productId);
-    try {
-      const cartItem = {
-        productId: _item.productId,
-        count: 1,
-      };
-      const result = await cartIn(cartItem);
-      console.log(result);
+    if (isLoggedIn) {
+      try {
+        const cartItem = {
+          productId: _item.productId,
+          count: 1,
+        };
+        const result = await cartIn(cartItem);
+        console.log(result);
         navigate(`/cart`);
-      return result;
-    } catch (err) {
-      console.error("주문 처리 중 오류 발생:", err);
+        return result;
+      } catch (err) {
+        console.error("주문 처리 중 오류 발생:", err);
+      }
+    } else {
+      const baskets = JSON.parse(localStorage.getItem("baskets") ?? "[]");
+      const existingItemIndex = baskets.findIndex(item => item.productId === _item.productId);
+      if(existingItemIndex === -1){
+        const item = {
+          productId: _item.productId,
+          count: 1,
+          name:_item.name,
+          thumbnail: _item.thumbnail,
+          price:_item.price,
+        };
+        baskets.push(item);
+      } else {
+        baskets[existingItemIndex].count += 1;
+      }
+      localStorage.setItem("baskets", JSON.stringify(baskets));
     }
   };
   const handleItemClick = _id => {

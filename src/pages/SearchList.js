@@ -13,6 +13,7 @@ const SearchList = () => {
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
+  const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
 
   //제일 많이 팔린 상품 가져오기 더보기
   const getBestProductAllFetch = async _page => {
@@ -31,17 +32,35 @@ const SearchList = () => {
 
   // 장바구니 담기
   const handleShoppingClick = async _item => {
-    console.log(_item.productId);
-    try {
-      const cartItem = {
-        productId: _item.productId,
-        count: 1,
-      };
-      const result = await cartIn(cartItem);
-      console.log(result);
-      return result;
-    } catch (err) {
-      console.error("주문 처리 중 오류 발생:", err);
+    if (isLoggedIn) {
+      try {
+        const cartItem = {
+          productId: _item.productId,
+          count: 1,
+        };
+        const result = await cartIn(cartItem);
+        console.log(result);
+        navigate(`/cart`);
+        return result;
+      } catch (err) {
+        console.error("주문 처리 중 오류 발생:", err);
+      }
+    } else {
+      const baskets = JSON.parse(localStorage.getItem("baskets") ?? "[]");
+      const existingItemIndex = baskets.findIndex(item => item.productId === _item.productId);
+      if(existingItemIndex === -1){
+        const item = {
+          productId: _item.productId,
+          count: 1,
+          name:_item.name,
+          thumbnail: _item.thumbnail,
+          price:_item.price,
+        };
+        baskets.push(item);
+      } else {
+        baskets[existingItemIndex].count += 1;
+      }
+      localStorage.setItem("baskets", JSON.stringify(baskets));
     }
   };
 

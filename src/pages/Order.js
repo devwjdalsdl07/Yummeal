@@ -91,8 +91,9 @@ const Order = () => {
       request: message,
       payment: 1,
       point: usePoint !== "" ? parseInt(usePoint) : 0,
-      insorderbasket: orderBasket.length < 0 ? quickOrder : orderBasket,
+      insorderbasket: orderBasket.length == 0 ? quickOrder : orderBasket,
     };
+    console.log("바스켓 뭐담겨", quickOrder);
     try {
       dispatch(pointReducer(point - usePoint));
       const result = await orderPost(item);
