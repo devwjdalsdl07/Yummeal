@@ -19,8 +19,14 @@ const Slick = () => {
     try {
       if (isLoggedIn) {
         const recommendJson = await getRecommend();
-        setRecommend(recommendJson);
-        setItemImage(recommendJson.map(item => item.thumbnail));
+        if (recommendJson === null) {
+          const randomJson = await getRandom();
+          setRecommend(randomJson);
+          setItemImage(randomJson.map(item => item.thumbnail));
+        } else {
+          setRecommend(recommendJson);
+          setItemImage(recommendJson.map(item => item.thumbnail));
+        }
       } else {
         const randomJson = await getRandom();
         setRandomProduct(randomJson);
@@ -64,7 +70,7 @@ const Slick = () => {
           slidesToScroll: 2,
           centerMode: false,
           dots: true,
-          arrows:false,
+          arrows: false,
         },
       },
     ],
