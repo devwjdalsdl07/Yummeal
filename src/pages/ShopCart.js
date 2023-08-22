@@ -33,7 +33,7 @@ const ShopCart = () => {
       // 비회원 장바구니 데이터
       guestBasketList();
     }
-  }, [isLoggedIn]);
+  }, []);
 
   const handleGoOrder = () => {
     navigate("/order");
@@ -53,11 +53,29 @@ const ShopCart = () => {
   }
 
   // 총 상품금액(비로그인)
-  const basketsTotalPrice = basketData?.reduce((item, idx) => {
-    const prodPrice = parseFloat(idx.price) * idx.count;
-    return item + prodPrice;
-  }, 0);
-  console.log(basketsTotalPrice);
+  let basketsTotalPrice;
+  if (localStorage) {
+    basketsTotalPrice = JSON.parse(localStorage.getItem("baskets")).reduce(
+      (item, idx) => {
+        const prodPrice = parseFloat(idx.price) * idx.count;
+        return item + prodPrice;
+      },
+      0,
+    );
+  }
+
+  // 상품금액 조건부 렌더링
+  let totalPriceToShow;
+  if (isLoggedIn) {
+    const parsedBaskets = JSON.parse(localStorage.getItem("baskets"));
+    if (parsedBaskets.length > 0) {
+      totalPriceToShow = basketsTotalPrice?.toLocaleString();
+    } else {
+      totalPriceToShow = prodTotalPrice?.toLocaleString();
+    }
+  } else {
+    totalPriceToShow = basketsTotalPrice?.toLocaleString();
+  }
 
   return (
     <ShopWrap>
@@ -79,12 +97,7 @@ const ShopCart = () => {
             <div className="paywrap">
               <div className="price">
                 <p>상품금액</p>
-                <p>
-                  {cartItems.length > 0
-                    ? prodTotalPrice?.toLocaleString()
-                    : basketsTotalPrice?.toLocaleString()}
-                  원
-                </p>
+                <p>{totalPriceToShow}원</p>
               </div>
             </div>
             <div className="order_btn" onClick={handleGoOrder}>

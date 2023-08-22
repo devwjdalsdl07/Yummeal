@@ -13,6 +13,7 @@ const Search = () => {
   const { state } = location;
   const product = state?.product;
   const navigate = useNavigate();
+  const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
 
   // 검색 결과 불러오기
   const searchRes = async () => {
@@ -38,10 +39,11 @@ const Search = () => {
 
   // 장바구니 담기
   const handleShoppingClick = async _item => {
-    console.log(_item.productId);
+    console.log(_item.productid);
+    if (isLoggedIn) {
     try {
       const cartItem = {
-        productId: _item.productId,
+        productId: _item.productid,
         count: 1,
       };
       const result = await cartIn(cartItem);
@@ -51,6 +53,24 @@ const Search = () => {
     } catch (err) {
       console.error("주문 처리 중 오류 발생:", err);
     }
+  } else {
+    const baskets = JSON.parse(localStorage.getItem("baskets") ?? "[]");
+      const existingItemIndex = baskets.findIndex(item => item.productId === _item.productid);
+      console.log(existingItemIndex);
+      if(existingItemIndex === -1){
+        const item = {
+          productId: _item.productid,
+          count: 1,
+          name:_item.name,
+          thumbnail: _item.thumbnail,
+          price:_item.price,
+        };
+        baskets.push(item);
+      } else {
+        baskets[existingItemIndex].count += 1;
+      }
+      localStorage.setItem("baskets", JSON.stringify(baskets));
+  }
   };
 
   return (
