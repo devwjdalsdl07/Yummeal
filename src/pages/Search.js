@@ -9,6 +9,7 @@ import { SearchWrap } from "../style/SearchCss";
 
 const Search = () => {
   const [searchData, setSearchData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const location = useLocation();
   const { state } = location;
   const product = state?.product;
@@ -47,8 +48,7 @@ const Search = () => {
         count: 1,
       };
       const result = await cartIn(cartItem);
-      console.log(result);
-      navigate(`/cart`);
+      setShowModal(true);
       return result;
     } catch (err) {
       console.error("주문 처리 중 오류 발생:", err);
@@ -70,6 +70,7 @@ const Search = () => {
         baskets[existingItemIndex].count += 1;
       }
       localStorage.setItem("baskets", JSON.stringify(baskets));
+      setShowModal(true);
   }
   };
 
@@ -83,6 +84,8 @@ const Search = () => {
             handleItemClick={handleItemClick}
             searchData={searchData}
             handleShoppingClick={handleShoppingClick}
+            setShowModal={setShowModal}
+            showModal={showModal}
           />
           <Paging
             onPageChange={handleSearchPaging}

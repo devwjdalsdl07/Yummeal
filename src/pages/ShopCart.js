@@ -26,13 +26,10 @@ const ShopCart = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
-      // 회원 장바구니 데이터
-      cartList();
-    } else {
-      // 비회원 장바구니 데이터
-      guestBasketList();
-    }
+    // 회원 장바구니 데이터
+    cartList();
+    // 비회원 장바구니 데이터
+    guestBasketList();
   }, []);
 
   const handleGoOrder = () => {
@@ -54,21 +51,18 @@ const ShopCart = () => {
 
   // 총 상품금액(비로그인)
   let basketsTotalPrice;
-  if (localStorage) {
-    basketsTotalPrice = JSON.parse(localStorage.getItem("baskets")).reduce(
-      (item, idx) => {
-        const prodPrice = parseFloat(idx.price) * idx.count;
-        return item + prodPrice;
-      },
-      0,
-    );
+  if (basketData !== null) {
+    basketsTotalPrice = basketData.reduce((item, idx) => {
+      const prodPrice = parseFloat(idx.price) * idx.count;
+      return item + prodPrice;
+    }, 0);
   }
 
   // 상품금액 조건부 렌더링
   let totalPriceToShow;
   if (isLoggedIn) {
     const parsedBaskets = JSON.parse(localStorage.getItem("baskets"));
-    if (parsedBaskets.length > 0) {
+    if (parsedBaskets && parsedBaskets.length > 0) {
       totalPriceToShow = basketsTotalPrice?.toLocaleString();
     } else {
       totalPriceToShow = prodTotalPrice?.toLocaleString();

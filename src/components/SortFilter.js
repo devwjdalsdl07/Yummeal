@@ -46,13 +46,6 @@ const SortFilter = ({ product, setSearchData }) => {
 
   // 정렬 기능 get
   const sortData = async () => {
-  //   const item = {
-  //     product: product,
-  //     row: 16,
-  //     page: 1,
-  //     sorter: selectSort.value !== undefined ? selectSort.value : null,
-  //     filter: allergyStrings,
-  //   };
     const result = await filterSort(product, selectSort.value, allergyStrings);
     console.log(result);
     setSearchData(result);
@@ -62,7 +55,7 @@ const SortFilter = ({ product, setSearchData }) => {
   // 알레르기 value값
   const newAllergyData = selectAllergy.map(selected => selected.value);
   let allergyStrings = newAllergyData.map(value => value.toString());
-  console.log("알레르기 밸류 담기냐!?!?!?!", allergyStrings);
+  // console.log("알레르기 밸류 담기냐!?!?!?!", allergyStrings);
 
   // 정렬 기능이 선택될 때만 데이터 불러오기
   useEffect(() => {

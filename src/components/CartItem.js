@@ -19,7 +19,7 @@ const CartItem = ({
     if (isLoggedIn) {
       // 로그인 후 로컬스토리지 남아 있을 때
       const parsedBaskets = JSON.parse(localStorage.getItem("baskets"));
-      if (parsedBaskets.length > 0) {
+      if (parsedBaskets && parsedBaskets.length > 0) {
         const updatedBasketData = JSON.parse(
           localStorage.getItem("baskets"),
         ).map((item, index) => {
@@ -63,7 +63,7 @@ const CartItem = ({
     if (isLoggedIn) {
       // 로그인 후 로컬스토리지 남아 있을 때
       const parsedBaskets = JSON.parse(localStorage.getItem("baskets"));
-      if (parsedBaskets.length > 0) {
+      if (parsedBaskets && parsedBaskets.length > 0) {
         const updatedBasketData = JSON.parse(
           localStorage.getItem("baskets"),
         ).map((item, index) => {
@@ -109,7 +109,7 @@ const CartItem = ({
     if (isLoggedIn) {
       // 로그인 후 로컬스토리지 남아 있을 때
       const parsedBaskets = JSON.parse(localStorage.getItem("baskets"));
-      if (parsedBaskets.length > 0) {
+      if (parsedBaskets && parsedBaskets.length > 0) {
         const updatedBasketData = JSON.parse(
           localStorage.getItem("baskets"),
         ).filter((item, index) => index !== idx);
@@ -140,7 +140,7 @@ const CartItem = ({
   let content;
   if (isLoggedIn) {
     const parsedBaskets = JSON.parse(localStorage.getItem("baskets"));
-    if (parsedBaskets.length > 0) {
+    if (parsedBaskets && parsedBaskets.length > 0) {
       content = JSON.parse(localStorage.getItem("baskets")).map((item, idx) => (
         <div key={idx} className="list">
           <div
@@ -214,7 +214,7 @@ const CartItem = ({
       ));
     }
   } else {
-    content = JSON.parse(localStorage.getItem("baskets")).map((item, idx) => (
+    content = basketData.map((item, idx) => (
       <div key={idx} className="list">
         <div className="prodwrap" onClick={() => handleGoProd(item.productId)}>
           <div className="prod-img">
