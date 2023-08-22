@@ -8,6 +8,7 @@ import ItemDetail from "./pages/ItemDetail";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Mypage from "./pages/Mypage";
+import NotFound from "./pages/NotFound";
 import Order from "./pages/Order";
 import OrderDetail from "./pages/OrderDetail";
 import Payment from "./pages/Payment";
@@ -18,7 +19,6 @@ import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
 import UseGuide from "./pages/UseGuide";
 import UseService from "./pages/UseService";
-import NotFound from "./pages/NotFound";
 
 function App() {
   const accessToken = sessionStorage.getItem("accessToken");
@@ -40,7 +40,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/productlist" element={<SearchList />} />
         <Route path="/product/:pid" element={<ItemDetail />} />
-        <Route path="/cart" element={accessToken ? <ShopCart /> : <Login />} />
+        <Route path="/cart" element={<ShopCart />} />
         <Route path="/order" element={accessToken ? <Order /> : <Login />} />
         <Route
           path="/orderdetail"
