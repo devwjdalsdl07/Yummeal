@@ -93,11 +93,11 @@ const Order = () => {
       point: usePoint !== "" ? parseInt(usePoint) : 0,
       insorderbasket: orderBasket.length == 0 ? quickOrder : orderBasket,
     };
-    console.log("바스켓 뭐담겨", quickOrder);
+
     try {
       dispatch(pointReducer(point - usePoint));
       const result = await orderPost(item);
-      console.log("오더보내면?", result);
+      localStorage.removeItem("baskets");
       navigate("/orderdetail", {
         state: {
           orderId: result.orderId,

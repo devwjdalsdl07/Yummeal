@@ -1,11 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import userSlice from "../reducers/userSlice";
 import { persistStore } from "redux-persist";
+import userSlice from "../reducers/userSlice";
 // import  from "redux-persist/lib/storage/session";
 import persistReducer from "redux-persist/es/persistReducer";
 import sessionStorage from "redux-persist/es/storage/session";
 
-const reducers = combineReducers({ user: userSlice.reducer });
+const reducers = combineReducers({
+  user: userSlice.reducer,
+});
 
 const persistConfig = {
   key: "info",
