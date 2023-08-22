@@ -2,7 +2,7 @@ import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginContainer } from "../style/LoginCss";
+import { LoginContainer, SnsLoginWrap } from "../style/LoginCss";
 import { fetchLogin, getUser } from "../api/client";
 import { useDispatch } from "react-redux";
 import { loginReducer, tokenReducer } from "../reducers/userSlice";
@@ -82,8 +82,8 @@ const Login = () => {
                 <li>비밀번호 찾기</li>
               </ul>
             </div>
-            <div className="sns-login">
-              <ul>
+            <SnsLoginWrap>
+              <ul className="kakao-login">
                 <li>
                   <FontAwesomeIcon
                     icon={faComment}
@@ -92,7 +92,36 @@ const Login = () => {
                   카카오로 시작하기
                 </li>
               </ul>
-            </div>
+              <ul className="naver-login">
+                <li>
+                  <img
+                    src={`${process.env.PUBLIC_URL}/images/naver.png`}
+                    alt="logo"
+                    style={{ padding: "5px" }}
+                  />
+                  {/* <FontAwesomeIcon
+                    icon={faComment}
+                    style={{ padding: "10px" }}
+                  /> */}
+                  네이버로 시작하기
+                </li>
+              </ul>
+
+              <ul className="google-login">
+                <li>
+                  <img
+                    src={`${process.env.PUBLIC_URL}/images/google.png`}
+                    alt="logo"
+                    style={{ width: "20px" }}
+                  />
+                  {/* <FontAwesomeIcon
+                    icon={faComment}
+                    style={{ padding: "10px" }}
+                  /> */}
+                  <span>구글로 시작하기</span>
+                </li>
+              </ul>
+            </SnsLoginWrap>
             <div>
               <ul
                 style={{
