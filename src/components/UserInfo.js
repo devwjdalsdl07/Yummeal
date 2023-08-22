@@ -23,7 +23,7 @@ import locale from "antd/locale/ko_KR";
 import { Modal, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutReducer, userEditReducer } from "../reducers/userSlice";
-import { postNickNameCheck } from "../api/axios";
+import { getNickNameCheck } from "../api/axios";
 
 const UserInfo = ({ setActiveComponent }) => {
   const {
@@ -92,12 +92,12 @@ const UserInfo = ({ setActiveComponent }) => {
   // 닉네임 중복 체크
   const onNickNameCheck = async e => {
     e.preventDefault();
-    const fetchNickName = await postNickNameCheck(nickName);
+    const getNickName = await getNickNameCheck(nickName);
     if (nickName) {
-      if (fetchNickName === 0) {
+      if (getNickName === 0) {
         setNickNameMessage("사용 가능한 닉네임이에요");
         setIsNickNameCheck(true);
-      } else if (fetchNickName === 1) {
+      } else if (getNickName === 1) {
         setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
         setIsNickNameCheck(false);
       }
@@ -497,7 +497,7 @@ const UserInfo = ({ setActiveComponent }) => {
           </JoinFormGroup>
           <div className="btnWrap">
             <JoinBtn onClick={handleEdit}>수정</JoinBtn>
-            <JoinBtn onClick={handleCancel}>취소</JoinBtn> 
+            <JoinBtn onClick={handleCancel}>취소</JoinBtn>
           </div>
           <Modal
             title="회원탈퇴"

@@ -13,9 +13,9 @@ export const postSignUp = async _Item => {
 };
 
 // 아이디 중복확인 post
-export const postIdCheck = async _email => {
+export const getIdCheck = async _email => {
   try {
-    const res = await axios.post(`/sign-api/email?email=${_email}`);
+    const res = await axios.get(`/sign-api/email?email=${_email}`);
     const result = res.data;
     return result;
   } catch (err) {
@@ -24,9 +24,11 @@ export const postIdCheck = async _email => {
 };
 
 // 닉네임 중복확인 post?????
-export const postNickNameCheck = async _nickName => {
+export const getNickNameCheck = async _nickName => {
   try {
-    const res = await axios.post(`/sign-api/nickname?nickname=${_nickName}`);
+    const res = await axios.get(
+      `/api/mypage/profile/nickname?nickname=${_nickName}`,
+    );
     const result = res.data;
     return result;
   } catch (err) {
