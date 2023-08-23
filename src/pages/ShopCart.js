@@ -73,7 +73,7 @@ const ShopCart = () => {
 
   return (
     <ShopWrap>
-      {cartItems?.length > 0 || basketData ? (
+      {cartItems?.length > 0 || basketData.length > 0 ? (
         <div className="wrap">
           <Cart>
             <h2>장바구니</h2>
