@@ -83,44 +83,28 @@ const Login = () => {
               </ul>
             </div>
             <SnsLoginWrap>
-              <ul className="kakao-login">
-                <li>
-                  <FontAwesomeIcon
-                    icon={faComment}
-                    style={{ padding: "10px" }}
-                  />
-                  카카오로 시작하기
-                </li>
-              </ul>
-              <ul className="naver-login">
-                <li>
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/naver.png`}
-                    alt="logo"
-                    style={{ padding: "5px" }}
-                  />
-                  {/* <FontAwesomeIcon
-                    icon={faComment}
-                    style={{ padding: "10px" }}
-                  /> */}
-                  네이버로 시작하기
-                </li>
-              </ul>
+              <button className="kakao-login">
+                <FontAwesomeIcon icon={faComment} style={{ padding: "10px" }} />
+                카카오로 시작하기
+              </button>
+              <button className="naver-login">
+                <img
+                  src={`${process.env.PUBLIC_URL}/images/naver.png`}
+                  alt="logo"
+                  style={{ padding: "5px" }}
+                />
+                네이버로 시작하기
+              </button>
 
-              <ul className="google-login">
-                <li>
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/google.png`}
-                    alt="logo"
-                    style={{ width: "20px" }}
-                  />
-                  {/* <FontAwesomeIcon
-                    icon={faComment}
-                    style={{ padding: "10px" }}
-                  /> */}
-                  <span>구글로 시작하기</span>
-                </li>
-              </ul>
+              <button className="google-login">
+                <img
+                  src={`${process.env.PUBLIC_URL}/images/google.png`}
+                  alt="logo"
+                  style={{ width: "20px" }}
+                />
+
+                <span>구글로 시작하기</span>
+              </button>
             </SnsLoginWrap>
             <div>
               <ul

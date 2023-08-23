@@ -509,9 +509,8 @@ const SignUp = () => {
                 <i>
                   <FontAwesomeIcon icon={faCircle} />
                 </i>
-                아이 생년월일
+                생년월일
                 {/* 아이 생년월일 추가 */}
-                {/* <FontAwesomeIcon icon={faPlus} /> */}
               </span>
 
               <Space direction="vertical">
