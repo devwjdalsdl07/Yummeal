@@ -76,6 +76,7 @@ export const LoginContainer = styled.div`
     border-radius: 10px;
     text-align: center;
     cursor: pointer;
+    font-family: "Pretendard", "SUITE", sans-serif;
     & span {
       position: absolute;
       transform: translate(-50%, -50%);
@@ -105,6 +106,17 @@ export const LoginContainer = styled.div`
       margin: 0 8px 0 8px;
     }
   }
+  .sns-login {
+    margin: 53px 0 40px 0;
+    cursor: pointer;
+    & ul {
+      /* text-align: center; */
+      background: #fee500;
+      border-radius: 10px;
+    }
+    & li {
+    }
+  }
 
   @media screen and (max-width: 1024px) {
     .login-text {
@@ -116,14 +128,19 @@ export const LoginContainer = styled.div`
 `;
 export const SnsLoginWrap = styled.div`
   margin: 53px 0 40px 0;
-  cursor: pointer;
-  & li {
+  white-space: nowrap;
+  & button {
+    cursor: pointer;
+    font-family: "Pretendard", "SUITE", sans-serif;
     padding: 8px;
     display: flex;
     justify-content: start;
     align-items: center;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
+    border: none;
+    width: 100%;
+    height: 50px;
   }
   .naver-login {
     background: #00c300;
@@ -141,12 +158,11 @@ export const SnsLoginWrap = styled.div`
     background: #4285f4;
     border-radius: 10px;
     color: #fff;
-    li {
-      padding: 15px;
-      height: 50px;
-      span {
-        margin-left: 10px;
-      }
+
+    padding: 15px;
+    height: 50px;
+    span {
+      margin-left: 8px;
     }
   }
 `;
