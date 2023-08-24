@@ -1,8 +1,14 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImgUpload from "../components/ImgUpload";
-import { AdminWrapper } from "../style/AdminCss";
+import { AdminWrapper } from "../style/AdminAddCss";
 import {
   deleteProduct,
   getCate,
@@ -18,16 +24,17 @@ const AdminAddItem = () => {
   const quillRef = useRef();
   const [cateList, setCateList] = useState([]);
   const [subCateList, setSubCateList] = useState([]);
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-  const [itemName, setItemName] = useState("");
+  const [content, setContent] = useState();
+  const [title, setTitle] = useState();
+  const [itemName, setItemName] = useState();
   const [price, setPrice] = useState(0);
   const [commaPrice, setCommaPrice] = useState(0);
   const [cate, setCate] = useState();
-  const [selectedCateDetail, setSelectedCateDetail] = useState();
+  const [selectedCateDetail, setSelectedCateDetail] = useState([]);
   const [product, setProduct] = useState();
-  const [imgArr, setImgArr] = useState([]);
-  const storage = {
+  const [imgArr, setImgArr] = useState([null, null, null, null]);
+  const [showModal, setShowModal] = useState(false);
+  let storage = {
     product,
     title,
     itemName,
@@ -48,6 +55,7 @@ const AdminAddItem = () => {
   };
   const handleCateChange = e => {
     setCate(e.target.value);
+    setSelectedCateDetail([]);
     const selectedCate = cateList.find(
       item => item.cateId === Number(e.target.value),
     );
@@ -57,12 +65,17 @@ const AdminAddItem = () => {
       setSubCateList([]);
     }
   };
-  const handleSubCateChange = e => {
-    const selectedCateDetailId = e.target.value;
-    const selectedSubCate = subCateList.find(
-      item => item.cateDetailId === Number(selectedCateDetailId),
-    );
-    setSelectedCateDetail([selectedSubCate]);
+  const handleCheckboxChange = e => {
+    const cateDetailId = Number(e.target.value);
+    if (e.target.checked) {
+      // 체크 박스가 체크되었을 때
+      setSelectedCateDetail(prevSelected => [...prevSelected, cateDetailId]);
+    } else {
+      // 체크 박스가 해제되었을 때
+      setSelectedCateDetail(prevSelected =>
+        prevSelected.filter(id => id !== cateDetailId),
+      );
+    }
   };
   const handleCancleClick = () => {
     deleteProduct(product);
@@ -93,13 +106,6 @@ const AdminAddItem = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(storage);
-  }, [storage]);
-  // useEffect(() => {
-  //   // storage 값이 변경될 때마다 값을 로컬스토리지에 저장
-  //   localStorage.setItem("adminStorage", JSON.stringify(storage));
-  // }, [storage]); // storage 값이 변경될 때만 이펙트 실행
   const fetchProductId = async () => {
     const result = await getProductId();
     setProduct(result);
@@ -121,36 +127,66 @@ const AdminAddItem = () => {
       saleVolume: 0,
       allergy: 0,
       category: cate,
-      cateDetail: selectedCateDetail.cateDetailId,
+      cateDetail: selectedCateDetail,
     };
-    console.log("넘기는 데이터", data);
-    const imgResult = await imgAdd(product, imgArr);
+    const result = imgArr.filter(item => item !== null);
+    const imgResult = await imgAdd(product, result);
     const itemResult = await itemAdd(data);
     navigate("/admin");
   };
-  useEffect(() => {
-    // const storedStorage = localStorage.getItem("adminStorage");
-    // const parsedStorage = JSON.parse(storedStorage);
-    // console.log(parsedStorage);
-    // if (!parsedStorage.product === null) {
-    //   console.log("안비어있습니다.");
-    //   setProduct(parsedStorage.product);
-    //   setTitle(parsedStorage.title);
-    //   setPrice(parsedStorage.price);
-    //   setCommaPrice(parsedStorage.price?.toLocaleString());
-    //   setCate(parsedStorage.cate);
-    //   setSelectedCateDetail(parsedStorage.selectedCateDetail);
-    //   setContent(parsedStorage.content);
-    // }
-    // if (parsedStorage.product === null) {
-    //   console.log("비었습니다.");
-    // }
+  const adminStorage = () => {
+    const storedStorage = localStorage.getItem("adminStorage");
+    const parsedStorage = JSON.parse(storedStorage);
+    console.log("파스한 스토레이지", parsedStorage);
+    return parsedStorage;
+  };
+  const handleGoClick = () => {
+    setShowModal(false);
+    fetchCate();
+  };
+  const handleDelClick = async () => {
+    localStorage.removeItem("adminStorage");
+    deleteProduct(product);
     fetchProductId();
     fetchCate();
+    setTitle("");
+    setItemName("");
+    setPrice(0);
+    setCommaPrice(0)
+    setCate("");
+    setSelectedCateDetail([]);
+    setContent("");
+    setShowModal(false)
+  };
+
+  useLayoutEffect(() => {
+    storage = adminStorage();
+    console.log("레이아웃 스토레이지", storage);
+  }, []);
+
+  useEffect(() => {
+    if (storage && storage.product) {
+      setShowModal(true);
+      setProduct(storage.product);
+      setTitle(storage.title);
+      setItemName(storage.itemName);
+      setPrice(storage.price);
+      setCommaPrice(storage.price?.toLocaleString());
+      setCate(storage.cate);
+      setSelectedCateDetail(storage.selectedCateDetail);
+      setContent(storage.content);
+      productRef.current = storage.product;
+      fetchCate();
+    } else {
+      fetchProductId();
+      fetchCate();
+    }
   }, []);
   useEffect(() => {
-    console.log(imgArr);
-  }, [imgArr]);
+    // storage 값이 변경될 때마다 값을 로컬스토리지에 저장
+    localStorage.setItem("adminStorage", JSON.stringify(storage));
+    console.log(storage);
+  }, [storage]); // storage 값이 변경될 때만 이펙트 실행
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -168,14 +204,23 @@ const AdminAddItem = () => {
       },
     };
   }, []);
+  // const elements = [];
+  //   for (let i = 0; i < 4; i++) {
+  //     elements.push(<ImgUpload key={i} imgArr={imgArr} setImgArr={setImgArr} idx={i} />);
+  //   }
   return (
     <AdminWrapper>
       <div className="titleArea">
         <div className="uploadContainer">
-          <ImgUpload imgArr={imgArr} setImgArr={setImgArr} />
-          <ImgUpload imgArr={imgArr} setImgArr={setImgArr} />
-          <ImgUpload imgArr={imgArr} setImgArr={setImgArr} />
-          <ImgUpload imgArr={imgArr} setImgArr={setImgArr} />
+          {/* {elements} */}
+          {imgArr.map((item, idx) => (
+            <ImgUpload
+              key={idx}
+              imgArr={imgArr}
+              setImgArr={setImgArr}
+              idx={idx}
+            />
+          ))}
         </div>
         <div>
           <input
@@ -200,19 +245,25 @@ const AdminAddItem = () => {
           <select onChange={handleCateChange}>
             <option value="">단계</option>
             {cateList.map((item, idx) => (
-              <option key={idx} value={item.cateId}>
+              <option key={idx} value={item.cateId} selected={cate == idx}>
                 {item.cateName}
               </option>
             ))}
           </select>
-          <select onChange={e => handleSubCateChange(e)}>
-            <option value="">카테고리</option>
-            {subCateList.map((subCate, idx) => (
-              <option key={idx} value={subCate.cateDetailId}>
-                {subCate.cateName}
-              </option>
-            ))}
-          </select>
+          {subCateList.map((item, idx) => (
+            <React.Fragment key={idx}>
+              <input
+                type="checkbox"
+                value={item.cateDetailId}
+                id={`checkbox-${item.cateDetailId}`}
+                onChange={e => handleCheckboxChange(e)}
+                checked={selectedCateDetail.includes(item.cateDetailId)}
+              />
+              <label htmlFor={`checkbox-${item.cateDetailId}`}>
+                {item.cateName}
+              </label>
+            </React.Fragment>
+          ))}
         </div>
       </div>
       <div className="editorWrapper">
@@ -231,6 +282,21 @@ const AdminAddItem = () => {
         <button onClick={handleOkCliclk}>확인</button>
         <button onClick={handleCancleClick}>취소</button>
       </div>
+      {showModal ? (
+        <div className="modalWrap">
+          <div className="modalBody">
+            <span>이어서 작성 하시겠습니까 ?</span>
+            <div className="modalButton">
+              <div className="goButton" onClick={handleGoClick}>
+                이어쓰기
+              </div>
+              <div className="delButton" onClick={handleDelClick}>
+                삭제
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </AdminWrapper>
   );
 };

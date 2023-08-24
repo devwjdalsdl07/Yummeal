@@ -254,9 +254,7 @@ export const cartIn = async _item => {
 // 결제내역 get
 export const getOrderEnd = async _orderId => {
   try {
-    const res = await instance.get(
-      `/api/mypage/orderlist/detail?orderId=${_orderId}`,
-    );
+    const res = await instance.get(`/api/mypage/orderlist/${_orderId}`);
     const result = res.data;
     console.log("오더리스트에 담기는 값", result);
     return result;
