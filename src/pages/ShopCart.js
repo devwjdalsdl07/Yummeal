@@ -8,18 +8,29 @@ import { Cart, NotList, Payment, ShopWrap } from "../style/ShopCartCss";
 
 const ShopCart = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [basketData, setBasketData] = useState([]);
   const navigate = useNavigate();
+  const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
 
-  // 장바구니 데이터 불러오기
+  // 회원 장바구니 데이터 불러오기
   const cartList = async () => {
     const result = await getCart();
     setCartItems(result);
   };
 
-  useEffect(() => {
-    cartList();
-  }, []);
+  // 비회원 장바구니 데이터 불러오기
+  const guestBasketList = () => {
+    const getBasket = localStorage.getItem("baskets");
+    const basketArray = JSON.parse(getBasket);
+    setBasketData(basketArray || []);
+  };
 
+  useEffect(() => {
+    // 회원 장바구니 데이터
+    cartList();
+    // 비회원 장바구니 데이터
+    guestBasketList();
+  }, []);
 
   const handleGoOrder = () => {
     navigate("/order");
@@ -29,26 +40,58 @@ const ShopCart = () => {
     navigate("/");
   };
 
-  const prodTotalPrice = cartItems.reduce((item, idx) => {
-    const productPrice = idx.price * idx.count;
-    return item + productPrice;
-  }, 0);
+  // 총 상품금액(로그인)
+  let prodTotalPrice;
+  if (cartItems) {
+    prodTotalPrice = cartItems?.reduce((item, idx) => {
+      const productPrice = idx.price * idx.count;
+      return item + productPrice;
+    }, 0);
+  }
+
+  // 총 상품금액(비로그인)
+  let basketsTotalPrice;
+  if (basketData !== null) {
+    basketsTotalPrice = basketData.reduce((item, idx) => {
+      const prodPrice = parseFloat(idx.price) * idx.count;
+      return item + prodPrice;
+    }, 0);
+  }
+
+  // 상품금액 조건부 렌더링
+  let totalPriceToShow;
+  if (isLoggedIn) {
+    const parsedBaskets = JSON.parse(localStorage.getItem("baskets"));
+    if (parsedBaskets && parsedBaskets.length > 0) {
+      totalPriceToShow = basketsTotalPrice?.toLocaleString();
+    } else {
+      totalPriceToShow = prodTotalPrice?.toLocaleString();
+    }
+  } else {
+    totalPriceToShow = basketsTotalPrice?.toLocaleString();
+  }
 
   return (
     <ShopWrap>
-      {cartItems.length > 0 ? (
+      {cartItems?.length > 0 || basketData.length > 0 ? (
         <div className="wrap">
           <Cart>
             <h2>장바구니</h2>
             <hr />
-            <CartItem cartItems={cartItems} setCartItems={setCartItems} />
+            <CartItem
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+              basketData={basketData}
+              setBasketData={setBasketData}
+              isLoggedIn={isLoggedIn}
+            />
           </Cart>
           <Payment>
             <h2>결제 예정 금액</h2>
             <div className="paywrap">
               <div className="price">
                 <p>상품금액</p>
-                <p>{prodTotalPrice.toLocaleString()}원</p>
+                <p>{totalPriceToShow}원</p>
               </div>
             </div>
             <div className="order_btn" onClick={handleGoOrder}>

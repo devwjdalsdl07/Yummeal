@@ -1,13 +1,22 @@
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import CartItemModal from "../components/CartItemModal";
 
 const SearchProd = ({
   product,
   searchData,
   handleShoppingClick,
   handleItemClick,
+  setShowModal,
+  showModal
 }) => {
+  const navigate = useNavigate();
+  const handleCartShow = () => {
+    setShowModal(false);
+    navigate(`/cart`);
+  };
   return (
     <>
       <div className="best-item">
@@ -25,7 +34,7 @@ const SearchProd = ({
               <span className="product-description">
                 <span
                   className="item-numbering"
-                  onClick={() => handleItemClick(item.productId)}
+                  onClick={() => handleItemClick(item.productid)}
                 />
                 <FontAwesomeIcon
                   icon={faBasketShopping}
@@ -33,6 +42,12 @@ const SearchProd = ({
                   onClick={() => handleShoppingClick(item)}
                 />
               </span>
+              {showModal === true ? (
+                <CartItemModal
+                  setShowModal={setShowModal}
+                  handleCartShow={handleCartShow}
+                />
+              ) : null}
               <div className="item-info">
                 <h2>{item.name}</h2>
                 <p>판매가 : {item.price.toLocaleString()}원</p>

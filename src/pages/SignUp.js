@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DatePicker, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postIdCheck, postNickNameCheck, postSignUp } from "../api/axios";
+import { getIdCheck, getNickNameCheck, postSignUp } from "../api/axios";
 import {
   JoinArea,
   JoinBtn,
@@ -148,7 +148,7 @@ const SignUp = () => {
   // 아이디 중복 체크
   const onIdCheck = async e => {
     e.preventDefault();
-    const fetchId = await postIdCheck(id);
+    const fetchId = await getIdCheck(id);
     if (isId) {
       if (fetchId === 0) {
         setIdMessage("사용 가능한 아이디에요 :)");
@@ -175,12 +175,12 @@ const SignUp = () => {
   // 닉네임 중복 체크
   const onNickNameCheck = async e => {
     e.preventDefault();
-    const fetchNickName = await postNickNameCheck(nickName);
+    const getNickName = await getNickNameCheck(nickName);
     if (nickName) {
-      if (fetchNickName === 0) {
+      if (getNickName === 0) {
         setNickNameMessage("사용 가능한 닉네임이에요");
         setIsNickName(true);
-      } else if (fetchNickName === 1) {
+      } else if (getNickName === 1) {
         setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
         setIsNickName(false);
       }
@@ -509,9 +509,8 @@ const SignUp = () => {
                 <i>
                   <FontAwesomeIcon icon={faCircle} />
                 </i>
-                아이 생년월일
+                생년월일
                 {/* 아이 생년월일 추가 */}
-                {/* <FontAwesomeIcon icon={faPlus} /> */}
               </span>
 
               <Space direction="vertical">

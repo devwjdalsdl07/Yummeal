@@ -2,7 +2,7 @@ import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginContainer } from "../style/LoginCss";
+import { LoginContainer, SnsLoginWrap } from "../style/LoginCss";
 import { fetchLogin, getUser } from "../api/client";
 import { useDispatch } from "react-redux";
 import { loginReducer, tokenReducer } from "../reducers/userSlice";
@@ -82,17 +82,30 @@ const Login = () => {
                 <li>비밀번호 찾기</li>
               </ul>
             </div>
-            <div className="sns-login">
-              <ul>
-                <li>
-                  <FontAwesomeIcon
-                    icon={faComment}
-                    style={{ padding: "10px" }}
-                  />
-                  카카오로 시작하기
-                </li>
-              </ul>
-            </div>
+            <SnsLoginWrap>
+              <button className="kakao-login">
+                <FontAwesomeIcon icon={faComment} style={{ padding: "10px" }} />
+                카카오로 시작하기
+              </button>
+              <button className="naver-login">
+                <img
+                  src={`${process.env.PUBLIC_URL}/images/naver.png`}
+                  alt="logo"
+                  style={{ padding: "5px" }}
+                />
+                네이버로 시작하기
+              </button>
+
+              <button className="google-login">
+                <img
+                  src={`${process.env.PUBLIC_URL}/images/google.png`}
+                  alt="logo"
+                  style={{ width: "20px" }}
+                />
+
+                <span>구글로 시작하기</span>
+              </button>
+            </SnsLoginWrap>
             <div>
               <ul
                 style={{

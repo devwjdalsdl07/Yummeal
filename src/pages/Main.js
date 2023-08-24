@@ -4,13 +4,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { cartIn } from "../api/client";
 import { getBestProduct } from "../api/mainFatch";
+import CartItemModal from "../components/CartItemModal";
 import Slick from "../components/Slick";
 import { MainDiv } from "../style/MainCss";
-import { useSelector } from "react-redux";
 
 const Main = () => {
   const [bestProduct, setBestProduct] = useState([]);
   const [mainImage, setItemImage] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
   // uri 에서 값 읽기
   const { pid } = useParams();
 
@@ -35,22 +37,46 @@ const Main = () => {
     navigate(`/productlist`);
   };
   const handleShoppingClick = async _item => {
-    console.log(_item.productId);
-    try {
-      const cartItem = {
-        productId: _item.productId,
-        count: 1,
-      };
-      const result = await cartIn(cartItem);
-      console.log(result);
-        navigate(`/cart`);
-      return result;
-    } catch (err) {
-      console.error("주문 처리 중 오류 발생:", err);
+    if (isLoggedIn) {
+      try {
+        const cartItem = {
+          productId: _item.productId,
+          count: 1,
+        };
+        const result = await cartIn(cartItem);
+        setShowModal(true);
+        return result;
+      } catch (err) {
+        console.error("주문 처리 중 오류 발생:", err);
+      }
+    } else {
+      const baskets = JSON.parse(localStorage.getItem("baskets") ?? "[]");
+      const existingItemIndex = baskets.findIndex(
+        item => item.productId === _item.productId,
+      );
+      if (existingItemIndex === -1) {
+        const item = {
+          productId: _item.productId,
+          count: 1,
+          name: _item.name,
+          thumbnail: _item.thumbnail,
+          price: _item.price,
+        };
+        baskets.push(item);
+      } else {
+        baskets[existingItemIndex].count += 1;
+      }
+      localStorage.setItem("baskets", JSON.stringify(baskets));
+      setShowModal(true);
     }
   };
   const handleItemClick = _id => {
     navigate(`/product/${_id}`);
+  };
+
+  const handleCartShow = () => {
+    setShowModal(false);
+    navigate(`/cart`);
   };
 
   return (
@@ -89,6 +115,12 @@ const Main = () => {
                       onClick={() => handleShoppingClick(item)}
                     />
                   </span>
+                  {showModal === true ? (
+                    <CartItemModal
+                      setShowModal={setShowModal}
+                      handleCartShow={handleCartShow}
+                    />
+                  ) : null}
                   <div className="item-info">
                     <h2>{item.name}</h2>
                     <p> 판매가 :{item.price.toLocaleString()}원</p>

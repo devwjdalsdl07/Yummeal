@@ -46,15 +46,7 @@ const SortFilter = ({ product, setSearchData }) => {
 
   // 정렬 기능 get
   const sortData = async () => {
-    const item = {
-      product: product,
-      row: 16,
-      page: 1,
-      sorter: selectSort.value !== undefined ? selectSort.value : null,
-      filter: allergyStrings,
-    };
-    console.log("아이템에 뭐 담기냐", item);
-    const result = await filterSort(item);
+    const result = await filterSort(product, selectSort.value, allergyStrings);
     console.log(result);
     setSearchData(result);
     return result;

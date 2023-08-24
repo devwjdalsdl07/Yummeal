@@ -21,7 +21,7 @@ export const OrderItems = styled.div`
         padding-left: 1.5rem;
         font-size: 2rem;
         p {
-          width: 20rem;
+          width: 25rem;
         }
       }
     }

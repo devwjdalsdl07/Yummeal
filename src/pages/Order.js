@@ -19,6 +19,8 @@ const Order = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const { state } = location;
+  const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
+  const getBasket = JSON.parse(localStorage.getItem("baskets"));
 
   // 바로 구매 시 데이터 조회
   const quickBuyData = async () => {
@@ -50,22 +52,6 @@ const Order = () => {
     quickBuyData();
   }, []);
 
-  // 사용한 포인트 처리
-  const handleUsePoint = e => {
-    const inputValue = e.target.value.replace(/[^0-9]/g, "");
-    const enteredPoint = inputValue === "" ? 0 : inputValue;
-
-    let adjustedPoint = enteredPoint;
-
-    if (state == null) {
-      adjustedPoint = Math.min(enteredPoint, prodTotalPrice);
-    } else {
-      const maxQuickUsePoint = buyData.price * buyData.count;
-      adjustedPoint = Math.min(enteredPoint, maxQuickUsePoint);
-    }
-    setUsePoint(adjustedPoint);
-  };
-
   // 주문하기
   const handleOrder = async () => {
     const orderBasket = orderItems.map((item, idx) => ({
@@ -83,6 +69,22 @@ const Order = () => {
         totalprice: buyData.price * buyData.count,
       },
     ];
+
+    // 조건별 장바구니 데이터
+    let selectedBasket;
+    if (!getBasket && orderBasket.length === 0) {
+      selectedBasket = quickOrder;
+    } else if (getBasket && getBasket.length > 0) {
+      selectedBasket = getBasket.map((item, idx) => ({
+        key: idx,
+        cartId: item.cartId,
+        productId: item.productId,
+        count: item.count,
+        totalprice: item.price * item.count,
+      }));
+    } else {
+      selectedBasket = orderBasket;
+    }
     const item = {
       receiver: name,
       address: address,
@@ -91,12 +93,12 @@ const Order = () => {
       request: message,
       payment: 1,
       point: usePoint !== "" ? parseInt(usePoint) : 0,
-      insorderbasket: orderBasket.length < 0 ? quickOrder : orderBasket,
+      insorderbasket: selectedBasket,
     };
     try {
       dispatch(pointReducer(point - usePoint));
       const result = await orderPost(item);
-      console.log("오더보내면?", result);
+      localStorage.clear();
       navigate("/orderdetail", {
         state: {
           orderId: result.orderId,
@@ -124,22 +126,93 @@ const Order = () => {
     return item + productPrice;
   }, 0);
 
-  // 사용한 포인트값 업데이트
-  const handleAllPoint = () => {
-    if (state == null) {
-      const maxUsePoint = Math.min(userPoint, prodTotalPrice);
-      setUsePoint(maxUsePoint);
-    } else {
-      const quickMaxUsePoint = Math.min(userPoint, buyData.price);
-      setUsePoint(quickMaxUsePoint);
-    }
-  };
-
   // 총 결제예정금액 처리
   useEffect(() => {
     const enteredPoint = usePoint === "" ? 0 : parseInt(usePoint);
     setTotalPrice(prodTotalPrice - enteredPoint);
   }, [usePoint, prodTotalPrice]);
+
+  // 상품금액 조건부 렌더링
+  let prodPriceToShow;
+  const parsedBaskets = JSON.parse(localStorage.getItem("baskets"));
+  const totalProd = parsedBaskets
+    ? parsedBaskets.reduce((item, idx) => {
+        const prodTotal = parseFloat(idx.count) * idx.price;
+        return item + prodTotal;
+      }, 0)
+    : 0;
+  if (isLoggedIn) {
+    if (parsedBaskets && parsedBaskets.length > 0) {
+      prodPriceToShow = totalProd?.toLocaleString();
+    } else {
+      prodPriceToShow =
+        state == null
+          ? prodTotalPrice.toLocaleString()
+          : (buyData.price * buyData.count)?.toLocaleString();
+    }
+  } else {
+    prodPriceToShow = totalProd?.toLocaleString();
+  }
+
+  // 총 결제예정금액 조건부 렌더링
+  let totalPriceToShow;
+  const totalPay = parsedBaskets
+    ? parsedBaskets.reduce((item, idx) => {
+        const prodTotal = parseFloat(idx.count) * idx.price;
+        return item + prodTotal;
+      }, 0)
+    : 0;
+  if (isLoggedIn) {
+    if (parsedBaskets && parsedBaskets.length > 0) {
+      totalPriceToShow = (totalPay - usePoint)?.toLocaleString();
+    } else {
+      totalPriceToShow =
+        state == null
+          ? totalPrice.toLocaleString()
+          : parseFloat(
+              buyData.price * buyData.count - usePoint,
+            ).toLocaleString();
+    }
+  } else {
+    totalPriceToShow = (totalPay - usePoint)?.toLocaleString();
+  }
+
+  // 포인트 직접입력
+  const handleUsePoint = e => {
+    const inputValue = e.target.value.replace(/[^0-9]/g, "");
+    const enteredPoint = inputValue === "" ? 0 : inputValue;
+    
+    const priceWithoutComma = prodPriceToShow.replace(/,/g, "");
+    const parsedPrice = parseInt(priceWithoutComma, 10);
+    
+    let adjustedPoint;
+    if (state == null && !getBasket) {
+      adjustedPoint = Math.min(enteredPoint, parsedPrice, userPoint);
+    } else if (state !== null) {
+      // const maxQuickUsePoint = buyData.price * buyData.count;
+      adjustedPoint = Math.min(enteredPoint, parsedPrice, userPoint);
+    } else if (state == null && getBasket) {
+      adjustedPoint = Math.min(enteredPoint, parsedPrice, userPoint);
+    }
+    console.log(adjustedPoint)
+    setUsePoint(adjustedPoint);
+  };
+
+  // 전액 사용
+  const handleAllPoint = () => {
+    if (state == null && !getBasket) {
+      const maxUsePoint = Math.min(userPoint, prodTotalPrice);
+      setUsePoint(maxUsePoint);
+    } else if (state !== null) {
+      const quickMaxUsePoint = Math.min(userPoint, buyData.price);
+      setUsePoint(quickMaxUsePoint);
+    } else if (state == null && getBasket) {
+      const priceWithoutComma = totalPriceToShow.replace(/,/g, "");
+      const parsedPrice = parseInt(priceWithoutComma, 10);
+      const localMaxUsePoint = Math.min(userPoint, parsedPrice);
+      setUsePoint(localMaxUsePoint);
+    }
+  };
 
   return (
     <OrderWrap>
@@ -205,12 +278,7 @@ const Order = () => {
           <div className="paywrap">
             <div className="price">
               <p>상품금액</p>
-              <p>
-                {state == null
-                  ? prodTotalPrice.toLocaleString()
-                  : (buyData.price * buyData.count)?.toLocaleString()}
-                원
-              </p>
+              <p>{prodPriceToShow}원</p>
             </div>
             <div className="price">
               <p>할인금액</p>
@@ -221,14 +289,7 @@ const Order = () => {
             </div>
             <div className="price">
               <p>총 결제예정금액</p>
-              <p>
-                {state == null
-                  ? totalPrice.toLocaleString()
-                  : parseFloat(
-                      buyData.price * buyData.count - usePoint,
-                    ).toLocaleString()}
-                원
-              </p>
+              <p>{totalPriceToShow}원</p>
             </div>
           </div>
           <div className="order_btn" onClick={handleOrder}>
