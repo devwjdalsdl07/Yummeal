@@ -173,9 +173,10 @@ export const JoinBtn = styled.button`
   border-radius: 10px;
   text-align: center;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   height: 50px;
   cursor: pointer;
+  font-family: "Pretendard", "SUITE", sans-serif;
   & span {
     position: absolute;
     transform: translate(-50%, -50%);
@@ -187,3 +188,26 @@ export const JoinBtn = styled.button`
   }
 `;
 export const JoinPost = styled.div``;
+export const BirthWrap = styled.div`
+  display: flex;
+  align-items: end;
+  height: 50px;
+`;
+export const AddChildBirth = styled.div`
+  & button {
+    background-color: white;
+    border: 1px solid #d1d1d1;
+    padding: 5px;
+    border-radius: 10px;
+    font-family: "Pretendard", "SUITE", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    /* margin-bottom: 15px; */
+    &:hover {
+      background-color: #8eb111;
+      color: white;
+      border: none;
+    }
+  }
+`;

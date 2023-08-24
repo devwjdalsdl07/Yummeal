@@ -12,6 +12,7 @@ import {
   JoinTitleWrapTop,
   JoinWrap,
   JoinNickNm,
+  AddChildBirth,
 } from "../style/UserInfoCss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -440,34 +441,47 @@ const UserInfo = ({ setActiveComponent }) => {
             </div>
             <div>
               {/* 생년월일 드랍박스 들어갈 자리 */}
-              <div style={{ height: "50px" }}>
-                <span>생년월일</span>
-                <Space direction="vertical">
-                  <DatePicker
-                    locale={locale}
-                    onChange={onBirthChange}
-                    value={dayjs(birth, "YYYY-MM-DD")}
-                    style={{
-                      height: "30px",
-                    }}
-                  />
-                </Space>
+              <div
+                style={{
+                  height: "70px",
+                  display: "flex",
+                  flexDirection: "column-reverse",
+                  flexWrap: "wrap",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <div>
+                  <span>생년월일</span>
+                  <Space direction="vertical">
+                    <DatePicker
+                      locale={locale}
+                      onChange={onBirthChange}
+                      value={dayjs(birth, "YYYY-MM-DD")}
+                      style={{
+                        height: "30px",
+                      }}
+                    />
+                  </Space>
+                </div>
                 {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
-              </div>
-              <div style={{ height: "50px" }}>
-                <span>아이 생년월일</span>
-                <span>아이 추가</span>
-                <Space direction="vertical">
-                  <DatePicker
-                    locale={locale}
-                    onChange={onBirthChange}
-                    value={dayjs(birth, "YYYY-MM-DD")}
-                    style={{
-                      height: "30px",
-                    }}
-                  />
-                </Space>
-                {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
+                <div>
+                  <span>아이 생년월일</span>
+                  <Space direction="vertical">
+                    <DatePicker
+                      locale={locale}
+                      onChange={onChildBirthChange}
+                      // value={dayjs(childBirth, "YYYY-MM-DD")}
+                      placeholder="YYYY-MM-DD"
+                      style={{
+                        height: "30px",
+                      }}
+                    />
+                  </Space>
+                  {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
+                </div>
+                <AddChildBirth>
+                  <button>아이 추가</button>
+                </AddChildBirth>
               </div>
             </div>
             <div className="adress">
