@@ -141,7 +141,7 @@ export const postImage = async (_iproduct, img) => {
 export const deleteProduct = async _iproduct => {
   try {
     const res = axios.delete(
-      `/api/admin/product/cancelation?product=${_iproduct}`,
+      `/api/admin/product/productId?productId=${_iproduct}`,
     );
     return res.data;
   } catch (err) {

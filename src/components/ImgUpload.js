@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-const ImgUpload = ({ imgArr, setImgArr }) => {
+const ImgUpload = ({ imgArr, setImgArr, idx }) => {
   const [imgPreview, setImgPreview] = useState(null);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const fileInput = useRef(null);
@@ -9,20 +9,32 @@ const ImgUpload = ({ imgArr, setImgArr }) => {
   };
   const handleImgChange = e => {
     const file = e.target.files[0];
-    const newImageArray = [...imgArr, file];
-    setImgArr(newImageArray);
+
     if (file) {
       const reader = new FileReader();
       reader.onload = function (event) {
         setImgPreview(event.target.result);
       };
       reader.readAsDataURL(file);
+
+      // 이미지 데이터를 imgArr에 추가하는 부분
+      setImgArr(prevImgArr => {
+        const newImgArr = [...prevImgArr]; // 기존 배열 복사
+        newImgArr[idx] = file; // 새로운 이미지 데이터 추가
+        return newImgArr;
+      });
     }
   };
+
   const handleImgDelete = e => {
     e.stopPropagation();
     setImgPreview(null);
     setShowDeleteButton(false);
+    setImgArr(prevImgArr => {
+      const newImgArr = [...prevImgArr];
+      newImgArr[idx] = null;
+      return newImgArr;
+    });
   };
   return (
     <div className="img">
