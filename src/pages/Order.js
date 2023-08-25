@@ -50,6 +50,10 @@ const Order = () => {
     setReceiver(name);
     setUserPoint(point);
     quickBuyData();
+    if (receiver == "" || addressAll == "" || mobileNb == "") {
+      alert("회원정보가 없습니다. 등록해주세요");
+      navigate("/mypage");
+    }
   }, []);
 
   // 주문하기
@@ -181,10 +185,10 @@ const Order = () => {
   const handleUsePoint = e => {
     const inputValue = e.target.value.replace(/[^0-9]/g, "");
     const enteredPoint = inputValue === "" ? 0 : inputValue;
-    
+
     const priceWithoutComma = prodPriceToShow.replace(/,/g, "");
     const parsedPrice = parseInt(priceWithoutComma, 10);
-    
+
     let adjustedPoint;
     if (state == null && !getBasket) {
       adjustedPoint = Math.min(enteredPoint, parsedPrice, userPoint);
@@ -194,7 +198,7 @@ const Order = () => {
     } else if (state == null && getBasket) {
       adjustedPoint = Math.min(enteredPoint, parsedPrice, userPoint);
     }
-    console.log(adjustedPoint)
+    console.log(adjustedPoint);
     setUsePoint(adjustedPoint);
   };
 
