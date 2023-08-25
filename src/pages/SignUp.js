@@ -4,6 +4,7 @@ import { DatePicker, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getIdCheck, getNickNameCheck, postSignUp } from "../api/axios";
+import ChildModal from "../components/ChildModal";
 import {
   JoinArea,
   JoinBtn,
@@ -56,6 +57,7 @@ const SignUp = () => {
   const [phone, setPhone] = useState("");
   const [nickName, setNickName] = useState("");
   const [birth, setBirth] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
@@ -301,7 +303,9 @@ const SignUp = () => {
     );
   };
 
-  const handleSignUp = () => {
+  
+
+  const handleSignUp = async () => {
     if (!isId) {
       setIdMessage("이메일을 입력해주세요.");
       alert("이메일을 입력해주세요.");
@@ -358,9 +362,14 @@ const SignUp = () => {
       nickNm: nickName,
       birthday: birth,
     };
-    alert("회원가입이 성공적으로 이루어졌어요 !!");
-    postSignUp(item);
-    navigate("/login");
+    try {
+      postSignUp(item);
+      alert("회원가입이 성공적으로 이루어졌어요 !!");
+      // navigate("/login");
+      setShowModal(true);
+    } catch (err) {
+      alert("회원가입이 실패했어요. 다시 시도해주세요");
+    }
   };
   return (
     <JoinContainer>
@@ -579,7 +588,10 @@ const SignUp = () => {
               /> */}
             </div>
           </JoinFormGroup>
-          <JoinBtn onClick={handleSignUp}>회원가입</JoinBtn>
+          <JoinBtn onClick={handleSignUp}> 회원가입</JoinBtn>
+          {showModal === true ? (
+            <ChildModal setShowModal={setShowModal} />
+          ) : null}
         </JoinWrap>
       </JoinArea>
     </JoinContainer>
