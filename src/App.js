@@ -55,7 +55,7 @@ function App() {
         <Route path="/useservice" element={<UseService />} />
         <Route path="/policy" element={<Policy />} />
         <Route path="/useguide" element={<UseGuide />} />
-        <Route path="/childmodal" element={<ChildModal />} />
+        {/* <Route path="/childmodal" element={<ChildModal />} /> */}
         <Route path="/*" element={<NotFound />} />
       </Routes>
       {!isAdminPage && !isPaymentPage && <Footer />}

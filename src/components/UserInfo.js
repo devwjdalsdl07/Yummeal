@@ -25,8 +25,9 @@ import { Modal, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutReducer, userEditReducer } from "../reducers/userSlice";
 import { getNickNameCheck } from "../api/axios";
+import ChildModal from "./ChildModal";
 
-const UserInfo = ({ setActiveComponent }) => {
+const UserInfo = ({ setActiveComponent, setShowModal }) => {
   const {
     email,
     name,
@@ -53,6 +54,7 @@ const UserInfo = ({ setActiveComponent }) => {
   const [birth, setBirth] = useState();
   const [childBirth, setChildBirth] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isChildModalOpen, setIsChildModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   // 유효성 검사
@@ -315,6 +317,9 @@ const UserInfo = ({ setActiveComponent }) => {
   const handleDeleteModalClose = () => {
     setIsDeleteModalOpen(false);
   };
+  const handlePlusChild = () => {
+    setIsChildModalOpen(true);
+  };
 
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
@@ -480,8 +485,11 @@ const UserInfo = ({ setActiveComponent }) => {
                   {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
                 </div>
                 <AddChildBirth>
-                  <button>아이 추가</button>
+                  <button onClick={handlePlusChild}>아이 추가</button>
                 </AddChildBirth>
+                {isChildModalOpen === true ? (
+                  <ChildModal setIsChildModalOpen={setIsChildModalOpen} />
+                ) : null}
               </div>
             </div>
             <div className="adress">
