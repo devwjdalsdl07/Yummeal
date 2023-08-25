@@ -52,27 +52,29 @@ export const searchResult = async (_product, _page) => {
 export const filterSort = async (product, sorter, allergyStrings) => {
   try {
     const res = await axios.get(
-      `/api/search/filter?product=${product}&page=1&row=16&sorter=${sorter}&filter=${
-        allergyStrings[0] ? allergyStrings[0] : 0
-      }&filter=${allergyStrings[1] ? allergyStrings[1] : 0}&filter=${
-        allergyStrings[2] ? allergyStrings[2] : 0
-      }&filter=${allergyStrings[3] ? allergyStrings[3] : 0}&filter=${
-        allergyStrings[4] ? allergyStrings[4] : 0
-      }&filter=${allergyStrings[5] ? allergyStrings[5] : 0}&filter=${
-        allergyStrings[6] ? allergyStrings[6] : 0
-      }&filter=${allergyStrings[7] ? allergyStrings[7] : 0}&filter=${
-        allergyStrings[8] ? allergyStrings[8] : 0
-      }&filter=${allergyStrings[9] ? allergyStrings[9] : 0}&filter=${
-        allergyStrings[10] ? allergyStrings[10] : 0
-      }&filter=${allergyStrings[11] ? allergyStrings[11] : 0}&filter=${
-        allergyStrings[12] ? allergyStrings[12] : 0
-      }&filter=${allergyStrings[13] ? allergyStrings[13] : 0}&filter=${
-        allergyStrings[14] ? allergyStrings[14] : 0
-      }&filter=${allergyStrings[15] ? allergyStrings[15] : 0}&filter=${
-        allergyStrings[16] ? allergyStrings[16] : 0
-      }&filter=${allergyStrings[17] ? allergyStrings[17] : 0}&filter=${
-        allergyStrings[18] ? allergyStrings[18] : 0
-      }&filter=${allergyStrings[19] ? allergyStrings[19] : 0}`,
+      `/api/search/filter?product=${product}&page=1&row=16&sorter=${
+        sorter ? sorter : 0
+      }&filter=${allergyStrings[0] ? allergyStrings[0] : 0}&filter=${
+        allergyStrings[1] ? allergyStrings[1] : 0
+      }&filter=${allergyStrings[2] ? allergyStrings[2] : 0}&filter=${
+        allergyStrings[3] ? allergyStrings[3] : 0
+      }&filter=${allergyStrings[4] ? allergyStrings[4] : 0}&filter=${
+        allergyStrings[5] ? allergyStrings[5] : 0
+      }&filter=${allergyStrings[6] ? allergyStrings[6] : 0}&filter=${
+        allergyStrings[7] ? allergyStrings[7] : 0
+      }&filter=${allergyStrings[8] ? allergyStrings[8] : 0}&filter=${
+        allergyStrings[9] ? allergyStrings[9] : 0
+      }&filter=${allergyStrings[10] ? allergyStrings[10] : 0}&filter=${
+        allergyStrings[11] ? allergyStrings[11] : 0
+      }&filter=${allergyStrings[12] ? allergyStrings[12] : 0}&filter=${
+        allergyStrings[13] ? allergyStrings[13] : 0
+      }&filter=${allergyStrings[14] ? allergyStrings[14] : 0}&filter=${
+        allergyStrings[15] ? allergyStrings[15] : 0
+      }&filter=${allergyStrings[16] ? allergyStrings[16] : 0}&filter=${
+        allergyStrings[17] ? allergyStrings[17] : 0
+      }&filter=${allergyStrings[18] ? allergyStrings[18] : 0}&filter=${
+        allergyStrings[19] ? allergyStrings[19] : 0
+      }`,
     );
     const result = res.data;
     console.log("검색필터결과 : ", result);
