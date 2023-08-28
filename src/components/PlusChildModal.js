@@ -3,10 +3,10 @@ import React from "react";
 import { DatePicker, Select, Space } from "antd";
 import { useState } from "react";
 import makeAnimated from "react-select/animated";
-import { ChildModalCss, ModalDim } from "../style/ModalCss";
+import { ModalDim, PlusChildModalCss } from "../style/ModalCss";
 import { useEffect } from "react";
 
-const ChildModal = ({ setShowModal }) => {
+const PlusChildModal = ({ setShowModal }) => {
   const navigate = useNavigate();
   const [childBirth, setChildBirth] = useState();
   const [isChildBirth, setIsChildBirth] = useState();
@@ -51,26 +51,28 @@ const ChildModal = ({ setShowModal }) => {
   const handleAllergy = allergyArr => {
     setSelectAllergy(allergyArr);
   };
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "visible";
     };
   }, []);
-  const handleChildStart = () => {
+
+  const handleChildPlus = () => {
     // 추후 post 진행
     setShowModal(false);
-    navigate(`/login`);
+    // navigate(`/login`);
   };
   const handleSkip = () => {
     setShowModal(false);
-    navigate("/login");
+    // navigate("/login");
   };
   const animatedComponents = makeAnimated();
   return (
     <>
       <ModalDim />
-      <ChildModalCss>
+      <PlusChildModalCss>
         <div className="login-modal">
           {/* <FontAwesomeIcon
           icon={faXmark}
@@ -129,12 +131,10 @@ const ChildModal = ({ setShowModal }) => {
             </h4>
 
             <div className="modal-buttons">
-              <button onClick={handleChildStart}>시작하기</button>
+              <button onClick={handleChildPlus}>추가하기</button>
               {/* <input type="button" value="시작하기" /> */}
-              <Link to={"/login"}>
-                <button onClick={handleSkip}>건너뛰기</button>
-                {/* <input type="button" value="건너뛰기" /> */}
-              </Link>
+              <button onClick={handleSkip}>건너뛰기</button>
+              {/* <input type="button" value="건너뛰기" /> */}
               {/* <input
               type="button"
               value="건너뛰기"
@@ -143,9 +143,9 @@ const ChildModal = ({ setShowModal }) => {
             </div>
           </div>
         </div>
-      </ChildModalCss>
+      </PlusChildModalCss>
     </>
   );
 };
 
-export default ChildModal;
+export default PlusChildModal;

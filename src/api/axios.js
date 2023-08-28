@@ -34,6 +34,17 @@ export const getNickNameCheck = async _nickName => {
   }
 };
 
+// 정보 수정 비밀번호 체크
+export const postPassWordCheck = async _password => {
+  try {
+    const res = await axios.post(`/api/mypage/checkpw?password=${_password}`);
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 // 검색 결과 get
 export const searchResult = async (_product, _page) => {
   try {

@@ -303,8 +303,6 @@ const SignUp = () => {
     );
   };
 
-  
-
   const handleSignUp = async () => {
     if (!isId) {
       setIdMessage("이메일을 입력해주세요.");
