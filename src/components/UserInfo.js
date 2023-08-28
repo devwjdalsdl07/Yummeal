@@ -15,7 +15,7 @@ import {
   AddChildBirth,
 } from "../style/UserInfoCss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { DatePicker, Space } from "antd";
 import { deleteUser, fetchUserInfo } from "../api/client";
@@ -24,10 +24,11 @@ import locale from "antd/locale/ko_KR";
 import { Modal, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutReducer, userEditReducer } from "../reducers/userSlice";
-import { getNickNameCheck } from "../api/axios";
+import { getNickNameCheck, postPassWordCheck } from "../api/axios";
 import ChildModal from "./ChildModal";
+import PlusChildModal from "./PlusChildModal";
 
-const UserInfo = ({ setActiveComponent, setShowModal }) => {
+const UserInfo = ({ setActiveComponent }) => {
   const {
     email,
     name,
@@ -70,6 +71,10 @@ const UserInfo = ({ setActiveComponent, setShowModal }) => {
   const [pwConfirmMessage, setPwConfirmMessage] = useState("");
   const [phoneMessage, setPhoneMessage] = useState("");
 
+  // 정보수정 시 비밀번호 체크
+  const [isPassWordEntered, setIsPassWordEntered] = useState(false);
+  const [isPassWordCorrect, setIsPassWordCorrect] = useState(false);
+
   const validationStates = [isPw, isPwConfirm, isPhone, isNickNameCheck];
 
   const canEdit = validationStates.every(state => state);
@@ -79,6 +84,21 @@ const UserInfo = ({ setActiveComponent, setShowModal }) => {
   };
   const onChildBirthChange = (value, dateString) => {
     setChildBirth(dateString);
+  };
+
+  // 비밀번호 체크
+  const onPassWordCheck = async (e, password) => {
+    e.preventDefault();
+    const postPassWord = await postPassWordCheck(password);
+    if (password) {
+      if (postPassWord === 1) {
+        setIsPassWordEntered(true);
+        setIsPassWordCorrect(true);
+      } else if (postPassWord === 0) {
+        setIsPassWordEntered(true);
+        setIsPassWordCorrect(false);
+      }
+    }
   };
 
   // 닉네임 (추후 업데이트)
@@ -320,6 +340,9 @@ const UserInfo = ({ setActiveComponent, setShowModal }) => {
   const handlePlusChild = () => {
     setIsChildModalOpen(true);
   };
+  const handleChildModalClose = () => {
+    setIsChildModalOpen(false);
+  };
 
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
@@ -487,9 +510,6 @@ const UserInfo = ({ setActiveComponent, setShowModal }) => {
                 <AddChildBirth>
                   <button onClick={handlePlusChild}>아이 추가</button>
                 </AddChildBirth>
-                {isChildModalOpen === true ? (
-                  <ChildModal setIsChildModalOpen={setIsChildModalOpen} />
-                ) : null}
               </div>
             </div>
             <div className="adress">
@@ -583,7 +603,10 @@ const UserInfo = ({ setActiveComponent, setShowModal }) => {
             <p>회원수정을 마치시겠어요 ?</p>
           </Modal>
         </JoinWrap>
-      </JoinArea>
+      </JoinArea>{" "}
+      {isChildModalOpen === true ? (
+        <PlusChildModal setShowModal={setIsChildModalOpen} />
+      ) : null}
     </JoinContainer>
   );
 };

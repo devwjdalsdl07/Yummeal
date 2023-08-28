@@ -2,6 +2,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import ChildModal from "./components/ChildModal";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import PassWordCheck from "./components/PassWordCheck";
 import About from "./pages/About";
 import AdminAddItem from "./pages/AdminAddItem";
 import AdminMain from "./pages/AdminMain";
@@ -55,7 +56,7 @@ function App() {
         <Route path="/useservice" element={<UseService />} />
         <Route path="/policy" element={<Policy />} />
         <Route path="/useguide" element={<UseGuide />} />
-        {/* <Route path="/childmodal" element={<ChildModal />} /> */}
+        <Route path="/password" element={<PassWordCheck />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
       {!isAdminPage && !isPaymentPage && <Footer />}
