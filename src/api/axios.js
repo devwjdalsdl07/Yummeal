@@ -1,4 +1,6 @@
 import axios from "axios";
+import UserInfo from "../components/UserInfo";
+import { instance } from "./client";
 
 //회원가입 post
 export const postSignUp = async _Item => {
@@ -6,6 +8,17 @@ export const postSignUp = async _Item => {
     const res = await axios.post("/sign-api/sign-up", _Item);
     const result = res.data;
     console.log("해언가입설ㅇ공");
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+//아이 정보 post
+export const postChildInfo = async () => {
+  try {
+    const res = await axios.post(``);
+    const result = res.data;
     return result;
   } catch (err) {
     console.log(err);
@@ -35,14 +48,18 @@ export const getNickNameCheck = async _nickName => {
 };
 
 // 정보 수정 비밀번호 체크
-export const postPassWordCheck = async _password => {
+export const postPassWordCheck = async _passWord => {
   try {
-    const res = await axios.post(`/api/mypage/checkpw?password=${_password}`);
+    const res = await instance.post(
+      `/api/mypage/checkpw?password=${_passWord}`,
+    );
     const result = res.data;
+    console.log(result);
     return result;
   } catch (err) {
     console.log(err);
   }
+  return <UserInfo />;
 };
 
 // 검색 결과 get

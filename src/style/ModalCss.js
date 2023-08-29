@@ -48,6 +48,8 @@ export const CartItemModalCss = styled.div`
       padding: 0 20px 30px 20px;
       gap: 10px;
       > button {
+        font-family: "Pretendard", "SUITE", sans-serif;
+        font-weight: 600;
         width: 45%;
         height: 3.5rem;
         line-height: 25px;
@@ -118,7 +120,6 @@ export const LoginModalCss = styled.div`
         &:hover {
           background-color: #8eb111;
           color: white;
-          border: none;
         }
       }
     }
@@ -229,7 +230,6 @@ export const ChildModalCss = styled.div`
         &:hover {
           background-color: #8eb111;
           color: white;
-          border: none;
         }
       }
     }
@@ -331,7 +331,6 @@ export const PlusChildModalCss = styled.div`
         &:hover {
           background-color: #8eb111;
           color: white;
-          border: none;
         }
       }
     }

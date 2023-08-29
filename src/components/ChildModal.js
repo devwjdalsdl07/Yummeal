@@ -5,6 +5,7 @@ import { useState } from "react";
 import makeAnimated from "react-select/animated";
 import { ChildModalCss, ModalDim } from "../style/ModalCss";
 import { useEffect } from "react";
+import { postChildInfo } from "../api/axios";
 
 const ChildModal = ({ setShowModal }) => {
   const navigate = useNavigate();
@@ -57,8 +58,19 @@ const ChildModal = ({ setShowModal }) => {
       document.body.style.overflow = "visible";
     };
   }, []);
-  const handleChildStart = () => {
+  const handleChildStart = async () => {
     // 추후 post 진행
+    const childInfo = {
+      birthday: childBirth,
+      prefer: tasteValue,
+      allegyId: selectAllergy,
+    };
+    try {
+      postChildInfo(childInfo);
+    } catch (err) {
+      alert("다시 시도해주세요");
+    }
+
     setShowModal(false);
     navigate(`/login`);
   };
