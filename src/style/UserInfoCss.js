@@ -207,7 +207,6 @@ export const AddChildBirth = styled.div`
     &:hover {
       background-color: #8eb111;
       color: white;
-      border: none;
     }
   }
 `;

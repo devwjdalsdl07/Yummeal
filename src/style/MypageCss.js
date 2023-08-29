@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 export const ContainerWrap = styled.div`
   background: #f9f6f1;
+  padding-bottom: 200px;
 `;
 export const MypageContainer = styled.div`
   display: flex;
