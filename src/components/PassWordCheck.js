@@ -48,11 +48,11 @@ const PassWordCheck = ({ setPasswordCorrect }) => {
               type="password"
               placeholder="비밀번호 입력"
               value={passWord}
-              onChange={handlePasswordChange}
-              onKeyDown={handleKeydown}
+              onChange={(e) => handlePasswordChange(e) }
+              onKeyDown={(e) => handleKeydown(e)}
             />
             <span className="input-group-btn">
-              <button type="button" onClick={handlePasswordSubmit}>
+              <button type="button" onClick={(e) => handlePasswordSubmit(e)}>
                 <span>확인</span>
               </button>
             </span>

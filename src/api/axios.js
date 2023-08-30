@@ -54,7 +54,7 @@ export const postPassWordCheck = async _passWord => {
       `/api/mypage/checkpw?password=${_passWord}`,
     );
     const result = res.data;
-    console.log(result);
+    // console.log(result);
     return result;
   } catch (err) {
     console.log(err);

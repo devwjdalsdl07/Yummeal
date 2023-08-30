@@ -36,12 +36,12 @@ export const fetchLogin = async (id, pw) => {
     });
     console.log("넘어온 데이터 : ", res.data);
     const result = await res.data;
-    setCookie("refreshToken", result.refreshToken, {
-      path: "/",
-      // secure: true,
-      // sameSite: "none",
-      // httpOnly: true,
-    });
+    // setCookie("refreshToken", result.refreshToken, {
+    //   path: "/",
+    // secure: true,
+    // sameSite: "none",
+    // httpOnly: true,
+    // });
     // setCookie("accessToken", result.accessToken, {
     //   path: "/",
     //   // secure: true,
@@ -49,9 +49,33 @@ export const fetchLogin = async (id, pw) => {
     //   // httpOnly: true,
     // });
     sessionStorage.setItem("accessToken", result.accessToken);
+    sessionStorage.setItem("refreshToken", result.refreshToken);
+    checkTime();
+    console.log("토큰재발급됐당!");
     return result;
   } catch (error) {
     console.log(error);
+  }
+};
+
+// 일정한 시간 체크를 진행함
+const checkTime = () => {
+  console.log("로그인 이후 일정 시간이 지나면 새로운 인증 코드 요청");
+  setInterval(() => {
+    getRefreshToken();
+  }, 30000);
+};
+export const getRefreshToken = async () => {
+  try {
+    const refreshToken = sessionStorage.getItem("refreshToken");
+    const res = await instance.get(
+      `/sign-api/refresh-token?refreshToken=${refreshToken}`,
+    );
+    const result = res.data;
+    sessionStorage.setItem("accessToken", result.accessToken);
+    sessionStorage.setItem("refreshToken", result.refreshToken);
+  } catch (err) {
+    console.log(err);
   }
 };
 

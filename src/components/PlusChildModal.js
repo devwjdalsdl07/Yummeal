@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import { DatePicker, Select, Space } from "antd";
 import { useState } from "react";
@@ -35,6 +35,15 @@ const PlusChildModal = ({ setShowModal }) => {
     { value: 19, label: "아황산류" },
     { value: 20, label: "생선류" },
   ];
+  useEffect(() => {
+    // setSelectSort("");
+    setSelectAllergy([]);
+    allergyStrings = [];
+  }, []);
+
+  // 알레르기 value값
+  const newAllergyData = selectAllergy.map(selected => selected.value);
+  let allergyStrings = newAllergyData.map(value => value.toString());
 
   const handleTaste = e => {
     setTasteValue(e.target.value);
