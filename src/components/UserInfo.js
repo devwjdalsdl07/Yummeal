@@ -51,7 +51,10 @@ const UserInfo = ({ setActiveComponent }) => {
   const [pwConfirm, setPwConfirm] = useState("");
   const [userName, setUserName] = useState();
   const [phone, setPhone] = useState("");
-  const [nickName, setNickName] = useState([]);
+
+  const [nickName, setNickName] = useState("");
+  const [nickNameRemember, setNickNameRemember] = useState("");
+
   const [birth, setBirth] = useState();
   const [childBirth, setChildBirth] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,6 +77,8 @@ const UserInfo = ({ setActiveComponent }) => {
   // 정보수정 시 비밀번호 체크
   const [isPassWordEntered, setIsPassWordEntered] = useState(false);
   const [isPassWordCorrect, setIsPassWordCorrect] = useState(false);
+  //  닉네임 입력 값 체크
+  const [nickNameInput, setNickNameInput] = useState(nickName);
 
   const validationStates = [isPw, isPwConfirm, isPhone, isNickNameCheck];
 
@@ -105,38 +110,43 @@ const UserInfo = ({ setActiveComponent }) => {
   const onNickNameChange = e => {
     setIsNickNameCheck(false);
     const nickNameRegex = /^[a-zA-Z0-9ㄱ-힣]{3,5}$/;
-    // setNickName(e.target.value.replace(/\s/gi, ""));
+    setNickName(e.target.value.replace(/\s/gi, ""));
     setNickNameMessage(null);
-    setNickName(
-      e.target.value.replace(/[!?,@#$%^&*()]/g, "").replace(/\s/gi, ""),
-    );
-    // if (e.target.value.length == 0) {
-    //   setNickNameMessage("닉네임을 입력해주세요.");
-    // }
-    // setNickNameMessage("");
-    // setIsNickName(false);
+    const newNickName = e.target.value
+      .replace(/[!?,@#$%^&*()]/g, "")
+      .replace(/\s/gi, "");
+    setNickNameInput(newNickName);
+    if (newNickName === nickNameRemember) {
+      setIsNickNameCheck(true);
+    } else {
+      setIsNickNameCheck(false);
+    }
   };
   // 닉네임 중복 체크
   const onNickNameCheck = async e => {
     e.preventDefault();
-    const getNickName = await getNickNameCheck(nickName);
-    if (nickName) {
-      if (getNickName === 0) {
-        setNickNameMessage("사용 가능한 닉네임이에요");
-        setIsNickNameCheck(true);
-      } else if (getNickName === 1) {
-        setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-        setIsNickNameCheck(false);
-      }
-    }
 
-    // if (e.target.value.length == 0 || e.target.value.length > 0) {
-    //   setNickNameMessage("사용 가능한 닉네임이에요");
-    //   setIsNickName(true);
-    // } else {
-    //   setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-    //   setIsNickName(false);
-    // }
+    // nickName 중복체크시 기준 이름과 비교를 함.
+    if (nickNameInput !== nickNameRemember) {
+      const getNickName = await getNickNameCheck(nickNameInput);
+      if (nickNameInput) {
+        if (getNickName === 0) {
+          setNickNameMessage("사용 가능한 닉네임이에요");
+          setIsNickNameCheck(true);
+        } else if (getNickName === 1) {
+          setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+          setIsNickNameCheck(false);
+        }
+      }
+
+      // if (e.target.value.length == 0 || e.target.value.length > 0) {
+      //   setNickNameMessage("사용 가능한 닉네임이에요");
+      //   setIsNickName(true);
+      // } else {
+      //   setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
+      //   setIsNickName(false);
+      // }
+    }
   };
 
   //pw
@@ -257,25 +267,7 @@ const UserInfo = ({ setActiveComponent }) => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = async () => {
-    setIsModalOpen(false);
-    const profile = {
-      name: userName,
-      nickNm: nickName,
-      password: pw,
-      phoneNumber: phone,
-      birthday: birth,
-      zipcode: postcode,
-      address: userAddress,
-      addressDetail: detailAddress,
-    };
-    const result = await fetchUserInfo(profile);
-    dispatch(userEditReducer(profile));
-    setNickNameMessage("");
-    setPwMessage("");
-    setPwConfirmMessage("");
-    setPhoneMessage("");
-  };
+
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
@@ -307,6 +299,25 @@ const UserInfo = ({ setActiveComponent }) => {
       alert("입력값을 다시 확인해주세요.");
     }
   };
+  const handleOk = async () => {
+    setIsModalOpen(false);
+    const profile = {
+      name: userName,
+      nickNm: nickName,
+      password: pw,
+      phoneNumber: phone,
+      birthday: birth,
+      zipcode: postcode,
+      address: userAddress,
+      addressDetail: detailAddress,
+    };
+    const result = await fetchUserInfo(profile);
+    dispatch(userEditReducer(profile));
+    setNickNameMessage("");
+    setPwMessage("");
+    setPwConfirmMessage("");
+    setPhoneMessage("");
+  };
   const handleCancel = () => {
     setActiveComponent("order");
   };
@@ -319,6 +330,7 @@ const UserInfo = ({ setActiveComponent }) => {
     setPhone(mobileNb);
     setBirth(birthday);
     setNickName(nickNm);
+    setNickNameRemember(nickNm);
   };
   const handleDelete = () => {
     showDeleteModal();

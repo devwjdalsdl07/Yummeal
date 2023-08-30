@@ -13,9 +13,9 @@ root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
-        <CookiesProvider>
-          <App />
-        </CookiesProvider>
+        {/* <CookiesProvider> */}
+        <App />
+        {/* </CookiesProvider> */}
       </BrowserRouter>
     </PersistGate>
   </Provider>,

@@ -10,8 +10,12 @@ import { loginReducer, tokenReducer } from "../reducers/userSlice";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  // const [id, setId] = useState("tt@tt.com");
+  // const [pw, setPw] = useState("qwer123!");
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+
   const handleSignUPClick = () => {
     navigate("/signup");
   };
