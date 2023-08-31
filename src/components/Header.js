@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { cateProdList, menuCate } from "../api/axios";
+import { cateProdList, menuCate, trendingData } from "../api/axios";
 import { postLogout } from "../api/client";
 import { getMain } from "../api/mainFatch";
 import { logoutReducer } from "../reducers/userSlice";
@@ -21,6 +21,8 @@ function Header() {
   const [userToggled, setUserToggled] = useState(false);
   const [search, setSearch] = useState("");
   const [cate, setCate] = useState([]);
+  const [trendingList, setTrendingList] = useState([]);
+  const [isTrending, setIsTrending] = useState(false);
   const navigate = useNavigate();
 
   // 카테고리 메뉴 불러오기
@@ -29,8 +31,15 @@ function Header() {
     setCate(result);
   };
 
+  // 인기검색어 데이터 불러오기
+  const trendingListGet = async () => {
+    const result = await trendingData();
+    setTrendingList(result);
+  };
+
   useEffect(() => {
     cateGet();
+    trendingListGet();
   }, []);
 
   // 서브 메뉴 클릭 시 이동
@@ -67,15 +76,16 @@ function Header() {
     });
   };
 
-  // 검색어 업데이트
-  const handleSearch = e => {
-    setSearch(e.target.value);
+  const handleTrendClick = () => {
+    navigate("/search", { state: { product: "울라불라" } });
+    setSearch("");
   };
 
   // 검색결과창 이동
   const handleSearchPost = e => {
     e.preventDefault();
     navigate("/search", { state: { product: search } });
+    setSearch("");
   };
 
   // 로그아웃
@@ -98,7 +108,7 @@ function Header() {
       },
     });
   };
-
+  console.log(isTrending);
   return (
     <Head isToggled={isToggled} userToggled={userToggled}>
       {/* 햄버거 버튼(bar) */}
@@ -128,14 +138,17 @@ function Header() {
       >
         <FontAwesomeIcon icon={!userToggled ? faUser : faTimes} />
       </div>
-      <form className="searchwrap">
+      <form
+        className="searchwrap"
+        onMouseEnter={() => setIsTrending(true)}
+        onMouseLeave={() => setIsTrending(false)}
+      >
         <input
           className="search"
           type="text"
           value={search}
-          onChange={e => handleSearch(e)}
+          onChange={e => setSearch(e.target.value)}
           placeholder="검색어를 입력하세요"
-          onClick={() => setSearch("")}
         />
         <button className="glasswrap" onClick={e => handleSearchPost(e)}>
           <i className="glass">
@@ -144,6 +157,33 @@ function Header() {
         </button>
         {/* 메뉴 리스트 */}
       </form>
+      {isTrending && (
+        <>
+          <h3
+            className="trend-title"
+            onMouseEnter={() => setIsTrending(true)}
+            onMouseLeave={() => setIsTrending(false)}
+          >
+            인기검색어
+          </h3>
+          <div
+            className="grid-wrap"
+            onMouseEnter={() => setIsTrending(true)}
+            onMouseLeave={() => setIsTrending(false)}
+          >
+            <div onClick={handleTrendClick}>1. 울라불라</div>
+            <div>2. 집에 가고싶다</div>
+            <div>3. 데이터는 없다</div>
+            <div>4. 울고싶다</div>
+            <div>5. 정말 싫다</div>
+            <div>6. 타입스크립트</div>
+            <div>7. 내가 뭐하는거지</div>
+            <div>8. 화가난다</div>
+            <div>9. 인생...</div>
+            <div>10. 끝</div>
+          </div>
+        </>
+      )}
       <ul className="header_menulist">
         {cate.map(mainMenu => (
           <li
