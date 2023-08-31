@@ -123,3 +123,14 @@ export const quickBuy = async (_productId, count) => {
     console.log(err);
   }
 };
+
+// 인기검색어 데이터 get
+export const trendingData = async () => {
+  try {
+    const res = await axios.get("/api/search/popular");
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
