@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import { DatePicker, Select, Space } from "antd";
+import { DatePicker, Space } from "antd";
 import { useState } from "react";
 import makeAnimated from "react-select/animated";
 import { ModalDim, PlusChildModalCss } from "../style/ModalCss";
 import { useEffect } from "react";
+import { filterSort } from "../api/axios";
+import Select from "react-select";
 
-const PlusChildModal = ({ setShowModal }) => {
+const PlusChildModal = ({ setShowModal, setSearchData }) => {
   const navigate = useNavigate();
   const [childBirth, setChildBirth] = useState();
   const [isChildBirth, setIsChildBirth] = useState();
@@ -36,14 +38,29 @@ const PlusChildModal = ({ setShowModal }) => {
     { value: 20, label: "생선류" },
   ];
   useEffect(() => {
-    // setSelectSort("");
     setSelectAllergy([]);
     allergyStrings = [];
   }, []);
 
+  // 정렬 기능 get
+  const sortData = async () => {
+    const result = await filterSort(0, 0, allergyStrings);
+    console.log(result);
+
+    return result;
+  };
+
   // 알레르기 value값
   const newAllergyData = selectAllergy.map(selected => selected.value);
   let allergyStrings = newAllergyData.map(value => value.toString());
+  // console.log("알레르기 들어오냐 ??", selectAllergy);
+
+  // 정렬 기능이 선택될 때만 데이터 불러오기
+  useEffect(() => {
+    if (selectAllergy.length > 0) {
+      sortData();
+    }
+  }, [allergyStrings, selectAllergy]);
 
   const handleTaste = e => {
     setTasteValue(e.target.value);
@@ -57,8 +74,8 @@ const PlusChildModal = ({ setShowModal }) => {
       setIsChildBirth(false);
     }
   };
-  const handleAllergy = allergyArr => {
-    setSelectAllergy(allergyArr);
+  const handleAllergy = selectAllergy => {
+    setSelectAllergy(selectAllergy);
   };
 
   useEffect(() => {
@@ -123,7 +140,7 @@ const PlusChildModal = ({ setShowModal }) => {
                     isMulti
                     options={allergyArr}
                     placeholder="꼭 선택하지 않아도 돼요 :)"
-                    isSearchable={false}
+                    // isSearchable={false}
                   />
                 </div>
               </div>

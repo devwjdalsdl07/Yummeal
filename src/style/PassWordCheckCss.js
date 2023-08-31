@@ -20,12 +20,10 @@ export const PasswordCheckWrap = styled.div`
       }
     }
     .input-guide-box {
-      height: 20%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: relative;
-
       padding: 30px;
       border-radius: 10px;
       background: #fff;
@@ -56,6 +54,7 @@ export const PasswordCheckWrap = styled.div`
       .input-text {
         margin: 0;
         padding: 3px 15px;
+        width: 390px;
         background-color: #fff;
         border: 1px solid #ccc;
         font-size: 13px;
@@ -66,7 +65,6 @@ export const PasswordCheckWrap = styled.div`
         padding: 0 0 0 10px;
         position: relative;
         white-space: nowrap;
-        width: 1%;
         vertical-align: middle;
         border: 0;
         button {
@@ -104,6 +102,7 @@ export const PasswordCheckWrap = styled.div`
         height: 25px;
         margin-right: 15px;
         float: left;
+        transform: translateY(-2px);
       }
       span {
         line-height: 24px;
