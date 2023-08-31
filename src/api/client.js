@@ -51,7 +51,6 @@ export const fetchLogin = async (id, pw) => {
     sessionStorage.setItem("accessToken", result.accessToken);
     sessionStorage.setItem("refreshToken", result.refreshToken);
     checkTime();
-    console.log("토큰재발급됐당!");
     return result;
   } catch (error) {
     console.log(error);
@@ -63,7 +62,7 @@ const checkTime = () => {
   console.log("로그인 이후 일정 시간이 지나면 새로운 인증 코드 요청");
   setInterval(() => {
     getRefreshToken();
-  }, 30000);
+  }, 300000);
 };
 export const getRefreshToken = async () => {
   try {
@@ -72,6 +71,7 @@ export const getRefreshToken = async () => {
       `/sign-api/refresh-token?refreshToken=${refreshToken}`,
     );
     const result = res.data;
+    console.log("토큰재발급됐당!", result);
     sessionStorage.setItem("accessToken", result.accessToken);
     sessionStorage.setItem("refreshToken", result.refreshToken);
   } catch (err) {

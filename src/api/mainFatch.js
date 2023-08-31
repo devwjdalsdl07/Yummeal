@@ -6,7 +6,7 @@ export const getProductId = async _productId => {
   try {
     const res = await axios.get(`/api/product?productId=${_productId}`);
     const result = res.data;
-    console.log("getProductId 요청완료 성공!!", result);
+    // console.log("getProductId 요청완료 성공!!", result);
     return result;
   } catch (err) {
     console.log(err);
@@ -19,7 +19,7 @@ export const getMain = async _page => {
   try {
     const res = await axios.get(`/api/main?page=${_page}&row=16`);
     const result = res.data;
-    console.log("getMain 요청성공!!", result);
+    // console.log("getMain 요청성공!!", result);
     return result;
   } catch (err) {
     console.log(err);
@@ -31,7 +31,7 @@ export const getRandom = async () => {
   try {
     const res = await axios.get(`/api/main/random`);
     const result = res.data;
-    console.log("getRandom 요청성공!!", result);
+    // console.log("getRandom 요청성공!!", result);
     return result;
   } catch (err) {
     console.log(err);
@@ -43,7 +43,7 @@ export const getRecommend = async () => {
   try {
     const res = await instance.get(`/api/main/recommend?row=6`);
     const result = res.data;
-    console.log("getRecommend 요청성공!!", result);
+    // console.log("getRecommend 요청성공!!", result);
     return result;
   } catch (err) {
     console.log(err);
@@ -55,7 +55,7 @@ export const getBestProduct = async () => {
   try {
     const res = await axios.get(`/api/main/bestproduct`);
     const result = res.data;
-    console.log("getBestProduct 요청성공!!", result);
+    // console.log("getBestProduct 요청성공!!", result);
     return result;
   } catch (err) {
     console.log(err);
@@ -105,7 +105,7 @@ export const getBestProductAll = async _page => {
       `/api/main/bestproduct/all?page=${_page}&row=16`,
     );
     const result = res.data;
-    console.log("getBestProductAll 요청성공!!", result);
+    // console.log("getBestProductAll 요청성공!!", result);
     return result;
   } catch (err) {
     console.log(err);
@@ -118,7 +118,7 @@ export const getProduct = async _productId => {
   try {
     const res = await instance.get(`/api/buy/product?productId=_productId`);
     const result = res.data;
-    console.log("getProduct 요청성공!!", result);
+    // console.log("getProduct 요청성공!!", result);
     return result;
   } catch (err) {
     console.log(err);
