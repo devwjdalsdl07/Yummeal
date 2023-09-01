@@ -30,9 +30,9 @@ instance.interceptors.response.use();
 export const fetchLogin = async (id, pw) => {
   console.log("fetchLogin 진행");
   try {
-    const res = await instance.post(`/sign-api/sign-in`, {
-      email: id,
-      password: pw,
+    const res = await instance.post(`/api/v1/auth/sign-in`, {
+      uid: id,
+      upw: pw,
     });
     console.log("넘어온 데이터 : ", res.data);
     const result = await res.data;
@@ -101,6 +101,7 @@ export const getUser = async _iuser => {
     const res = await instance.get(`/api/mypage/profile`);
     console.log("로그인 res는??", res);
     const result = {
+      iuser: res.iuser,
       email: res.data.email,
       name: res.data.name,
       mobileNb: res.data.mobileNb,

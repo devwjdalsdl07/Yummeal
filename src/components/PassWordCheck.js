@@ -19,6 +19,7 @@ const PassWordCheck = ({ setPasswordCorrect }) => {
         setPasswordCorrect(true);
       } else if (postPassword === 0) {
         setPasswordCorrect(false);
+        alert("비밀번호가 맞지 않아요 다시 시도해주세요 !");
       }
     }
   };
@@ -48,11 +49,11 @@ const PassWordCheck = ({ setPasswordCorrect }) => {
               type="password"
               placeholder="비밀번호 입력"
               value={passWord}
-              onChange={(e) => handlePasswordChange(e) }
-              onKeyDown={(e) => handleKeydown(e)}
+              onChange={e => handlePasswordChange(e)}
+              onKeyDown={e => handleKeydown(e)}
             />
             <span className="input-group-btn">
-              <button type="button" onClick={(e) => handlePasswordSubmit(e)}>
+              <button type="button" onClick={e => handlePasswordSubmit(e)}>
                 <span>확인</span>
               </button>
             </span>

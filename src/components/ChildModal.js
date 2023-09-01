@@ -1,11 +1,12 @@
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import React from "react";
-import { DatePicker, Select, Space } from "antd";
+import { DatePicker, Space } from "antd";
 import { useState } from "react";
 import makeAnimated from "react-select/animated";
 import { ChildModalCss, ModalDim } from "../style/ModalCss";
 import { useEffect } from "react";
-import { postChildInfo } from "../api/axios";
+import { filterSort, postChildInfo } from "../api/axios";
+import Select from "react-select";
 
 const ChildModal = ({ setShowModal }) => {
   const navigate = useNavigate();
@@ -36,10 +37,33 @@ const ChildModal = ({ setShowModal }) => {
     { value: 19, label: "아황산류" },
     { value: 20, label: "생선류" },
   ];
+  useEffect(() => {
+    setSelectAllergy([]);
+    allergyStrings = [];
+  }, []);
+
+  // 정렬 기능 get
+  const sortData = async () => {
+    const result = await filterSort(0, 0, allergyStrings);
+    console.log(result);
+
+    return result;
+  };
+
+  // 알레르기 value값
+  const newAllergyData = selectAllergy.map(selected => selected.value);
+  let allergyStrings = newAllergyData.map(value => value.toString());
 
   const handleTaste = e => {
     setTasteValue(e.target.value);
   };
+
+  // 정렬 기능이 선택될 때만 데이터 불러오기
+  useEffect(() => {
+    if (selectAllergy.length > 0) {
+      sortData();
+    }
+  }, [allergyStrings, selectAllergy]);
 
   const onChildBirthChange = (value, dateString) => {
     setChildBirth(dateString);

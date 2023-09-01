@@ -14,6 +14,17 @@ export const postSignUp = async _Item => {
   }
 };
 
+//아이 정보 get
+export const getChildInfo = async () => {
+  try {
+    const res = await axios.get("/baby");
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 //아이 정보 post
 export const postChildInfo = async () => {
   try {
@@ -26,7 +37,7 @@ export const postChildInfo = async () => {
 };
 
 // 아이디 중복확인 post
-export const getIdCheck = async _email => {
+export const postIdCheck = async _email => {
   try {
     const res = await axios.get(`/sign-api/email?email=${_email}`);
     const result = res.data;
@@ -36,7 +47,7 @@ export const getIdCheck = async _email => {
   }
 };
 
-// 닉네임 중복확인 post?????
+// 닉네임 중복확인 get
 export const getNickNameCheck = async _nickName => {
   try {
     const res = await axios.get(`/sign-api/nickname?nickname=${_nickName}`);

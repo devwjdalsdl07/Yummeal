@@ -19,6 +19,7 @@ import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
 import UseGuide from "./pages/UseGuide";
 import UseService from "./pages/UseService";
+import SNS from "./pages/SNS";
 
 function App() {
   const accessToken = sessionStorage.getItem("accessToken");
@@ -30,6 +31,9 @@ function App() {
       {/* Header를 isAdminPage가 아닐 때만 렌더링 */}
       {!isAdminPage && !isPaymentPage && <Header />}
       <Routes>
+        {/* 라우터 카카오 테스트 */}        
+        <Route path="/sns" element={<SNS />} />
+
         <Route path="/" element={<Main />} />
         <Route path="/login" element={accessToken ? <Main /> : <Login />} />
         <Route

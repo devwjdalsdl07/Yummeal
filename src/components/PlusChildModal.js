@@ -5,10 +5,10 @@ import { useState } from "react";
 import makeAnimated from "react-select/animated";
 import { ModalDim, PlusChildModalCss } from "../style/ModalCss";
 import { useEffect } from "react";
-import { filterSort } from "../api/axios";
+import { filterSort, postChildInfo } from "../api/axios";
 import Select from "react-select";
 
-const PlusChildModal = ({ setShowModal, setSearchData }) => {
+const PlusChildModal = ({ setShowModal }) => {
   const navigate = useNavigate();
   const [childBirth, setChildBirth] = useState();
   const [isChildBirth, setIsChildBirth] = useState();
@@ -87,8 +87,18 @@ const PlusChildModal = ({ setShowModal, setSearchData }) => {
 
   const handleChildPlus = () => {
     // 추후 post 진행
+    const plusChildInfo = {
+      birthday: childBirth,
+      prefer: tasteValue,
+      allegyId: selectAllergy,
+    };
+    try {
+      postChildInfo(plusChildInfo);
+    } catch (err) {
+      alert("다시 시도해주세요");
+    }
     setShowModal(false);
-    // navigate(`/login`);
+    navigate(`/login`);
   };
   const handleSkip = () => {
     setShowModal(false);
@@ -117,19 +127,24 @@ const PlusChildModal = ({ setShowModal, setSearchData }) => {
               <br />
               <h5>아이의 취향을 알려주세요 :)</h5>
               <br />
-              <span>아이가 언제 태어났나요?</span>
-              <Space direction="vertical">
-                <DatePicker
-                  onChange={onChildBirthChange}
-                  placeholder="YYYY-MM-DD"
-                  style={{
-                    height: "30px",
-                  }}
-                />
-              </Space>
+              <div>
+                <span>아이가 언제 태어났나요?</span>
+                <Space direction="vertical">
+                  <DatePicker
+                    onChange={onChildBirthChange}
+                    placeholder="YYYY-MM-DD"
+                    style={{
+                      height: "30px",
+                      marginLeft: "10px",
+                    }}
+                  />
+                </Space>
+              </div>
               <br />
               <div className="search-wrap">
-                <span>아이가 가지고 있는 알레르기가 있다면?</span>
+                <div className="child-allergy">
+                  <span>아이가 가지고 있는 알레르기가 있다면?</span>
+                </div>
                 <div className="search-form">
                   <Select
                     className="allergy"
@@ -144,7 +159,9 @@ const PlusChildModal = ({ setShowModal, setSearchData }) => {
                   />
                 </div>
               </div>
-              <span>아이가 좋아하거나 싫어하는 건 뭔가요?</span>
+              <div className="child-taste">
+                <span>아이가 좋아하거나 싫어하는 건 뭔가요?</span>
+              </div>
               <input
                 className="child-box"
                 type="text"

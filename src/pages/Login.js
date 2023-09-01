@@ -10,7 +10,7 @@ import { loginReducer, tokenReducer } from "../reducers/userSlice";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   // const [id, setId] = useState("tt@tt.com");
   // const [pw, setPw] = useState("qwer123!");
   const [id, setId] = useState("");
@@ -87,9 +87,19 @@ const Login = () => {
               </ul>
             </div>
             <SnsLoginWrap>
-              <button className="kakao-login">
+              {/* <button className="kakao-login">
                 <FontAwesomeIcon icon={faComment} style={{ padding: "10px" }} />
                 카카오로 시작하기
+              </button> */}
+              {/* 카카오 샘플 */}
+              <button className="kakao-login">
+                <FontAwesomeIcon
+                  icon={faComment}
+                  style={{ padding: "10px", fontSize: "20px" }}
+                />
+                <a href="/oauth2/authorization/kakao?redirect_uri=http://192.168.0.144:5001/sns">
+                  카카오로 시작하기
+                </a>
               </button>
               <button className="naver-login">
                 <img
@@ -98,16 +108,6 @@ const Login = () => {
                   style={{ padding: "5px" }}
                 />
                 네이버로 시작하기
-              </button>
-
-              <button className="google-login">
-                <img
-                  src={`${process.env.PUBLIC_URL}/images/google.png`}
-                  alt="logo"
-                  style={{ width: "20px" }}
-                />
-
-                <span>구글로 시작하기</span>
               </button>
             </SnsLoginWrap>
             <div>

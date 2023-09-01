@@ -181,6 +181,7 @@ export const ChildModalCss = styled.div`
         font-size: 15px;
         font-weight: 500;
         color: #8eb111;
+        margin-bottom: 5px;
       }
       .search-wrap {
         margin-bottom: 20px;
@@ -188,10 +189,19 @@ export const ChildModalCss = styled.div`
         .search-form {
           display: flex;
           gap: 40px;
+          max-width: 500px;
           .allergy {
             width: 100%;
+            font-size: 15px;
+            font-weight: 600;
             .css-1fdsijx-ValueContainer {
               padding: 0 15px;
+              .css-1jqq78o-placeholder {
+                font-size: 14px;
+                font-weight: 600;
+                text-align: center;
+                padding-left: 38px;
+              }
             }
           }
         }
@@ -268,11 +278,12 @@ export const PlusChildModalCss = styled.div`
       height: 25%;
     }
     .modal-content {
+      display: flex;
+      flex-direction: column;
+      font-family: "Pretendard", "SUITE", sans-serif;
       h4 {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
         text-align: center;
+        width: 100%;
         font-weight: 700;
         font-size: 2rem;
         margin-bottom: 25px;
@@ -282,30 +293,46 @@ export const PlusChildModalCss = styled.div`
         font-size: 15px;
         font-weight: 500;
         color: #8eb111;
+        /* margin-bottom: 5px; */
       }
       .search-wrap {
         margin-bottom: 20px;
-
+        .child-allergy {
+          margin-bottom: 5px;
+        }
         .search-form {
           display: flex;
           gap: 40px;
+          max-width: 500px;
           .allergy {
             width: 100%;
+            font-size: 15px;
+            font-weight: 600;
             .css-1fdsijx-ValueContainer {
               padding: 0 15px;
+              .css-1jqq78o-placeholder {
+                font-size: 14px;
+                font-weight: 600;
+                text-align: center;
+                padding-left: 38px;
+              }
             }
           }
         }
       }
+      .child-taste {
+        margin-bottom: 5px;
+      }
       .child-box {
         width: 100%;
-        height: 3.5rem;
+        height: 4rem;
         line-height: 25px;
         border-radius: 7px;
         border: 1px solid #d1d1d1;
         color: #3f3f3f;
         font-weight: 600;
         text-align: center;
+        font-family: "Pretendard", "SUITE", sans-serif;
       }
     }
 
