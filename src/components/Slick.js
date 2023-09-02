@@ -83,7 +83,7 @@ const Slick = () => {
           {isLoggedIn ? `${nickNm}님을 위한 추천 상품` : "추천 상품"}
         </h1>
         <Slider {...settings}>
-        {((isLoggedIn ? recommend : randomProduct.list) || []).map((item, index) => (
+        {((isLoggedIn ? recommend.list : randomProduct.list) || []).map((item, index) => (
             <div key={item.productId}>
               <img
                 key={index}

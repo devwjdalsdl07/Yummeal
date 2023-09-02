@@ -35,7 +35,6 @@ function App() {
       <Routes>
         {/* 라우터 카카오 테스트 */}        
         <Route path="/sns" element={<SNS />} />
-        <Route path="/" element={<Main />} />
         <Route path="/" element={<Intro />} />
         <Route path="/main" element={<Main />} />
         <Route path="/login" element={accessToken ? <Main /> : <Login />} />
