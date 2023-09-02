@@ -57,7 +57,7 @@ export const getRecommend = async () => {
   try {
     const res = await instance.get(`/api/main?check=2&page=0&row=6`);
     const result = res.data;
-    // console.log("getRecommend 요청성공!!", result);
+    console.log("getRecommend 요청성공!!", result);
     return result;
   } catch (err) {
     console.log(err);
@@ -117,7 +117,7 @@ export const getBestProductAll = async _page => {
   try {
     const res = await axios.get(`/api/main?check=5&page=${_page}&row=16`);
     const result = res.data;
-    // console.log("getBestProductAll 요청성공!!", result);
+    console.log("getBestProductAll 요청성공!!", result);
     return result;
   } catch (err) {
     console.log(err);

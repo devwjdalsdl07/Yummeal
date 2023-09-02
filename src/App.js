@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import About from "./pages/About";
 import AdminAddItem from "./pages/AdminAddItem";
 import AdminMain from "./pages/AdminMain";
+import Intro from "./pages/Intro";
 import ItemDetail from "./pages/ItemDetail";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
@@ -13,14 +14,13 @@ import Order from "./pages/Order";
 import OrderDetail from "./pages/OrderDetail";
 import Payment from "./pages/Payment";
 import Policy from "./pages/Policy";
+import SNS from "./pages/SNS";
 import Search from "./pages/Search";
 import SearchList from "./pages/SearchList";
 import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
 import UseGuide from "./pages/UseGuide";
 import UseService from "./pages/UseService";
-import SNS from "./pages/SNS";
-import Intro from "./pages/Intro";
 
 function App() {
   const accessToken = sessionStorage.getItem("accessToken");
@@ -33,9 +33,8 @@ function App() {
       {/* Header를 isAdminPage가 아닐 때만 렌더링 */}
       {!isAdminPage && !isPaymentPage && !isIntro && <Header />}
       <Routes>
-        {/* 라우터 카카오 테스트 */}        
+        {/* 라우터 카카오 테스트 */}
         <Route path="/sns" element={<SNS />} />
-        <Route path="/" element={<Main />} />
         <Route path="/" element={<Intro />} />
         <Route path="/main" element={<Main />} />
         <Route path="/login" element={accessToken ? <Main /> : <Login />} />

@@ -104,7 +104,7 @@ const SearchList = () => {
         handleShoppingClick={handleShoppingClick}
         getCategoryLabel={getCategoryLabel}
         pageRangeDisplayed={state.maxPaige}
-        totalItemsCount={state.pageCount}
+        totalItemsCount={state.maxCount}
       />
     );
   } else if (state && state.maxPage) {
@@ -115,7 +115,7 @@ const SearchList = () => {
         handleShoppingClick={handleShoppingClick}
         bestProductAll={bestProductAll}
         pageRangeDisplayed={state.maxPage}
-        totalItemsCount={state.pageCount}
+        totalItemsCount={state.maxCount}
       />
     );
   } else if (state == null) {
@@ -127,7 +127,7 @@ const SearchList = () => {
         handleShoppingClick={handleShoppingClick}
         onPageChange={handlePageChange}
         pageRangeDisplayed={bestProductAll.maxPage}
-        totalItemsCount={bestProductAll.pageCount}
+        totalItemsCount={bestProductAll.maxCount}
       />
     );
   }

@@ -13,7 +13,6 @@ import { postLogout } from "../api/client";
 import { getMain } from "../api/mainFatch";
 import { logoutReducer } from "../reducers/userSlice";
 import { Head } from "../style/HeaderCss";
-import { removeCookie } from "../api/cookie";
 
 function Header() {
   const accessToken = sessionStorage.getItem("accessToken");
@@ -71,14 +70,25 @@ function Header() {
       state: {
         maxPaige: result.maxPaige,
         list: result.list,
-        pageCount: result.pageCount,
+        maxCount: result.maxCount,
         cateId: cateId,
       },
     });
   };
 
-  const handleTrendClick = () => {
-    navigate("/search", { state: { product: "울라불라" } });
+  const handleHover = e => {
+    e.stopPropagation();
+    setIsTrending(true);
+  };
+
+  const handleLeave = e => {
+    e.stopPropagation();
+    setIsTrending(false);
+  };
+
+  // 인기검색어 검색결과 이동
+  const handleTrendClick = item => {
+    navigate("/search", { state: { product: item.product } });
     setSearch("");
   };
 
@@ -105,11 +115,11 @@ function Header() {
       state: {
         maxPage: result.maxPage,
         list: result.list,
-        pageCount: result.pageCount,
+        maxCount: result.maxCount,
       },
     });
   };
-  console.log(isTrending);
+
   return (
     <Head isToggled={isToggled} userToggled={userToggled}>
       {/* 햄버거 버튼(bar) */}
@@ -141,8 +151,8 @@ function Header() {
       </div>
       <form
         className="searchwrap"
-        onMouseEnter={() => setIsTrending(true)}
-        onMouseLeave={() => setIsTrending(false)}
+        onMouseEnter={handleHover}
+        onMouseLeave={handleLeave}
       >
         <input
           className="search"
@@ -151,7 +161,7 @@ function Header() {
           onChange={e => setSearch(e.target.value)}
           placeholder="검색어를 입력하세요"
         />
-        <button className="glasswrap" onClick={e => handleSearchPost(e)}>
+        <button className="glasswrap" onClick={handleSearchPost}>
           <i className="glass">
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </i>
@@ -162,26 +172,20 @@ function Header() {
         <>
           <h3
             className="trend-title"
-            onMouseEnter={() => setIsTrending(true)}
-            onMouseLeave={() => setIsTrending(false)}
+            onMouseEnter={handleHover}
           >
             인기검색어
           </h3>
           <div
             className="grid-wrap"
-            onMouseEnter={() => setIsTrending(true)}
-            onMouseLeave={() => setIsTrending(false)}
+            onMouseEnter={handleHover}
+            onMouseLeave={handleLeave}
           >
-            <div onClick={handleTrendClick}>1. 울라불라</div>
-            <div>2. 집에 가고싶다</div>
-            <div>3. 데이터는 없다</div>
-            <div>4. 울고싶다</div>
-            <div>5. 정말 싫다</div>
-            <div>6. 타입스크립트</div>
-            <div>7. 내가 뭐하는거지</div>
-            <div>8. 화가난다</div>
-            <div>9. 인생...</div>
-            <div>10. 끝</div>
+            {trendingList.map((item, idx) => (
+              <div key={idx} onClick={()=>handleTrendClick(item)}>
+                {idx + 1}. {item.product}
+              </div>
+            ))}
           </div>
         </>
       )}
