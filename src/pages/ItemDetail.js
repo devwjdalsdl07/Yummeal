@@ -29,10 +29,11 @@ const ItemDetail = () => {
   const getProductIdFetch = async () => {
     try {
       const productIdJson = await getProductId(pid);
+     
       setProduct(productIdJson);
-      setItemImage(productIdJson.img);
-      setBigImage(productIdJson.img[0]);
-      setTotalPrice(parseInt(productIdJson.price));
+      // setItemImage(productIdJson.img);
+      // setBigImage(productIdJson.img[0]);
+      setTotalPrice(parseInt(productIdJson.pprice));
     } catch (err) {
       console.log(err);
     }
@@ -49,13 +50,13 @@ const ItemDetail = () => {
 
   const handleplusClick = () => {
     setQuantity(quantity + 1);
-    setTotalPrice(totalPrice + parseInt(product?.price));
+    setTotalPrice(totalPrice + parseInt(product?.pprice));
   };
 
   const handleMinusClick = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
-      setTotalPrice(totalPrice - parseInt(product?.price));
+      setTotalPrice(totalPrice - parseInt(product?.pprice));
     }
   };
 
@@ -79,7 +80,7 @@ const ItemDetail = () => {
           count: quantity,
           name: product.name,
           thumbnail: bigImage,
-          price: product.price,
+          price: product.pprice,
         };
         baskets.push(item);
       } else {
@@ -140,10 +141,10 @@ const ItemDetail = () => {
 
           <div>
             <ul className="goods-details">
-              <li className="goods-title">{product?.name}</li>
+              <li className="goods-title">{product?.pname}</li>
               <li className="goods-info">원산지 : 기본정보 참조</li>
               <li className="goods-price">
-                판매가 : {parseInt(product?.price).toLocaleString()}원
+                판매가 : {parseInt(product?.pprice).toLocaleString()}원
               </li>
               <li className="order-title">
                 {product?.name}

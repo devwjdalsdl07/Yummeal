@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import { cartIn, getOrderEnd } from "../api/client";
 import CartItemModal from "../components/CartItemModal";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
+import PurchaseReview from "../components/PurchaseReview";
 
 const OrderDetail = () => {
   const [orderList, setOrderList] = useState([]);
@@ -79,6 +80,7 @@ const OrderDetail = () => {
                   <button onClick={() => handleInCart(item)}>
                     장바구니 담기
                   </button>
+                <PurchaseReview />
                 </div>
                 {showModal === true ? (
                   <CartItemModal
