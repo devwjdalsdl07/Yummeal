@@ -28,7 +28,11 @@ const Footer = () => {
       </div>
       <div className="footer-cs">
         <div className="imgbox">
-          <img src={`${process.env.PUBLIC_URL}/images/footerlogo.png`} alt="logo" />
+          {/* <img src={`${process.env.PUBLIC_URL}/images/footerlogo.png`} alt="logo" /> */}
+          <img
+            src={`${process.env.PUBLIC_URL}/images/logo.png`}
+            onClick={() => navigate("/")}
+          ></img>
         </div>
         <div className="csbox">
           <h3>고객센터</h3>
