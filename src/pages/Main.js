@@ -21,7 +21,7 @@ const Main = () => {
     try {
       const productIdJson = await getBestProduct(pid);
       setBestProduct(productIdJson);
-      setItemImage(productIdJson.map(item => item.thumbnail));
+      // setItemImage(productIdJson.map(item => item.thumbnail));
     } catch (err) {
       console.log(err);
     }
@@ -95,7 +95,7 @@ const Main = () => {
             </button>
           </div>
           <ul className="list-area">
-            {bestProduct?.map((item, index) => (
+            {bestProduct.list?.map((item, index) => (
               <div key={index}>
                 <li className="product-card">
                   <img
