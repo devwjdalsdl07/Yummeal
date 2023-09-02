@@ -104,6 +104,7 @@ export const getUser = async _iuser => {
     const res = await instance.get(`/api/mypage/profile`);
     console.log("로그인 res는??", res);
     const result = {
+      iuser: res.iuser,
       email: res.data.email,
       name: res.data.name,
       mobileNb: res.data.mobileNb,

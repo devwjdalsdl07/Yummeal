@@ -74,9 +74,6 @@ const UserInfo = ({ setActiveComponent }) => {
   const [pwConfirmMessage, setPwConfirmMessage] = useState("");
   const [phoneMessage, setPhoneMessage] = useState("");
 
-  // 정보수정 시 비밀번호 체크
-  const [isPassWordEntered, setIsPassWordEntered] = useState(false);
-  const [isPassWordCorrect, setIsPassWordCorrect] = useState(false);
   //  닉네임 입력 값 체크
   const [nickNameInput, setNickNameInput] = useState(nickName);
 
@@ -89,21 +86,6 @@ const UserInfo = ({ setActiveComponent }) => {
   };
   const onChildBirthChange = (value, dateString) => {
     setChildBirth(dateString);
-  };
-
-  // 비밀번호 체크
-  const onPassWordCheck = async (e, password) => {
-    e.preventDefault();
-    const postPassWord = await postPassWordCheck(password);
-    if (password) {
-      if (postPassWord === 1) {
-        setIsPassWordEntered(true);
-        setIsPassWordCorrect(true);
-      } else if (postPassWord === 0) {
-        setIsPassWordEntered(true);
-        setIsPassWordCorrect(false);
-      }
-    }
   };
 
   // 닉네임 (추후 업데이트)
@@ -266,6 +248,9 @@ const UserInfo = ({ setActiveComponent }) => {
   };
   const showModal = () => {
     setIsModalOpen(true);
+  };
+  const handleBirth = () => {
+    setIsChildModalOpen(true);
   };
 
   const handleModalClose = () => {
@@ -488,6 +473,7 @@ const UserInfo = ({ setActiveComponent }) => {
                   flexDirection: "column-reverse",
                   flexWrap: "wrap",
                   justifyContent: "flex-end",
+                  cursor: "pointer",
                 }}
               >
                 <div>
@@ -504,7 +490,7 @@ const UserInfo = ({ setActiveComponent }) => {
                   </Space>
                 </div>
                 {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
-                <div>
+                <div onClick={handleBirth}>
                   <span>아이 생년월일</span>
                   <Space direction="vertical">
                     <DatePicker

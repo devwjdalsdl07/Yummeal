@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DatePicker, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getIdCheck, getNickNameCheck, postSignUp } from "../api/axios";
+import { postIdCheck, getNickNameCheck, postSignUp } from "../api/axios";
 import ChildModal from "../components/ChildModal";
 import {
   JoinArea,
@@ -150,7 +150,7 @@ const SignUp = () => {
   // 아이디 중복 체크
   const onIdCheck = async e => {
     e.preventDefault();
-    const fetchId = await getIdCheck(id);
+    const fetchId = await postIdCheck(id);
     if (isId) {
       if (fetchId === 0) {
         setIdMessage("사용 가능한 아이디에요 :)");
