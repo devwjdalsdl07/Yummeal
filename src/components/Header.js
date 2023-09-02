@@ -13,6 +13,7 @@ import { postLogout } from "../api/client";
 import { getMain } from "../api/mainFatch";
 import { logoutReducer } from "../reducers/userSlice";
 import { Head } from "../style/HeaderCss";
+import { removeCookie } from "../api/cookie";
 
 function Header() {
   const accessToken = sessionStorage.getItem("accessToken");
@@ -94,7 +95,7 @@ function Header() {
     if (!logout) {
       dispatch(logoutReducer());
     }
-    navigate("/");
+    navigate("/main");
   };
 
   // 상품 전체보기

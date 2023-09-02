@@ -1,5 +1,5 @@
 import axios from "axios";
-import { removeCookie, setCookie } from "./cookie";
+import { removeCookie } from "./cookie";
 
 export const instance = axios.create({
   // baseURL: "http://localhost:3000",
@@ -31,8 +31,8 @@ export const fetchLogin = async (id, pw) => {
   console.log("fetchLogin 진행");
   try {
     const res = await instance.post(`/sign-api/sign-in`, {
-      email: id,
-      password: pw,
+      uid: id,
+      upw: pw,
     });
     console.log("넘어온 데이터 : ", res.data);
     const result = await res.data;
@@ -82,7 +82,10 @@ export const getRefreshToken = async () => {
 // 로그아웃 post
 export const postLogout = async () => {
   try {
-    const res = await instance.post("/sign-api/logout");
+    const accessToken = sessionStorage.getItem("accessToken");
+    const res = await instance.get(
+      `/sign-api/sign-out?accessToken=${accessToken}`,
+    );
     console.log("로그아웃");
     // removeCookie("accessToken");
     removeCookie("refreshToken");
@@ -222,12 +225,13 @@ export const getCart = async () => {
 };
 
 // 장바구니 업카운트 patch
-export const upPatch = async (_cartId, _newCount) => {
+export const upPatch = async (_cartId) => {
   try {
-    const res = await instance.patch(
-      `/api/orderbasket/plus?cartId=${_cartId}`,
+    const res = await instance.put(
+      `/api/orderbasket`,
       {
-        count: _newCount,
+        cartId: _cartId,
+        check: 1
       },
     );
     const result = res.data;
@@ -238,12 +242,13 @@ export const upPatch = async (_cartId, _newCount) => {
 };
 
 // 장바구니 다운카운트 patch
-export const downPatch = async (_cartId, _newCount) => {
+export const downPatch = async (_cartId) => {
   try {
-    const res = await instance.patch(
-      `/api/orderbasket/minus?cartId=${_cartId}`,
+    const res = await instance.put(
+      `/api/orderbasket`,
       {
-        count: _newCount,
+        cartId: _cartId,
+        check: 0,
       },
     );
     const result = res.data;
@@ -256,7 +261,7 @@ export const downPatch = async (_cartId, _newCount) => {
 // 장바구니 목록삭제 delete
 export const cartDelete = async _cartId => {
   try {
-    const res = await instance.delete(`/api/orderbasket?cartId=${_cartId}`);
+    const res = await instance.delete(`/api/orderbasket/${_cartId}`);
     const result = res.data;
   } catch (error) {
     console.log(error);
@@ -290,7 +295,7 @@ export const getOrderEnd = async _orderId => {
 // 주문 post
 export const orderPost = async _item => {
   try {
-    const res = await instance.post("/api/buy/order", _item);
+    const res = await instance.post("/api/Buy/order", _item);
     const result = res.data;
     console.log("오더 포스트 보내는 값", result);
     return result;

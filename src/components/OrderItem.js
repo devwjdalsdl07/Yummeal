@@ -14,7 +14,7 @@ const OrderItem = ({ orderItems, state, buyData }) => {
             <img src={item.thumbnail} alt={item.title} />
           </div>
           <div className="order-prod-title">
-            <p>{item.name}</p>
+            <p>{item.productName}</p>
             <p>{item.price.toLocaleString()}원</p>
           </div>
         </div>
@@ -32,7 +32,7 @@ const OrderItem = ({ orderItems, state, buyData }) => {
             <img src={item.thumbnail} alt={item.title} />
           </div>
           <div className="order-prod-title">
-            <p>{item.name}</p>
+            <p>{item.productName}</p>
             <p>{item.price.toLocaleString()}원</p>
           </div>
         </div>
@@ -50,7 +50,7 @@ const OrderItem = ({ orderItems, state, buyData }) => {
             <img src={buyData.thumbnail} alt={buyData.title} />
           </div>
           <div className="order-prod-title">
-            <p>{buyData.name}</p>
+            <p>{buyData.productName}</p>
             <p>{buyData.price?.toLocaleString()}원</p>
           </div>
         </div>

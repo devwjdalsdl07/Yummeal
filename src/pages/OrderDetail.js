@@ -17,7 +17,7 @@ const OrderDetail = () => {
   // 결제내역 불러오기
   const orderEndData = async () => {
     const result = await getOrderEnd(state?.orderId);
-    setOrderList(result.orderlist);
+    setOrderList(result.list);
     setUserInfo(result.user);
   };
 
@@ -47,13 +47,13 @@ const OrderDetail = () => {
   };
 
   // 주문금액 합산
-  const priceSum = orderList.reduce((item, idx) => {
+  const priceSum = orderList?.reduce((item, idx) => {
     const totalPrice = idx.price * idx.count;
     return item + totalPrice;
   }, 0);
 
   // 총 결제금액 합산
-  const totalPriceSum = orderList.reduce((item, idx) => {
+  const totalPriceSum = orderList?.reduce((item, idx) => {
     const totalPriceSum = idx.totalPrice;
     return item + totalPriceSum;
   }, 0);
@@ -72,7 +72,7 @@ const OrderDetail = () => {
                 <img src={item.thumbnail} alt={item.title} />
               </div>
               <div className="order-textwrap">
-                <p>{item.name}</p>
+                <p>{item.productName}</p>
                 <p>{(item.price * parseInt(item.count)).toLocaleString()}</p>
                 <p>{item.count}</p>
                 <div className="order-prodbtn">

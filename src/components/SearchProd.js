@@ -49,7 +49,7 @@ const SearchProd = ({
                 />
               ) : null}
               <div className="item-info">
-                <h2>{item.name}</h2>
+                <h2>{item.productName}</h2>
                 <p>판매가 : {item.price.toLocaleString()}원</p>
               </div>
             </li>
