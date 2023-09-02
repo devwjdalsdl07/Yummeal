@@ -52,7 +52,7 @@ const SearchList = () => {
         const item = {
           productId: _item.productId,
           count: 1,
-          name:_item.name,
+          productName:_item.productName,
           thumbnail: _item.thumbnail,
           price:_item.price,
         };

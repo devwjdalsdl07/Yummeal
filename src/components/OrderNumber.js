@@ -7,7 +7,7 @@ const OrderNumber = ({ item }) => {
   const handleInfoClick = orderId => {
     navigate("/orderdetail", { state: { orderId } });
   };
-  const price = item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const price = item.totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return (
     <OrderNumberContainer>
       <div className="orderInfo">
@@ -27,7 +27,7 @@ const OrderNumber = ({ item }) => {
         </div>
         <div className="titleWrap">
           <p>제품 명</p>
-          <span>{item.name}</span>
+          <span>{item.pname}</span>
         </div>
       </div>
       <div className="responsive">

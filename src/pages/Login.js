@@ -27,11 +27,11 @@ const Login = () => {
       alert("로그인에 실패 하였습니다.");
     }
     if (login) {
-      if (login.success) {
+      // if (login.success) {
         const fetchUser = await getUser();
         dispatch(loginReducer(fetchUser));
-        navigate("/");
-      }
+        navigate("/main");
+      // }
     }
   };
   const handleSubmit = event => {

@@ -20,21 +20,24 @@ import SignUp from "./pages/SignUp";
 import UseGuide from "./pages/UseGuide";
 import UseService from "./pages/UseService";
 import SNS from "./pages/SNS";
+import Intro from "./pages/Intro";
 
 function App() {
   const accessToken = sessionStorage.getItem("accessToken");
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith("/admin");
   const isPaymentPage = location.pathname === "/payment";
+  const isIntro = location.pathname === "/";
   return (
     <>
       {/* Header를 isAdminPage가 아닐 때만 렌더링 */}
-      {!isAdminPage && !isPaymentPage && <Header />}
+      {!isAdminPage && !isPaymentPage && !isIntro && <Header />}
       <Routes>
         {/* 라우터 카카오 테스트 */}        
         <Route path="/sns" element={<SNS />} />
-
         <Route path="/" element={<Main />} />
+        <Route path="/" element={<Intro />} />
+        <Route path="/main" element={<Main />} />
         <Route path="/login" element={accessToken ? <Main /> : <Login />} />
         <Route
           path="/signup"
@@ -61,7 +64,7 @@ function App() {
         {/* <Route path="/password" element={<PassWordCheck />} /> */}
         <Route path="/*" element={<NotFound />} />
       </Routes>
-      {!isAdminPage && !isPaymentPage && <Footer />}
+      {!isAdminPage && !isPaymentPage && !isIntro && <Footer />}
       <Routes>
         <Route path="/admin" element={<AdminMain />} />
         <Route path="/adminAdd" element={<AdminAddItem />} />

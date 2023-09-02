@@ -50,7 +50,7 @@ const Order = () => {
     setReceiver(name);
     setUserPoint(point);
     quickBuyData();
-    if (receiver == "" || addressAll == "" || mobileNb == "") {
+    if (receiver == undefined || addressAll == undefined || mobileNb == undefined) {
       alert("회원정보가 없습니다. 등록해주세요");
       navigate("/mypage");
     }
@@ -94,7 +94,7 @@ const Order = () => {
       address: address,
       addressDetail: addressDetail,
       phoneNm: mobileNb,
-      request: message,
+      request: message == "" ? "요청사항 없음":message,
       payment: 1,
       point: usePoint !== "" ? parseInt(usePoint) : 0,
       insorderbasket: selectedBasket,

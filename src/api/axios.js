@@ -50,7 +50,7 @@ export const postIdCheck = async _email => {
 // 닉네임 중복확인 get
 export const getNickNameCheck = async _nickName => {
   try {
-    const res = await axios.get(`/sign-api/nickname?nickname=${_nickName}`);
+    const res = await axios.get(`/api/mypage/profile/nickname?nickname=${_nickName}`);
     const result = res.data;
     return result;
   } catch (err) {
@@ -128,7 +128,7 @@ export const menuCate = async () => {
   try {
     const res = await axios.get("/api/cate/all");
     const result = res.data;
-    // console.log("카테고리 메뉴 : ", result);
+    console.log("카테고리 메뉴 : ", result);
     return result;
   } catch (err) {
     console.log(err);
@@ -156,6 +156,17 @@ export const quickBuy = async (_productId, count) => {
     const res = await axios.get(
       `/api/buy/product?productId=${_productId}&count=${count}`,
     );
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 인기검색어 데이터 get
+export const trendingData = async () => {
+  try {
+    const res = await axios.get("/api/search/popular");
     const result = res.data;
     return result;
   } catch (err) {

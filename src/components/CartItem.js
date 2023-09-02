@@ -38,7 +38,7 @@ const CartItem = ({
         const updatedCartItems = [...cartItems];
         updatedCartItems[idx].count += 1;
         setCartItems(updatedCartItems);
-        upPatch(updatedCartItems[idx].cartId, updatedCartItems[idx].count);
+        upPatch(updatedCartItems[idx].cartId);
       }
     } else {
       // 비회원 장바구니
@@ -83,7 +83,7 @@ const CartItem = ({
         if (updatedCartItems[idx].count > 1) {
           updatedCartItems[idx].count -= 1;
           setCartItems(updatedCartItems);
-          downPatch(updatedCartItems[idx].cartId, updatedCartItems[idx].count);
+          downPatch(updatedCartItems[idx].cartId);
         }
       }
     } else {
@@ -151,7 +151,7 @@ const CartItem = ({
               <img src={item.thumbnail} alt={item.title} />
             </div>
             <div className="prod-text">
-              <p>{item.name}</p>
+              <p>{item.productName}</p>
               <p>{item.price.toLocaleString()}원</p>
             </div>
           </div>
@@ -187,7 +187,7 @@ const CartItem = ({
               <img src={item.thumbnail} alt={item.title} />
             </div>
             <div className="prod-text">
-              <p>{item.name}</p>
+              <p>{item.productName}</p>
               <p>{item.price.toLocaleString()}원</p>
             </div>
           </div>
@@ -221,7 +221,7 @@ const CartItem = ({
             <img src={item.thumbnail} alt={item.title} />
           </div>
           <div className="prod-text">
-            <p>{item.name}</p>
+            <p>{item.productName}</p>
             <p>{item.price.toLocaleString()}원</p>
           </div>
         </div>
