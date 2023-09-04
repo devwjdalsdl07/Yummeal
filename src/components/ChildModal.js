@@ -96,11 +96,11 @@ const ChildModal = ({ setShowModal }) => {
     }
 
     setShowModal(false);
-    navigate(`/login`);
+    navigate(`/`);
   };
   const handleSkip = () => {
     setShowModal(false);
-    navigate("/login");
+    navigate("/");
   };
   const animatedComponents = makeAnimated();
   return (
@@ -167,10 +167,8 @@ const ChildModal = ({ setShowModal }) => {
             <div className="modal-buttons">
               <button onClick={handleChildStart}>시작하기</button>
               {/* <input type="button" value="시작하기" /> */}
-              <Link to={"/login"}>
-                <button onClick={handleSkip}>건너뛰기</button>
-                {/* <input type="button" value="건너뛰기" /> */}
-              </Link>
+              <button onClick={handleSkip}>건너뛰기</button>
+              {/* <input type="button" value="건너뛰기" /> */}
               {/* <input
               type="button"
               value="건너뛰기"

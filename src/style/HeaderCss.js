@@ -44,14 +44,14 @@ export const Head = styled.div`
       cursor: pointer;
     }
   }
-  .trend-title {
+  .recent-title {
     position: absolute;
     left: 50%;
     top: 55%;
     transform: translateX(-50%);
     z-index: 9999;
     width: 600px;
-    height: 100px;
+    height: 40px;
     background: #fff;
     z-index: 999;
     border-radius: 8px;
@@ -59,11 +59,9 @@ export const Head = styled.div`
     font-size: 15px;
     padding-top: 10px;
   }
-  .grid-wrap {
-    display: grid;
-    grid-template-rows: repeat(5, 1fr);
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-flow: column;
+  .flex-wrap {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     position: absolute;
     left: 50%;
@@ -80,10 +78,30 @@ export const Head = styled.div`
       rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
       rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
     & > div {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
       width: 100%;
-      height: 100%;
       cursor: pointer;
       line-height: 60px;
+      padding: 0 50px;
+      &:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+      .recent-content {
+        display: flex;
+        gap: 20px;
+        i {
+          color: #aaa;
+        }
+        .content-title{
+          width: 400px;
+          text-align: left;
+        }
+      }
+      .xmark {
+        color: #aaa;
+      }
     }
   }
   .header_menulist {

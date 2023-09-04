@@ -4,8 +4,9 @@ import { instance } from "./client";
 
 //회원가입 post
 export const postSignUp = async _Item => {
+  console.log(_Item);
   try {
-    const res = await axios.post("/sign-api/sign-up", _Item);
+    const res = await axios.post("/api/user/sign-up", _Item);
     const result = res.data;
     console.log("해언가입설ㅇ공");
     return result;
@@ -18,7 +19,9 @@ export const postSignUp = async _Item => {
 export const getChildInfo = async () => {
   try {
     const res = await axios.get("/baby");
-    const result = res.data;
+    const result = {
+      
+    };
     return result;
   } catch (err) {
     console.log(err);
@@ -26,9 +29,9 @@ export const getChildInfo = async () => {
 };
 
 //아이 정보 post
-export const postChildInfo = async () => {
+export const postChildInfo = async _childInfo => {
   try {
-    const res = await axios.post(``);
+    const res = await axios.post(`/baby`, _childInfo);
     const result = res.data;
     return result;
   } catch (err) {
@@ -39,7 +42,7 @@ export const postChildInfo = async () => {
 // 아이디 중복확인 post
 export const postIdCheck = async _email => {
   try {
-    const res = await axios.get(`/sign-api/email?email=${_email}`);
+    const res = await axios.post(`/api/user/id?uid=${_email}`);
     const result = res.data;
     return result;
   } catch (err) {
@@ -91,7 +94,7 @@ export const searchResult = async (_product, _page) => {
 export const filterSort = async (product, sorter, allergyStrings) => {
   try {
     const res = await axios.get(
-      `/api/search/filter?product=${product}&page=1&row=16&sorter=${
+      `/api/search?product=${product}&page=1&row=16&sorter=${
         sorter ? sorter : 0
       }&filter=${allergyStrings[0] ? allergyStrings[0] : 0}&filter=${
         allergyStrings[1] ? allergyStrings[1] : 0
@@ -156,17 +159,6 @@ export const quickBuy = async (_productId, count) => {
     const res = await axios.get(
       `/api/buy/product?productId=${_productId}&count=${count}`,
     );
-    const result = res.data;
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-// 인기검색어 데이터 get
-export const trendingData = async () => {
-  try {
-    const res = await axios.get("/api/search/popular");
     const result = res.data;
     return result;
   } catch (err) {

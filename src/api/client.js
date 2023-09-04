@@ -30,30 +30,15 @@ instance.interceptors.response.use();
 export const fetchLogin = async (id, pw) => {
   console.log("fetchLogin 진행");
   try {
-    const res = await instance.post(
-      `
-    /api/user/sign-in`,
-      {
-        uid: id,
-        upw: pw,
-      },
-    );
+    const res = await instance.post(`/api/user/sign-in`, {
+      uid: id,
+      upw: pw,
+    });
     console.log("넘어온 데이터 : ", res.data);
     const result = await res.data;
-    // setCookie("refreshToken", result.refreshToken, {
-    //   path: "/",
-    // secure: true,
-    // sameSite: "none",
-    // httpOnly: true,
-    // });
-    // setCookie("accessToken", result.accessToken, {
-    //   path: "/",
-    //   // secure: true,
-    //   // sameSite: "none",
-    //   // httpOnly: true,
-    // });
     sessionStorage.setItem("accessToken", result.accessToken);
     sessionStorage.setItem("refreshToken", result.refreshToken);
+    sessionStorage.setItem("isFirshLogin", "true");
     checkTime();
     return result;
   } catch (error) {
@@ -92,8 +77,10 @@ export const postLogout = async () => {
     );
     console.log("로그아웃");
     // removeCookie("accessToken");
-    removeCookie("refreshToken");
+    // removeCookie("refreshToken");
+    // removeCookie("refreshToken");
     sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("refreshToken");
     const result = await res.data;
     console.log("로그아웃 성공값", result);
     return result;
@@ -109,7 +96,8 @@ export const getUser = async _iuser => {
     console.log("로그인 res는??", res);
     const result = {
       iuser: res.iuser,
-      email: res.data.email,
+      // email: res.data.email,
+      uid: res.data.uid,
       name: res.data.name,
       mobileNb: res.data.mobileNb,
       zipcode: res.data.zipcode,
@@ -181,8 +169,9 @@ export const deleteUser = async () => {
   try {
     const res = await instance.delete("/api/mypage/profile");
     const result = res.data;
-    removeCookie("refreshToken");
+    // removeCookie("refreshToken");
     sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("refreshToken");
     return result;
   } catch (err) {
     console.log(err);
@@ -303,4 +292,22 @@ export const orderPost = async _item => {
   }
 };
 
+// 최근검색어 데이터 get
+export const recentKeyword = async () => {
+  try {
+    const res = await instance.get("/api/search/recent");
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
+// 최근검색어 delete
+export const recentDelete = async item => {
+  try {
+    const res = await instance.delete(`/api/search/recent?product=${item}`);
+  } catch (err) {
+    console.log(err);
+  }
+};
