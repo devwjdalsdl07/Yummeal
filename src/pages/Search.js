@@ -42,28 +42,30 @@ const Search = () => {
   const handleShoppingClick = async _item => {
     console.log(_item.productid);
     if (isLoggedIn) {
-    try {
-      const cartItem = {
-        productId: _item.productid,
-        count: 1,
-      };
-      const result = await cartIn(cartItem);
-      setShowModal(true);
-      return result;
-    } catch (err) {
-      console.error("주문 처리 중 오류 발생:", err);
-    }
-  } else {
-    const baskets = JSON.parse(localStorage.getItem("baskets") ?? "[]");
-      const existingItemIndex = baskets.findIndex(item => item.productId === _item.productid);
+      try {
+        const cartItem = {
+          productId: _item.productid,
+          count: 1,
+        };
+        const result = await cartIn(cartItem);
+        setShowModal(true);
+        return result;
+      } catch (err) {
+        console.error("주문 처리 중 오류 발생:", err);
+      }
+    } else {
+      const baskets = JSON.parse(localStorage.getItem("baskets") ?? "[]");
+      const existingItemIndex = baskets.findIndex(
+        item => item.productId === _item.productid,
+      );
       console.log(existingItemIndex);
-      if(existingItemIndex === -1){
+      if (existingItemIndex === -1) {
         const item = {
           productId: _item.productid,
           count: 1,
-          name:_item.name,
+          name: _item.name,
           thumbnail: _item.thumbnail,
-          price:_item.price,
+          price: _item.price,
         };
         baskets.push(item);
       } else {
@@ -71,7 +73,7 @@ const Search = () => {
       }
       localStorage.setItem("baskets", JSON.stringify(baskets));
       setShowModal(true);
-  }
+    }
   };
 
   return (
