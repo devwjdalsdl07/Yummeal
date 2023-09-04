@@ -30,7 +30,7 @@ instance.interceptors.response.use();
 export const fetchLogin = async (id, pw) => {
   console.log("fetchLogin 진행");
   try {
-    const res = await instance.post(`/sign-api/sign-in`, {
+    const res = await instance.post(`/api/user/sign-in`, {
       uid: id,
       upw: pw,
     });
@@ -50,6 +50,7 @@ export const fetchLogin = async (id, pw) => {
     // });
     sessionStorage.setItem("accessToken", result.accessToken);
     sessionStorage.setItem("refreshToken", result.refreshToken);
+    sessionStorage.setItem("isFirshLogin", "true");
     checkTime();
     return result;
   } catch (error) {
@@ -88,8 +89,9 @@ export const postLogout = async () => {
     );
     console.log("로그아웃");
     // removeCookie("accessToken");
-    removeCookie("refreshToken");
+    // removeCookie("refreshToken");
     sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("refreshToken");
     const result = await res.data;
     console.log("로그아웃 성공값", result);
     return result;
@@ -105,7 +107,8 @@ export const getUser = async _iuser => {
     console.log("로그인 res는??", res);
     const result = {
       iuser: res.iuser,
-      email: res.data.email,
+      // email: res.data.email,
+      uid: res.data.uid,
       name: res.data.name,
       mobileNb: res.data.mobileNb,
       zipcode: res.data.zipcode,
@@ -177,8 +180,9 @@ export const deleteUser = async () => {
   try {
     const res = await instance.delete("/api/mypage/profile");
     const result = res.data;
-    removeCookie("refreshToken");
+    // removeCookie("refreshToken");
     sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("refreshToken");
     return result;
   } catch (err) {
     console.log(err);
@@ -226,15 +230,12 @@ export const getCart = async () => {
 };
 
 // 장바구니 업카운트 patch
-export const upPatch = async (_cartId) => {
+export const upPatch = async _cartId => {
   try {
-    const res = await instance.put(
-      `/api/orderbasket`,
-      {
-        cartId: _cartId,
-        check: 1
-      },
-    );
+    const res = await instance.put(`/api/orderbasket`, {
+      cartId: _cartId,
+      check: 1,
+    });
     const result = res.data;
     console.log(result);
   } catch (error) {
@@ -243,15 +244,12 @@ export const upPatch = async (_cartId) => {
 };
 
 // 장바구니 다운카운트 patch
-export const downPatch = async (_cartId) => {
+export const downPatch = async _cartId => {
   try {
-    const res = await instance.put(
-      `/api/orderbasket`,
-      {
-        cartId: _cartId,
-        check: 0,
-      },
-    );
+    const res = await instance.put(`/api/orderbasket`, {
+      cartId: _cartId,
+      check: 0,
+    });
     const result = res.data;
     console.log(result);
   } catch (error) {

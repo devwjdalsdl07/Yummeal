@@ -4,8 +4,9 @@ import { instance } from "./client";
 
 //회원가입 post
 export const postSignUp = async _Item => {
+  console.log(_Item);
   try {
-    const res = await axios.post("/sign-api/sign-up", _Item);
+    const res = await axios.post("/api/user/sign-up", _Item);
     const result = res.data;
     console.log("해언가입설ㅇ공");
     return result;
@@ -18,7 +19,9 @@ export const postSignUp = async _Item => {
 export const getChildInfo = async () => {
   try {
     const res = await axios.get("/baby");
-    const result = res.data;
+    const result = {
+      
+    };
     return result;
   } catch (err) {
     console.log(err);
@@ -26,9 +29,9 @@ export const getChildInfo = async () => {
 };
 
 //아이 정보 post
-export const postChildInfo = async () => {
+export const postChildInfo = async _childInfo => {
   try {
-    const res = await axios.post(``);
+    const res = await axios.post(`/baby`, _childInfo);
     const result = res.data;
     return result;
   } catch (err) {
@@ -39,7 +42,7 @@ export const postChildInfo = async () => {
 // 아이디 중복확인 post
 export const postIdCheck = async _email => {
   try {
-    const res = await axios.get(`/sign-api/email?email=${_email}`);
+    const res = await axios.post(`/api/user/id?uid=${_email}`);
     const result = res.data;
     return result;
   } catch (err) {
@@ -50,7 +53,7 @@ export const postIdCheck = async _email => {
 // 닉네임 중복확인 get
 export const getNickNameCheck = async _nickName => {
   try {
-    const res = await axios.get(`/api/mypage/profile/nickname?nickname=${_nickName}`);
+    const res = await axios.get(`/api/user/nickname?nickname=${_nickName}`);
     const result = res.data;
     return result;
   } catch (err) {

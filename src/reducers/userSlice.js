@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  email: "",
+  uid: "",
   name: "",
   birthday: "",
   mobileNb: "",
@@ -17,7 +17,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     loginReducer: (state, action) => {
-      (state.email = action.payload.email),
+      (state.uid = action.payload.uid),
         (state.name = action.payload.name),
         (state.mobileNb = action.payload.mobileNb),
         (state.zipcode = action.payload.zipcode),
@@ -48,9 +48,5 @@ const userSlice = createSlice({
 });
 
 export default userSlice;
-export const {
-  loginReducer,
-  logoutReducer,
-  pointReducer,
-  userEditReducer,
-} = userSlice.actions;
+export const { loginReducer, logoutReducer, pointReducer, userEditReducer } =
+  userSlice.actions;
