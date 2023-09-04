@@ -36,18 +36,6 @@ export const fetchLogin = async (id, pw) => {
     });
     console.log("넘어온 데이터 : ", res.data);
     const result = await res.data;
-    // setCookie("refreshToken", result.refreshToken, {
-    //   path: "/",
-    // secure: true,
-    // sameSite: "none",
-    // httpOnly: true,
-    // });
-    // setCookie("accessToken", result.accessToken, {
-    //   path: "/",
-    //   // secure: true,
-    //   // sameSite: "none",
-    //   // httpOnly: true,
-    // });
     sessionStorage.setItem("accessToken", result.accessToken);
     sessionStorage.setItem("refreshToken", result.refreshToken);
     sessionStorage.setItem("isFirshLogin", "true");
@@ -89,6 +77,7 @@ export const postLogout = async () => {
     );
     console.log("로그아웃");
     // removeCookie("accessToken");
+    // removeCookie("refreshToken");
     // removeCookie("refreshToken");
     sessionStorage.removeItem("accessToken");
     sessionStorage.removeItem("refreshToken");
@@ -298,6 +287,26 @@ export const orderPost = async _item => {
     const result = res.data;
     console.log("오더 포스트 보내는 값", result);
     return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 최근검색어 데이터 get
+export const recentKeyword = async () => {
+  try {
+    const res = await instance.get("/api/search/recent");
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 최근검색어 delete
+export const recentDelete = async item => {
+  try {
+    const res = await instance.delete(`/api/search/recent?product=${item}`);
   } catch (err) {
     console.log(err);
   }
