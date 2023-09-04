@@ -350,9 +350,10 @@ const SignUp = () => {
       return;
     }
     const item = {
-      email: id,
-      password: pw,
-      name: name,
+      uid: id,
+      // email: id,
+      upw: pw,
+      unm: name,
       mobileNb: phone,
       zipCode: postcode,
       address: address,
@@ -363,8 +364,8 @@ const SignUp = () => {
     try {
       postSignUp(item);
       alert("회원가입이 성공적으로 이루어졌어요 !!");
-      // navigate("/login");
-      setShowModal(true);
+      navigate("/login");
+      // setShowModal(true);
     } catch (err) {
       alert("회원가입이 실패했어요. 다시 시도해주세요");
     }
@@ -422,7 +423,7 @@ const SignUp = () => {
                   placeholder="닉네임을 입력하세요"
                   value={nickName}
                   onChange={onNickNameChange}
-                  maxLength={5}
+                  maxLength={10}
                 />
                 <button onClick={onNickNameCheck}>중복확인</button>
               </div>
@@ -587,9 +588,9 @@ const SignUp = () => {
             </div>
           </JoinFormGroup>
           <JoinBtn onClick={handleSignUp}> 회원가입</JoinBtn>
-          {showModal === true ? (
+          {/* {showModal === true ? (
             <ChildModal setShowModal={setShowModal} />
-          ) : null}
+          ) : null} */}
         </JoinWrap>
       </JoinArea>
     </JoinContainer>

@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { LoginContainer, SnsLoginWrap } from "../style/LoginCss";
 import { fetchLogin, getUser } from "../api/client";
 import { useDispatch } from "react-redux";
-import { loginReducer, tokenReducer } from "../reducers/userSlice";
+import { loginReducer } from "../reducers/userSlice";
+import ChildModal from "../components/ChildModal";
+import { useEffect } from "react";
+import sessionStorage from "redux-persist/es/storage/session";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -15,6 +18,7 @@ const Login = () => {
   // const [pw, setPw] = useState("qwer123!");
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const handleSignUPClick = () => {
     navigate("/signup");
@@ -28,11 +32,12 @@ const Login = () => {
     }
     if (login) {
       // if (login.success) {
-        const fetchUser = await getUser();
-        dispatch(loginReducer(fetchUser));
-        navigate("/main");
+      const fetchUser = await getUser();
+      dispatch(loginReducer(fetchUser));
+      navigate("/main");
       // }
     }
+    setShowModal(true);
   };
   const handleSubmit = event => {
     event.preventDefault(); // 기본 엔터 동작 방지
@@ -40,6 +45,13 @@ const Login = () => {
       handleLoginClick();
     }
   };
+  useEffect(() => {
+    const isFirstLogin = sessionStorage.getItem("isFirstLogin");
+    if (isFirstLogin === "true") {
+      setShowModal(true);
+      sessionStorage.setItem("isFirstLogin", "false");
+    }
+  });
   return (
     <LoginContainer>
       <form onSubmit={handleSubmit}>
@@ -81,6 +93,9 @@ const Login = () => {
               >
                 로그인
               </button>
+              {showModal === true ? (
+                <ChildModal setShowModal={setShowModal} />
+              ) : null}
               <ul className="login-find">
                 <li>아이디 찾기</li>
                 <li>비밀번호 찾기</li>

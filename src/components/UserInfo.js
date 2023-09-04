@@ -30,7 +30,7 @@ import PlusChildModal from "./PlusChildModal";
 
 const UserInfo = ({ setActiveComponent }) => {
   const {
-    email,
+    uid,
     name,
     birthday,
     mobileNb,
@@ -310,7 +310,7 @@ const UserInfo = ({ setActiveComponent }) => {
     setPostcode(zipcode);
     setUserAddress(address);
     setDetailAddress(addressDetail);
-    setId(email);
+    setId(uid);
     setUserName(name);
     setPhone(mobileNb);
     setBirth(birthday);
