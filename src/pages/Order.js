@@ -6,6 +6,7 @@ import { getCart, orderPost } from "../api/client";
 import OrderItem from "../components/OrderItem";
 import { pointReducer } from "../reducers/userSlice";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
+import { Alert } from "antd";
 
 const Order = () => {
   const [orderItems, setOrderItems] = useState([]);
@@ -50,11 +51,21 @@ const Order = () => {
     setReceiver(unm);
     setUserPoint(point);
     quickBuyData();
-    if (receiver == "" && addressAll == "" && mobileNb == "") {
-      alert("회원정보가 없습니다. 등록해주세요");
-      navigate("/mypage");
-    }
-  }, []);
+    if (!receiver || !addressAll || !mobileNb) {
+      // alert("회원정보가 없습니다. 등록해주세요");
+      return (<Alert
+      message="회원정보가 없습니다"
+      description="회원 정보를 등록해주세요."
+      type="error"
+      closable
+      onClose={AlertClose}
+    />)
+  }
+}, []);
+
+const AlertClose = ()=>{
+    navigate("/mypage");
+  }
 
   // 주문하기
   const handleOrder = async () => {

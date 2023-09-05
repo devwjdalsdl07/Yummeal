@@ -53,7 +53,7 @@ export const postIdCheck = async _email => {
 // 닉네임 중복확인 get
 export const getNickNameCheck = async _nickName => {
   try {
-    const res = await axios.get(`/api/mypage/profile/nickname?nickname=${_nickName}`);
+    const res = await axios.get(`/api/user/nickname?nickname=${_nickName}`);
     const result = res.data;
     return result;
   } catch (err) {
