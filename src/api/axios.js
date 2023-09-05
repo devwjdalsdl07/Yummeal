@@ -90,7 +90,7 @@ export const searchResult = async (_product, _page) => {
 export const filterSort = async (product, sorter, allergyStrings) => {
   try {
     const res = await axios.get(
-      `/api/search/filter?product=${product}&page=1&row=16&sorter=${
+      `/api/search?product=${product}&page=1&row=16&sorter=${
         sorter ? sorter : 0
       }&filter=${allergyStrings[0] ? allergyStrings[0] : 0}&filter=${
         allergyStrings[1] ? allergyStrings[1] : 0
@@ -155,17 +155,6 @@ export const quickBuy = async (_productId, count) => {
     const res = await axios.get(
       `/api/buy/product?productId=${_productId}&count=${count}`,
     );
-    const result = res.data;
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-// 인기검색어 데이터 get
-export const trendingData = async () => {
-  try {
-    const res = await axios.get("/api/search/popular");
     const result = res.data;
     return result;
   } catch (err) {

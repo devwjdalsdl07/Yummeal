@@ -111,6 +111,7 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
 
   return (
     <MainDiv>
+      <img src={`${process.env.PUBLIC_URL}/images/banner1.png`} />
       <div className="wrap">
         <div className="info">
           <Slick />

@@ -1,5 +1,7 @@
 import {
   faBars,
+  faCircleXmark,
+  faClockRotateLeft,
   faMagnifyingGlass,
   faTimes,
   faUser,
@@ -8,8 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { cateProdList, menuCate, trendingData } from "../api/axios";
-import { postLogout } from "../api/client";
+import { cateProdList, menuCate } from "../api/axios";
+import { postLogout, recentDelete, recentKeyword } from "../api/client";
 import { getMain } from "../api/mainFatch";
 import { logoutReducer } from "../reducers/userSlice";
 import { Head } from "../style/HeaderCss";
@@ -21,8 +23,9 @@ function Header() {
   const [userToggled, setUserToggled] = useState(false);
   const [search, setSearch] = useState("");
   const [cate, setCate] = useState([]);
-  const [trendingList, setTrendingList] = useState([]);
-  const [isTrending, setIsTrending] = useState(false);
+  const [recentwordList, setRecentwordList] = useState([]);
+  const [isRecently, setIsRecently] = useState(false);
+  const [hoverIndex, setHoverIndex] = useState(null);
   const navigate = useNavigate();
 
   // 카테고리 메뉴 불러오기
@@ -31,16 +34,18 @@ function Header() {
     setCate(result);
   };
 
-  // 인기검색어 데이터 불러오기
-  const trendingListGet = async () => {
-    const result = await trendingData();
-    setTrendingList(result);
+  // 최근검색어 데이터 불러오기
+  const recentSearch = async () => {
+    const result = await recentKeyword();
+    setRecentwordList(result);
   };
 
   useEffect(() => {
     cateGet();
-    trendingListGet();
-  }, []);
+    if (accessToken) {
+      recentSearch();
+    }
+  }, [accessToken]);
 
   // 서브 메뉴 클릭 시 이동
   const handleSubMenuClick = async (mainMenu, subMenu, e) => {
@@ -76,19 +81,28 @@ function Header() {
     });
   };
 
+  // 최신검색어 인풋창 마우스호버
   const handleHover = e => {
-    e.stopPropagation();
-    setIsTrending(true);
+    if (accessToken) {
+      setIsRecently(true);
+    }
   };
 
+  // 최신검색어 인풋창 마우스리브
   const handleLeave = e => {
-    e.stopPropagation();
-    setIsTrending(false);
+    if (accessToken) {
+      setIsRecently(false);
+    }
   };
 
-  // 인기검색어 검색결과 이동
-  const handleTrendClick = item => {
-    navigate("/search", { state: { product: item.product } });
+  const handleRecentDelete = async item => {
+    const res = await recentDelete(item);
+    recentSearch();
+  };
+
+  // 최근검색어 검색결과 이동
+  const handleRecentClick = item => {
+    navigate("/search", { state: { product: item } });
     setSearch("");
   };
 
@@ -119,7 +133,7 @@ function Header() {
       },
     });
   };
-
+  console.log(hoverIndex);
   return (
     <Head isToggled={isToggled} userToggled={userToggled}>
       {/* 햄버거 버튼(bar) */}
@@ -168,41 +182,63 @@ function Header() {
         </button>
         {/* 메뉴 리스트 */}
       </form>
-      {isTrending && (
+      {accessToken && isRecently && (
         <>
-          <h3
-            className="trend-title"
-            onMouseEnter={handleHover}
-          >
-            인기검색어
+          <h3 className="recent-title" onMouseEnter={handleHover}>
+            최근검색어
           </h3>
           <div
-            className="grid-wrap"
+            className="flex-wrap"
             onMouseEnter={handleHover}
             onMouseLeave={handleLeave}
           >
-            {trendingList.map((item, idx) => (
-              <div key={idx} onClick={()=>handleTrendClick(item)}>
-                {idx + 1}. {item.product}
+            {recentwordList?.map((item, idx) => (
+              <div
+                key={idx + 6}
+                onMouseEnter={() => setHoverIndex(idx)}
+                onMouseLeave={() => setHoverIndex(null)}
+              >
+                <div className="recent-content">
+                  <div>
+                    <i>
+                      <FontAwesomeIcon icon={faClockRotateLeft} />
+                    </i>
+                  </div>
+                  <div
+                    className="content-title"
+                    onClick={() => handleRecentClick(item)}
+                  >
+                    {item}
+                  </div>
+                </div>
+                <div className="xmark" onClick={() => handleRecentDelete(item)}>
+                  <i
+                    style={{ display: hoverIndex === idx ? "inline" : "none" }}
+                  >
+                    <FontAwesomeIcon icon={faCircleXmark} />
+                  </i>
+                </div>
               </div>
             ))}
           </div>
         </>
       )}
       <ul className="header_menulist">
-        {cate.map(mainMenu => (
+        {cate.map((mainMenu, idx) => (
           <li
-            key={mainMenu.cateName}
-            onClick={() => handleMainMenuClick(mainMenu)}
+            key={idx + 5}
+            onClick={() => handleMainMenuClick(mainMenu?.category)}
           >
-            {mainMenu.cateId}단계
+            {mainMenu?.category?.cateId}단계
             <ul>
-              {mainMenu.list?.map(subMenu => (
+              {mainMenu?.cateDetail?.map(subMenu => (
                 <li
-                  key={subMenu.cateDetailId}
-                  onClick={e => handleSubMenuClick(mainMenu, subMenu, e)}
+                  key={subMenu?.cateDetailEntity?.cateDetailId}
+                  onClick={e =>
+                    handleSubMenuClick(mainMenu, subMenu?.cateDetailEntity, e)
+                  }
                 >
-                  {subMenu.cateName}
+                  {subMenu?.cateDetailEntity?.cateDetailName}
                 </li>
               ))}
             </ul>

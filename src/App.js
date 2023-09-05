@@ -33,8 +33,6 @@ function App() {
       {/* Header를 isAdminPage가 아닐 때만 렌더링 */}
       {!isAdminPage && !isPaymentPage && !isIntro && <Header />}
       <Routes>
-        {/* 라우터 카카오 테스트 */}
-        <Route path="/sns" element={<SNS />} />
         <Route path="/" element={<Intro />} />
         <Route path="/main" element={<Main />} />
         <Route path="/login" element={accessToken ? <Main /> : <Login />} />
@@ -62,6 +60,8 @@ function App() {
         <Route path="/useguide" element={<UseGuide />} />
         {/* <Route path="/password" element={<PassWordCheck />} /> */}
         <Route path="/*" element={<NotFound />} />
+        {/* 라우터 카카오 테스트 */}
+        <Route path="/sns" element={<SNS />} />
       </Routes>
       {!isAdminPage && !isPaymentPage && !isIntro && <Footer />}
       <Routes>

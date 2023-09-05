@@ -234,3 +234,14 @@ export const getProduct = async _productId => {
     console.log(err);
   }
 };
+
+//리뷰
+export const postReview = async () => {
+  try {
+    const res = await instance.post(`/api/product/review`);
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
