@@ -98,7 +98,7 @@ export const getUser = async _iuser => {
       iuser: res.iuser,
       // email: res.data.email,
       uid: res.data.uid,
-      name: res.data.name,
+      unm: res.data.unm,
       mobileNb: res.data.mobileNb,
       zipcode: res.data.zipcode,
       address: res.data.address,
@@ -283,7 +283,7 @@ export const getOrderEnd = async _orderId => {
 // 주문 post
 export const orderPost = async _item => {
   try {
-    const res = await instance.post("/api/Buy/order", _item);
+    const res = await instance.post("/api/buy/order", _item);
     const result = res.data;
     console.log("오더 포스트 보내는 값", result);
     return result;

@@ -34,11 +34,11 @@ const Order = () => {
   };
 
   // 유저정보 접근
-  const { name, mobileNb, address, addressDetail, point } = useSelector(
+  const { unm, mobileNb, address, addressDetail, point } = useSelector(
     state => state.user,
   );
   const addressAll = address + addressDetail;
-
+  console.log("dlsfsafdsfdas", receiver);
   // 장바구니 정보 가져오기
   const cartList = async () => {
     const result = await getCart();
@@ -47,10 +47,10 @@ const Order = () => {
 
   useEffect(() => {
     cartList();
-    setReceiver(name);
+    setReceiver(unm);
     setUserPoint(point);
     quickBuyData();
-    if (receiver == undefined || addressAll == undefined || mobileNb == undefined) {
+    if (receiver == "" && addressAll == "" && mobileNb == "") {
       alert("회원정보가 없습니다. 등록해주세요");
       navigate("/mypage");
     }
@@ -94,7 +94,7 @@ const Order = () => {
       address: address,
       addressDetail: addressDetail,
       phoneNm: mobileNb,
-      request: message == "" ? "요청사항 없음":message,
+      request: message == "" ? "요청사항 없음" : message,
       payment: 1,
       point: usePoint !== "" ? parseInt(usePoint) : 0,
       insorderbasket: selectedBasket,
