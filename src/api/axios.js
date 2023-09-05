@@ -19,9 +19,7 @@ export const postSignUp = async _Item => {
 export const getChildInfo = async () => {
   try {
     const res = await axios.get("/baby");
-    const result = {
-      
-    };
+    const result = {};
     return result;
   } catch (err) {
     console.log(err);
@@ -64,9 +62,7 @@ export const getNickNameCheck = async _nickName => {
 // 정보 수정 비밀번호 체크
 export const postPassWordCheck = async _passWord => {
   try {
-    const res = await instance.post(
-      `/api/mypage/checkpw?password=${_passWord}`,
-    );
+    const res = await instance.post(`/api/mypage/checkpw?upw=${_passWord}`);
     const result = res.data;
     // console.log(result);
     return result;

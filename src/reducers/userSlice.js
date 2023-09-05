@@ -10,6 +10,7 @@ const initialState = {
   addressDetail: "",
   nickNm: "",
   point: 0,
+  baby: [],
 };
 
 const userSlice = createSlice({
@@ -25,7 +26,8 @@ const userSlice = createSlice({
         (state.addressDetail = action.payload.addressDetail),
         (state.nickNm = action.payload.nickNm),
         (state.point = action.payload.point),
-        (state.birthday = action.payload.birthday);
+        (state.birthday = action.payload.birthday),
+        (state.baby = action.payload.baby);
       // Object.assign(state, action.payload);
     },
     logoutReducer: state => {

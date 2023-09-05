@@ -31,7 +31,7 @@ import PlusChildModal from "./PlusChildModal";
 const UserInfo = ({ setActiveComponent }) => {
   const {
     uid,
-    name,
+    unm,
     birthday,
     mobileNb,
     zipcode,
@@ -287,7 +287,7 @@ const UserInfo = ({ setActiveComponent }) => {
   const handleOk = async () => {
     setIsModalOpen(false);
     const profile = {
-      name: userName,
+      unm: userName,
       nickNm: nickName,
       password: pw,
       phoneNumber: phone,
@@ -311,7 +311,7 @@ const UserInfo = ({ setActiveComponent }) => {
     setUserAddress(address);
     setDetailAddress(addressDetail);
     setId(uid);
-    setUserName(name);
+    setUserName(unm);
     setPhone(mobileNb);
     setBirth(birthday);
     setNickName(nickNm);
