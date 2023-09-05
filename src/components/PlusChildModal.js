@@ -8,12 +8,17 @@ import { useEffect } from "react";
 import { filterSort, postChildInfo } from "../api/axios";
 import Select from "react-select";
 
-const PlusChildModal = ({ setShowModal }) => {
+const PlusChildModal = ({ setShowModal, onSaveChildInfo }) => {
   const navigate = useNavigate();
   const [childBirth, setChildBirth] = useState();
   const [isChildBirth, setIsChildBirth] = useState();
   const [tasteValue, setTasteValue] = useState("");
   const [selectAllergy, setSelectAllergy] = useState([]);
+  const [childInfo, setChildInfo] = useState({
+    childBirth: "",
+    prefer: "",
+    allegyId: [],
+  });
 
   const allergyArr = [
     { value: 1, label: "난류" },
@@ -78,6 +83,10 @@ const PlusChildModal = ({ setShowModal }) => {
     setSelectAllergy(selectAllergy);
   };
 
+  // const handleChildInfoChange = (field, value) => {
+  //   setChildInfo({ ...childInfo, [field]: value });
+  // };
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -97,12 +106,11 @@ const PlusChildModal = ({ setShowModal }) => {
     } catch (err) {
       alert("다시 시도해주세요");
     }
+    onSaveChildInfo(childInfo);
     setShowModal(false);
-    navigate(`/login`);
   };
   const handleSkip = () => {
     setShowModal(false);
-    // navigate("/login");
   };
   const animatedComponents = makeAnimated();
   return (

@@ -45,8 +45,9 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
             allegyId: selectAllergy,
           };
           const result = await getChild(childInfo);
-          console.log(result);
-          if (result) {
+          console.log("result 에 뭐 담기냐 :", result);
+          console.log("왜 안 되는데 :", childInfo);
+          if (result.childBirth) {
             setChildShowModal(false);
           } else {
             setChildShowModal(true);
@@ -59,6 +60,7 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
         setChildShowModal(false);
       }
     };
+    child();
   }, [isLoggedIn, childBirth, tasteValue, selectAllergy]);
 
   const navigate = useNavigate();
@@ -163,7 +165,9 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
         </div>
         {childShowModal === true ? (
           <ChildModal setchildShowModal={setChildShowModal} />
-        ) : null}
+        ) : (
+          false
+        )}
       </div>
     </MainDiv>
   );
