@@ -85,7 +85,7 @@ const ChildModal = ({ setShowModal }) => {
   const handleChildStart = async () => {
     // 추후 post 진행
     const childInfo = {
-      birthday: childBirth,
+      childBirth: childBirth,
       prefer: tasteValue,
       allegyId: selectAllergy,
     };
@@ -96,11 +96,11 @@ const ChildModal = ({ setShowModal }) => {
     }
 
     setShowModal(false);
-    navigate(`/`);
+    navigate(`/main`);
   };
   const handleSkip = () => {
     setShowModal(false);
-    navigate("/");
+    navigate("/main");
   };
   const animatedComponents = makeAnimated();
   return (

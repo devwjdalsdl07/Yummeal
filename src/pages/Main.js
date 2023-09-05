@@ -2,16 +2,20 @@ import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { cartIn } from "../api/client";
+import { cartIn, getChild } from "../api/client";
 import { getBestProduct } from "../api/mainFatch";
 import CartItemModal from "../components/CartItemModal";
+import ChildModal from "../components/ChildModal";
 import Slick from "../components/Slick";
 import { MainDiv } from "../style/MainCss";
 
-const Main = () => {
+const Main = ({ childBirth, tasteValue, selectAllergy }) => {
   const [bestProduct, setBestProduct] = useState([]);
   const [mainImage, setItemImage] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [childShowModal, setChildShowModal] = useState(false);
+  const [hasChildInfo, setHasChildInfo] = useState(false);
+
   const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
   // uri 에서 값 읽기
   const { pid } = useParams();
@@ -30,6 +34,32 @@ const Main = () => {
   useEffect(() => {
     getBestProductFetch();
   }, [pid]);
+
+  useEffect(() => {
+    const child = async () => {
+      if (isLoggedIn) {
+        try {
+          const childInfo = {
+            childBirth: childBirth,
+            prefer: tasteValue,
+            allegyId: selectAllergy,
+          };
+          const result = await getChild(childInfo);
+          console.log(result);
+          if (result) {
+            setChildShowModal(false);
+          } else {
+            setChildShowModal(true);
+          }
+          return result;
+        } catch (err) {
+          console.log("처리 중 오류", err);
+        }
+      } else {
+        setChildShowModal(false);
+      }
+    };
+  }, [isLoggedIn, childBirth, tasteValue, selectAllergy]);
 
   const navigate = useNavigate();
 
@@ -130,6 +160,9 @@ const Main = () => {
             ))}
           </ul>
         </div>
+        {childShowModal === true ? (
+          <ChildModal setchildShowModal={setChildShowModal} />
+        ) : null}
       </div>
     </MainDiv>
   );

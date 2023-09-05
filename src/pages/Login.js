@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContainer, SnsLoginWrap } from "../style/LoginCss";
-import { fetchLogin, getUser } from "../api/client";
+import { fetchLogin, getChild, getUser } from "../api/client";
 import { useDispatch } from "react-redux";
 import { loginReducer } from "../reducers/userSlice";
 import ChildModal from "../components/ChildModal";
@@ -15,10 +15,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   // const [id, setId] = useState("tt@tt.com");
-  // const [pw, setPw] = useState("qwer123!");
+  // const [pw, setPw] = useState("1234");
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
   const handleSignUPClick = () => {
     navigate("/signup");
@@ -33,11 +33,12 @@ const Login = () => {
     if (login) {
       // if (login.success) {
       const fetchUser = await getUser();
-      dispatch(loginReducer(fetchUser));
+      const fetchChild = await getChild();
+      dispatch(loginReducer(fetchUser, fetchChild));
       navigate("/main");
       // }
+      // setShowModal(true);
     }
-    setShowModal(true);
   };
   const handleSubmit = event => {
     event.preventDefault(); // 기본 엔터 동작 방지
@@ -45,13 +46,13 @@ const Login = () => {
       handleLoginClick();
     }
   };
-  useEffect(() => {
-    const isFirstLogin = sessionStorage.getItem("isFirstLogin");
-    if (isFirstLogin === "true") {
-      setShowModal(true);
-      sessionStorage.setItem("isFirstLogin", "false");
-    }
-  });
+  // useEffect(() => {
+  //   const isFirstLogin = sessionStorage.getItem("isFirstLogin");
+  //   if (isFirstLogin === "true") {
+  //     setShowModal(true);
+  //     sessionStorage.setItem("isFirstLogin", "false");
+  //   }
+  // });
   return (
     <LoginContainer>
       <form onSubmit={handleSubmit}>
@@ -93,9 +94,9 @@ const Login = () => {
               >
                 로그인
               </button>
-              {showModal === true ? (
+              {/* {showModal === true ? (
                 <ChildModal setShowModal={setShowModal} />
-              ) : null}
+              ) : null} */}
               <ul className="login-find">
                 <li>아이디 찾기</li>
                 <li>비밀번호 찾기</li>

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   uid: "",
-  name: "",
+  unm: "",
   birthday: "",
   mobileNb: "",
   zipcode: "",
@@ -10,6 +10,7 @@ const initialState = {
   addressDetail: "",
   nickNm: "",
   point: 0,
+  baby: [],
 };
 
 const userSlice = createSlice({
@@ -18,14 +19,15 @@ const userSlice = createSlice({
   reducers: {
     loginReducer: (state, action) => {
       (state.uid = action.payload.uid),
-        (state.name = action.payload.name),
+        (state.unm = action.payload.unm),
         (state.mobileNb = action.payload.mobileNb),
         (state.zipcode = action.payload.zipcode),
         (state.address = action.payload.address),
         (state.addressDetail = action.payload.addressDetail),
         (state.nickNm = action.payload.nickNm),
         (state.point = action.payload.point),
-        (state.birthday = action.payload.birthday);
+        (state.birthday = action.payload.birthday),
+        (state.baby = action.payload.baby);
       // Object.assign(state, action.payload);
     },
     logoutReducer: state => {
@@ -33,7 +35,7 @@ const userSlice = createSlice({
       Object.assign(state, initialState);
     },
     userEditReducer: (state, action) => {
-      (state.name = action.payload.name),
+      (state.unm = action.payload.unm),
         (state.mobileNb = action.payload.phoneNumber),
         (state.birthday = action.payload.birthday),
         (state.zipcode = action.payload.zipcode),

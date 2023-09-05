@@ -1,5 +1,5 @@
 import axios from "axios";
-import { removeCookie } from "./cookie";
+import { getCookie, removeCookie, setCookie } from "./cookie";
 
 export const instance = axios.create({
   // baseURL: "http://localhost:3000",
@@ -26,9 +26,12 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use();
 
+// 예제: 이름이 "user"인 쿠키 값을 읽어와서 출력합니다.
+// const userName = getCookie("user");
+// console.log("사용자 이름:", userName);
+
 // 로그인
 export const fetchLogin = async (id, pw) => {
-  console.log("fetchLogin 진행");
   try {
     const res = await instance.post(`/api/user/sign-in`, {
       uid: id,
@@ -48,9 +51,13 @@ export const fetchLogin = async (id, pw) => {
     //   // sameSite: "none",
     //   // httpOnly: true,
     // });
+    const refreshCookie = getCookie("refresh_token");
+    console.log("refreshCookie :", refreshCookie);
     sessionStorage.setItem("accessToken", result.accessToken);
-    sessionStorage.setItem("refreshToken", result.refreshToken);
-    sessionStorage.setItem("isFirshLogin", "true");
+    sessionStorage.setItem("refreshToken", refreshCookie);
+    // sessionStorage.setItem("refreshToken", result.refreshToken);
+    // sessionStorage.setItem("refreshToken", refreshCookie);
+    // sessionStorage.setItem("isFirshLogin", "true");
     checkTime();
     return result;
   } catch (error) {
@@ -61,20 +68,30 @@ export const fetchLogin = async (id, pw) => {
 // 일정한 시간 체크를 진행함
 const checkTime = () => {
   console.log("로그인 이후 일정 시간이 지나면 새로운 인증 코드 요청");
-  setInterval(() => {
-    getRefreshToken();
-  }, 300000);
+  setInterval(
+    () => {
+      getRefreshToken();
+    },
+    60 * 60 * 60,
+  );
 };
 export const getRefreshToken = async () => {
   try {
     const refreshToken = sessionStorage.getItem("refreshToken");
-    const res = await instance.get(
-      `/sign-api/refresh-token?refreshToken=${refreshToken}`,
-    );
-    const result = res.data;
-    console.log("토큰재발급됐당!", result);
-    sessionStorage.setItem("accessToken", result.accessToken);
-    sessionStorage.setItem("refreshToken", result.refreshToken);
+    console.log("getRefreshToken refreshToken : ", refreshToken);
+    if (refreshToken) {
+      const res = await instance.get(
+        `/sign-api/refresh-token?refreshToken=${refreshToken}`,
+      );
+      const result = res.data;
+      console.log("토큰재발급됐당!", result);
+      sessionStorage.setItem("accessToken", result.accessToken);
+
+      const refreshCookie = getCookie("refresh_token");
+      console.log("refreshCookie :", refreshCookie);
+      // sessionStorage.setItem("refreshToken", result.refreshToken);
+      sessionStorage.setItem("refreshToken", refreshCookie);
+    }
   } catch (err) {
     console.log(err);
   }
@@ -109,7 +126,7 @@ export const getUser = async _iuser => {
       iuser: res.iuser,
       // email: res.data.email,
       uid: res.data.uid,
-      name: res.data.name,
+      unm: res.data.unm,
       mobileNb: res.data.mobileNb,
       zipcode: res.data.zipcode,
       address: res.data.address,
@@ -118,6 +135,29 @@ export const getUser = async _iuser => {
       point: res.data.point,
       birthday: res.data.birthday,
     };
+
+    const refreshCookie = await getCookie("refresh_token");
+    console.log("refreshCookie :", refreshCookie);
+
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 아이 정보 get
+export const getChild = async _childInfo => {
+  try {
+    const res = await instance.get(`/api/baby`);
+    console.log("로그인 child res는??", res);
+    const result = {
+      iuser: res.iuser,
+      childBirth: res.data.childBirth,
+      prefer: res.data.prefer,
+      allegyId: res.data.allegyId,
+    };
+    const refreshCookie = await getCookie("refresh_token");
+    console.log("refreshCookie :", refreshCookie);
     return result;
   } catch (err) {
     console.log(err);
