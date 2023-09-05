@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { filterSort, postChildInfo } from "../api/axios";
 import Select from "react-select";
 
-const ChildModal = ({ setShowModal }) => {
+const ChildModal = ({ setchildShowModal }) => {
   const navigate = useNavigate();
   const [childBirth, setChildBirth] = useState();
   const [isChildBirth, setIsChildBirth] = useState();
@@ -95,11 +95,11 @@ const ChildModal = ({ setShowModal }) => {
       alert("다시 시도해주세요");
     }
 
-    setShowModal(false);
+    setchildShowModal(false);
     navigate(`/main`);
   };
   const handleSkip = () => {
-    setShowModal(false);
+    setchildShowModal(false);
     navigate("/main");
   };
   const animatedComponents = makeAnimated();

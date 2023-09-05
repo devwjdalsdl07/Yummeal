@@ -39,6 +39,7 @@ const UserInfo = ({ setActiveComponent }) => {
     addressDetail,
     nickNm,
     point,
+    baby,
   } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ const UserInfo = ({ setActiveComponent }) => {
 
   const [birth, setBirth] = useState();
   const [childBirth, setChildBirth] = useState();
+  const [childInfo, setChildInfo] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isChildModalOpen, setIsChildModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -295,6 +297,7 @@ const UserInfo = ({ setActiveComponent }) => {
       zipcode: postcode,
       address: userAddress,
       addressDetail: detailAddress,
+      baby: [],
     };
     const result = await fetchUserInfo(profile);
     dispatch(userEditReducer(profile));
@@ -316,6 +319,7 @@ const UserInfo = ({ setActiveComponent }) => {
     setBirth(birthday);
     setNickName(nickNm);
     setNickNameRemember(nickNm);
+    setChildInfo(baby);
   };
   const handleDelete = () => {
     showDeleteModal();
@@ -340,6 +344,12 @@ const UserInfo = ({ setActiveComponent }) => {
   const handleChildModalClose = () => {
     setIsChildModalOpen(false);
   };
+
+  const handleSaveChildInfo = info => {
+    setChildInfo(info);
+  };
+  // const joinedStringWithSpace = childInfo.allergyId.join("");
+  // console.log(joinedStringWithSpace);
 
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
@@ -507,6 +517,15 @@ const UserInfo = ({ setActiveComponent }) => {
                 </div>
                 <AddChildBirth>
                   <button onClick={handlePlusChild}>아이 추가</button>
+                  {/* 저장된 아이 정보 출력 */}
+                  {childInfo && (
+                    <div>
+                      <h3>아이</h3>
+                      <p>{childInfo.bithday}</p>
+                      <p>{childInfo.prefer}</p>
+                      {/* <p>{childInfo.allergyId.join(",")}</p> */}
+                    </div>
+                  )}
                 </AddChildBirth>
               </div>
             </div>
@@ -603,7 +622,10 @@ const UserInfo = ({ setActiveComponent }) => {
         </JoinWrap>
       </JoinArea>{" "}
       {isChildModalOpen === true ? (
-        <PlusChildModal setShowModal={setIsChildModalOpen} />
+        <PlusChildModal
+          setShowModal={setIsChildModalOpen}
+          onSaveChildInfo={handleSaveChildInfo}
+        />
       ) : null}
     </JoinContainer>
   );

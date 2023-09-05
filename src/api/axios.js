@@ -125,7 +125,7 @@ export const filterSort = async (product, sorter, allergyStrings) => {
 // 카테고리 메뉴 get
 export const menuCate = async () => {
   try {
-    const res = await axios.get("/api/cate/all");
+    const res = await axios.get("/api/cate/list");
     const result = res.data;
     console.log("카테고리 메뉴 : ", result);
     return result;

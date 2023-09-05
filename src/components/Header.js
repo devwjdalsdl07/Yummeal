@@ -150,7 +150,7 @@ function Header() {
       <div className="logo">
         <img
           src={`${process.env.PUBLIC_URL}/images/logo.png`}
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/main")}
         ></img>
       </div>
 
