@@ -83,20 +83,21 @@ const ChildModal = ({ setchildShowModal }) => {
     };
   }, []);
   const handleChildStart = async () => {
+    const allegyIdStr = selectAllergy.map(item => item.value);
+    console.log(allegyIdStr);
     // 추후 post 진행
     const childInfo = {
       childBirth: childBirth,
       prefer: tasteValue,
-      allegyId: selectAllergy,
+      allegyId: allegyIdStr.join(),
     };
     try {
-      postChildInfo(childInfo);
+      await postChildInfo(childInfo);
+      setchildShowModal(false);
+      // navigate(`/main`);
     } catch (err) {
       alert("다시 시도해주세요");
     }
-
-    setchildShowModal(false);
-    navigate(`/main`);
   };
   const handleSkip = () => {
     setchildShowModal(false);

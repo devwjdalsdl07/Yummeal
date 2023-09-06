@@ -365,7 +365,6 @@ const SignUp = () => {
       postSignUp(item);
       alert("회원가입이 성공적으로 이루어졌어요 !!");
       navigate("/login");
-      // setShowModal(true);
     } catch (err) {
       alert("회원가입이 실패했어요. 다시 시도해주세요");
     }
