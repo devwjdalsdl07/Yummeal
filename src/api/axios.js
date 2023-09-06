@@ -16,21 +16,23 @@ export const postSignUp = async _Item => {
 };
 
 //아이 정보 get
-export const getChildInfo = async () => {
-  try {
-    const res = await axios.get("/baby");
-    const result = {};
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
-};
+// export const getChildInfo = async () => {
+//   try {
+//     const res = await axios.get("/baby");
+//     const result = {};
+//     return result;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 //아이 정보 post
 export const postChildInfo = async _childInfo => {
+  console.log(_childInfo);
   try {
-    const res = await axios.post(`/baby`, _childInfo);
+    const res = await instance.post(`/baby`, _childInfo);
     const result = res.data;
+    console.log("result : ", result);
     return result;
   } catch (err) {
     console.log(err);

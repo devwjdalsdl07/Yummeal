@@ -131,7 +131,7 @@ export const ModalDim = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명한 검은 배경 */
+  background-color: rgba(0, 0, 0, 0.3); /* 반투명한 검은 배경 */
   z-index: 500;
 `;
 export const ChildModalCss = styled.div`
@@ -260,7 +260,7 @@ export const PlusChildModalCss = styled.div`
     left: 0;
     top: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 600;
     margin: auto;
     box-sizing: border-box;
     border-radius: 5px;
