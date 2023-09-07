@@ -94,20 +94,26 @@ const PlusChildModal = ({ setShowModal, onSaveChildInfo }) => {
     };
   }, []);
 
-  const handleChildPlus = () => {
+  const handleChildPlus = async () => {
+    if (!isChildBirth) {
+      alert("아이의 생년월일은 필수에요 !");
+      return;
+    }
+    const allergyIdStr = selectAllergy.map(item => item.value);
+    console.log(allergyIdStr);
     // 추후 post 진행
     const plusChildInfo = {
-      birthday: childBirth,
+      childBirth: childBirth,
       prefer: tasteValue,
-      allegyId: selectAllergy,
+      allergyId: allergyIdStr.join(),
     };
     try {
-      postChildInfo(plusChildInfo);
+      await postChildInfo(plusChildInfo);
+      onSaveChildInfo(childInfo);
+      setShowModal(false);
     } catch (err) {
       alert("다시 시도해주세요");
     }
-    onSaveChildInfo(childInfo);
-    setShowModal(false);
   };
   const handleSkip = () => {
     setShowModal(false);

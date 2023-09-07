@@ -30,9 +30,9 @@ export const postSignUp = async _Item => {
 export const postChildInfo = async _childInfo => {
   console.log(_childInfo);
   try {
-    const res = await instance.post(`/baby`, _childInfo);
+    const res = await instance.post(`/api/baby`, _childInfo);
     const result = res.data;
-    console.log("result : ", result);
+    console.log("아이 정보 post tjdrhd ~");
     return result;
   } catch (err) {
     console.log(err);
