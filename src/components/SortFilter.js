@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { filterSort } from "../api/axios";
+import { useSelector } from "react-redux";
 
 // 정렬용 배열
 const sortArr = [
@@ -37,6 +38,12 @@ const SortFilter = ({ product, setSearchData }) => {
   const [selectSort, setSelectSort] = useState("");
   const [selectAllergy, setSelectAllergy] = useState([]);
   const animatedComponents = makeAnimated();
+
+  // const { baby } = useSelector(state => state.user);
+  // console.log(baby);
+  // const childArr = [
+    
+  // ]
 
   useEffect(() => {
     setSelectSort("");
@@ -76,6 +83,10 @@ const SortFilter = ({ product, setSearchData }) => {
   return (
     <div className="searchbox">
       <h2>서치필터</h2>
+      <div className="search-child">
+        <h3>아이선택</h3>
+        <Select className="child" />
+      </div>
       <div className="search-sort">
         <h3>정렬 기능</h3>
         <Select

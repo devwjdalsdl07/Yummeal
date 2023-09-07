@@ -50,8 +50,8 @@ function Header() {
   // 서브 메뉴 클릭 시 이동
   const handleSubMenuClick = async (mainMenu, subMenu, e) => {
     e.stopPropagation();
-    console.log("카테고리 번호 찍자", mainMenu?.cateId, subMenu?.cateDetailId);
-    const cateId = mainMenu.cateId;
+    console.log("카테고리 번호 찍자", mainMenu?.category?.cateId, subMenu?.cateDetailId);
+    const cateId = mainMenu?.category?.cateId;
     const subCateId =
       subMenu?.cateDetailId == undefined ? 0 : subMenu?.cateDetailId;
     const result = await cateProdList(1, cateId, subCateId);
@@ -133,7 +133,7 @@ function Header() {
       },
     });
   };
-  console.log(hoverIndex);
+
   return (
     <Head isToggled={isToggled} userToggled={userToggled}>
       {/* 햄버거 버튼(bar) */}

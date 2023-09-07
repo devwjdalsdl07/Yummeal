@@ -1,3 +1,4 @@
+import { Alert } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
@@ -6,7 +7,6 @@ import { getCart, orderPost } from "../api/client";
 import OrderItem from "../components/OrderItem";
 import { pointReducer } from "../reducers/userSlice";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
-import { Alert } from "antd";
 
 const Order = () => {
   const [orderItems, setOrderItems] = useState([]);
@@ -39,7 +39,7 @@ const Order = () => {
     state => state.user,
   );
   const addressAll = address + addressDetail;
-  console.log("dlsfsafdsfdas", receiver);
+
   // 장바구니 정보 가져오기
   const cartList = async () => {
     const result = await getCart();
@@ -51,21 +51,11 @@ const Order = () => {
     setReceiver(unm);
     setUserPoint(point);
     quickBuyData();
-    if (!receiver || !addressAll || !mobileNb) {
-      // alert("회원정보가 없습니다. 등록해주세요");
-      return (<Alert
-      message="회원정보가 없습니다"
-      description="회원 정보를 등록해주세요."
-      type="error"
-      closable
-      onClose={AlertClose}
-    />)
-  }
-}, []);
+  }, []);
 
-const AlertClose = ()=>{
+  const AlertClose = () => {
     navigate("/mypage");
-  }
+  };
 
   // 주문하기
   const handleOrder = async () => {
@@ -116,7 +106,7 @@ const AlertClose = ()=>{
       localStorage.clear();
       navigate("/orderdetail", {
         state: {
-          orderId: result.orderId,
+          orderCode: result.orderCode,
           point: result.point,
         },
       });
@@ -238,6 +228,15 @@ const AlertClose = ()=>{
             <h3>배송지 정보</h3>
             <hr />
             <div className="user-info">
+              {(!receiver || !addressAll || !mobileNb) && (
+                <Alert
+                  message="회원정보가 없습니다"
+                  description="회원 정보를 등록해주세요."
+                  type="error"
+                  closable
+                  onClose={AlertClose}
+                />
+              )}
               <p>받는분</p>
               <input
                 type="text"

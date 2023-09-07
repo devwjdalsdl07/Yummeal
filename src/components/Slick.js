@@ -8,8 +8,8 @@ import { getRandom, getRecommend } from "../api/mainFatch";
 import { SlickDiv } from "../style/MainCss";
 
 const Slick = () => {
-  const [randomProduct, setRandomProduct] = useState([]);
-  const [recommend, setRecommend] = useState([]);
+  const [randomProduct, setRandomProduct] = useState({});
+  const [recommend, setRecommend] = useState({});
   const [itemImage, setItemImage] = useState([]);
   const { nickNm } = useSelector(state => state.user);
   //로그인 여부 확인
@@ -22,15 +22,27 @@ const Slick = () => {
         if (recommendJson === null) {
           const randomJson = await getRandom();
           setRecommend(randomJson);
-          setItemImage(randomJson.map(item => item.thumbnail));
+          setItemImage(
+            randomJson.list.map(
+              item => `/img/product/${item.productId}/${item.thumbnail}`,
+            ),
+          );
         } else {
           setRecommend(recommendJson);
-          setItemImage(recommendJson.map(item => item.thumbnail));
+          setItemImage(
+            recommendJson.list.map(
+              item => `/img/product/${item.productId}/${item.thumbnail}`,
+            ),
+          );
         }
       } else {
         const randomJson = await getRandom();
         setRandomProduct(randomJson);
-        setItemImage(randomJson.map(item => item.thumbnail));
+        setItemImage(
+          randomJson.list.map(
+            item => `/img/product/${item.productId}/${item.thumbnail}`,
+          ),
+        );
       }
     } catch (err) {
       console.log(err);
@@ -83,20 +95,22 @@ const Slick = () => {
           {isLoggedIn ? `${nickNm}님을 위한 추천 상품` : "추천 상품"}
         </h1>
         <Slider {...settings}>
-        {((isLoggedIn ? recommend.list : randomProduct.list) || []).map((item, index) => (
-            <div key={item.productId}>
-              <img
-                key={index}
-                src={itemImage[index]}
-                alt={`Product ${index + 1}`}
-                onClick={() => handleItemClick(item.productId)}
-              />
-              <span>
-                <h3>{item.name}</h3>
-                <p>판매가 : {parseInt(item?.price).toLocaleString()}원</p>
-              </span>
-            </div>
-          ))}
+          {((isLoggedIn ? recommend.list : randomProduct.list) || []).map(
+            (item, index) => (
+              <div key={item.productId}>
+                <img
+                  key={index}
+                  src={itemImage[index]}
+                  alt={`Product ${index + 1}`}
+                  onClick={() => handleItemClick(item.productId)}
+                />
+                <span>
+                  <h3>{item.name}</h3>
+                  <p>판매가 : {parseInt(item?.price).toLocaleString()}원</p>
+                </span>
+              </div>
+            ),
+          )}
         </Slider>
       </SlickDiv>
     </div>
