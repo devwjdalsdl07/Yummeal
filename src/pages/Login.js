@@ -14,10 +14,10 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const [id, setId] = useState("tt@tt.com");
-  // const [pw, setPw] = useState("1234");
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
+  const [id, setId] = useState("ttt@tt.com");
+  const [pw, setPw] = useState("qwer123!");
+  // const [id, setId] = useState("");
+  // const [pw, setPw] = useState("");
   // const [showModal, setShowModal] = useState(false);
 
   const handleSignUPClick = () => {
@@ -34,7 +34,9 @@ const Login = () => {
       // if (login.success) {
       const fetchUser = await getUser();
       const fetchChild = await getChild();
-      dispatch(loginReducer(fetchUser, fetchChild));
+      const userData = { ...fetchUser, baby: fetchChild };
+      // dispatch(loginReducer(fetchUser, fetchChild));
+      dispatch(loginReducer(userData));
       navigate("/main");
       // }
       // setShowModal(true);

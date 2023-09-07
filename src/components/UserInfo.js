@@ -24,11 +24,10 @@ import locale from "antd/locale/ko_KR";
 import { Modal, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutReducer, userEditReducer } from "../reducers/userSlice";
-import { getNickNameCheck, postPassWordCheck } from "../api/axios";
-import ChildModal from "./ChildModal";
+import { getNickNameCheck } from "../api/axios";
 import PlusChildModal from "./PlusChildModal";
 
-const UserInfo = ({ setActiveComponent }) => {
+const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
   const {
     uid,
     unm,
@@ -58,7 +57,9 @@ const UserInfo = ({ setActiveComponent }) => {
 
   const [birth, setBirth] = useState();
   const [childBirth, setChildBirth] = useState();
-  const [childInfo, setChildInfo] = useState("");
+  const [childInfo, setChildInfo] = useState([]);
+  const [selectedChildIndex, setSelectedChildIndex] = useState(null);
+  const [modalAction, setModalAction] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isChildModalOpen, setIsChildModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -122,14 +123,6 @@ const UserInfo = ({ setActiveComponent }) => {
           setIsNickNameCheck(false);
         }
       }
-
-      // if (e.target.value.length == 0 || e.target.value.length > 0) {
-      //   setNickNameMessage("사용 가능한 닉네임이에요");
-      //   setIsNickName(true);
-      // } else {
-      //   setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-      //   setIsNickName(false);
-      // }
     }
   };
 
@@ -154,9 +147,6 @@ const UserInfo = ({ setActiveComponent }) => {
       setPwMessage("안전한 비밀번호에요 : )");
       setIsPw(true);
     }
-
-    // setPwMessage("");
-    // setIsPw(false);
   };
   //pwConfirm
   const onPwConfirmChange = e => {
@@ -174,13 +164,6 @@ const UserInfo = ({ setActiveComponent }) => {
       setPwConfirmMessage("비밀번호를 먼저 확인해 주세요");
       setIsPwConfirm(false);
     }
-    // if (!pwConfirmRegex.test(pwConfirmCurrent)) {
-    //   setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
-    //   setIsPwConfirm(true);
-    // } else {
-    //   setPwConfirmMessage("비밀번호가 동일해요 :)");
-    //   setIsPwConfirm(false);
-    // }
   };
 
   // 전화번호
@@ -197,8 +180,6 @@ const UserInfo = ({ setActiveComponent }) => {
       setPhoneMessage("전화번호를 입력하여 주세요. ");
       setIsPhone(false);
     }
-    // setNameMessage("");
-    // setIsName(false);
   };
 
   // 상세주소 변경
@@ -340,16 +321,22 @@ const UserInfo = ({ setActiveComponent }) => {
   };
   const handlePlusChild = () => {
     setIsChildModalOpen(true);
+    setChildInfo([...childInfo, { childBirth: "", prefer: "", allergyId: [] }]);
+    setModalAction("add");
   };
-  const handleChildModalClose = () => {
-    setIsChildModalOpen(false);
+
+  const handleDatePickerClick = index => {
+    setSelectedChildIndex(index);
+    setModalAction("edit");
   };
+
+  // const handleChildModalClose = () => {
+  //   setIsChildModalOpen(false);
+  // };
 
   const handleSaveChildInfo = info => {
     setChildInfo(info);
   };
-  // const joinedStringWithSpace = childInfo.allergyId.join("");
-  // console.log(joinedStringWithSpace);
 
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
@@ -478,11 +465,10 @@ const UserInfo = ({ setActiveComponent }) => {
               {/* 생년월일 드랍박스 들어갈 자리 */}
               <div
                 style={{
-                  height: "70px",
+                  height: "100px",
                   display: "flex",
-                  flexDirection: "column-reverse",
+                  justifyContent: "space-between",
                   flexWrap: "wrap",
-                  justifyContent: "flex-end",
                   cursor: "pointer",
                 }}
               >
@@ -503,29 +489,37 @@ const UserInfo = ({ setActiveComponent }) => {
                 <div onClick={handleBirth}>
                   <span>아이 생년월일</span>
                   <Space direction="vertical">
-                    <DatePicker
-                      locale={locale}
-                      onChange={onChildBirthChange}
-                      // value={dayjs(childBirth, "YYYY-MM-DD")}
-                      placeholder="YYYY-MM-DD"
-                      style={{
-                        height: "30px",
-                      }}
-                    />
+                    {baby.map((item, index) => (
+                      <>
+                        <DatePicker
+                          key={index}
+                          locale={locale}
+                          onChange={onChildBirthChange}
+                          value={dayjs(
+                            item.baByInfoVo.childBirth,
+                            "YYYY-MM-DD",
+                          )}
+                          placeholder="YYYY-MM-DD"
+                          style={{
+                            height: "30px",
+                          }}
+                        />
+                      </>
+                    ))}
                   </Space>
                   {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
                 </div>
                 <AddChildBirth>
                   <button onClick={handlePlusChild}>아이 추가</button>
                   {/* 저장된 아이 정보 출력 */}
-                  {childInfo && (
-                    <div>
-                      <h3>아이</h3>
-                      <p>{childInfo.bithday}</p>
-                      <p>{childInfo.prefer}</p>
-                      {/* <p>{childInfo.allergyId.join(",")}</p> */}
-                    </div>
-                  )}
+                  {/* {childInfo && ( */}
+                  {/* // <div> */}
+                  {/* <h3>아이</h3> */}
+                  {/* <p>{childInfo.bithday}</p> */}
+                  {/* <p>{childInfo.prefer}</p> */}
+                  {/* <p>{childInfo.allergyIdStr.join()}</p> */}
+                  {/* </div> */}
+                  {/* // )} */}
                 </AddChildBirth>
               </div>
             </div>

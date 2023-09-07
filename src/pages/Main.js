@@ -39,15 +39,9 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
     const child = async () => {
       if (isLoggedIn) {
         try {
-          const childInfo = {
-            childBirth: childBirth,
-            prefer: tasteValue,
-            allegyId: selectAllergy,
-          };
-          const result = await getChild(childInfo);
+          const result = await getChild();
           console.log("result 에 뭐 담기냐 :", result);
-          console.log("왜 안 되는데 :", childInfo);
-          if (result.childBirth) {
+          if (result.length > 1) {
             setChildShowModal(false);
           } else {
             setChildShowModal(true);
