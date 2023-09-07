@@ -33,7 +33,7 @@ const userSlice = createSlice({
     },
     // 애기가 추가됨
     addBaby: (state, action) => {
-      state.baby = action.baby;
+      state.baby.push(action.payload);
     },
     logoutReducer: state => {
       // state = initialState;

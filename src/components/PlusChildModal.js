@@ -1,24 +1,26 @@
-import { useNavigate } from "react-router-dom";
-import React from "react";
 import { DatePicker, Space } from "antd";
-import { useState } from "react";
-import makeAnimated from "react-select/animated";
-import { ModalDim, PlusChildModalCss } from "../style/ModalCss";
-import { useEffect } from "react";
-import { filterSort, postChildInfo } from "../api/axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import makeAnimated from "react-select/animated";
+import { filterSort, postChildInfo } from "../api/axios";
+import { ModalDim, PlusChildModalCss } from "../style/ModalCss";
+import { useDispatch } from "react-redux";
+import { addBaby } from "../reducers/userSlice";
+import { getChild } from "../api/client";
 
-const PlusChildModal = ({ setShowModal, onSaveChildInfo }) => {
+const PlusChildModal = ({
+  setShowModal,
+  onSaveChildInfo,
+  childInfo,
+  setChildInfo,
+}) => {
   const navigate = useNavigate();
   const [childBirth, setChildBirth] = useState();
   const [isChildBirth, setIsChildBirth] = useState();
   const [tasteValue, setTasteValue] = useState("");
   const [selectAllergy, setSelectAllergy] = useState([]);
-  const [childInfo, setChildInfo] = useState({
-    childBirth: "",
-    prefer: "",
-    allegyId: [],
-  });
+  const dispatch = useDispatch();
 
   const allergyArr = [
     { value: 1, label: "난류" },
@@ -83,10 +85,6 @@ const PlusChildModal = ({ setShowModal, onSaveChildInfo }) => {
     setSelectAllergy(selectAllergy);
   };
 
-  // const handleChildInfoChange = (field, value) => {
-  //   setChildInfo({ ...childInfo, [field]: value });
-  // };
-
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -107,9 +105,24 @@ const PlusChildModal = ({ setShowModal, onSaveChildInfo }) => {
       prefer: tasteValue,
       allergyId: allergyIdStr.join(),
     };
+    // 아이데이터 get
+    const fetchChild = await getChild();
+    const babyIdGet = fetchChild.map(item => item.baByInfoVo.babyId);
+    // redux update용
+    const childInfoUpdate = {
+      baByInfoVo: {
+        babyId: babyIdGet,
+        childBirth: childBirth,
+        prefer: tasteValue
+      },
+      babyAllergyList: allergyIdStr.join(),
+    };
+
     try {
       await postChildInfo(plusChildInfo);
       onSaveChildInfo(childInfo);
+      dispatch(addBaby(childInfoUpdate));
+      setChildInfo([...childInfo, childInfoUpdate]);
       setShowModal(false);
     } catch (err) {
       alert("다시 시도해주세요");
@@ -119,6 +132,7 @@ const PlusChildModal = ({ setShowModal, onSaveChildInfo }) => {
     setShowModal(false);
   };
   const animatedComponents = makeAnimated();
+  const handleChildEdit = () => {};
   return (
     <>
       <ModalDim />

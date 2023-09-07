@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie } from "./cookie";
+import { getCookie, removeCookie } from "./cookie";
 
 export const instance = axios.create({
   // baseURL: "http://localhost:3000",

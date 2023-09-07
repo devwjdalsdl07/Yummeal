@@ -1,30 +1,29 @@
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, DatePicker, Modal, Space } from "antd";
+import locale from "antd/locale/ko_KR";
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+import { getNickNameCheck } from "../api/axios";
+import { deleteUser, fetchUserInfo } from "../api/client";
+import { logoutReducer, userEditReducer } from "../reducers/userSlice";
 import {
+  AddChildBirth,
   JoinArea,
   JoinBtn,
   JoinContainer,
   JoinFormGroup,
   JoinId,
-  JoinPost,
+  JoinNickNm,
   JoinPw,
   JoinPwConfirm,
   JoinText,
   JoinTitleWrapTop,
   JoinWrap,
-  JoinNickNm,
-  AddChildBirth,
 } from "../style/UserInfoCss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { DatePicker, Space } from "antd";
-import { deleteUser, fetchUserInfo } from "../api/client";
-import dayjs from "dayjs";
-import locale from "antd/locale/ko_KR";
-import { Modal, Button } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutReducer, userEditReducer } from "../reducers/userSlice";
-import { getNickNameCheck } from "../api/axios";
 import PlusChildModal from "./PlusChildModal";
 
 const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
@@ -83,6 +82,8 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
   const validationStates = [isPw, isPwConfirm, isPhone, isNickNameCheck];
 
   const canEdit = validationStates.every(state => state);
+  const [childBirthArr, setChildBirthArr]=useState([]);
+  const [selectChild, setSelectChild] = useState("");
 
   const onBirthChange = (value, dateString) => {
     setBirth(dateString);
@@ -321,7 +322,6 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
   };
   const handlePlusChild = () => {
     setIsChildModalOpen(true);
-    setChildInfo([...childInfo, { childBirth: "", prefer: "", allergyId: [] }]);
     setModalAction("add");
   };
 
@@ -352,6 +352,26 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
     };
     userProfile();
   }, []);
+
+  const birthArr = () => {
+    const arr = childInfo?.map(item => {
+      const birthValue = item?.baByInfoVo?.childBirth;
+      const formatData = {
+        value: birthValue,
+        label: birthValue,
+      };
+      return formatData;
+    });
+    setChildBirthArr(arr);
+  };
+
+  const handleSortChange = childInfo => {
+    setSelectChild(childInfo);
+  };
+
+  useEffect(()=>{
+    birthArr();
+  },[childInfo])
 
   return (
     <JoinContainer>
@@ -486,10 +506,19 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                   </Space>
                 </div>
                 {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
-                <div onClick={handleBirth}>
+                <div>
                   <span>아이 생년월일</span>
                   <Space direction="vertical">
-                    {baby.map((item, index) => (
+                    <Select
+                      className="child"
+                      options={childBirthArr}
+                      onChange={childInfo => handleSortChange(childInfo)}
+                      placeholder="옵션을 선택하세요"
+                      value={selectChild}
+                      isSearchable={false}
+                      onClick={handleBirth}
+                    />
+                    {/* {baby.map((item, index) => (
                       <>
                         <DatePicker
                           key={index}
@@ -505,7 +534,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                           }}
                         />
                       </>
-                    ))}
+                    ))} */}
                   </Space>
                   {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
                 </div>
@@ -619,6 +648,8 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
         <PlusChildModal
           setShowModal={setIsChildModalOpen}
           onSaveChildInfo={handleSaveChildInfo}
+          childInfo={childInfo}
+          setChildInfo={setChildInfo}
         />
       ) : null}
     </JoinContainer>

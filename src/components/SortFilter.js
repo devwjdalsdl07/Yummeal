@@ -39,12 +39,6 @@ const SortFilter = ({ product, setSearchData }) => {
   const [selectAllergy, setSelectAllergy] = useState([]);
   const animatedComponents = makeAnimated();
 
-  // const { baby } = useSelector(state => state.user);
-  // console.log(baby);
-  // const childArr = [
-    
-  // ]
-
   useEffect(() => {
     setSelectSort("");
     setSelectAllergy([]);
