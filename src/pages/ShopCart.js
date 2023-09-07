@@ -37,7 +37,7 @@ const ShopCart = () => {
   };
 
   const handleGoShoping = () => {
-    navigate("/");
+    navigate("/main");
   };
 
   // 총 상품금액(로그인)

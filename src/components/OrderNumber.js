@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 const OrderNumber = ({ item }) => {
   const navigate = useNavigate();
-  const handleInfoClick = orderId => {
-    navigate("/orderdetail", { state: { orderId } });
+  const handleInfoClick = orderCode => {
+    navigate("/orderdetail", { state: { orderCode } });
   };
-  const price = item.totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const price = item?.totalprice?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return (
     <OrderNumberContainer>
       <div className="orderInfo">
@@ -21,7 +21,7 @@ const OrderNumber = ({ item }) => {
         </div>
       </div>
 
-      <div className="itemInfo" onClick={() => handleInfoClick(item.orderId)}>
+      <div className="itemInfo" onClick={() => handleInfoClick(item.orderCode)}>
         <div className="imgWrap">
           <img src={item.thumbnail} alt="썸네일"></img>
         </div>

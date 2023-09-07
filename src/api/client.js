@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, removeCookie, setCookie } from "./cookie";
+import { getCookie } from "./cookie";
 
 export const instance = axios.create({
   // baseURL: "http://localhost:3000",
@@ -107,12 +107,7 @@ export const getRefreshToken = async () => {
 export const postLogout = async () => {
   console.log("==================== 로그아웃");
   try {
-    const accessToken = sessionStorage.getItem("accessToken");
-    // const res = await instance.get(
-    //   `/sign-api/sign-out?accessToken=${accessToken}`,
-    // );
     const res = await instance.get(`/api/user/sign-out`);
-
     console.log("로그아웃");
     // removeCookie("accessToken");
     // removeCookie("refreshToken");
@@ -331,9 +326,9 @@ export const cartIn = async _item => {
 };
 
 // 결제내역 get
-export const getOrderEnd = async _orderId => {
+export const getOrderEnd = async _orderCode => {
   try {
-    const res = await instance.get(`/api/mypage/orderlist/${_orderId}`);
+    const res = await instance.get(`/api/mypage/orderlist/${_orderCode}`);
     const result = res.data;
     console.log("오더리스트에 담기는 값", result);
     return result;
