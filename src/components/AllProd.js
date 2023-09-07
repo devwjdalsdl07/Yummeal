@@ -37,7 +37,7 @@ const AllProd = ({
           <div key={productId}>
             <li className="product-card">
               <img
-                src={item.thumbnail}
+                src={`/img/product/${item.productId}/${item.thumbnail}`}
                 alt="상품 이미지"
                 className="product-image"
               />

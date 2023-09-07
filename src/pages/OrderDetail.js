@@ -17,7 +17,7 @@ const OrderDetail = () => {
 
   // 결제내역 불러오기
   const orderEndData = async () => {
-    const result = await getOrderEnd(state?.orderId);
+    const result = await getOrderEnd(state?.orderCode);
     setOrderList(result.list);
     setUserInfo(result.user);
   };
@@ -70,7 +70,7 @@ const OrderDetail = () => {
           {orderList.map(item => (
             <div key={item.productId} className="order-prodtext">
               <div className="order-imgbox">
-                <img src={item.thumbnail} alt={item.title} />
+                <img src={`/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
               </div>
               <div className="order-textwrap">
                 <p>{item.productName}</p>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, removeCookie, setCookie } from "./cookie";
+import { getCookie } from "./cookie";
 
 export const instance = axios.create({
   // baseURL: "http://localhost:3000",
@@ -65,21 +65,14 @@ const checkTime = () => {
 };
 export const getRefreshToken = async () => {
   try {
-    const refreshToken = sessionStorage.getItem("refreshToken");
-    console.log("getRefreshToken refreshToken : ", refreshToken);
-    if (refreshToken) {
-      const res = await instance.get(
-        `/sign-api/refresh-token?refreshToken=${refreshToken}`,
-      );
-      const result = res.data;
-      console.log("토큰재발급됐당!", result);
-      sessionStorage.setItem("accessToken", result.accessToken);
-
-      const refreshCookie = getCookie("refresh_token");
-      console.log("refreshCookie :", refreshCookie);
-      // sessionStorage.setItem("refreshToken", result.refreshToken);
-      sessionStorage.setItem("refreshToken", refreshCookie);
-    }
+    const res = await instance.get(`/api/user/refresh`);
+    const result = res.data;
+    console.log("토큰재발급됐당!", result);
+    sessionStorage.setItem("accessToken", result.accessToken);
+    // const refreshCookie = getCookie("refresh_token");
+    // console.log("refreshCookie :", refreshCookie);
+    // sessionStorage.setItem("refreshToken", result.refreshToken);
+    // sessionStorage.setItem("refreshToken", refreshCookie);
   } catch (err) {
     console.log(err);
   }
@@ -88,10 +81,7 @@ export const getRefreshToken = async () => {
 // 로그아웃 post
 export const postLogout = async () => {
   try {
-    const accessToken = sessionStorage.getItem("accessToken");
-    const res = await instance.get(
-      `/sign-api/sign-out?accessToken=${accessToken}`,
-    );
+    const res = await instance.get(`/api/user/sign-out`);
     console.log("로그아웃");
     // removeCookie("accessToken");
     // removeCookie("refreshToken");
@@ -309,9 +299,9 @@ export const cartIn = async _item => {
 };
 
 // 결제내역 get
-export const getOrderEnd = async _orderId => {
+export const getOrderEnd = async _orderCode => {
   try {
-    const res = await instance.get(`/api/mypage/orderlist/${_orderId}`);
+    const res = await instance.get(`/api/mypage/orderlist/${_orderCode}`);
     const result = res.data;
     console.log("오더리스트에 담기는 값", result);
     return result;

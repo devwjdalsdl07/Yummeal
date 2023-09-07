@@ -27,7 +27,7 @@ const SearchProd = ({
           <div key={productId}>
             <li className="product-card">
               <img
-                src={item.thumbnail}
+                src={`/img/product/${item.productId}/${item.thumbnail}`}
                 alt="상품 이미지"
                 className="product-image"
               />
@@ -49,7 +49,7 @@ const SearchProd = ({
                 />
               ) : null}
               <div className="item-info">
-                <h2>{item.productName}</h2>
+                <h2>{item.name}</h2>
                 <p>판매가 : {item.price.toLocaleString()}원</p>
               </div>
             </li>

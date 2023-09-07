@@ -42,6 +42,7 @@ const OrderList = () => {
   useEffect(() => {
     handleDateClick(1);
   }, []);
+  console.log("오더리스트 경로 수정해야함", orderList)
   return (
     <OrderListContainer>
       <div className="top">
