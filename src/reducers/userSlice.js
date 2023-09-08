@@ -35,6 +35,9 @@ const userSlice = createSlice({
     addBaby: (state, action) => {
       state.baby.push(action.payload);
     },
+    editBaby: (state, action) => {
+      state.baby = action.payload.selectChild;
+    },
     logoutReducer: state => {
       // state = initialState;
       Object.assign(state, initialState);
@@ -61,4 +64,5 @@ export const {
   pointReducer,
   userEditReducer,
   addBaby,
+  editBaby,
 } = userSlice.actions;

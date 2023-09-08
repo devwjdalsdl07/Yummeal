@@ -53,10 +53,21 @@ export const fetchLogin = async (id, pw) => {
   }
 };
 
+// 카카오 로그인
+// 로그인
+export const kakaoLogin = async _token => {
+  try {
+    sessionStorage.setItem("accessToken", _token);
+    checkTime();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // 일정한 시간 체크를 진행함
 const checkTime = () => {
   console.log("로그인 이후 일정 시간이 지나면 새로운 인증 코드 요청");
-  setInterval(() => {
+  setTimeout(() => {
     getRefreshToken();
   }, 300000);
 };
@@ -68,6 +79,7 @@ export const getRefreshToken = async () => {
     const result = res.data;
     console.log("토큰재발급됐당!", result);
     sessionStorage.setItem("accessToken", result.accessToken);
+    checkTime();
     // const refreshCookie = getCookie("refresh_token");
     // console.log("refreshCookie :", refreshCookie);
     // sessionStorage.setItem("refreshToken", result.refreshToken);
@@ -77,31 +89,6 @@ export const getRefreshToken = async () => {
   }
   // }
 };
-
-// export const getRefreshToken = async () => {
-//   try {
-//     const refreshToken = sessionStorage.getItem("refreshToken");
-//     const res = await instance.get(`/api/user/refresh`);
-//     const result = res.data;
-//     console.log("토큰재발급됐당!", result);
-//     sessionStorage.setItem("accessToken", result.accessToken);
-//     sessionStorage.setItem("refreshToken", result.refreshToken);
-//     console.log("getRefreshToken refreshToken : ", refreshToken);
-//     if (refreshToken) {
-//       const res = await instance.get(`/api/user/refresh`);
-//       const result = res.data;
-//       console.log("토큰재발급됐당!", result);
-//       sessionStorage.setItem("accessToken", result.accessToken);
-
-//       const refreshCookie = getCookie("refresh_token");
-//       console.log("refreshCookie :", refreshCookie);
-//       // sessionStorage.setItem("refreshToken", result.refreshToken);
-//       sessionStorage.setItem("refreshToken", refreshCookie);
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
 
 // 로그아웃 post
 export const postLogout = async () => {

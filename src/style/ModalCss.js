@@ -201,6 +201,7 @@ export const ChildModalCss = styled.div`
                 font-weight: 600;
                 text-align: center;
                 padding-left: 38px;
+                
               }
             }
           }

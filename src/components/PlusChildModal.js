@@ -49,25 +49,25 @@ const PlusChildModal = ({
     allergyStrings = [];
   }, []);
 
-  // 정렬 기능 get
-  const sortData = async () => {
-    const result = await filterSort(0, 0, allergyStrings);
-    console.log(result);
+  // // 정렬 기능 get
+  // const sortData = async () => {
+  //   const result = await filterSort(0, 0, allergyStrings);
+  //   console.log(result);
 
-    return result;
-  };
+  //   return result;
+  // };
 
   // 알레르기 value값
   const newAllergyData = selectAllergy.map(selected => selected.value);
   let allergyStrings = newAllergyData.map(value => value.toString());
   // console.log("알레르기 들어오냐 ??", selectAllergy);
 
-  // 정렬 기능이 선택될 때만 데이터 불러오기
-  useEffect(() => {
-    if (selectAllergy.length > 0) {
-      sortData();
-    }
-  }, [allergyStrings, selectAllergy]);
+  // // 정렬 기능이 선택될 때만 데이터 불러오기
+  // useEffect(() => {
+  //   if (selectAllergy.length > 0) {
+  //     sortData();
+  //   }
+  // }, [allergyStrings, selectAllergy]);
 
   const handleTaste = e => {
     setTasteValue(e.target.value);
@@ -99,7 +99,7 @@ const PlusChildModal = ({
     }
     const allergyIdStr = selectAllergy.map(item => item.value);
     console.log(allergyIdStr);
-    // 추후 post 진행
+    // 아이 post 진행
     const plusChildInfo = {
       childBirth: childBirth,
       prefer: tasteValue,
@@ -113,9 +113,9 @@ const PlusChildModal = ({
       baByInfoVo: {
         babyId: babyIdGet,
         childBirth: childBirth,
-        prefer: tasteValue
+        prefer: tasteValue,
       },
-      babyAllergyList: allergyIdStr.join(),
+      babyAllergyList: allergyIdStr,
     };
 
     try {
@@ -132,7 +132,6 @@ const PlusChildModal = ({
     setShowModal(false);
   };
   const animatedComponents = makeAnimated();
-  const handleChildEdit = () => {};
   return (
     <>
       <ModalDim />

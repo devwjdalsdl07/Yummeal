@@ -14,7 +14,6 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
   const [mainImage, setItemImage] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [childShowModal, setChildShowModal] = useState(false);
-  const [hasChildInfo, setHasChildInfo] = useState(false);
 
   const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
   // uri 에서 값 읽기
