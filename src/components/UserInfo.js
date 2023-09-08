@@ -367,6 +367,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
 
   const handleSortChange = childInfo => {
     setSelectChild(childInfo);
+    setIsChildModalOpen(true);
   };
 
   useEffect(()=>{
@@ -516,7 +517,6 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                       placeholder="옵션을 선택하세요"
                       value={selectChild}
                       isSearchable={false}
-                      onClick={handleBirth}
                     />
                     {/* {baby.map((item, index) => (
                       <>
@@ -650,6 +650,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
           onSaveChildInfo={handleSaveChildInfo}
           childInfo={childInfo}
           setChildInfo={setChildInfo}
+          selectChild={selectChild}
         />
       ) : null}
     </JoinContainer>

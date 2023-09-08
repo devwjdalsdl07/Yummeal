@@ -151,7 +151,7 @@ export const getUser = async _iuser => {
 };
 
 // 아이 정보 get
-export const getChild = async _childInfo => {
+export const getChild = async () => {
   try {
     const res = await instance.get(`/api/baby`);
     console.log("로그인 child res는??", res);
@@ -363,8 +363,21 @@ export const recentKeyword = async () => {
 // 최근검색어 delete
 export const recentDelete = async item => {
   try {
-    const res = await instance.delete(`/api/search/recent?product=${item}`);
+    const res = await instance.delete(`/api/search/recent/${item}`);
   } catch (err) {
     console.log(err);
   }
 };
+
+// 인기검색어 데이터 get
+export const popularKeyword = async () => {
+  try {
+    const res = await instance.get("/api/search/popular");
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 인기검색어 
