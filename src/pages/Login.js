@@ -6,9 +6,6 @@ import { LoginContainer, SnsLoginWrap } from "../style/LoginCss";
 import { fetchLogin, getChild, getUser } from "../api/client";
 import { useDispatch } from "react-redux";
 import { loginReducer } from "../reducers/userSlice";
-import ChildModal from "../components/ChildModal";
-import { useEffect } from "react";
-import sessionStorage from "redux-persist/es/storage/session";
 
 const Login = () => {
   const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import { DatePicker, Space } from "antd";
 import { useState } from "react";
@@ -7,9 +7,13 @@ import { ChildModalCss, ModalDim } from "../style/ModalCss";
 import { useEffect } from "react";
 import { filterSort, postChildInfo } from "../api/axios";
 import Select from "react-select";
+import { getChild } from "../api/client";
+import { addBaby } from "../reducers/userSlice";
+import { useDispatch } from "react-redux";
 
 const ChildModal = ({ setchildShowModal }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [childBirth, setChildBirth] = useState();
   const [isChildBirth, setIsChildBirth] = useState();
   const [tasteValue, setTasteValue] = useState("");
@@ -42,13 +46,13 @@ const ChildModal = ({ setchildShowModal }) => {
     allergyStrings = [];
   }, []);
 
-  // 정렬 기능 get
-  const sortData = async () => {
-    const result = await filterSort(0, 0, allergyStrings);
-    console.log(result);
+  // // 정렬 기능 get
+  // const sortData = async () => {
+  //   const result = await filterSort(0, 0, allergyStrings);
+  //   console.log(result);
 
-    return result;
-  };
+  //   return result;
+  // };
 
   // 알레르기 value값
   const newAllergyData = selectAllergy.map(selected => selected.value);
@@ -58,12 +62,12 @@ const ChildModal = ({ setchildShowModal }) => {
     setTasteValue(e.target.value);
   };
 
-  // 정렬 기능이 선택될 때만 데이터 불러오기
-  useEffect(() => {
-    if (selectAllergy.length > 0) {
-      sortData();
-    }
-  }, [allergyStrings, selectAllergy]);
+  // // 정렬 기능이 선택될 때만 데이터 불러오기
+  // useEffect(() => {
+  //   if (selectAllergy.length > 0) {
+  //     sortData();
+  //   }
+  // }, [allergyStrings, selectAllergy]);
 
   const onChildBirthChange = (value, dateString) => {
     setChildBirth(dateString);
@@ -93,8 +97,21 @@ const ChildModal = ({ setchildShowModal }) => {
       allergyId: allergyIdStr.join(),
     };
     console.log(childInfo);
+    // 아이데이터 get
+    const fetchChild = await getChild();
+    const babyIdGet = fetchChild.map(item => item.baByInfoVo.babyId);
+    // redux update용
+    const childInfoUpdate = {
+      baByInfoVo: {
+        babyId: babyIdGet,
+        childBirth: childBirth,
+        prefer: tasteValue,
+      },
+      babyAllergyList: allergyIdStr,
+    };
     try {
       await postChildInfo(childInfo);
+      dispatch(addBaby(childInfoUpdate));
       setchildShowModal(false);
       // navigate(`/main`);
     } catch (err) {

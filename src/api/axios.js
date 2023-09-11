@@ -39,6 +39,18 @@ export const postChildInfo = async _childInfo => {
   }
 };
 
+// 아이 정보 put
+export const putChildInfo = async _childInfo => {
+  try {
+    const res = await instance.put(`/api/baby`, _childInfo);
+    const result = res.data;
+    console.log("수정 완료 데스 ~", result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 // 아이디 중복확인 post
 export const postIdCheck = async _email => {
   try {
