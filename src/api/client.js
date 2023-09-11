@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, removeCookie, setCookie } from "./cookie";
+import { getCookie, removeCookie } from "./cookie";
 
 export const instance = axios.create({
   // baseURL: "http://localhost:3000",
@@ -12,7 +12,9 @@ export const instance = axios.create({
 // 요청 인터셉터
 instance.interceptors.request.use(
   async config => {
-    const accessToken = sessionStorage.getItem("accessToken");
+    const accessToken =
+      sessionStorage.getItem("accessToken") ||
+      localStorage.getItem("accessToken");
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`; // 헤더에 토큰을 추가합니다.
     }
@@ -39,10 +41,10 @@ export const fetchLogin = async (id, pw) => {
     });
     console.log("넘어온 데이터 : ", res.data);
     const result = await res.data;
-    const refreshCookie = getCookie("refresh_token");
-    console.log("refreshCookie :", refreshCookie);
+    // const refreshCookie = getCookie("refresh_token");
+    // console.log("refreshCookie :", refreshCookie);
     sessionStorage.setItem("accessToken", result.accessToken);
-    sessionStorage.setItem("refreshToken", refreshCookie);
+    // sessionStorage.setItem("refreshToken", refreshCookie);
     // sessionStorage.setItem("refreshToken", result.refreshToken);
     // sessionStorage.setItem("refreshToken", refreshCookie);
     // sessionStorage.setItem("isFirshLogin", "true");
@@ -53,38 +55,60 @@ export const fetchLogin = async (id, pw) => {
   }
 };
 
+// 카카오 로그인
+// 로그인
+export const kakaoLogin = async _token => {
+  try {
+    sessionStorage.setItem("accessToken", _token);
+    checkTime();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+let isRefreshToken = false;
+
 // 일정한 시간 체크를 진행함
 const checkTime = () => {
   console.log("로그인 이후 일정 시간이 지나면 새로운 인증 코드 요청");
-  setInterval(
-    () => {
-      getRefreshToken();
-    },
-    60 * 60 * 60,
-  );
+  // if (!isRefreshToken) {
+  setTimeout(() => {
+    getRefreshToken();
+    // isRefreshToken = true;
+  }, 3000000);
+  // }
 };
+
 export const getRefreshToken = async () => {
+  // if (!accessToken) {
   try {
     const res = await instance.get(`/api/user/refresh`);
     const result = res.data;
     console.log("토큰재발급됐당!", result);
     sessionStorage.setItem("accessToken", result.accessToken);
+    checkTime();
+    // const refreshCookie = getCookie("refresh_token");
+    // console.log("refreshCookie :", refreshCookie);
+    // sessionStorage.setItem("refreshToken", result.refreshToken);
+    // sessionStorage.setItem("refreshToken", refreshCookie);
   } catch (err) {
     console.log(err);
   }
+  // }
 };
 
 // 로그아웃 post
 export const postLogout = async () => {
+  console.log("==================== 로그아웃");
   try {
-    const accessToken = sessionStorage.getItem("accessToken");
     const res = await instance.get(`/api/user/sign-out`);
     console.log("로그아웃");
     // removeCookie("accessToken");
     // removeCookie("refreshToken");
-    // removeCookie("refreshToken");
-    sessionStorage.removeItem("accessToken");
-    sessionStorage.removeItem("refreshToken");
+    removeCookie("refresh_token");
+    sessionStorage?.removeItem("accessToken");
+    localStorage?.removeItem("accessToken");
+    // sessionStorage.removeItem("refreshToken");
     const result = await res.data;
     console.log("로그아웃 성공값", result);
     return result;
@@ -122,19 +146,20 @@ export const getUser = async _iuser => {
 };
 
 // 아이 정보 get
-export const getChild = async _childInfo => {
+export const getChild = async () => {
   try {
     const res = await instance.get(`/api/baby`);
     console.log("로그인 child res는??", res);
-    const result = {
-      iuser: res.iuser,
-      childBirth: res.data.childBirth,
-      prefer: res.data.prefer,
-      allegyId: res.data.allegyId,
-    };
-    const refreshCookie = await getCookie("refresh_token");
-    console.log("refreshCookie :", refreshCookie);
-    return result;
+    // const result = {
+    //   iuser: res.data.iuser,
+    //   childBirth: res.data.childBirth,
+    //   prefer: res.data.prefer,
+    //   allergyId: res.data.allergyId,
+    // };
+    // console.log("===== 로그인 child res resultresult ?", result);
+    // const refreshCookie = await getCookie("refresh_token");
+    // console.log("refreshCookie :", refreshCookie);
+    return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -198,7 +223,7 @@ export const deleteUser = async () => {
     const result = res.data;
     // removeCookie("refreshToken");
     sessionStorage.removeItem("accessToken");
-    sessionStorage.removeItem("refreshToken");
+    removeCookie("refresh_Token");
     return result;
   } catch (err) {
     console.log(err);
@@ -296,9 +321,9 @@ export const cartIn = async _item => {
 };
 
 // 결제내역 get
-export const getOrderEnd = async _orderId => {
+export const getOrderEnd = async _orderCode => {
   try {
-    const res = await instance.get(`/api/mypage/orderlist/${_orderId}`);
+    const res = await instance.get(`/api/mypage/orderlist/${_orderCode}`);
     const result = res.data;
     console.log("오더리스트에 담기는 값", result);
     return result;
@@ -333,8 +358,21 @@ export const recentKeyword = async () => {
 // 최근검색어 delete
 export const recentDelete = async item => {
   try {
-    const res = await instance.delete(`/api/search/recent?product=${item}`);
+    const res = await instance.delete(`/api/search/recent/${item}`);
   } catch (err) {
     console.log(err);
   }
 };
+
+// 인기검색어 데이터 get
+export const popularKeyword = async () => {
+  try {
+    const res = await instance.get("/api/search/popular");
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 인기검색어

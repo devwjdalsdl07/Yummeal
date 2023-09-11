@@ -2,8 +2,6 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import About from "./pages/About";
-import AdminAddItem from "./pages/AdminAddItem";
-import AdminMain from "./pages/AdminMain";
 import Intro from "./pages/Intro";
 import ItemDetail from "./pages/ItemDetail";
 import Login from "./pages/Login";
@@ -21,24 +19,26 @@ import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
 import UseGuide from "./pages/UseGuide";
 import UseService from "./pages/UseService";
+import KaKaoOauth from "./pages/KaKaoOauth";
 
 function App() {
-  const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken =
+    sessionStorage.getItem("accessToken") ||
+    localStorage.getItem("accessToken");
   const location = useLocation();
-  const isAdminPage = location.pathname.startsWith("/admin");
   const isPaymentPage = location.pathname === "/payment";
   const isIntro = location.pathname === "/";
   return (
     <>
       {/* Header를 isAdminPage가 아닐 때만 렌더링 */}
-      {!isAdminPage && !isPaymentPage && !isIntro && <Header />}
+      {!isPaymentPage && !isIntro && <Header />}
       <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/main" element={<Main />} />
         <Route path="/login" element={accessToken ? <Main /> : <Login />} />
         <Route
           path="/signup"
-          element={accessToken ? <Navigate to="/" /> : <SignUp />}
+          element={accessToken ? <Navigate to="/main" /> : <SignUp />}
         />
         <Route path="/mypage" element={accessToken ? <Mypage /> : <Login />} />
         <Route path="/search" element={<Search />} />
@@ -62,12 +62,9 @@ function App() {
         <Route path="/*" element={<NotFound />} />
         {/* 라우터 카카오 테스트 */}
         <Route path="/sns" element={<SNS />} />
+        <Route path="/oauth/redirect" element={<KaKaoOauth />} />
       </Routes>
-      {!isAdminPage && !isPaymentPage && !isIntro && <Footer />}
-      <Routes>
-        <Route path="/admin" element={<AdminMain />} />
-        <Route path="/adminAdd" element={<AdminAddItem />} />
-      </Routes>
+      {!isPaymentPage && !isIntro && <Footer />}
     </>
   );
 }

@@ -1,31 +1,31 @@
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, DatePicker, Modal, Space } from "antd";
+import locale from "antd/locale/ko_KR";
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+import { getNickNameCheck } from "../api/axios";
+import { deleteUser, fetchUserInfo } from "../api/client";
+import { logoutReducer, userEditReducer } from "../reducers/userSlice";
 import {
+  AddChildBirth,
+  ChildBirth,
   JoinArea,
   JoinBtn,
   JoinContainer,
   JoinFormGroup,
   JoinId,
-  JoinPost,
+  JoinNickNm,
   JoinPw,
   JoinPwConfirm,
   JoinText,
   JoinTitleWrapTop,
   JoinWrap,
-  JoinNickNm,
-  AddChildBirth,
 } from "../style/UserInfoCss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { DatePicker, Space } from "antd";
-import { deleteUser, fetchUserInfo } from "../api/client";
-import dayjs from "dayjs";
-import locale from "antd/locale/ko_KR";
-import { Modal, Button } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutReducer, userEditReducer } from "../reducers/userSlice";
-import { getNickNameCheck, postPassWordCheck } from "../api/axios";
-import ChildModal from "./ChildModal";
+import EditChildModal from "./EditChildModal";
 import PlusChildModal from "./PlusChildModal";
 
 const UserInfo = ({ setActiveComponent }) => {
@@ -38,7 +38,6 @@ const UserInfo = ({ setActiveComponent }) => {
     address,
     addressDetail,
     nickNm,
-    point,
     baby,
   } = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -58,9 +57,12 @@ const UserInfo = ({ setActiveComponent }) => {
 
   const [birth, setBirth] = useState();
   const [childBirth, setChildBirth] = useState();
-  const [childInfo, setChildInfo] = useState("");
+  const [childInfo, setChildInfo] = useState([]);
+  const [selectedChildIndex, setSelectedChildIndex] = useState(null);
+  const [modalAction, setModalAction] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isChildModalOpen, setIsChildModalOpen] = useState(false);
+  const [isEditChildModalOpen, setIsEditChildModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   // 유효성 검사
@@ -82,13 +84,16 @@ const UserInfo = ({ setActiveComponent }) => {
   const validationStates = [isPw, isPwConfirm, isPhone, isNickNameCheck];
 
   const canEdit = validationStates.every(state => state);
+  const [childBirthArr, setChildBirthArr] = useState([]);
+  const [selectChildDay, setSelectChildDay] = useState("");
+  const [selectChild, setSelectChild] = useState(null);
 
   const onBirthChange = (value, dateString) => {
     setBirth(dateString);
   };
-  const onChildBirthChange = (value, dateString) => {
-    setChildBirth(dateString);
-  };
+  // const onChildBirthChange = (value, dateString) => {
+  //   setChildBirth(dateString);
+  // };
 
   // 닉네임 (추후 업데이트)
   const onNickNameChange = e => {
@@ -122,14 +127,6 @@ const UserInfo = ({ setActiveComponent }) => {
           setIsNickNameCheck(false);
         }
       }
-
-      // if (e.target.value.length == 0 || e.target.value.length > 0) {
-      //   setNickNameMessage("사용 가능한 닉네임이에요");
-      //   setIsNickName(true);
-      // } else {
-      //   setNickNameMessage("이미 다른 사용자가 사용 중이에요 ㅜㅜ");
-      //   setIsNickName(false);
-      // }
     }
   };
 
@@ -154,9 +151,6 @@ const UserInfo = ({ setActiveComponent }) => {
       setPwMessage("안전한 비밀번호에요 : )");
       setIsPw(true);
     }
-
-    // setPwMessage("");
-    // setIsPw(false);
   };
   //pwConfirm
   const onPwConfirmChange = e => {
@@ -174,13 +168,6 @@ const UserInfo = ({ setActiveComponent }) => {
       setPwConfirmMessage("비밀번호를 먼저 확인해 주세요");
       setIsPwConfirm(false);
     }
-    // if (!pwConfirmRegex.test(pwConfirmCurrent)) {
-    //   setPwConfirmMessage("비밀번호가 달라요 ! 다시 확인해주세요 ");
-    //   setIsPwConfirm(true);
-    // } else {
-    //   setPwConfirmMessage("비밀번호가 동일해요 :)");
-    //   setIsPwConfirm(false);
-    // }
   };
 
   // 전화번호
@@ -197,8 +184,6 @@ const UserInfo = ({ setActiveComponent }) => {
       setPhoneMessage("전화번호를 입력하여 주세요. ");
       setIsPhone(false);
     }
-    // setNameMessage("");
-    // setIsName(false);
   };
 
   // 상세주소 변경
@@ -252,7 +237,7 @@ const UserInfo = ({ setActiveComponent }) => {
     setIsModalOpen(true);
   };
   const handleBirth = () => {
-    setIsChildModalOpen(true);
+    setIsEditChildModalOpen(true);
   };
 
   const handleModalClose = () => {
@@ -340,16 +325,21 @@ const UserInfo = ({ setActiveComponent }) => {
   };
   const handlePlusChild = () => {
     setIsChildModalOpen(true);
+    setModalAction("add");
   };
-  const handleChildModalClose = () => {
-    setIsChildModalOpen(false);
+
+  const handleDatePickerClick = index => {
+    setSelectedChildIndex(index);
+    setModalAction("edit");
   };
+
+  // const handleChildModalClose = () => {
+  //   setIsChildModalOpen(false);
+  // };
 
   const handleSaveChildInfo = info => {
     setChildInfo(info);
   };
-  // const joinedStringWithSpace = childInfo.allergyId.join("");
-  // console.log(joinedStringWithSpace);
 
   useEffect(() => {
     // Daum 우편번호 스크립트를 동적으로 로드
@@ -365,6 +355,41 @@ const UserInfo = ({ setActiveComponent }) => {
     };
     userProfile();
   }, []);
+
+  const birthArr = () => {
+    const arr = childInfo?.map(item => {
+      const birthValue = item?.baByInfoVo?.childBirth;
+      const formatData = {
+        value: birthValue,
+        label: birthValue,
+      };
+      return formatData;
+    });
+    setChildBirthArr(arr);
+  };
+
+  const handleSortChange = _date => {
+    // console.log(_date);
+    // console.log(childInfo);
+    // console.log("==================");
+    let selectDataIndex;
+    childInfo.map((item, index) => {
+      // console.log(item.baByInfoVo.childBirth);
+      if (item.baByInfoVo.childBirth === _date.value) {
+        selectDataIndex = index;
+      }
+    });
+
+    // console.log(childInfo[selectDataIndex]);
+    // 출력용
+    setSelectChildDay(_date);
+    // 팝업전달용
+    setSelectChild(childInfo[selectDataIndex]);
+  };
+
+  useEffect(() => {
+    birthArr();
+  }, [childInfo]);
 
   return (
     <JoinContainer>
@@ -409,7 +434,7 @@ const UserInfo = ({ setActiveComponent }) => {
                 />
                 <button onClick={onNickNameCheck}>중복확인</button>
               </div>
-              {nickName.length > 0 && (
+              {nickName?.length > 0 && (
                 <span
                   className={`message ${isNickNameCheck ? "success" : "error"}`}
                 >
@@ -426,7 +451,7 @@ const UserInfo = ({ setActiveComponent }) => {
                 onChange={onPwChange}
                 maxLength={30}
               />
-              {pw.length > 0 && (
+              {pw?.length > 0 && (
                 <span className={`message ${isPw ? "success" : "error"}`}>
                   {pwMessage}
                 </span>
@@ -441,7 +466,7 @@ const UserInfo = ({ setActiveComponent }) => {
                 onChange={onPwConfirmChange}
                 maxLength={30}
               />
-              {pwConfirm.length > 0 && (
+              {pwConfirm?.length > 0 && (
                 <span
                   className={`message ${isPwConfirm ? "success" : "error"}`}
                 >
@@ -468,7 +493,7 @@ const UserInfo = ({ setActiveComponent }) => {
                 onChange={onChangePhone}
                 maxLength={11}
               />
-              {phone.length > 0 && (
+              {phone?.length > 0 && (
                 <span className={`message ${isPhone ? "success" : "error"}`}>
                   {phoneMessage}
                 </span>
@@ -478,11 +503,10 @@ const UserInfo = ({ setActiveComponent }) => {
               {/* 생년월일 드랍박스 들어갈 자리 */}
               <div
                 style={{
-                  height: "70px",
+                  height: "80px",
                   display: "flex",
-                  flexDirection: "column-reverse",
-                  flexWrap: "wrap",
-                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  gap: "30px",
                   cursor: "pointer",
                 }}
               >
@@ -500,32 +524,40 @@ const UserInfo = ({ setActiveComponent }) => {
                   </Space>
                 </div>
                 {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
-                <div onClick={handleBirth}>
+                <ChildBirth>
                   <span>아이 생년월일</span>
                   <Space direction="vertical">
-                    <DatePicker
-                      locale={locale}
-                      onChange={onChildBirthChange}
-                      // value={dayjs(childBirth, "YYYY-MM-DD")}
-                      placeholder="YYYY-MM-DD"
-                      style={{
-                        height: "30px",
-                      }}
+                    <Select
+                      className="child"
+                      options={childBirthArr}
+                      onChange={childInfo => handleSortChange(childInfo)}
+                      placeholder="수정할 아이 생일을 선택하세요"
+                      value={selectChildDay}
+                      isSearchable={false}
                     />
+                    {/* {baby.map((item, index) => (
+                      <>
+                        <DatePicker
+                          key={index}
+                          locale={locale}
+                          onChange={onChildBirthChange}
+                          value={dayjs(
+                            item.baByInfoVo.childBirth,
+                            "YYYY-MM-DD",
+                          )}
+                          placeholder="YYYY-MM-DD"
+                          style={{
+                            height: "30px",
+                          }}
+                        />
+                      </>
+                    ))} */}
                   </Space>
                   {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
-                </div>
+                </ChildBirth>
                 <AddChildBirth>
                   <button onClick={handlePlusChild}>아이 추가</button>
-                  {/* 저장된 아이 정보 출력 */}
-                  {childInfo && (
-                    <div>
-                      <h3>아이</h3>
-                      <p>{childInfo.bithday}</p>
-                      <p>{childInfo.prefer}</p>
-                      {/* <p>{childInfo.allergyId.join(",")}</p> */}
-                    </div>
-                  )}
+                  <button onClick={handleBirth}>아이 수정</button>
                 </AddChildBirth>
               </div>
             </div>
@@ -625,6 +657,18 @@ const UserInfo = ({ setActiveComponent }) => {
         <PlusChildModal
           setShowModal={setIsChildModalOpen}
           onSaveChildInfo={handleSaveChildInfo}
+          childInfo={childInfo}
+          setChildInfo={setChildInfo}
+          selectChild={selectChild}
+        />
+      ) : null}
+      {isEditChildModalOpen === true ? (
+        <EditChildModal
+          selectChild={selectChild}
+          setShowModal={setIsEditChildModalOpen}
+          // onSaveChildInfo={handleSaveChildInfo}
+          // childInfo={childInfo}
+          // setChildInfo={setChildInfo}
         />
       ) : null}
     </JoinContainer>

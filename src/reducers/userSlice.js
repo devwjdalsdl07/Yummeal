@@ -18,6 +18,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     loginReducer: (state, action) => {
+      console.log(action.payload);
       (state.uid = action.payload.uid),
         (state.unm = action.payload.unm),
         (state.mobileNb = action.payload.mobileNb),
@@ -29,6 +30,13 @@ const userSlice = createSlice({
         (state.birthday = action.payload.birthday),
         (state.baby = action.payload.baby);
       // Object.assign(state, action.payload);
+    },
+    // 애기가 추가됨
+    addBaby: (state, action) => {
+      state.baby.push(action.payload);
+    },
+    editBaby: (state, action) => {
+      state.baby = action.payload.selectChild;
     },
     logoutReducer: state => {
       // state = initialState;
@@ -50,5 +58,11 @@ const userSlice = createSlice({
 });
 
 export default userSlice;
-export const { loginReducer, logoutReducer, pointReducer, userEditReducer } =
-  userSlice.actions;
+export const {
+  loginReducer,
+  logoutReducer,
+  pointReducer,
+  userEditReducer,
+  addBaby,
+  editBaby,
+} = userSlice.actions;

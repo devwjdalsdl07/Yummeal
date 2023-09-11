@@ -6,18 +6,15 @@ import { LoginContainer, SnsLoginWrap } from "../style/LoginCss";
 import { fetchLogin, getChild, getUser } from "../api/client";
 import { useDispatch } from "react-redux";
 import { loginReducer } from "../reducers/userSlice";
-import ChildModal from "../components/ChildModal";
-import { useEffect } from "react";
-import sessionStorage from "redux-persist/es/storage/session";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const [id, setId] = useState("tt@tt.com");
-  // const [pw, setPw] = useState("1234");
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
+  const [id, setId] = useState("ttt@tt.com");
+  const [pw, setPw] = useState("qwer123!");
+  // const [id, setId] = useState("");
+  // const [pw, setPw] = useState("");
   // const [showModal, setShowModal] = useState(false);
 
   const handleSignUPClick = () => {
@@ -34,7 +31,9 @@ const Login = () => {
       // if (login.success) {
       const fetchUser = await getUser();
       const fetchChild = await getChild();
-      dispatch(loginReducer(fetchUser, fetchChild));
+      const userData = { ...fetchUser, baby: fetchChild };
+      // dispatch(loginReducer(fetchUser, fetchChild));
+      dispatch(loginReducer(userData));
       navigate("/main");
       // }
       // setShowModal(true);
@@ -46,6 +45,60 @@ const Login = () => {
       handleLoginClick();
     }
   };
+  const handleKakaoClick = () => {
+    window.open(
+      "/oauth2/authorization/kakao?redirect_uri=http://192.168.0.144:5001/oauth/redirect",
+      "pop",
+      "width=500,height=500,left=200,top=300,location=no",
+      "popup=true",
+    );
+    const interval = setInterval(async () => {
+      console.log("셋인터벌", localStorage.getItem("accessToken"));
+      if (localStorage.getItem("accessToken")) {
+        const fetchUser = await getUser();
+        const fetchChild = await getChild();
+        const userData = { ...fetchUser, baby: fetchChild };
+        dispatch(loginReducer(userData));
+        console.log(userData);
+        if (!fetchUser.zipcode) {
+          alert("필수 정보를 입력해주세요 !");
+          navigate("/mypage", { state: { kakao: "kakao" } });
+          clearInterval(interval);
+        } else {
+          navigate("/main");
+          clearInterval(interval);
+        }
+      }
+    }, 1000);
+  };
+
+  const handleNaverClick = () => {
+    window.open(
+      "/oauth2/authorization/naver?redirect_uri=http://192.168.0.144:5001/oauth/redirect",
+      "pop",
+      "width=500,height=500,left=200,top=300,location=no",
+      "popup=true",
+    );
+    const interval = setInterval(async () => {
+      console.log("셋인터벌", localStorage.getItem("accessToken"));
+      if (localStorage.getItem("accessToken")) {
+        const fetchUser = await getUser();
+        const fetchChild = await getChild();
+        const userData = { ...fetchUser, baby: fetchChild };
+        dispatch(loginReducer(userData));
+        console.log(userData);
+        if (!fetchUser.zipcode) {
+          alert("필수 정보를 입력해주세요 !");
+          navigate("/mypage", { state: { naver: "naver" } });
+          clearInterval(interval);
+        } else {
+          navigate("/main");
+          clearInterval(interval);
+        }
+      }
+    }, 1000);
+  };
+
   // useEffect(() => {
   //   const isFirstLogin = sessionStorage.getItem("isFirstLogin");
   //   if (isFirstLogin === "true") {
@@ -108,16 +161,14 @@ const Login = () => {
                 카카오로 시작하기
               </button> */}
               {/* 카카오 샘플 */}
-              <button className="kakao-login">
+              <button className="kakao-login" onClick={handleKakaoClick}>
                 <FontAwesomeIcon
                   icon={faComment}
                   style={{ padding: "10px", fontSize: "20px" }}
                 />
-                <a href="/oauth2/authorization/kakao?redirect_uri=http://192.168.0.144:5001/sns">
-                  카카오로 시작하기
-                </a>
+                카카오로 시작하기
               </button>
-              <button className="naver-login">
+              <button className="naver-login" onClick={handleNaverClick}>
                 <img
                   src={`${process.env.PUBLIC_URL}/images/naver.png`}
                   alt="logo"

@@ -1,24 +1,27 @@
-import { useNavigate } from "react-router-dom";
-import React from "react";
 import { DatePicker, Space } from "antd";
-import { useState } from "react";
-import makeAnimated from "react-select/animated";
-import { ModalDim, PlusChildModalCss } from "../style/ModalCss";
-import { useEffect } from "react";
-import { filterSort, postChildInfo } from "../api/axios";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import makeAnimated from "react-select/animated";
+import { filterSort, postChildInfo } from "../api/axios";
+import { getChild } from "../api/client";
+import { addBaby } from "../reducers/userSlice";
+import { ModalDim, PlusChildModalCss } from "../style/ModalCss";
 
-const PlusChildModal = ({ setShowModal, onSaveChildInfo }) => {
+const PlusChildModal = ({
+  setShowModal,
+  onSaveChildInfo,
+  childInfo,
+  setChildInfo,
+  selectChild,
+}) => {
   const navigate = useNavigate();
   const [childBirth, setChildBirth] = useState();
   const [isChildBirth, setIsChildBirth] = useState();
   const [tasteValue, setTasteValue] = useState("");
   const [selectAllergy, setSelectAllergy] = useState([]);
-  const [childInfo, setChildInfo] = useState({
-    childBirth: "",
-    prefer: "",
-    allegyId: [],
-  });
+  const dispatch = useDispatch();
 
   const allergyArr = [
     { value: 1, label: "난류" },
@@ -47,25 +50,25 @@ const PlusChildModal = ({ setShowModal, onSaveChildInfo }) => {
     allergyStrings = [];
   }, []);
 
-  // 정렬 기능 get
-  const sortData = async () => {
-    const result = await filterSort(0, 0, allergyStrings);
-    console.log(result);
+  // // 정렬 기능 get
+  // const sortData = async () => {
+  //   const result = await filterSort(0, 0, allergyStrings);
+  //   console.log(result);
 
-    return result;
-  };
+  //   return result;
+  // };
 
   // 알레르기 value값
   const newAllergyData = selectAllergy.map(selected => selected.value);
   let allergyStrings = newAllergyData.map(value => value.toString());
   // console.log("알레르기 들어오냐 ??", selectAllergy);
 
-  // 정렬 기능이 선택될 때만 데이터 불러오기
-  useEffect(() => {
-    if (selectAllergy.length > 0) {
-      sortData();
-    }
-  }, [allergyStrings, selectAllergy]);
+  // // 정렬 기능이 선택될 때만 데이터 불러오기
+  // useEffect(() => {
+  //   if (selectAllergy.length > 0) {
+  //     sortData();
+  //   }
+  // }, [allergyStrings, selectAllergy]);
 
   const handleTaste = e => {
     setTasteValue(e.target.value);
@@ -83,10 +86,6 @@ const PlusChildModal = ({ setShowModal, onSaveChildInfo }) => {
     setSelectAllergy(selectAllergy);
   };
 
-  // const handleChildInfoChange = (field, value) => {
-  //   setChildInfo({ ...childInfo, [field]: value });
-  // };
-
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -94,20 +93,41 @@ const PlusChildModal = ({ setShowModal, onSaveChildInfo }) => {
     };
   }, []);
 
-  const handleChildPlus = () => {
-    // 추후 post 진행
+  const handleChildPlus = async () => {
+    if (!isChildBirth) {
+      alert("아이의 생년월일은 필수에요 !");
+      return;
+    }
+    const allergyIdStr = selectAllergy.map(item => item.value);
+    console.log(allergyIdStr);
+    // 아이 post 진행
     const plusChildInfo = {
-      birthday: childBirth,
+      childBirth: childBirth,
       prefer: tasteValue,
-      allegyId: selectAllergy,
+      allergyId: allergyIdStr.join(),
     };
+    // 아이데이터 get
+    const fetchChild = await getChild();
+    const babyIdGet = fetchChild.map(item => item.baByInfoVo.babyId);
+    // redux update용
+    const childInfoUpdate = {
+      baByInfoVo: {
+        babyId: babyIdGet,
+        childBirth: childBirth,
+        prefer: tasteValue,
+      },
+      babyAllergyList: allergyIdStr,
+    };
+
     try {
-      postChildInfo(plusChildInfo);
+      await postChildInfo(plusChildInfo);
+      onSaveChildInfo(childInfo);
+      dispatch(addBaby(childInfoUpdate));
+      setChildInfo([...childInfo, childInfoUpdate]);
+      setShowModal(false);
     } catch (err) {
       alert("다시 시도해주세요");
     }
-    onSaveChildInfo(childInfo);
-    setShowModal(false);
   };
   const handleSkip = () => {
     setShowModal(false);

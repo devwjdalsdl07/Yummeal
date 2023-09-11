@@ -22,15 +22,27 @@ const Slick = () => {
         if (!recommendJson) {
           const randomJson = await getRandom();
           setRecommend(randomJson);
-          setItemImage(randomJson.map(item => item.thumbnail));
+          setItemImage(
+            randomJson.list.map(
+              item => `/img/product/${item.productId}/${item.thumbnail}`,
+            ),
+          );
         } else {
           setRecommend(recommendJson);
-          setItemImage(recommendJson.map(item => item.thumbnail));
+          setItemImage(
+            recommendJson.list.map(
+              item => `/img/product/${item.productId}/${item.thumbnail}`,
+            ),
+          );
         }
       } else {
         const randomJson = await getRandom();
         setRandomProduct(randomJson);
-        setItemImage(randomJson.map(item => item.thumbnail));
+        setItemImage(
+          randomJson.list.map(
+            item => `/img/product/${item.productId}/${item.thumbnail}`,
+          ),
+        );
       }
     } catch (err) {
       console.log(err);

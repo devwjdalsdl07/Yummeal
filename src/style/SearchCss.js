@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 export const SearchWrap = styled.div`
-    background: #f9f6f1;
+  background: #f9f6f1;
   .wrap {
     position: relative;
     margin: 0 auto;
@@ -10,16 +10,44 @@ export const SearchWrap = styled.div`
     min-width: 500px;
     max-width: 1400px;
     .searchbox {
+      position: relative;
       font-size: 15px;
       padding: 20px;
       width: 90%;
       margin: 0 auto;
       min-width: 450px;
       border: 1px solid #000;
+      background: #fff;
       border-radius: 10px;
-      box-shadow: 10px 10px 3px -4px rgba(0,0,0,0.4);
+      box-shadow: 10px 10px 3px -4px rgba(0, 0, 0, 0.4);
       h3 {
         width: 100px;
+      }
+      .search-child {
+        display: flex;
+        padding-top: 20px;
+        gap: 40px;
+        .child {
+          width: 300px;
+          .css-1fdsijx-ValueContainer {
+            padding: 0 15px;
+          }
+        }
+      }
+      button {
+        position: absolute;
+        top: 30%;
+        right: 3%;
+        padding: 10px 20px;
+        background: transparent;
+        border: 1px solid;
+        border-radius: 5px;
+        cursor: pointer;
+        transform: translateY(-50px);
+        &:hover {
+          background: #8eb111;
+          color: #fff;
+        }
       }
       .search-sort {
         display: flex;
@@ -156,6 +184,9 @@ export const SearchWrap = styled.div`
   }
   @media screen and (max-width: 610px) {
     .wrap {
+      h3 {
+        min-width: 100px;
+      }
       .searchbox {
         padding-left: 25px;
       }

@@ -1,3 +1,4 @@
+import { Alert } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
@@ -6,7 +7,6 @@ import { getCart, orderPost } from "../api/client";
 import OrderItem from "../components/OrderItem";
 import { pointReducer } from "../reducers/userSlice";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
-import { Alert } from "antd";
 
 const Order = () => {
   const [orderItems, setOrderItems] = useState([]);
@@ -39,7 +39,7 @@ const Order = () => {
     state => state.user,
   );
   const addressAll = address + addressDetail;
-  console.log("dlsfsafdsfdas", receiver);
+
   // 장바구니 정보 가져오기
   const cartList = async () => {
     const result = await getCart();

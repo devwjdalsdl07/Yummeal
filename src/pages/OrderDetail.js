@@ -70,7 +70,7 @@ const OrderDetail = () => {
           {orderList.map(item => (
             <div key={item.productId} className="order-prodtext">
               <div className="order-imgbox">
-                <img src={item.thumbnail} alt={item.title} />
+                <img src={`/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
               </div>
               <div className="order-textwrap">
                 <p>{item.productName}</p>

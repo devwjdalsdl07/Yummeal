@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { filterSort } from "../api/axios";
+import { getChild } from "../api/client";
 
 // 정렬용 배열
 const sortArr = [
@@ -36,12 +37,26 @@ const allergyArr = [
 const SortFilter = ({ product, setSearchData }) => {
   const [selectSort, setSelectSort] = useState("");
   const [selectAllergy, setSelectAllergy] = useState([]);
+  const [childData, setChildData] = useState([]);
+  const [selectChild, setSelectChild] = useState(null);
   const animatedComponents = makeAnimated();
+  const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
+
+  // 아이 정보 get
+  const childInfo = async () => {
+    const res = await getChild();
+    setChildData(res);
+  };
+
+  console.log(childData);
 
   useEffect(() => {
     setSelectSort("");
     setSelectAllergy([]);
     allergyStrings = [];
+    if (isLoggedIn) {
+      childInfo();
+    }
   }, [product]);
 
   // 정렬 기능 get
@@ -73,9 +88,51 @@ const SortFilter = ({ product, setSearchData }) => {
   const handleAllergy = allergyArr => {
     setSelectAllergy(allergyArr);
   };
+
+  const handleChildChange = selectChild => {
+    setSelectChild(selectChild);
+    const selectChildData = childData.find(
+      child => child.baByInfoVo.babyId === selectChild.value,
+    );
+    const selectChildAllergies = selectChildData
+      ? selectChildData.babyAllergyList.map(item => ({
+          value: item.allergyId,
+          label: item.allergyName,
+        }))
+      : [];
+    setSelectAllergy(selectChildAllergies);
+  };
+
+  const handleReset = async () => {
+    setSelectChild(null);
+    setSelectSort("");
+    setSelectAllergy([]);
+    allergyStrings = [];
+    await sortData();
+  };
+
   return (
     <div className="searchbox">
       <h2>서치필터</h2>
+      {isLoggedIn ? (
+        <>
+        <div className="search-child">
+            <h3>아이선택</h3>
+            <Select
+              className="child"
+              options={childData?.map((child, idx) => ({
+                value: child.baByInfoVo.babyId,
+                label: `아이${idx + 1}`,
+              }))}
+              onChange={selectChild => handleChildChange(selectChild)}
+              placeholder="옵션을 선택하세요"
+              value={selectChild}
+              isSearchable={false}
+            />
+        </div>
+          <button onClick={handleReset}>초기화</button>
+          </>
+      ) : null}
       <div className="search-sort">
         <h3>정렬 기능</h3>
         <Select
