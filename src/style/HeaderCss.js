@@ -49,14 +49,14 @@ export const Head = styled.div`
     justify-content: space-around;
     position: absolute;
     left: 50%;
-    top: 55%;
+    top: 50%;
     transform: translateX(-50%);
     z-index: 9999;
     width: 600px;
     height: 40px;
     background: #fff;
     z-index: 999;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     text-align: center;
     font-size: 15px;
     padding-top: 10px;
@@ -71,15 +71,15 @@ export const Head = styled.div`
     transform: translateX(-50%);
     width: 600px;
     height: 300px;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.6);
     z-index: 999;
-    border-radius: 8px;
+    border-radius: 0 0 8px 8px;
     text-align: center;
     font-size: 15px;
     box-shadow:
       rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
       rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-      overflow: hidden;
+    overflow: hidden;
     .recent-wrap,
     .popular-wrap {
       & > div {
@@ -103,18 +103,24 @@ export const Head = styled.div`
           .content-title {
             width: 200px;
             text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 17px;
           }
         }
-        .popular-content{
-          .content-title{
+        .popular-content {
+          .content-title {
             display: flex;
             gap: 20px;
             width: 300px;
-            &>span{
+            & > span {
               display: block;
+              width: 15px;
             }
-            &>strong{
+            & > strong {
               display: block;
+              font-weight: 400;
             }
           }
         }

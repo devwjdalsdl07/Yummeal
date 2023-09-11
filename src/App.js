@@ -21,6 +21,7 @@ import ShopCart from "./pages/ShopCart";
 import SignUp from "./pages/SignUp";
 import UseGuide from "./pages/UseGuide";
 import UseService from "./pages/UseService";
+import KakaoPayment from "./pages/KakaoPayment";
 
 function App() {
   const accessToken = sessionStorage.getItem("accessToken");
@@ -62,6 +63,7 @@ function App() {
         <Route path="/*" element={<NotFound />} />
         {/* 라우터 카카오 테스트 */}
         <Route path="/sns" element={<SNS />} />
+        <Route path="/kakaopayment" element={<KakaoPayment />} />
       </Routes>
       {!isAdminPage && !isPaymentPage && !isIntro && <Footer />}
       <Routes>

@@ -141,10 +141,10 @@ export const cateProdList = async (_page, cateId, subCateId) => {
   console.log("카테액시오스 순서 테스트", _page, cateId, subCateId);
   try {
     const res = await axios.get(
-      `/api/cate/list?cateId=${cateId}&cateDetailId=${subCateId}&page=${_page}&row=16`,
+      `/api/cate?cateId=${cateId}&cateDetailId=${subCateId}`,
     );
     const result = res.data;
-    console.log("카테고리 가냐? : ", result);
+    console.log("통신되는데 : ", result);
     return result;
   } catch (err) {
     console.log(err);

@@ -380,4 +380,13 @@ export const popularKeyword = async () => {
   }
 };
 
-// 인기검색어 
+// 카카오페이 post
+export const kakaoPay = async item => {
+  try {
+    const res = await instance.post("/api/kakaoPay", item);
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};

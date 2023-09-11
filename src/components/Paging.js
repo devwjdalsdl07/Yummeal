@@ -26,7 +26,7 @@ const Paging = ({ onPageChange, pageRangeDisplayed, totalItemsCount }) => {
         activePage={page}
         itemsCountPerPage={16}
         totalItemsCount={totalItemCount == 0 ? 1 : totalItemCount}
-        pageRangeDisplayed={maxPage == 0 ? 1 : maxPage}
+        pageRangeDisplayed={maxPage == 0|undefined ? 1 : maxPage}
         prevPageText={"‹"}
         nextPageText={"›"}
         onChange={handlePageChange}

@@ -23,11 +23,11 @@ const SearchProd = ({
         <h1 className="best-title">{product ? `${product} 검색결과` : ""}</h1>
       </div>
       <ul className="list-area">
-        {searchData?.dto?.map((item, productId) => (
-          <div key={productId}>
+        {searchData?.dto?.map((item, index) => (
+          <div key={index}>
             <li className="product-card">
               <img
-                src={`/img/product/${item.productId}/${item.thumbnail}`}
+                src={`http://192.168.0.144:5001/img/product/${item.productid}/${item.thumbnail}`}
                 alt="상품 이미지"
                 className="product-image"
               />

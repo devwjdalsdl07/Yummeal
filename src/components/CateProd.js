@@ -31,7 +31,7 @@ const CateProd = ({
   const handleCatePaging = newPage => {
     cateProdData(newPage, state?.cateId, state?.subCate);
   };
-
+console.log("ㅂㄷㄱㅈㅂㄷㄱㅇㄴㅁㄹㅇㄴ",prodList);
   return (
     <>
       <div className="best-item">
@@ -43,11 +43,11 @@ const CateProd = ({
         </h1>
       </div>
       <ul className="list-area">
-        {prodList?.list?.map((item, productId) => (
-          <div key={productId}>
+        {prodList?.map((item, index) => (
+          <div key={index}>
             <li className="product-card">
               <img
-                src={`/img/product/${item.productId}/${item.thumbnail}`}
+                src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`}
                 alt="상품 이미지"
                 className="product-image"
               />

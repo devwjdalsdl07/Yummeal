@@ -116,7 +116,7 @@ const PlusChildModal = ({
         childBirth: childBirth,
         prefer: tasteValue,
       },
-      babyAllergyList: allergyIdStr.join(),
+      babyAllergyList: allergyIdStr,
     };
 
     try {

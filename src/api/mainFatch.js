@@ -43,7 +43,7 @@ export const getMain = async _page => {
 //램덤으로 상품추천(비로그인)
 export const getRandom = async () => {
   try {
-    const res = await axios.get(`/api/main?check=3&page=0&row=6`);
+    const res = await axios.get(`/api/main?check=3&page=1&row=6`);
     const result = res.data;
     // console.log("getRandom 요청성공!!", result);
     return result;
@@ -55,7 +55,7 @@ export const getRandom = async () => {
 //회원 자녀의 개월에 따라 상품추천(로그인)
 export const getRecommend = async () => {
   try {
-    const res = await instance.get(`/api/main?check=2&page=0&row=6`);
+    const res = await instance.get(`/api/main?check=2&page=1&row=6`);
     const result = res.data;
     console.log("getRecommend 요청성공!!", result);
     return result;
@@ -67,7 +67,7 @@ export const getRecommend = async () => {
 //제일 많이 팔린 상품
 export const getBestProduct = async () => {
   try {
-    const res = await axios.get(`/api/main?check=4&page=0&row=8`);
+    const res = await axios.get(`/api/main?check=4&page=1&row=8`);
     const result = res.data;
     // console.log("getBestProduct 요청성공!!", result);
     return result;
