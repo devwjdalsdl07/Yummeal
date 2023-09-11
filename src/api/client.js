@@ -12,7 +12,9 @@ export const instance = axios.create({
 // 요청 인터셉터
 instance.interceptors.request.use(
   async config => {
-    const accessToken = sessionStorage.getItem("accessToken");
+    const accessToken =
+      sessionStorage.getItem("accessToken") ||
+      localStorage.getItem("accessToken");
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`; // 헤더에 토큰을 추가합니다.
     }
@@ -112,7 +114,8 @@ export const postLogout = async () => {
     // removeCookie("accessToken");
     // removeCookie("refreshToken");
     removeCookie("refresh_token");
-    sessionStorage.removeItem("accessToken");
+    sessionStorage?.removeItem("accessToken");
+    localStorage?.removeItem("accessToken");
     // sessionStorage.removeItem("refreshToken");
     const result = await res.data;
     console.log("로그아웃 성공값", result);
@@ -228,7 +231,7 @@ export const deleteUser = async () => {
     const result = res.data;
     // removeCookie("refreshToken");
     sessionStorage.removeItem("accessToken");
-    sessionStorage.removeItem("refreshToken");
+    removeCookie("refresh_Token");
     return result;
   } catch (err) {
     console.log(err);
@@ -380,4 +383,4 @@ export const popularKeyword = async () => {
   }
 };
 
-// 인기검색어 
+// 인기검색어
