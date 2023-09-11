@@ -64,12 +64,17 @@ export const kakaoLogin = async _token => {
   }
 };
 
+let isRefreshToken = false;
+
 // 일정한 시간 체크를 진행함
 const checkTime = () => {
   console.log("로그인 이후 일정 시간이 지나면 새로운 인증 코드 요청");
+  // if (!isRefreshToken) {
   setTimeout(() => {
     getRefreshToken();
-  }, 300000);
+    // isRefreshToken = true;
+  }, 3000000);
+  // }
 };
 
 export const getRefreshToken = async () => {
