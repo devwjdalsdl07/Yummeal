@@ -14,7 +14,6 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
   const [mainImage, setItemImage] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [childShowModal, setChildShowModal] = useState(false);
-  const [hasChildInfo, setHasChildInfo] = useState(false);
 
   const isLoggedIn = sessionStorage.getItem("accessToken") ? true : false;
   // uri 에서 값 읽기
@@ -25,7 +24,8 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
     try {
       const productIdJson = await getBestProduct(pid);
       setBestProduct(productIdJson);
-      // setItemImage(productIdJson.map(item => item.thumbnail));
+      setItemImage(productIdJson.map(item => item.thumbnail));
+      console.log(mainImage);
     } catch (err) {
       console.log(err);
     }

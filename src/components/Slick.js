@@ -19,7 +19,7 @@ const Slick = () => {
     try {
       if (isLoggedIn) {
         const recommendJson = await getRecommend();
-        if (recommendJson === null) {
+        if (!recommendJson) {
           const randomJson = await getRandom();
           setRecommend(randomJson);
           setItemImage(
@@ -92,7 +92,7 @@ const Slick = () => {
     <div className="container-slick">
       <SlickDiv>
         <h1 className="title">
-          {isLoggedIn ? `${nickNm}님을 위한 추천 상품` : "추천 상품"}
+          {isLoggedIn ?  `${nickNm}님을 위한 추천 상품` : "추천 상품"}
         </h1>
         <Slider {...settings}>
           {((isLoggedIn ? recommend.list : randomProduct.list) || []).map(

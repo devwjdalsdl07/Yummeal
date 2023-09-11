@@ -285,7 +285,7 @@ const Order = () => {
             <h3>배송지 정보</h3>
             <hr />
             <div className="user-info">
-              {(!receiver || !addressAll || !mobileNb) && (
+            {(!receiver || !addressAll || !mobileNb) && (
                 <Alert
                   message="회원정보가 없습니다"
                   description="회원 정보를 등록해주세요."

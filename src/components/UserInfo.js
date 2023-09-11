@@ -12,6 +12,7 @@ import { deleteUser, fetchUserInfo } from "../api/client";
 import { logoutReducer, userEditReducer } from "../reducers/userSlice";
 import {
   AddChildBirth,
+  ChildBirth,
   JoinArea,
   JoinBtn,
   JoinContainer,
@@ -24,9 +25,10 @@ import {
   JoinTitleWrapTop,
   JoinWrap,
 } from "../style/UserInfoCss";
+import EditChildModal from "./EditChildModal";
 import PlusChildModal from "./PlusChildModal";
 
-const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
+const UserInfo = ({ setActiveComponent }) => {
   const {
     uid,
     unm,
@@ -36,7 +38,6 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
     address,
     addressDetail,
     nickNm,
-    point,
     baby,
   } = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
   const [modalAction, setModalAction] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isChildModalOpen, setIsChildModalOpen] = useState(false);
+  const [isEditChildModalOpen, setIsEditChildModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   // 유효성 검사
@@ -82,15 +84,16 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
   const validationStates = [isPw, isPwConfirm, isPhone, isNickNameCheck];
 
   const canEdit = validationStates.every(state => state);
-  const [childBirthArr, setChildBirthArr]=useState([]);
-  const [selectChild, setSelectChild] = useState("");
+  const [childBirthArr, setChildBirthArr] = useState([]);
+  const [selectChildDay, setSelectChildDay] = useState("");
+  const [selectChild, setSelectChild] = useState(null);
 
   const onBirthChange = (value, dateString) => {
     setBirth(dateString);
   };
-  const onChildBirthChange = (value, dateString) => {
-    setChildBirth(dateString);
-  };
+  // const onChildBirthChange = (value, dateString) => {
+  //   setChildBirth(dateString);
+  // };
 
   // 닉네임 (추후 업데이트)
   const onNickNameChange = e => {
@@ -234,7 +237,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
     setIsModalOpen(true);
   };
   const handleBirth = () => {
-    setIsChildModalOpen(true);
+    setIsEditChildModalOpen(true);
   };
 
   const handleModalClose = () => {
@@ -365,14 +368,28 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
     setChildBirthArr(arr);
   };
 
-  const handleSortChange = childInfo => {
-    setSelectChild(childInfo);
-    setIsChildModalOpen(true);
+  const handleSortChange = _date => {
+    // console.log(_date);
+    // console.log(childInfo);
+    // console.log("==================");
+    let selectDataIndex;
+    childInfo.map((item, index) => {
+      // console.log(item.baByInfoVo.childBirth);
+      if (item.baByInfoVo.childBirth === _date.value) {
+        selectDataIndex = index;
+      }
+    });
+
+    // console.log(childInfo[selectDataIndex]);
+    // 출력용
+    setSelectChildDay(_date);
+    // 팝업전달용
+    setSelectChild(childInfo[selectDataIndex]);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     birthArr();
-  },[childInfo])
+  }, [childInfo]);
 
   return (
     <JoinContainer>
@@ -417,7 +434,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                 />
                 <button onClick={onNickNameCheck}>중복확인</button>
               </div>
-              {nickName.length > 0 && (
+              {nickName?.length > 0 && (
                 <span
                   className={`message ${isNickNameCheck ? "success" : "error"}`}
                 >
@@ -434,7 +451,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                 onChange={onPwChange}
                 maxLength={30}
               />
-              {pw.length > 0 && (
+              {pw?.length > 0 && (
                 <span className={`message ${isPw ? "success" : "error"}`}>
                   {pwMessage}
                 </span>
@@ -449,7 +466,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                 onChange={onPwConfirmChange}
                 maxLength={30}
               />
-              {pwConfirm.length > 0 && (
+              {pwConfirm?.length > 0 && (
                 <span
                   className={`message ${isPwConfirm ? "success" : "error"}`}
                 >
@@ -476,7 +493,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                 onChange={onChangePhone}
                 maxLength={11}
               />
-              {phone.length > 0 && (
+              {phone?.length > 0 && (
                 <span className={`message ${isPhone ? "success" : "error"}`}>
                   {phoneMessage}
                 </span>
@@ -486,10 +503,10 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
               {/* 생년월일 드랍박스 들어갈 자리 */}
               <div
                 style={{
-                  height: "100px",
+                  height: "80px",
                   display: "flex",
-                  justifyContent: "space-between",
-                  flexWrap: "wrap",
+                  alignItems: "center",
+                  gap: "30px",
                   cursor: "pointer",
                 }}
               >
@@ -507,15 +524,15 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                   </Space>
                 </div>
                 {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
-                <div>
+                <ChildBirth>
                   <span>아이 생년월일</span>
                   <Space direction="vertical">
                     <Select
                       className="child"
                       options={childBirthArr}
                       onChange={childInfo => handleSortChange(childInfo)}
-                      placeholder="옵션을 선택하세요"
-                      value={selectChild}
+                      placeholder="수정할 아이 생일을 선택하세요"
+                      value={selectChildDay}
                       isSearchable={false}
                     />
                     {/* {baby.map((item, index) => (
@@ -537,18 +554,10 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                     ))} */}
                   </Space>
                   {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
-                </div>
+                </ChildBirth>
                 <AddChildBirth>
                   <button onClick={handlePlusChild}>아이 추가</button>
-                  {/* 저장된 아이 정보 출력 */}
-                  {/* {childInfo && ( */}
-                  {/* // <div> */}
-                  {/* <h3>아이</h3> */}
-                  {/* <p>{childInfo.bithday}</p> */}
-                  {/* <p>{childInfo.prefer}</p> */}
-                  {/* <p>{childInfo.allergyIdStr.join()}</p> */}
-                  {/* </div> */}
-                  {/* // )} */}
+                  <button onClick={handleBirth}>아이 수정</button>
                 </AddChildBirth>
               </div>
             </div>
@@ -651,6 +660,15 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
           childInfo={childInfo}
           setChildInfo={setChildInfo}
           selectChild={selectChild}
+        />
+      ) : null}
+      {isEditChildModalOpen === true ? (
+        <EditChildModal
+          selectChild={selectChild}
+          setShowModal={setIsEditChildModalOpen}
+          // onSaveChildInfo={handleSaveChildInfo}
+          // childInfo={childInfo}
+          // setChildInfo={setChildInfo}
         />
       ) : null}
     </JoinContainer>

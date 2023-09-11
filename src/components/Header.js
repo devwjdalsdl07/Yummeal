@@ -22,7 +22,7 @@ import { logoutReducer } from "../reducers/userSlice";
 import { Head } from "../style/HeaderCss";
 
 function Header() {
-  const accessToken = sessionStorage.getItem("accessToken");
+  const accessToken = sessionStorage.getItem("accessToken")||localStorage.getItem("accessToken");
   const dispatch = useDispatch();
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
@@ -139,6 +139,7 @@ function Header() {
   const handleRemove = async () => {
     const logout = await postLogout();
     if (!logout) {
+      localStorage.removeItem("accessToken")
       dispatch(logoutReducer());
     }
     navigate("/main");
@@ -155,7 +156,6 @@ function Header() {
       },
     });
   };
-
   return (
     <Head isToggled={isToggled} userToggled={userToggled}>
       {/* 햄버거 버튼(bar) */}

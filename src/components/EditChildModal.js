@@ -5,19 +5,40 @@ import { useState } from "react";
 import makeAnimated from "react-select/animated";
 import { ChildModalCss, ModalDim } from "../style/ModalCss";
 import { useEffect } from "react";
-import { filterSort, postChildInfo } from "../api/axios";
+import { filterSort, putChildInfo } from "../api/axios";
 import Select from "react-select";
-import { getChild } from "../api/client";
-import { addBaby } from "../reducers/userSlice";
 import { useDispatch } from "react-redux";
+import dayjs from "dayjs";
+import { editBaby } from "../reducers/userSlice";
 
-const ChildModal = ({ setchildShowModal }) => {
+const EditChildModal = ({ setShowModal, selectChild }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [childBirth, setChildBirth] = useState();
-  const [isChildBirth, setIsChildBirth] = useState();
+  const [childBirth, setChildBirth] = useState("");
   const [tasteValue, setTasteValue] = useState("");
   const [selectAllergy, setSelectAllergy] = useState([]);
+
+  const selectAllergyArr = () => {
+    const arr = selectChild?.babyAllergyList.map(item => {
+      const formatData = {
+        value: item.allergyId,
+        label: item.allergyName,
+      };
+      console.log(formatData);
+      return formatData;
+    });
+    console.log(arr);
+    setSelectAllergy(arr);
+  };
+
+  useEffect(() => {
+    console.log(selectChild);
+    console.log(selectChild);
+    setChildBirth(selectChild.baByInfoVo.childBirth);
+    setTasteValue(selectChild.baByInfoVo.prefer);
+    selectAllergyArr();
+    allergyStrings = [];
+  }, [selectChild]);
 
   const allergyArr = [
     { value: 1, label: "난류" },
@@ -41,41 +62,24 @@ const ChildModal = ({ setchildShowModal }) => {
     { value: 19, label: "아황산류" },
     { value: 20, label: "생선류" },
   ];
-  useEffect(() => {
-    setSelectAllergy([]);
-    allergyStrings = [];
-  }, []);
-
-  // // 정렬 기능 get
-  // const sortData = async () => {
-  //   const result = await filterSort(0, 0, allergyStrings);
-  //   console.log(result);
-
-  //   return result;
-  // };
 
   // 알레르기 value값
   const newAllergyData = selectAllergy.map(selected => selected.value);
   let allergyStrings = newAllergyData.map(value => value.toString());
+  console.log("adfasdf", selectAllergy);
 
   const handleTaste = e => {
     setTasteValue(e.target.value);
   };
 
-  // // 정렬 기능이 선택될 때만 데이터 불러오기
-  // useEffect(() => {
-  //   if (selectAllergy.length > 0) {
-  //     sortData();
-  //   }
-  // }, [allergyStrings, selectAllergy]);
-
   const onChildBirthChange = (value, dateString) => {
     setChildBirth(dateString);
-    if (dateString) {
-      setIsChildBirth(true);
-    } else if (!dateString) {
-      setIsChildBirth(false);
-    }
+    // dispatch(editBaby({ childBirth: dateString }));
+    // if (dateString) {
+    //   setIsChildBirth(true);
+    // } else if (!dateString) {
+    //   setIsChildBirth(false);
+    // }
   };
   const handleAllergy = allergyArr => {
     setSelectAllergy(allergyArr);
@@ -87,43 +91,45 @@ const ChildModal = ({ setchildShowModal }) => {
     };
   }, []);
 
-  const handleChildStart = async () => {
+  const handleChildEdit = async () => {
     const allergyIdStr = selectAllergy.map(item => item.value);
     console.log(allergyIdStr);
-    // 추후 post 진행
-    const childInfo = {
+    // put 진행
+    const editChildInfo = {
       childBirth: childBirth,
       prefer: tasteValue,
       allergyId: allergyIdStr.join(),
+      babyId: selectChild.baByInfoVo.babyId,
     };
-    console.log(childInfo);
-    // 아이데이터 get
-    const fetchChild = await getChild();
-    const babyIdGet = fetchChild.map(item => item.baByInfoVo.babyId);
-    // redux update용
-    const childInfoUpdate = {
+    console.log(editChildInfo);
+    // redux update
+    const selectChildInfoUpdate = {
       baByInfoVo: {
-        babyId: babyIdGet,
+        babyId: selectChild.baByInfoVo.babyId,
         childBirth: childBirth,
         prefer: tasteValue,
       },
       babyAllergyList: allergyIdStr,
     };
     try {
-      await postChildInfo(childInfo);
-      dispatch(addBaby(childInfoUpdate));
-      setchildShowModal(false);
+      await putChildInfo(editChildInfo);
+      //   onSaveChildInfo(selectChild);
+      dispatch(editBaby(selectChildInfoUpdate));
+      //   setChildInfo(selectChild, selectChildInfoUpdate);
+      setShowModal(false);
       // navigate(`/main`);
     } catch (err) {
       alert("다시 시도해주세요");
     }
   };
+  console.log(selectChild.baByInfoVo.babyId);
 
   const handleSkip = () => {
-    setchildShowModal(false);
-    navigate("/main");
+    setShowModal(false);
+    // navigate("/main");
   };
   const animatedComponents = makeAnimated();
+  //   console.log(childInfo);
   return (
     <>
       <ModalDim />
@@ -150,7 +156,8 @@ const ChildModal = ({ setchildShowModal }) => {
               <Space direction="vertical">
                 <DatePicker
                   onChange={onChildBirthChange}
-                  placeholder="YYYY-MM-DD"
+                  value={dayjs(childBirth, "YYYY-MM-DD")}
+                  //   placeholder="YYYY-MM-DD"
                   style={{
                     height: "30px",
                   }}
@@ -186,7 +193,7 @@ const ChildModal = ({ setchildShowModal }) => {
             </h4>
 
             <div className="modal-buttons">
-              <button onClick={handleChildStart}>시작하기</button>
+              <button onClick={handleChildEdit}>수정하기</button>
               {/* <input type="button" value="시작하기" /> */}
               <button onClick={handleSkip}>건너뛰기</button>
               {/* <input type="button" value="건너뛰기" /> */}
@@ -203,4 +210,4 @@ const ChildModal = ({ setchildShowModal }) => {
   );
 };
 
-export default ChildModal;
+export default EditChildModal;
