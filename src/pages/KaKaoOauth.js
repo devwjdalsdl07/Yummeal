@@ -6,7 +6,6 @@ const KaKaoOauth = () => {
   const [params, setParams] = useSearchParams();
   const location = useLocation();
   const close = () => {
-    console.log("작동하니 ?");
     return window.close();
   };
   useEffect(() => {

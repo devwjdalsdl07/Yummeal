@@ -417,7 +417,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                 />
                 <button onClick={onNickNameCheck}>중복확인</button>
               </div>
-              {nickName.length > 0 && (
+              {nickName?.length > 0 && (
                 <span
                   className={`message ${isNickNameCheck ? "success" : "error"}`}
                 >
@@ -434,7 +434,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                 onChange={onPwChange}
                 maxLength={30}
               />
-              {pw.length > 0 && (
+              {pw?.length > 0 && (
                 <span className={`message ${isPw ? "success" : "error"}`}>
                   {pwMessage}
                 </span>
@@ -449,7 +449,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                 onChange={onPwConfirmChange}
                 maxLength={30}
               />
-              {pwConfirm.length > 0 && (
+              {pwConfirm?.length > 0 && (
                 <span
                   className={`message ${isPwConfirm ? "success" : "error"}`}
                 >
@@ -476,7 +476,7 @@ const UserInfo = ({ setActiveComponent, allergyIdStr }) => {
                 onChange={onChangePhone}
                 maxLength={11}
               />
-              {phone.length > 0 && (
+              {phone?.length > 0 && (
                 <span className={`message ${isPhone ? "success" : "error"}`}>
                   {phoneMessage}
                 </span>

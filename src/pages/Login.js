@@ -50,48 +50,56 @@ const Login = () => {
   };
   const handleKakaoClick = () => {
     window.open(
-      "http://192.168.0.144:5001/oauth2/authorization/kakao?redirect_uri=http://192.168.0.144:5001/oauth/redirect",
+      "/oauth2/authorization/kakao?redirect_uri=http://192.168.0.144:5001/oauth/redirect",
       "pop",
       "width=500,height=500,left=200,top=300,location=no",
       "popup=true",
     );
-    setTimeout(async () => {
-      if (localStorage.getItem("acccesToken")) {
+    const interval = setInterval(async () => {
+      console.log("셋인터벌", localStorage.getItem("accessToken"));
+      if (localStorage.getItem("accessToken")) {
         const fetchUser = await getUser();
         const fetchChild = await getChild();
         const userData = { ...fetchUser, baby: fetchChild };
         dispatch(loginReducer(userData));
-        if (fetchUser.zipcode) {
+        console.log(userData);
+        if (!fetchUser.zipcode) {
           alert("필수 정보를 입력해주세요 !");
-          navigate("/mypage");
+          navigate("/mypage", { state: { kakao: "kakao" } });
+          clearInterval(interval);
         } else {
           navigate("/main");
+          clearInterval(interval);
         }
       }
-    }, 100);
+    }, 1000);
   };
 
   const handleNaverClick = () => {
     window.open(
-      "http://192.168.0.144:5001/oauth2/authorization/naver?redirect_uri=http://192.168.0.144:5001/oauth/redirect",
+      "/oauth2/authorization/naver?redirect_uri=http://192.168.0.144:5001/oauth/redirect",
       "pop",
       "width=500,height=500,left=200,top=300,location=no",
       "popup=true",
     );
-    setTimeout(async () => {
-      if (localStorage.getItem("acccesToken")) {
+    const interval = setInterval(async () => {
+      console.log("셋인터벌", localStorage.getItem("accessToken"));
+      if (localStorage.getItem("accessToken")) {
         const fetchUser = await getUser();
         const fetchChild = await getChild();
         const userData = { ...fetchUser, baby: fetchChild };
         dispatch(loginReducer(userData));
-        if (fetchUser.zipcode) {
+        console.log(userData);
+        if (!fetchUser.zipcode) {
           alert("필수 정보를 입력해주세요 !");
-          navigate("/mypage");
+          navigate("/mypage", { state: { naver: "naver" } });
+          clearInterval(interval);
         } else {
           navigate("/main");
+          clearInterval(interval);
         }
       }
-    }, 100);
+    }, 1000);
   };
 
   // useEffect(() => {
