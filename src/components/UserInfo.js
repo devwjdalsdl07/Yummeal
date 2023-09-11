@@ -659,6 +659,7 @@ const UserInfo = ({ setActiveComponent }) => {
           onSaveChildInfo={handleSaveChildInfo}
           childInfo={childInfo}
           setChildInfo={setChildInfo}
+          selectChild={selectChild}
         />
       ) : null}
       {isEditChildModalOpen === true ? (

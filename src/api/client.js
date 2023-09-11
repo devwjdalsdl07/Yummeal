@@ -12,7 +12,9 @@ export const instance = axios.create({
 // 요청 인터셉터
 instance.interceptors.request.use(
   async config => {
-    const accessToken = sessionStorage.getItem("accessToken");
+    const accessToken =
+      sessionStorage.getItem("accessToken") ||
+      localStorage.getItem("accessToken");
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`; // 헤더에 토큰을 추가합니다.
     }
@@ -104,7 +106,8 @@ export const postLogout = async () => {
     // removeCookie("accessToken");
     // removeCookie("refreshToken");
     removeCookie("refresh_token");
-    sessionStorage.removeItem("accessToken");
+    sessionStorage?.removeItem("accessToken");
+    localStorage?.removeItem("accessToken");
     // sessionStorage.removeItem("refreshToken");
     const result = await res.data;
     console.log("로그아웃 성공값", result);
@@ -143,7 +146,7 @@ export const getUser = async _iuser => {
 };
 
 // 아이 정보 get
-export const getChild = async _childInfo => {
+export const getChild = async () => {
   try {
     const res = await instance.get(`/api/baby`);
     console.log("로그인 child res는??", res);
@@ -220,7 +223,7 @@ export const deleteUser = async () => {
     const result = res.data;
     // removeCookie("refreshToken");
     sessionStorage.removeItem("accessToken");
-    sessionStorage.removeItem("refreshToken");
+    removeCookie("refresh_Token");
     return result;
   } catch (err) {
     console.log(err);
@@ -355,8 +358,21 @@ export const recentKeyword = async () => {
 // 최근검색어 delete
 export const recentDelete = async item => {
   try {
-    const res = await instance.delete(`/api/search/recent?product=${item}`);
+    const res = await instance.delete(`/api/search/recent/${item}`);
   } catch (err) {
     console.log(err);
   }
 };
+
+// 인기검색어 데이터 get
+export const popularKeyword = async () => {
+  try {
+    const res = await instance.get("/api/search/popular");
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 인기검색어

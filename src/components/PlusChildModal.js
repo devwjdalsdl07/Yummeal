@@ -1,19 +1,20 @@
 import { DatePicker, Space } from "antd";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { filterSort, postChildInfo } from "../api/axios";
-import { ModalDim, PlusChildModalCss } from "../style/ModalCss";
-import { useDispatch } from "react-redux";
-import { addBaby } from "../reducers/userSlice";
 import { getChild } from "../api/client";
+import { addBaby } from "../reducers/userSlice";
+import { ModalDim, PlusChildModalCss } from "../style/ModalCss";
 
 const PlusChildModal = ({
   setShowModal,
   onSaveChildInfo,
   childInfo,
   setChildInfo,
+  selectChild,
 }) => {
   const navigate = useNavigate();
   const [childBirth, setChildBirth] = useState();

@@ -11,7 +11,12 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { cateProdList, menuCate } from "../api/axios";
-import { postLogout, recentDelete, recentKeyword } from "../api/client";
+import {
+  popularKeyword,
+  postLogout,
+  recentDelete,
+  recentKeyword,
+} from "../api/client";
 import { getMain } from "../api/mainFatch";
 import { logoutReducer } from "../reducers/userSlice";
 import { Head } from "../style/HeaderCss";
@@ -25,6 +30,8 @@ function Header() {
   const [cate, setCate] = useState([]);
   const [recentwordList, setRecentwordList] = useState([]);
   const [isRecently, setIsRecently] = useState(false);
+  const [popularSearch, setPopularSearch] = useState([]);
+  const [isPopular, setIsPopular] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(null);
   const navigate = useNavigate();
 
@@ -40,17 +47,28 @@ function Header() {
     setRecentwordList(result);
   };
 
+  // 인기검색어 데이터 불러오기
+  const popularSearchData = async () => {
+    const result = await popularKeyword();
+    setPopularSearch(result);
+  };
+
   useEffect(() => {
     cateGet();
     if (accessToken) {
       recentSearch();
+      popularSearchData();
     }
   }, [accessToken]);
 
   // 서브 메뉴 클릭 시 이동
   const handleSubMenuClick = async (mainMenu, subMenu, e) => {
     e.stopPropagation();
-    console.log("카테고리 번호 찍자", mainMenu?.category?.cateId, subMenu?.cateDetailId);
+    console.log(
+      "카테고리 번호 찍자",
+      mainMenu?.category?.cateId,
+      subMenu?.cateDetailId,
+    );
     const cateId = mainMenu?.category?.cateId;
     const subCateId =
       subMenu?.cateDetailId == undefined ? 0 : subMenu?.cateDetailId;
@@ -85,6 +103,7 @@ function Header() {
   const handleHover = e => {
     if (accessToken) {
       setIsRecently(true);
+      setIsPopular(true);
     }
   };
 
@@ -92,15 +111,17 @@ function Header() {
   const handleLeave = e => {
     if (accessToken) {
       setIsRecently(false);
+      setIsPopular(false);
     }
   };
 
+  // 최근검색어 삭제
   const handleRecentDelete = async item => {
     const res = await recentDelete(item);
     recentSearch();
   };
 
-  // 최근검색어 검색결과 이동
+  // 최근/인기검색어 검색결과 이동
   const handleRecentClick = item => {
     navigate("/search", { state: { product: item } });
     setSearch("");
@@ -184,42 +205,65 @@ function Header() {
       </form>
       {accessToken && isRecently && (
         <>
-          <h3 className="recent-title" onMouseEnter={handleHover}>
-            최근검색어
-          </h3>
+          <div className="recent-title" onMouseEnter={handleHover}>
+            <h3>최근검색어</h3>
+            <h3>인기검색어</h3>
+          </div>
           <div
-            className="flex-wrap"
+            className="grid-wrap"
             onMouseEnter={handleHover}
             onMouseLeave={handleLeave}
           >
-            {recentwordList?.map((item, idx) => (
-              <div
-                key={idx + 6}
-                onMouseEnter={() => setHoverIndex(idx)}
-                onMouseLeave={() => setHoverIndex(null)}
-              >
-                <div className="recent-content">
-                  <div>
-                    <i>
-                      <FontAwesomeIcon icon={faClockRotateLeft} />
-                    </i>
+            <div className="recent-wrap">
+              {recentwordList?.map((item, idx) => (
+                <div
+                  key={idx + 6}
+                  onMouseEnter={() => setHoverIndex(idx)}
+                  onMouseLeave={() => setHoverIndex(null)}
+                >
+                  <div className="recent-content">
+                    <div>
+                      <i>
+                        <FontAwesomeIcon icon={faClockRotateLeft} />
+                      </i>
+                    </div>
+                    <div
+                      className="content-title"
+                      onClick={() => handleRecentClick(item)}
+                    >
+                      {item}
+                    </div>
                   </div>
                   <div
-                    className="content-title"
-                    onClick={() => handleRecentClick(item)}
+                    className="xmark"
+                    onClick={() => handleRecentDelete(item)}
                   >
-                    {item}
+                    <i
+                      style={{
+                        display: hoverIndex === idx ? "inline" : "none",
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faCircleXmark} />
+                    </i>
                   </div>
                 </div>
-                <div className="xmark" onClick={() => handleRecentDelete(item)}>
-                  <i
-                    style={{ display: hoverIndex === idx ? "inline" : "none" }}
-                  >
-                    <FontAwesomeIcon icon={faCircleXmark} />
-                  </i>
+              ))}
+            </div>
+            <div className="popular-wrap">
+              {popularSearch?.map((item, idx) => (
+                <div key={idx + 6}>
+                  <div className="popular-content">
+                    <div
+                      className="content-title"
+                      onClick={() => handleRecentClick(item.value)}
+                    >
+                      <span>{idx + 1}.</span>
+                      <strong>{item.product}</strong>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </>
       )}

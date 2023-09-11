@@ -45,6 +45,52 @@ const Login = () => {
       handleLoginClick();
     }
   };
+  const handleKakaoClick = () => {
+    window.open(
+      "http://192.168.0.144:5001/oauth2/authorization/kakao?redirect_uri=http://192.168.0.144:5001/oauth/redirect",
+      "pop",
+      "width=500,height=500,left=200,top=300,location=no",
+      "popup=true",
+    );
+    setTimeout(async () => {
+      if (localStorage.getItem("acccesToken")) {
+        const fetchUser = await getUser();
+        const fetchChild = await getChild();
+        const userData = { ...fetchUser, baby: fetchChild };
+        dispatch(loginReducer(userData));
+        if (fetchUser.zipcode) {
+          alert("필수 정보를 입력해주세요 !");
+          navigate("/mypage");
+        } else {
+          navigate("/main");
+        }
+      }
+    }, 100);
+  };
+
+  const handleNaverClick = () => {
+    window.open(
+      "http://192.168.0.144:5001/oauth2/authorization/naver?redirect_uri=http://192.168.0.144:5001/oauth/redirect",
+      "pop",
+      "width=500,height=500,left=200,top=300,location=no",
+      "popup=true",
+    );
+    setTimeout(async () => {
+      if (localStorage.getItem("acccesToken")) {
+        const fetchUser = await getUser();
+        const fetchChild = await getChild();
+        const userData = { ...fetchUser, baby: fetchChild };
+        dispatch(loginReducer(userData));
+        if (fetchUser.zipcode) {
+          alert("필수 정보를 입력해주세요 !");
+          navigate("/mypage");
+        } else {
+          navigate("/main");
+        }
+      }
+    }, 100);
+  };
+
   // useEffect(() => {
   //   const isFirstLogin = sessionStorage.getItem("isFirstLogin");
   //   if (isFirstLogin === "true") {
@@ -107,16 +153,14 @@ const Login = () => {
                 카카오로 시작하기
               </button> */}
               {/* 카카오 샘플 */}
-              <button className="kakao-login">
+              <button className="kakao-login" onClick={handleKakaoClick}>
                 <FontAwesomeIcon
                   icon={faComment}
                   style={{ padding: "10px", fontSize: "20px" }}
                 />
-                <a href="/oauth2/authorization/kakao?redirect_uri=http://192.168.0.144:5001/sns">
-                  카카오로 시작하기
-                </a>
+                카카오로 시작하기
               </button>
-              <button className="naver-login">
+              <button className="naver-login" onClick={handleNaverClick}>
                 <img
                   src={`${process.env.PUBLIC_URL}/images/naver.png`}
                   alt="logo"

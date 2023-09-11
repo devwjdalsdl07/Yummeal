@@ -45,6 +45,8 @@ export const Head = styled.div`
     }
   }
   .recent-title {
+    display: flex;
+    justify-content: space-around;
     position: absolute;
     left: 50%;
     top: 55%;
@@ -59,10 +61,10 @@ export const Head = styled.div`
     font-size: 15px;
     padding-top: 10px;
   }
-  .flex-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .grid-wrap {
+    display: grid;
+    grid-column: column;
+    grid-template-columns: repeat(2, 1fr);
     position: absolute;
     left: 50%;
     top: 75%;
@@ -77,30 +79,49 @@ export const Head = styled.div`
     box-shadow:
       rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
       rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-    & > div {
-      display: flex;
-      justify-content: space-between;
-      flex-direction: row;
-      width: 100%;
-      cursor: pointer;
-      line-height: 60px;
-      padding: 0 50px;
-      &:hover {
-        background: rgba(0, 0, 0, 0.1);
-      }
-      .recent-content {
+      overflow: hidden;
+    .recent-wrap,
+    .popular-wrap {
+      & > div {
         display: flex;
-        gap: 20px;
-        i {
+        justify-content: space-between;
+        flex-direction: row;
+        width: 100%;
+        cursor: pointer;
+        line-height: 60px;
+        padding-left: 20px;
+        &:hover {
+          background: rgba(0, 0, 0, 0.1);
+        }
+        .recent-content,
+        .popular-content {
+          display: flex;
+          gap: 20px;
+          i {
+            color: #aaa;
+          }
+          .content-title {
+            width: 200px;
+            text-align: left;
+          }
+        }
+        .popular-content{
+          .content-title{
+            display: flex;
+            gap: 20px;
+            width: 300px;
+            &>span{
+              display: block;
+            }
+            &>strong{
+              display: block;
+            }
+          }
+        }
+        .xmark {
+          width: 30px;
           color: #aaa;
         }
-        .content-title{
-          width: 400px;
-          text-align: left;
-        }
-      }
-      .xmark {
-        color: #aaa;
       }
     }
   }
@@ -206,7 +227,7 @@ export const Head = styled.div`
         width: 100%;
       }
     }
-    .trend-title {
+    .recent-title {
       width: 60%;
       top: 100%;
     }
