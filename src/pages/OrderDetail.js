@@ -17,7 +17,7 @@ const OrderDetail = () => {
 
   // 결제내역 불러오기
   const orderEndData = async () => {
-    const result = await getOrderEnd(state?.orderId);
+    const result = await getOrderEnd(state?.orderCode);
     setOrderList(result.list);
     setUserInfo(result.user);
   };

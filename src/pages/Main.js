@@ -25,7 +25,8 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
     try {
       const productIdJson = await getBestProduct(pid);
       setBestProduct(productIdJson);
-      // setItemImage(productIdJson.map(item => item.thumbnail));
+      setItemImage(productIdJson.map(item => item.thumbnail));
+      console.log(mainImage);
     } catch (err) {
       console.log(err);
     }

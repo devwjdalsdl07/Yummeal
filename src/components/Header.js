@@ -133,7 +133,6 @@ function Header() {
       },
     });
   };
-  console.log(hoverIndex);
   return (
     <Head isToggled={isToggled} userToggled={userToggled}>
       {/* 햄버거 버튼(bar) */}

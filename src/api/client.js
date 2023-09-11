@@ -65,21 +65,10 @@ const checkTime = () => {
 };
 export const getRefreshToken = async () => {
   try {
-    const refreshToken = sessionStorage.getItem("refreshToken");
-    console.log("getRefreshToken refreshToken : ", refreshToken);
-    if (refreshToken) {
-      const res = await instance.get(
-        `/sign-api/refresh-token?refreshToken=${refreshToken}`,
-      );
-      const result = res.data;
-      console.log("토큰재발급됐당!", result);
-      sessionStorage.setItem("accessToken", result.accessToken);
-
-      const refreshCookie = getCookie("refresh_token");
-      console.log("refreshCookie :", refreshCookie);
-      // sessionStorage.setItem("refreshToken", result.refreshToken);
-      sessionStorage.setItem("refreshToken", refreshCookie);
-    }
+    const res = await instance.get(`/api/user/refresh`);
+    const result = res.data;
+    console.log("토큰재발급됐당!", result);
+    sessionStorage.setItem("accessToken", result.accessToken);
   } catch (err) {
     console.log(err);
   }
@@ -89,9 +78,7 @@ export const getRefreshToken = async () => {
 export const postLogout = async () => {
   try {
     const accessToken = sessionStorage.getItem("accessToken");
-    const res = await instance.get(
-      `/sign-api/sign-out?accessToken=${accessToken}`,
-    );
+    const res = await instance.get(`/api/user/sign-out`);
     console.log("로그아웃");
     // removeCookie("accessToken");
     // removeCookie("refreshToken");
