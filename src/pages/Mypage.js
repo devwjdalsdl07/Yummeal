@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../style/MypageCss";
 import { ContainerWrap, MypageContainer } from "../style/MypageCss";
 import OrderList from "../components/OrderList";
 import UserInfo from "../components/UserInfo";
 import PassWordCheck from "../components/PassWordCheck";
+import { useLocation } from "react-router";
 
 const Mypage = () => {
   const [activeComponent, setActiveComponent] = useState("order");
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(false);
+  const location = useLocation();
 
   const handleComponentChange = component => {
     setActiveComponent(component);
@@ -15,6 +17,13 @@ const Mypage = () => {
       setIsPasswordCorrect(false);
     }
   };
+  useEffect(() => {
+    const sns = location.state;
+    if (sns) {
+      setActiveComponent("user");
+      setIsPasswordCorrect(true);
+    }
+  }, []);
 
   const renderActiveComponent = () => {
     switch (activeComponent) {
