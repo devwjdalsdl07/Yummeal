@@ -155,7 +155,6 @@ function Header() {
       },
     });
   };
-
   return (
     <Head isToggled={isToggled} userToggled={userToggled}>
       {/* 햄버거 버튼(bar) */}
