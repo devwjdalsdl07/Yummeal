@@ -41,13 +41,7 @@ export const fetchLogin = async (id, pw) => {
     });
     console.log("넘어온 데이터 : ", res.data);
     const result = await res.data;
-    // const refreshCookie = getCookie("refresh_token");
-    // console.log("refreshCookie :", refreshCookie);
     sessionStorage.setItem("accessToken", result.accessToken);
-    // sessionStorage.setItem("refreshToken", refreshCookie);
-    // sessionStorage.setItem("refreshToken", result.refreshToken);
-    // sessionStorage.setItem("refreshToken", refreshCookie);
-    // sessionStorage.setItem("isFirshLogin", "true");
     checkTime();
     return result;
   } catch (error) {
@@ -66,17 +60,11 @@ export const kakaoLogin = async _token => {
   }
 };
 
-let isRefreshToken = false;
-
 // 일정한 시간 체크를 진행함
 const checkTime = () => {
-  console.log("로그인 이후 일정 시간이 지나면 새로운 인증 코드 요청");
-  // if (!isRefreshToken) {
   setTimeout(() => {
     getRefreshToken();
-    // isRefreshToken = true;
   }, 3000000);
-  // }
 };
 
 export const getRefreshToken = async () => {
@@ -87,14 +75,9 @@ export const getRefreshToken = async () => {
     console.log("토큰재발급됐당!", result);
     sessionStorage.setItem("accessToken", result.accessToken);
     checkTime();
-    // const refreshCookie = getCookie("refresh_token");
-    // console.log("refreshCookie :", refreshCookie);
-    // sessionStorage.setItem("refreshToken", result.refreshToken);
-    // sessionStorage.setItem("refreshToken", refreshCookie);
   } catch (err) {
     console.log(err);
   }
-  // }
 };
 
 // 로그아웃 post
@@ -102,13 +85,9 @@ export const postLogout = async () => {
   console.log("==================== 로그아웃");
   try {
     const res = await instance.get(`/api/user/sign-out`);
-    console.log("로그아웃");
-    // removeCookie("accessToken");
-    // removeCookie("refreshToken");
     removeCookie("refresh_token");
     sessionStorage?.removeItem("accessToken");
     localStorage?.removeItem("accessToken");
-    // sessionStorage.removeItem("refreshToken");
     const result = await res.data;
     console.log("로그아웃 성공값", result);
     return result;
@@ -150,15 +129,6 @@ export const getChild = async _childInfo => {
   try {
     const res = await instance.get(`/api/baby`);
     console.log("로그인 child res는??", res);
-    // const result = {
-    //   iuser: res.data.iuser,
-    //   childBirth: res.data.childBirth,
-    //   prefer: res.data.prefer,
-    //   allergyId: res.data.allergyId,
-    // };
-    // console.log("===== 로그인 child res resultresult ?", result);
-    // const refreshCookie = await getCookie("refresh_token");
-    // console.log("refreshCookie :", refreshCookie);
     return res.data;
   } catch (err) {
     console.log(err);

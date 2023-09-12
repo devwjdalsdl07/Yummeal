@@ -292,12 +292,17 @@ const UserInfo = ({ setActiveComponent }) => {
       address: userAddress,
       addressDetail: detailAddress,
     };
-    const result = await fetchUserInfo(profile);
-    dispatch(userEditReducer(profile));
-    setNickNameMessage("");
-    setPwMessage("");
-    setPwConfirmMessage("");
-    setPhoneMessage("");
+    try {
+      const result = await fetchUserInfo(profile);
+      dispatch(userEditReducer(profile));
+      setNickNameMessage("");
+      setPwMessage("");
+      setPwConfirmMessage("");
+      setPhoneMessage("");
+      alert("수정이 성공적으로 이루어졌어용");
+    } catch (err) {
+      alert("다시 시도해주세요");
+    }
   };
   const handleCancel = () => {
     setActiveComponent("order");
@@ -591,16 +596,16 @@ const UserInfo = ({ setActiveComponent }) => {
                 {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
                 <ChildBirth>
                   <span>아이 생년월일</span>
-                  
-                    <Select
-                      className="child"
-                      options={childBirthArr}
-                      onChange={childInfo => handleSortChange(childInfo)}
-                      placeholder="수정할 아이 생일을 선택하세요"
-                      value={selectChildDay}
-                      isSearchable={false}
-                    />
-                    {/* {baby.map((item, index) => (
+
+                  <Select
+                    className="child"
+                    options={childBirthArr}
+                    onChange={childInfo => handleSortChange(childInfo)}
+                    placeholder="수정할 아이 생일을 선택하세요"
+                    value={selectChildDay}
+                    isSearchable={false}
+                  />
+                  {/* {baby.map((item, index) => (
                       <>
                         <DatePicker
                           key={index}
