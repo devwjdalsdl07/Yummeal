@@ -76,7 +76,7 @@ const OrderDetail = () => {
                 />
               </div>
               <div className="order-textwrap">
-                <p>{item.productName}</p>
+                <p>{item.pname}</p>
                 <p>{(item.price * parseInt(item.count)).toLocaleString()}</p>
                 <p>{item.count}</p>
                 <div className="order-prodbtn">

@@ -46,6 +46,7 @@ export const OrderDetailWrap = styled.div`
       .order-prodbtn {
         display: flex;
         justify-content: flex-end;
+        gap: 20px;
         button {
           border: 0.1rem solid;
           border-radius: 0.8rem;
