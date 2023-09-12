@@ -105,7 +105,7 @@ const Order = () => {
       dispatch(pointReducer(point - usePoint));
       const result = await orderPost(item);
       localStorage.clear();
-      navigate("/ordercode", {
+      navigate(`/orderlist/${result.orderCode}`, {
         state: {
           orderCode: result.orderCode,
           point: result.point,
@@ -162,9 +162,7 @@ const Order = () => {
       usepoint: usePoint !== "" ? parseInt(usePoint) : 0,
     };
     try {
-      console.log("넘어가기 전", kakaoItem);
       const kakaoResult = await kakaoPay(kakaoItem);
-      console.log("카카오리절트", kakaoResult);
       // navigate("/kakaopayment", {
       //   state: {
       //     qrUrl: kakaoResult,

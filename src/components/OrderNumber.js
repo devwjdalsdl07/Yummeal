@@ -5,7 +5,7 @@ import { OrderNumberContainer } from "../style/OrderNumberCss";
 const OrderNumber = ({ item }) => {
   const navigate = useNavigate();
   const handleInfoClick = orderCode => {
-    navigate("/ordercode", { state: { orderCode } });
+    navigate(`/orderlist/${orderCode}`, { state: { orderCode } });
   };
   const price = item?.totalprice
     ?.toString()
