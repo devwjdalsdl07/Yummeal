@@ -5,7 +5,6 @@ export const MainDiv = styled.div`
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    padding: 0px 20px 100px;
     background: #f9f6f1;
     min-width: 500px;
     overflow: hidden;
@@ -15,9 +14,12 @@ export const MainDiv = styled.div`
       max-width: 1400px;
       height: 100%;
       min-height: 700px;
-      > img {
-        max-width: 1400px;
-        padding: 30px 20px 100px;
+      .banner-wrap {
+        width: 100%;
+        img {
+          max-width: 1400px;
+          width: 100%;
+        }
       }
       .slick-wrap {
         padding: 30px 20px 100px;
@@ -191,6 +193,7 @@ export const PaginationDiv = styled.div`
     display: flex;
     justify-content: center;
     margin-top: 15px;
+    margin-bottom: 30px;
   }
   ul {
     list-style: none;
