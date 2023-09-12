@@ -11,10 +11,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [id, setId] = useState("string");
-  const [pw, setPw] = useState("string");
-  // const [id, setId] = useState("");
-  // const [pw, setPw] = useState("");
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
   // const [showModal, setShowModal] = useState(false);
 
   const handleSignUPClick = () => {

@@ -3,13 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { postPassWordCheck } from "../api/axios";
-import { getChild } from "../api/client";
-import { loginReducer } from "../reducers/userSlice";
 import { PasswordCheckWrap } from "../style/PassWordCheckCss";
 
 const PassWordCheck = ({ setPasswordCorrect }) => {
   const dispatch = useDispatch();
-  const [passWord, setPassWord] = useState("string");
+  const [passWord, setPassWord] = useState("");
 
   const handlePasswordChange = e => {
     setPassWord(e.target.value);

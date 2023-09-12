@@ -70,9 +70,7 @@ const userSlice = createSlice({
       Object.assign(state, initialState);
     },
     userEditReducer: (state, action) => {
-      console.log("================ userEditReducer")(
-        (state.unm = action.payload.unm),
-      ),
+      (state.unm = action.payload.unm),
         (state.mobileNb = action.payload.phoneNumber),
         (state.birthday = action.payload.birthday),
         (state.zipcode = action.payload.zipcode),
@@ -81,7 +79,6 @@ const userSlice = createSlice({
         (state.nickNm = action.payload.nickNm);
     },
     pointReducer: (state, action) => {
-      console.log("================ pointReducer");
       state.point = action.payload;
     },
   },

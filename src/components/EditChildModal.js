@@ -132,15 +132,12 @@ const EditChildModal = ({
       console.log("새로운 정보를 set 처리 함.: ", selectChildInfoUpdate);
       setSelectChild(selectChildInfoUpdate);
       updateBabyInfo(selectChildInfoUpdate);
-      //   onSaveChildInfo(selectChild);
-      // dispatch(editBaby(selectChildInfoUpdate));
-      //   setChildInfo(selectChild, selectChildInfoUpdate);
       setShowModal(false);
+      alert("아이 정보가 수정되었어용");
     } catch (err) {
       alert("다시 시도해주세요");
     }
   };
-  console.log(selectChild.baByInfoVo.babyId);
 
   const handleSkip = () => {
     setShowModal(false);
