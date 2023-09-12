@@ -109,9 +109,11 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
     <MainDiv>
       <div className="wrap">
         <div className="info">
-          <img src={`${process.env.PUBLIC_URL}/images/banner1.png`} />
+          <div className="banner-wrap">
+            <img src={`${process.env.PUBLIC_URL}/images/banner1.png`} />
+          </div>
           <div className="slick-wrap">
-          <Slick />
+            <Slick />
           </div>
           <div className=" best-item">
             <h1 className="best-title">요즘, 많이 찾는 상품</h1>
