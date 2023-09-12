@@ -24,7 +24,7 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
     try {
       const productIdJson = await getBestProduct(pid);
       setBestProduct(productIdJson);
-      setItemImage(productIdJson.map(item => item.thumbnail));
+      setItemImage(productIdJson?.list?.map(item => item.thumbnail));
       console.log(mainImage);
     } catch (err) {
       console.log(err);
@@ -126,7 +126,7 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
               <div key={index}>
                 <li className="product-card">
                   <img
-                    src={mainImage[index]}
+                    src={`http://192.168.0.144:5001/img/product/${item.productId}/${mainImage[index]}`}
                     alt="상품 이미지"
                     className="product-image"
                   />
