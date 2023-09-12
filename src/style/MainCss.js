@@ -5,16 +5,23 @@ export const MainDiv = styled.div`
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    padding: 100px 20px;
+    padding: 0px 20px 100px;
     background: #f9f6f1;
     min-width: 500px;
     overflow: hidden;
+
     .info {
       margin: 0 auto;
-      margin-top: 50px;
       max-width: 1400px;
       height: 100%;
       min-height: 700px;
+      > img {
+        max-width: 1400px;
+        padding: 30px 20px 100px;
+      }
+      .slick-wrap {
+        padding: 30px 20px 100px;
+      }
     }
     .best-item {
       display: flex;
@@ -23,6 +30,7 @@ export const MainDiv = styled.div`
       margin: 50px 0;
       font-weight: 500;
       font-size: 32px;
+      padding: 0px 20px;
       .best-title {
         text-align: center;
         font-weight: 500;
@@ -43,6 +51,7 @@ export const MainDiv = styled.div`
       column-gap: 80px;
       row-gap: 40px;
       justify-content: center;
+      padding-bottom: 50px;
       .product-card {
         position: relative;
         display: inline-block;
@@ -112,7 +121,8 @@ export const SlickDiv = styled.div`
     position: relative;
     display: inline-block;
     margin: 0 auto;
-    padding: 0px 40px 40px 40px;
+    /* padding: 0px 40px 40px 40px; */
+    padding: 30px 20px 100px;
     width: 400px;
     &:hover .product-description {
       opacity: 0.5;
