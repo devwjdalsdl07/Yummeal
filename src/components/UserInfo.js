@@ -9,7 +9,11 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { getNickNameCheck } from "../api/axios";
 import { deleteUser, fetchUserInfo } from "../api/client";
-import { logoutReducer, userEditReducer } from "../reducers/userSlice";
+import {
+  logoutReducer,
+  updateBaby,
+  userEditReducer,
+} from "../reducers/userSlice";
 import {
   AddChildBirth,
   ChildBirth,
@@ -59,6 +63,7 @@ const UserInfo = ({ setActiveComponent }) => {
   const [childBirth, setChildBirth] = useState();
   const [childInfo, setChildInfo] = useState([]);
   const [selectedChildIndex, setSelectedChildIndex] = useState(null);
+  const [selectDataIndex, setSelectDataIndex] = useState(null);
   const [modalAction, setModalAction] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isChildModalOpen, setIsChildModalOpen] = useState(false);
@@ -237,7 +242,11 @@ const UserInfo = ({ setActiveComponent }) => {
     setIsModalOpen(true);
   };
   const handleBirth = () => {
-    setIsEditChildModalOpen(true);
+    if (selectChild && selectChild.baByInfoVo) {
+      setIsEditChildModalOpen(true);
+    } else {
+      alert("수정 할 아이를 선택해주세용");
+    }
   };
 
   const handleModalClose = () => {
@@ -276,13 +285,12 @@ const UserInfo = ({ setActiveComponent }) => {
     const profile = {
       unm: userName,
       nickNm: nickName,
-      password: pw,
+      upw: pw,
       phoneNumber: phone,
       birthday: birth,
       zipcode: postcode,
       address: userAddress,
       addressDetail: detailAddress,
-      baby: [],
     };
     const result = await fetchUserInfo(profile);
     dispatch(userEditReducer(profile));
@@ -304,8 +312,10 @@ const UserInfo = ({ setActiveComponent }) => {
     setBirth(birthday);
     setNickName(nickNm);
     setNickNameRemember(nickNm);
+    console.log("================== baby : ", baby);
     setChildInfo(baby);
   };
+  // console.log(baby);
   const handleDelete = () => {
     showDeleteModal();
   };
@@ -372,11 +382,12 @@ const UserInfo = ({ setActiveComponent }) => {
     // console.log(_date);
     // console.log(childInfo);
     // console.log("==================");
-    let selectDataIndex;
+    let tempDataIndex;
     childInfo.map((item, index) => {
       // console.log(item.baByInfoVo.childBirth);
       if (item.baByInfoVo.childBirth === _date.value) {
-        selectDataIndex = index;
+        setSelectDataIndex(index);
+        tempDataIndex = index;
       }
     });
 
@@ -384,8 +395,61 @@ const UserInfo = ({ setActiveComponent }) => {
     // 출력용
     setSelectChildDay(_date);
     // 팝업전달용
-    setSelectChild(childInfo[selectDataIndex]);
+    console.log("팝업전달용 번호: ", childInfo[tempDataIndex]);
+    setSelectChild(childInfo[tempDataIndex]);
   };
+
+  useEffect(() => {
+    console.log("선택된 번호: ", selectDataIndex);
+    // console.log(
+    //   "선택된 번호: ",
+    //   childInfo[selectDataIndex].baByInfoVo.childBirth,
+    // );
+    // setSelectChildDay(childInfo[selectDataIndex].baByInfoVo.childBirth);
+  }, [selectDataIndex]);
+
+  const updateBabyInfo = _babyData => {
+    const arr = [...childInfo];
+    // console.log("총개수 : ", arr.length);
+    const nowInfo = arr.map((item, index) => {
+      if (item.baByInfoVo.babyId === _babyData.baByInfoVo.babyId) {
+        // console.log("찾았다. 요놈 : ", item);
+        console.log(
+          // "찾은놈 업데이트 _babyData: ",
+          _babyData.baByInfoVo.childBirth,
+        );
+        // console.log("찾은놈 업데이트 : ", item.baByInfoVo.childBirth);
+        // item.baByInfoVo.childBirth = _babyData.baByInfoVo.childBirth;
+        // 생일 강제 셋팅
+        console.log("생일 강제 셋팅", _babyData.baByInfoVo.childBirth);
+        setSelectChildDay(_babyData.baByInfoVo.childBirth);
+        return _babyData;
+      } else {
+        return item;
+      }
+    });
+
+    console.log("nowInfo : ", nowInfo);
+
+    dispatch(updateBaby({ nowInfo }));
+
+    setChildInfo(nowInfo);
+
+    const arrBirth = nowInfo?.map(item => {
+      const birthValue = item?.baByInfoVo?.childBirth;
+      const formatData = {
+        value: birthValue,
+        label: birthValue,
+      };
+      return formatData;
+    });
+    setChildBirthArr(arrBirth);
+
+    // setSelectChildDay(childInfo[selectDataIndex]);
+  };
+  useEffect(() => {
+    console.log("변경된", selectChild);
+  }, [selectChild]);
 
   useEffect(() => {
     birthArr();
@@ -520,13 +584,14 @@ const UserInfo = ({ setActiveComponent }) => {
                       style={{
                         height: "30px",
                       }}
+                      allowClear={false}
                     />
                   </Space>
                 </div>
                 {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
                 <ChildBirth>
                   <span>아이 생년월일</span>
-                  <Space direction="vertical">
+                  
                     <Select
                       className="child"
                       options={childBirthArr}
@@ -552,7 +617,6 @@ const UserInfo = ({ setActiveComponent }) => {
                         />
                       </>
                     ))} */}
-                  </Space>
                   {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
                 </ChildBirth>
                 <AddChildBirth>
@@ -659,12 +723,13 @@ const UserInfo = ({ setActiveComponent }) => {
           onSaveChildInfo={handleSaveChildInfo}
           childInfo={childInfo}
           setChildInfo={setChildInfo}
-          selectChild={selectChild}
         />
       ) : null}
       {isEditChildModalOpen === true ? (
         <EditChildModal
           selectChild={selectChild}
+          setSelectChild={setSelectChild}
+          updateBabyInfo={updateBabyInfo}
           setShowModal={setIsEditChildModalOpen}
           // onSaveChildInfo={handleSaveChildInfo}
           // childInfo={childInfo}
