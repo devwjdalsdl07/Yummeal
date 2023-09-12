@@ -9,7 +9,7 @@ import { PasswordCheckWrap } from "../style/PassWordCheckCss";
 
 const PassWordCheck = ({ setPasswordCorrect }) => {
   const dispatch = useDispatch();
-  const [passWord, setPassWord] = useState("qwer123!");
+  const [passWord, setPassWord] = useState("string");
 
   const handlePasswordChange = e => {
     setPassWord(e.target.value);
