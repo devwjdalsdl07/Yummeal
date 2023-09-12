@@ -27,7 +27,7 @@ const SearchProd = ({
           <div key={productId}>
             <li className="product-card">
               <img
-                src={`/img/product/${item.productId}/${item.thumbnail}`}
+                src={`/img/product/${item.productid}/${item.thumbnail}`}
                 alt="상품 이미지"
                 className="product-image"
               />
