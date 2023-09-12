@@ -180,6 +180,13 @@ export const OrderPay = styled.div`
       color: white;
       border: none;
     }
+    &:last-of-type {
+      margin-top: 0;
+      &:hover {
+        background: rgb(254, 229, 0);
+        color: #000;
+      }
+    }
   }
   @media screen and (max-width: 1024px) {
     width: 80%;
@@ -194,7 +201,10 @@ export const OrderPay = styled.div`
       padding: 1rem 0;
     }
     .order_btn {
-      margin: 0;
+      margin-bottom: 2rem;
+      &:last-of-type {
+        margin-bottom: 0;
+      }
     }
   }
 `;

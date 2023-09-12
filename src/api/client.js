@@ -146,7 +146,7 @@ export const getUser = async _iuser => {
 };
 
 // 아이 정보 get
-export const getChild = async () => {
+export const getChild = async _childInfo => {
   try {
     const res = await instance.get(`/api/baby`);
     console.log("로그인 child res는??", res);
@@ -375,4 +375,13 @@ export const popularKeyword = async () => {
   }
 };
 
-// 인기검색어
+// 카카오페이 post
+export const kakaoPay = async item => {
+  try {
+    const res = await instance.post("/api/kakaoPay", item);
+    const result = res.data;
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};

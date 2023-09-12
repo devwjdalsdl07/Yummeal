@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { quickBuy } from "../api/axios";
-import { getCart, orderPost } from "../api/client";
+import { getCart, kakaoPay, orderPost } from "../api/client";
 import OrderItem from "../components/OrderItem";
 import { pointReducer } from "../reducers/userSlice";
 import { OrderInfo, OrderPay, OrderWrap } from "../style/OrderCss";
@@ -57,8 +57,9 @@ const Order = () => {
     navigate("/mypage");
   };
 
-  // 주문하기
+  // 일반 주문하기
   const handleOrder = async () => {
+    // 조건별 장바구니 데이터
     const orderBasket = orderItems.map((item, idx) => ({
       key: idx,
       cartId: item.cartId,
@@ -74,8 +75,6 @@ const Order = () => {
         totalprice: buyData.price * buyData.count,
       },
     ];
-
-    // 조건별 장바구니 데이터
     let selectedBasket;
     if (!getBasket && orderBasket.length === 0) {
       selectedBasket = quickOrder;
@@ -91,7 +90,7 @@ const Order = () => {
       selectedBasket = orderBasket;
     }
     const item = {
-      receiver: name,
+      receiver: receiver,
       address: address,
       addressDetail: addressDetail,
       phoneNm: mobileNb,
@@ -112,6 +111,64 @@ const Order = () => {
       });
     } catch (err) {
       console.log("주문 처리 중 오류 발생:", err);
+    }
+  };
+
+  const handleKakaoOrder = async () => {
+    // 조건별 장바구니 데이터
+    const orderBasket = orderItems.map((item, idx) => ({
+      key: idx,
+      cartId: item.cartId,
+      productId: item.productId,
+      count: item.count,
+      totalprice: item.price * item.count,
+    }));
+    const quickOrder = {
+      cartId: 0,
+      productId: buyData.productId,
+      count: buyData.count,
+      totalprice: buyData.price * buyData.count,
+    };
+    let selectedBasket;
+    if (!getBasket && orderBasket.length === 0) {
+      selectedBasket = quickOrder;
+    } else if (getBasket && getBasket.length > 0) {
+      selectedBasket = getBasket.map((item, idx) => ({
+        key: idx,
+        cartId: item.cartId,
+        productId: item.productId,
+        count: item.count,
+        totalprice: item.price * item.count,
+      }));
+    } else {
+      selectedBasket = orderBasket;
+    }
+    // 카카오페이 구매하기 아이템
+    const kakaoItem = {
+      productId: selectedBasket.productId,
+      count: selectedBasket.count,
+      address: address,
+      addressDetail: addressDetail,
+      orderCode: 0,
+      payment: "1",
+      phoneNumber: mobileNb,
+      reciever: receiver,
+      request: message == "" ? "요청사항 없음" : message,
+      shipment: "1",
+      usepoint: usePoint !== "" ? parseInt(usePoint) : 0,
+    };
+    try {
+      console.log("넘어가기 전", kakaoItem);
+      const kakaoResult = await kakaoPay(kakaoItem);
+      console.log("카카오리절트", kakaoResult);
+      // navigate("/kakaopayment", {
+      //   state: {
+      //     qrUrl: kakaoResult,
+      //   },
+      // });
+      window.open(kakaoResult.qrCodePage, "_blank");
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -308,6 +365,9 @@ const Order = () => {
           </div>
           <div className="order_btn" onClick={handleOrder}>
             결제하기
+          </div>
+          <div className="order_btn" onClick={handleKakaoOrder}>
+            카카오페이 결제하기
           </div>
         </OrderPay>
       </div>

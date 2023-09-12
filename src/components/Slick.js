@@ -24,14 +24,14 @@ const Slick = () => {
           setRecommend(randomJson);
           setItemImage(
             randomJson.list.map(
-              item => `/img/product/${item.productId}/${item.thumbnail}`,
+              item => `http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`,
             ),
           );
         } else {
           setRecommend(recommendJson);
           setItemImage(
-            recommendJson.list.map(
-              item => `/img/product/${item.productId}/${item.thumbnail}`,
+            recommendJson?.list?.map(
+              item => `http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`,
             ),
           );
         }
@@ -40,7 +40,7 @@ const Slick = () => {
         setRandomProduct(randomJson);
         setItemImage(
           randomJson.list.map(
-            item => `/img/product/${item.productId}/${item.thumbnail}`,
+            item => `http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`,
           ),
         );
       }

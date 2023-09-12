@@ -11,7 +11,7 @@ const OrderItem = ({ orderItems, state, buyData }) => {
       <div key={item.cartId} className="order-prod">
         <div className="order-prod-info">
           <div className="order-prod-img">
-            <img src={`/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
+            <img src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
           </div>
           <div className="order-prod-title">
             <p>{item.productName}</p>
@@ -29,7 +29,7 @@ const OrderItem = ({ orderItems, state, buyData }) => {
       <div key={item.cartId} className="order-prod">
         <div className="order-prod-info">
           <div className="order-prod-img">
-            <img src={`/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
+            <img src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
           </div>
           <div className="order-prod-title">
             <p>{item.productName}</p>
@@ -47,7 +47,7 @@ const OrderItem = ({ orderItems, state, buyData }) => {
       <div className="order-prod">
         <div className="order-prod-info">
           <div className="order-prod-img">
-            <img src={`/img/product/${buyData.productId}/${buyData.thumbnail}`} alt={buyData.title} />
+            <img src={`http://192.168.0.144:5001/img/product/${buyData.productId}/${buyData.thumbnail}`} alt={buyData.title} />
           </div>
           <div className="order-prod-title">
             <p>{buyData.productName}</p>

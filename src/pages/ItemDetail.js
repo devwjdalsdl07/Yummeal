@@ -29,10 +29,9 @@ const ItemDetail = () => {
   const getProductIdFetch = async () => {
     try {
       const productIdJson = await getProductId(pid);
-     
       setProduct(productIdJson);
-      // setItemImage(productIdJson.img);
-      // setBigImage(productIdJson.img[0]);
+      setItemImage(productIdJson.thumbnail);
+      setBigImage(productIdJson.thumbnail[0]);
       setTotalPrice(parseInt(productIdJson.pprice));
     } catch (err) {
       console.log(err);
@@ -126,12 +125,16 @@ const ItemDetail = () => {
       <div className="content-wrap" id="content-top">
         <div className="goods-wrap">
           <div className="goods-img">
-            <img className="item-img" src={bigImage} alt="MainImage" />
+            <img
+              className="item-img"
+              src={`http://192.168.0.144:5001/img/product/${pid}/${bigImage}`}
+              alt="MainImage"
+            />
             <div className="item-info">
               {itemImage?.map((subImage, index) => (
                 <img
                   key={index}
-                  src={subImage}
+                  src={`http://192.168.0.144:5001/img/product/${pid}/${subImage}`}
                   alt={`${index + 1}`}
                   onClick={() => handleSubImageClick(subImage)}
                 />

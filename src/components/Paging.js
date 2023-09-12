@@ -6,7 +6,8 @@ const Paging = ({ onPageChange, pageRangeDisplayed, totalItemsCount }) => {
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(pageRangeDisplayed);
   const [totalItemCount, setTotalItemCount] = useState(totalItemsCount);
-
+console.log(pageRangeDisplayed)
+console.log(totalItemsCount)
   const handlePageChange = page => {
     setPage(page);
     onPageChange(page);

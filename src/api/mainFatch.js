@@ -32,7 +32,7 @@ export const getProductId = async _productId => {
 // 2차 axios   //기본으로 보여줄 상품(전체 상품)
 export const getMain = async _page => {
   try {
-    const res = await axios.get(`/api/main?check=1&page=${_page}&row=6`);
+    const res = await axios.get(`/api/main?check=1&page=${_page}&row=16`);
     const result = res.data;
     console.log("getMain 요청성공!!", result);
     return result;

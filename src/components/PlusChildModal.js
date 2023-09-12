@@ -14,7 +14,6 @@ const PlusChildModal = ({
   onSaveChildInfo,
   childInfo,
   setChildInfo,
-  selectChild,
 }) => {
   const navigate = useNavigate();
   const [childBirth, setChildBirth] = useState();

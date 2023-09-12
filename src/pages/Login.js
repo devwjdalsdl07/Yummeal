@@ -11,8 +11,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [id, setId] = useState("ttt@tt.com");
-  const [pw, setPw] = useState("qwer123!");
+  const [id, setId] = useState("string");
+  const [pw, setPw] = useState("string");
   // const [id, setId] = useState("");
   // const [pw, setPw] = useState("");
   // const [showModal, setShowModal] = useState(false);
@@ -34,6 +34,7 @@ const Login = () => {
       const userData = { ...fetchUser, baby: fetchChild };
       // dispatch(loginReducer(fetchUser, fetchChild));
       dispatch(loginReducer(userData));
+      console.log("아이 정보 get? ", fetchChild);
       navigate("/main");
       // }
       // setShowModal(true);

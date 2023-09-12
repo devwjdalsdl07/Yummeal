@@ -15,17 +15,6 @@ export const postSignUp = async _Item => {
   }
 };
 
-//아이 정보 get
-// export const getChildInfo = async () => {
-//   try {
-//     const res = await axios.get("/baby");
-//     const result = {};
-//     return result;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 //아이 정보 post
 export const postChildInfo = async _childInfo => {
   console.log(_childInfo);
@@ -89,7 +78,7 @@ export const postPassWordCheck = async _passWord => {
 // 검색 결과 get
 export const searchResult = async (_product, _page) => {
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/search?product=${_product}&page=${_page}&row=16`,
     );
     const result = res.data;
@@ -103,7 +92,7 @@ export const searchResult = async (_product, _page) => {
 // 필터 정렬 get
 export const filterSort = async (product, sorter, allergyStrings) => {
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/search?product=${product}&page=1&row=16&sorter=${
         sorter ? sorter : 0
       }&filter=${allergyStrings[0] ? allergyStrings[0] : 0}&filter=${
@@ -153,10 +142,10 @@ export const cateProdList = async (_page, cateId, subCateId) => {
   console.log("카테액시오스 순서 테스트", _page, cateId, subCateId);
   try {
     const res = await axios.get(
-      `/api/cate/list?cateId=${cateId}&cateDetailId=${subCateId}&page=${_page}&row=16`,
+      `/api/cate?cateId=${cateId}&cateDetailId=${subCateId}`,
     );
     const result = res.data;
-    console.log("카테고리 가냐? : ", result);
+    console.log("통신되는데 : ", result);
     return result;
   } catch (err) {
     console.log(err);
