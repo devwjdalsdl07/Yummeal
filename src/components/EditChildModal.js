@@ -11,7 +11,12 @@ import { useDispatch } from "react-redux";
 import dayjs from "dayjs";
 import { editBaby } from "../reducers/userSlice";
 
-const EditChildModal = ({ setShowModal, selectChild }) => {
+const EditChildModal = ({
+  setShowModal,
+  selectChild,
+  setSelectChild,
+  updateBabyInfo,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [childBirth, setChildBirth] = useState("");
@@ -19,6 +24,10 @@ const EditChildModal = ({ setShowModal, selectChild }) => {
   const [selectAllergy, setSelectAllergy] = useState([]);
 
   const selectAllergyArr = () => {
+    console.log(
+      "뭘까 333 ===========selectAllergyArr : ",
+      selectChild.babyAllergyList,
+    );
     const arr = selectChild?.babyAllergyList.map(item => {
       const formatData = {
         value: item.allergyId,
@@ -27,17 +36,15 @@ const EditChildModal = ({ setShowModal, selectChild }) => {
       console.log(formatData);
       return formatData;
     });
-    console.log(arr);
+    // console.log(arr);
     setSelectAllergy(arr);
   };
 
   useEffect(() => {
     console.log(selectChild);
-    console.log(selectChild);
     setChildBirth(selectChild.baByInfoVo.childBirth);
     setTasteValue(selectChild.baByInfoVo.prefer);
     selectAllergyArr();
-    allergyStrings = [];
   }, [selectChild]);
 
   const allergyArr = [
@@ -64,9 +71,14 @@ const EditChildModal = ({ setShowModal, selectChild }) => {
   ];
 
   // 알레르기 value값
+  console.log("뭘까 111 ===========selectAllergy ==", selectAllergy);
   const newAllergyData = selectAllergy.map(selected => selected.value);
-  let allergyStrings = newAllergyData.map(value => value.toString());
-  console.log("adfasdf", selectAllergy);
+  let allergyStrings = [];
+  console.log("뭘까 222 =======================", newAllergyData);
+  if (newAllergyData.length > 0) {
+    allergyStrings = newAllergyData.map(value => value.toString());
+  }
+  // console.log("adfasdf", selectAllergy);
 
   const handleTaste = e => {
     setTasteValue(e.target.value);
@@ -74,12 +86,6 @@ const EditChildModal = ({ setShowModal, selectChild }) => {
 
   const onChildBirthChange = (value, dateString) => {
     setChildBirth(dateString);
-    // dispatch(editBaby({ childBirth: dateString }));
-    // if (dateString) {
-    //   setIsChildBirth(true);
-    // } else if (!dateString) {
-    //   setIsChildBirth(false);
-    // }
   };
   const handleAllergy = allergyArr => {
     setSelectAllergy(allergyArr);
@@ -92,13 +98,18 @@ const EditChildModal = ({ setShowModal, selectChild }) => {
   }, []);
 
   const handleChildEdit = async () => {
-    const allergyIdStr = selectAllergy.map(item => item.value);
-    console.log(allergyIdStr);
-    // put 진행
+    const allergyIdStr = selectAllergy.map(item => {
+      let nueItem = { allergyId: item.value, allergyName: item.label };
+      return nueItem;
+    });
+
+    console.log("allergyIdStr =====================", allergyIdStr);
+    const allergyIdStrNum = selectAllergy.map(item => item.value);
+    // put 진행(알러지는 숫자를 모은 문자열을 보내야 함.)
     const editChildInfo = {
       childBirth: childBirth,
       prefer: tasteValue,
-      allergyId: allergyIdStr.join(),
+      allergyId: allergyIdStrNum.join(),
       babyId: selectChild.baByInfoVo.babyId,
     };
     console.log(editChildInfo);
@@ -111,13 +122,20 @@ const EditChildModal = ({ setShowModal, selectChild }) => {
       },
       babyAllergyList: allergyIdStr,
     };
+    console.log("새로운 정보를 set 처리 함.: ", selectChildInfoUpdate);
+    setSelectChild(selectChildInfoUpdate);
+    updateBabyInfo(selectChildInfoUpdate);
+    setShowModal(false);
     try {
-      await putChildInfo(editChildInfo);
+      const result = await putChildInfo(editChildInfo);
+      // 새로운 정보를 set 처리 함.
+      console.log("새로운 정보를 set 처리 함.: ", selectChildInfoUpdate);
+      setSelectChild(selectChildInfoUpdate);
+      updateBabyInfo(selectChildInfoUpdate);
       //   onSaveChildInfo(selectChild);
-      dispatch(editBaby(selectChildInfoUpdate));
+      // dispatch(editBaby(selectChildInfoUpdate));
       //   setChildInfo(selectChild, selectChildInfoUpdate);
       setShowModal(false);
-      // navigate(`/main`);
     } catch (err) {
       alert("다시 시도해주세요");
     }
@@ -157,7 +175,8 @@ const EditChildModal = ({ setShowModal, selectChild }) => {
                 <DatePicker
                   onChange={onChildBirthChange}
                   value={dayjs(childBirth, "YYYY-MM-DD")}
-                  //   placeholder="YYYY-MM-DD"
+                  placeholder="YYYY-MM-DD"
+                  allowClear={false}
                   style={{
                     height: "30px",
                   }}

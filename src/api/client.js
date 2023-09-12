@@ -146,7 +146,7 @@ export const getUser = async _iuser => {
 };
 
 // 아이 정보 get
-export const getChild = async () => {
+export const getChild = async _childInfo => {
   try {
     const res = await instance.get(`/api/baby`);
     console.log("로그인 child res는??", res);
