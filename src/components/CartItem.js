@@ -148,7 +148,10 @@ const CartItem = ({
             onClick={() => handleGoProd(item.productId)}
           >
             <div className="prod-img">
-              <img src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
+              <img
+                src={`/img/product/${item.productId}/${item.thumbnail}`}
+                alt={item.title}
+              />
             </div>
             <div className="prod-text">
               <p>{item.productName}</p>
@@ -184,7 +187,10 @@ const CartItem = ({
             onClick={() => handleGoProd(item.productId)}
           >
             <div className="prod-img">
-              <img src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
+              <img
+                src={`/img/product/${item.productId}/${item.thumbnail}`}
+                alt={item.title}
+              />
             </div>
             <div className="prod-text">
               <p>{item.productName}</p>
@@ -218,7 +224,10 @@ const CartItem = ({
       <div key={idx} className="list">
         <div className="prodwrap" onClick={() => handleGoProd(item.productId)}>
           <div className="prod-img">
-            <img src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
+            <img
+              src={`/img/product/${item.productId}/${item.thumbnail}`}
+              alt={item.title}
+            />
           </div>
           <div className="prod-text">
             <p>{item.productName}</p>

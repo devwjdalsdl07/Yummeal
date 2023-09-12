@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { cateProdList, menuCate } from "../api/axios";
+import { mainCateProdList, menuCate, subCateProdList } from "../api/axios";
 import {
   popularKeyword,
   postLogout,
@@ -74,12 +74,12 @@ function Header() {
     const cateId = mainMenu?.category?.cateId;
     const subCateId =
       subMenu?.cateDetailId == undefined ? 0 : subMenu?.cateDetailId;
-    const result = await cateProdList(1, cateId, subCateId);
+    const result = await subCateProdList(0, cateId, subCateId);
     navigate("/productlist", {
       state: {
-        maxPaige: result.maxPaige,
-        list: result,
-        pageCount: result.pageCount,
+        maxPaige: result.maxPage,
+        list: result.list,
+        pageCount: result.count,
         cateId: cateId,
         subCate: subCateId,
       },
@@ -90,12 +90,12 @@ function Header() {
   const handleMainMenuClick = async mainMenu => {
     console.log("메인메뉴 번호 찍자", mainMenu?.cateId);
     const cateId = mainMenu.cateId;
-    const result = await cateProdList(1, cateId, 0);
+    const result = await mainCateProdList(0, cateId);
     navigate("/productlist", {
       state: {
-        maxPaige: result.maxPaige,
+        maxPaige: result.maxPage,
         list: result.list,
-        maxCount: result.maxCount,
+        pageCount: result.count,
         cateId: cateId,
       },
     });
@@ -133,8 +133,10 @@ function Header() {
   // 검색결과창 이동
   const handleSearchPost = e => {
     e.preventDefault();
-    navigate("/search", { state: { product: search } });
-    setSearch("");
+    if (search !== "") {
+      navigate("/search", { state: { product: search } });
+      setSearch("");
+    }
   };
 
   // 로그아웃

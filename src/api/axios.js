@@ -137,12 +137,27 @@ export const menuCate = async () => {
   }
 };
 
-// 메뉴 클릭 시 품목 get
-export const cateProdList = async (_page, cateId, subCateId) => {
-  console.log("카테액시오스 순서 테스트", _page, cateId, subCateId);
+// 메인메뉴 클릭 시 품목 get
+export const mainCateProdList = async (_page, cateId) => {
   try {
     const res = await axios.get(
-      `/api/cate?cateId=${cateId}&cateDetailId=${subCateId}`,
+      `/api/cate?cateId=${cateId}&page=${_page}&size=16&sort=`,
+    );
+    const result = res.data;
+    console.log("통신되는데 : ", result);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 서브메뉴 클릭 시 품목 get
+export const subCateProdList = async (_page, cateId, subCateId) => {
+  try {
+    const res = await axios.get(
+      `/api/cate?cateId=${cateId}&cateDetailId=${subCateId}&page=${
+        _page - 1
+      }&size=16&sort=`,
     );
     const result = res.data;
     console.log("통신되는데 : ", result);

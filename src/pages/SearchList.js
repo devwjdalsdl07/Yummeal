@@ -96,7 +96,6 @@ const SearchList = () => {
         return "기타";
     }
   };
-  console.log("넘어가기전", state);
   // state로 넘어오는 값에 따른 화면 렌더링
   let content;
   if (state && state.cateId) {
@@ -107,7 +106,7 @@ const SearchList = () => {
         handleShoppingClick={handleShoppingClick}
         getCategoryLabel={getCategoryLabel}
         pageRangeDisplayed={state.maxPaige}
-        totalItemsCount={state.maxCount}
+        totalItemsCount={state.pageCount}
       />
     );
   } else if (state && state.maxPage) {

@@ -130,7 +130,7 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
               <div key={index}>
                 <li className="product-card">
                   <img
-                    src={`http://192.168.0.144:5001/img/product/${item.productId}/${mainImage[index]}`}
+                    src={`/img/product/${item.productId}/${mainImage[index]}`}
                     alt="상품 이미지"
                     className="product-image"
                   />

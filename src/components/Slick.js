@@ -24,14 +24,14 @@ const Slick = () => {
           setRecommend(randomJson);
           setItemImage(
             randomJson.list.map(
-              item => `http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`,
+              item => `/img/product/${item.productId}/${item.thumbnail}`,
             ),
           );
         } else {
           setRecommend(recommendJson);
           setItemImage(
             recommendJson?.list?.map(
-              item => `http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`,
+              item => `/img/product/${item.productId}/${item.thumbnail}`,
             ),
           );
         }
@@ -40,7 +40,7 @@ const Slick = () => {
         setRandomProduct(randomJson);
         setItemImage(
           randomJson.list.map(
-            item => `http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`,
+            item => `/img/product/${item.productId}/${item.thumbnail}`,
           ),
         );
       }
@@ -92,7 +92,7 @@ const Slick = () => {
     <div className="container-slick">
       <SlickDiv>
         <h1 className="title">
-          {isLoggedIn ?  `${nickNm}님을 위한 추천 상품` : "추천 상품"}
+          {isLoggedIn ? `${nickNm}님을 위한 추천 상품` : "추천 상품"}
         </h1>
         <Slider {...settings}>
           {((isLoggedIn ? recommend.list : randomProduct.list) || []).map(
