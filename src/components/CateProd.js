@@ -12,11 +12,11 @@ const CateProd = ({
   pageRangeDisplayed,
   totalItemsCount,
 }) => {
-  const [prodList, setProdList] = useState({});
+  console.log(totalItemsCount);
+  const [prodList, setProdList] = useState([]);
 
   // 카테고리별 상품 목록 불러오기
   const cateProdData = async _page => {
-    console.log("왜 얘만 안되냐", _page);
     const cateId = state?.cateId;
     const subCataId = state?.subCate == undefined ? 0 : state?.subCate;
     const result = await cateProdList(_page, cateId, subCataId);
@@ -31,7 +31,6 @@ const CateProd = ({
   const handleCatePaging = newPage => {
     cateProdData(newPage, state?.cateId, state?.subCate);
   };
-console.log("ㅂㄷㄱㅈㅂㄷㄱㅇㄴㅁㄹㅇㄴ",prodList);
   return (
     <>
       <div className="best-item">
@@ -72,8 +71,16 @@ console.log("ㅂㄷㄱㅈㅂㄷㄱㅇㄴㅁㄹㅇㄴ",prodList);
       </ul>
       <Paging
         onPageChange={handleCatePaging}
-        pageRangeDisplayed={pageRangeDisplayed}
-        totalItemsCount={totalItemsCount}
+        pageRangeDisplayed={
+          pageRangeDisplayed == undefined ? 1 : pageRangeDisplayed
+        }
+        totalItemsCount={
+          totalItemsCount == undefined
+            ? state?.list?.length == undefined
+              ? 0
+              : state?.list?.length
+            : totalItemsCount
+        }
       />
     </>
   );

@@ -47,14 +47,16 @@ const SearchList = () => {
       }
     } else {
       const baskets = JSON.parse(localStorage.getItem("baskets") ?? "[]");
-      const existingItemIndex = baskets.findIndex(item => item.productId === _item.productId);
-      if(existingItemIndex === -1){
+      const existingItemIndex = baskets.findIndex(
+        item => item.productId === _item.productId,
+      );
+      if (existingItemIndex === -1) {
         const item = {
           productId: _item.productId,
           count: 1,
-          productName:_item.productName,
+          productName: _item.productName,
           thumbnail: _item.thumbnail,
-          price:_item.price,
+          price: _item.price,
         };
         baskets.push(item);
       } else {
@@ -94,6 +96,7 @@ const SearchList = () => {
         return "기타";
     }
   };
+  console.log("넘어가기전", state);
   // state로 넘어오는 값에 따른 화면 렌더링
   let content;
   if (state && state.cateId) {

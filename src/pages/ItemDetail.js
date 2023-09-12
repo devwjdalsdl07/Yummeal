@@ -29,7 +29,6 @@ const ItemDetail = () => {
   const getProductIdFetch = async () => {
     try {
       const productIdJson = await getProductId(pid);
-     
       setProduct(productIdJson);
       // setItemImage(productIdJson.img);
       // setBigImage(productIdJson.img[0]);

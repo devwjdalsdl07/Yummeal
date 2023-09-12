@@ -22,7 +22,9 @@ import { logoutReducer } from "../reducers/userSlice";
 import { Head } from "../style/HeaderCss";
 
 function Header() {
-  const accessToken = sessionStorage.getItem("accessToken")||localStorage.getItem("accessToken");
+  const accessToken =
+    sessionStorage.getItem("accessToken") ||
+    localStorage.getItem("accessToken");
   const dispatch = useDispatch();
   const [isToggled, setIsToggled] = useState(false);
   const [userToggled, setUserToggled] = useState(false);
@@ -76,7 +78,7 @@ function Header() {
     navigate("/productlist", {
       state: {
         maxPaige: result.maxPaige,
-        list: result.list,
+        list: result,
         pageCount: result.pageCount,
         cateId: cateId,
         subCate: subCateId,
@@ -123,7 +125,7 @@ function Header() {
 
   // 최근/인기검색어 검색결과 이동
   const handleRecentClick = item => {
-    console.log("아이템",item)
+    console.log("아이템", item);
     navigate("/search", { state: { product: item } });
     setSearch("");
   };
@@ -139,7 +141,7 @@ function Header() {
   const handleRemove = async () => {
     const logout = await postLogout();
     if (!logout) {
-      localStorage.removeItem("accessToken")
+      localStorage.removeItem("accessToken");
       dispatch(logoutReducer());
     }
     navigate("/main");

@@ -89,7 +89,7 @@ export const postPassWordCheck = async _passWord => {
 // 검색 결과 get
 export const searchResult = async (_product, _page) => {
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/search?product=${_product}&page=${_page}&row=16`,
     );
     const result = res.data;
@@ -103,7 +103,7 @@ export const searchResult = async (_product, _page) => {
 // 필터 정렬 get
 export const filterSort = async (product, sorter, allergyStrings) => {
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/search?product=${product}&page=1&row=16&sorter=${
         sorter ? sorter : 0
       }&filter=${allergyStrings[0] ? allergyStrings[0] : 0}&filter=${
