@@ -105,7 +105,7 @@ const Order = () => {
       dispatch(pointReducer(point - usePoint));
       const result = await orderPost(item);
       localStorage.clear();
-      navigate("/orderdetail", {
+      navigate("/ordercode", {
         state: {
           orderCode: result.orderCode,
           point: result.point,

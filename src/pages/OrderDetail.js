@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { cartIn, getOrderEnd } from "../api/client";
 import CartItemModal from "../components/CartItemModal";
-import { OrderDetailWrap } from "../style/OrderDetailCss";
 import PurchaseReview from "../components/PurchaseReview";
+import { OrderDetailWrap } from "../style/OrderDetailCss";
 
 const OrderDetail = () => {
   const [orderList, setOrderList] = useState([]);
@@ -70,7 +70,10 @@ const OrderDetail = () => {
           {orderList.map(item => (
             <div key={item.productId} className="order-prodtext">
               <div className="order-imgbox">
-                <img src={`/img/product/${item.productId}/${item.img}`} alt={item.title} />
+                <img
+                  src={`/img/product/${item.productId}/${item.img}`}
+                  alt={item.title}
+                />
               </div>
               <div className="order-textwrap">
                 <p>{item.productName}</p>
@@ -80,7 +83,7 @@ const OrderDetail = () => {
                   <button onClick={() => handleInCart(item)}>
                     장바구니 담기
                   </button>
-                <PurchaseReview />
+                  <PurchaseReview />
                 </div>
                 {showModal === true ? (
                   <CartItemModal
@@ -141,9 +144,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>총 결제금액</p>
-              <span>
-                {(priceSum - userInfo.usepoint).toLocaleString()}원
-              </span>
+              <span>{(priceSum - userInfo.usepoint).toLocaleString()}원</span>
             </div>
           </div>
         </div>
