@@ -343,10 +343,10 @@ const UserInfo = ({ setActiveComponent }) => {
     setModalAction("add");
   };
 
-  const handleDatePickerClick = index => {
-    setSelectedChildIndex(index);
-    setModalAction("edit");
-  };
+  // const handleDatePickerClick = index => {
+  //   setSelectedChildIndex(index);
+  //   setModalAction("edit");
+  // };
 
   // const handleChildModalClose = () => {
   //   setIsChildModalOpen(false);
@@ -384,19 +384,13 @@ const UserInfo = ({ setActiveComponent }) => {
   };
 
   const handleSortChange = _date => {
-    // console.log(_date);
-    // console.log(childInfo);
-    // console.log("==================");
     let tempDataIndex;
     childInfo.map((item, index) => {
-      // console.log(item.baByInfoVo.childBirth);
       if (item.baByInfoVo.childBirth === _date.value) {
         setSelectDataIndex(index);
         tempDataIndex = index;
       }
     });
-
-    // console.log(childInfo[selectDataIndex]);
     // 출력용
     setSelectChildDay(_date);
     // 팝업전달용
@@ -406,11 +400,6 @@ const UserInfo = ({ setActiveComponent }) => {
 
   useEffect(() => {
     console.log("선택된 번호: ", selectDataIndex);
-    // console.log(
-    //   "선택된 번호: ",
-    //   childInfo[selectDataIndex].baByInfoVo.childBirth,
-    // );
-    // setSelectChildDay(childInfo[selectDataIndex].baByInfoVo.childBirth);
   }, [selectDataIndex]);
 
   const updateBabyInfo = _babyData => {
