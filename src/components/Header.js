@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { mainCateProdList, menuCate, subCateProdList } from "../api/axios";
 import {
   popularKeyword,
@@ -35,6 +35,8 @@ function Header() {
   const [popularSearch, setPopularSearch] = useState([]);
   const [isPopular, setIsPopular] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(null);
+  const [debounceSearch, setDebounceSearch] = useState(search);
+  const location = useLocation();
   const navigate = useNavigate();
 
   // 카테고리 메뉴 불러오기
@@ -61,16 +63,21 @@ function Header() {
       recentSearch();
       popularSearchData();
     }
-  }, [accessToken]);
+  }, [accessToken, debounceSearch]);
+
+  // 검색어 통신 딜레이(최근검색어 업데이트용)
+  const debounce = ()=>{
+    const timeoutId = setTimeout(() => {
+      setDebounceSearch(search);
+    }, 500);
+      return () => {
+      clearTimeout(timeoutId);
+    };
+  }
 
   // 서브 메뉴 클릭 시 이동
   const handleSubMenuClick = async (mainMenu, subMenu, e) => {
     e.stopPropagation();
-    console.log(
-      "카테고리 번호 찍자",
-      mainMenu?.category?.cateId,
-      subMenu?.cateDetailId,
-    );
     const cateId = mainMenu?.category?.cateId;
     const subCateId =
       subMenu?.cateDetailId == undefined ? 0 : subMenu?.cateDetailId;
@@ -88,7 +95,6 @@ function Header() {
 
   // 메인 메뉴 클릭 시 이동
   const handleMainMenuClick = async mainMenu => {
-    console.log("메인메뉴 번호 찍자", mainMenu?.cateId);
     const cateId = mainMenu.cateId;
     const result = await mainCateProdList(0, cateId);
     navigate("/productlist", {
@@ -125,17 +131,18 @@ function Header() {
 
   // 최근/인기검색어 검색결과 이동
   const handleRecentClick = item => {
-    console.log("아이템", item);
     navigate("/search", { state: { product: item } });
     setSearch("");
+    debounce();
   };
 
   // 검색결과창 이동
-  const handleSearchPost = e => {
+  const handleSearchPost = async e => {
     e.preventDefault();
     if (search !== "") {
       navigate("/search", { state: { product: search } });
       setSearch("");
+      debounce();
     }
   };
 
@@ -208,7 +215,7 @@ function Header() {
         </button>
         {/* 메뉴 리스트 */}
       </form>
-      {accessToken && isRecently && (
+      {accessToken && isRecently && isPopular && (
         <>
           <div className="recent-title" onMouseEnter={handleHover}>
             <h3>최근검색어</h3>

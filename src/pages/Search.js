@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { searchResult } from "../api/axios";
-import { cartIn } from "../api/client";
+import { cartIn, recentKeyword } from "../api/client";
 import Paging from "../components/Paging";
 import SearchProd from "../components/SearchProd";
 import SortFilter from "../components/SortFilter";

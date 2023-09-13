@@ -319,6 +319,7 @@ export const recentKeyword = async () => {
   try {
     const res = await instance.get("/api/search/recent");
     const result = res.data;
+    console.log("제발",result)
     return result;
   } catch (err) {
     console.log(err);
