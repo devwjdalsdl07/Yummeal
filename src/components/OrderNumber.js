@@ -19,7 +19,7 @@ const OrderNumber = ({ item }) => {
         </div>
         <div className="orderNum">
           <p>주문번호</p>
-          <span>{item.orderId}</span>
+          <span>{item.orderCode}</span>
         </div>
       </div>
 
