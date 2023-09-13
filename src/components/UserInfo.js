@@ -94,11 +94,14 @@ const UserInfo = ({ setActiveComponent }) => {
   const [selectChild, setSelectChild] = useState(null);
 
   const onBirthChange = (value, dateString) => {
+    console.log(dateString)
     setBirth(dateString);
   };
   // const onChildBirthChange = (value, dateString) => {
   //   setChildBirth(dateString);
   // };
+
+
 
   // 닉네임 (추후 업데이트)
   const onNickNameChange = e => {
@@ -574,11 +577,11 @@ const UserInfo = ({ setActiveComponent }) => {
                     <DatePicker
                       locale={locale}
                       onChange={onBirthChange}
-                      value={dayjs(birth, "YYYY-MM-DD")}
+                      value={birth ? dayjs(birth, "YYYY-MM-DD") : null}
+                      allowClear={false}
                       style={{
                         height: "30px",
                       }}
-                      allowClear={false}
                     />
                   </Space>
                 </div>
