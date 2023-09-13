@@ -5,11 +5,10 @@ import { useState } from "react";
 import makeAnimated from "react-select/animated";
 import { ChildModalCss, ModalDim } from "../style/ModalCss";
 import { useEffect } from "react";
-import { filterSort, putChildInfo } from "../api/axios";
+import { putChildInfo } from "../api/axios";
 import Select from "react-select";
 import { useDispatch } from "react-redux";
 import dayjs from "dayjs";
-import { editBaby } from "../reducers/userSlice";
 
 const EditChildModal = ({
   setShowModal,
@@ -99,8 +98,8 @@ const EditChildModal = ({
 
   const handleChildEdit = async () => {
     const allergyIdStr = selectAllergy.map(item => {
-      let nueItem = { allergyId: item.value, allergyName: item.label };
-      return nueItem;
+      let newItem = { allergyId: item.value, allergyName: item.label };
+      return newItem;
     });
 
     console.log("allergyIdStr =====================", allergyIdStr);
