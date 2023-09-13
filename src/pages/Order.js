@@ -56,7 +56,7 @@ const Order = () => {
   const AlertClose = () => {
     navigate("/mypage");
   };
-
+console.log(buyData)
   // 일반 주문하기
   const handleOrder = async () => {
     // 조건별 장바구니 데이터
@@ -78,7 +78,7 @@ const Order = () => {
     let selectedBasket;
     if (!getBasket && orderBasket.length === 0) {
       selectedBasket = quickOrder;
-    } else if (buyData) {
+    } else if (buyData && buyData.productId) {
       selectedBasket = quickOrder;
     } else if (getBasket && getBasket.length > 0) {
       selectedBasket = getBasket.map((item, idx) => ({
@@ -134,7 +134,7 @@ const Order = () => {
     let selectedBasket;
     if (!getBasket && orderBasket.length === 0) {
       selectedBasket = quickOrder;
-    } else if (buyData) {
+    } else if (buyData && buyData.productId) {
       selectedBasket = quickOrder;
     } else if (getBasket && getBasket.length > 0) {
       selectedBasket = getBasket.map((item, idx) => ({
