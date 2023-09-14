@@ -160,6 +160,7 @@ const PlusChildModal = ({
                   <DatePicker
                     onChange={onChildBirthChange}
                     placeholder="YYYY-MM-DD"
+                    allowClear={false}
                     style={{
                       height: "30px",
                       marginLeft: "10px",
