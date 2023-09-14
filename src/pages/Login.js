@@ -52,7 +52,7 @@ const Login = () => {
       "popup=true",
     );
     const interval = setInterval(async () => {
-      console.log("셋인터벌", localStorage.getItem("accessToken"));
+      // console.log("셋인터벌", localStorage.getItem("accessToken"));
       if (localStorage.getItem("accessToken")) {
         const fetchUser = await getUser();
         const fetchChild = await getChild();
@@ -78,7 +78,7 @@ const Login = () => {
       "width=500,height=500,left=200,top=300,location=no",
       "popup=true",
     );
-    
+
     const interval = setInterval(async () => {
       console.log("셋인터벌", localStorage.getItem("accessToken"));
       if (localStorage.getItem("accessToken")) {

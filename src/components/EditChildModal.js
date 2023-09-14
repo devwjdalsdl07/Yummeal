@@ -75,7 +75,7 @@ const EditChildModal = ({
   let allergyStrings = [];
   console.log("뭘까 222 =======================", newAllergyData);
   if (newAllergyData.length > 0) {
-    allergyStrings = newAllergyData.map(value => value.toString());
+    allergyStrings = newAllergyData.map(value => value?.toString());
   }
   // console.log("adfasdf", selectAllergy);
 
