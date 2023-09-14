@@ -56,7 +56,7 @@ const Order = () => {
   const AlertClose = () => {
     navigate("/mypage");
   };
-console.log(buyData)
+  console.log(buyData);
   // 일반 주문하기
   const handleOrder = async () => {
     // 조건별 장바구니 데이터
@@ -169,6 +169,7 @@ console.log(buyData)
       //   },
       // });
       window.open(kakaoResult.qrCodePage, "_blank");
+      navigate("/mypage");
     } catch (err) {
       console.log(err);
     }
