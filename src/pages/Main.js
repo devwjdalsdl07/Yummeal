@@ -41,7 +41,7 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
         try {
           const result = await getChild();
           console.log("result 에 뭐 담기냐 :", result);
-          if (result.length > 1) {
+          if (result.length >= 1) {
             setChildShowModal(false);
           } else {
             setChildShowModal(true);
