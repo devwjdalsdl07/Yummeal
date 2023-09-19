@@ -251,7 +251,7 @@ const ItemDetail = () => {
           </div>
           <div id="detail-section02" className="menu-info">
             <h1>상품 상세정보</h1>
-            {/* <div>{product && product.description}</div> */}
+
             <img
               src={`${process.env.PUBLIC_URL}/images/item2.png`}
               alt="item-info"
@@ -260,7 +260,7 @@ const ItemDetail = () => {
           </div>
           <div id="detail-section03" className="menu-info">
             <h1>상품리뷰</h1>
-            <Review />
+            <Review pid={pid}/>
           </div>
         </div>
       </div>
