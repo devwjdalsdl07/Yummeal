@@ -2,9 +2,12 @@
 
 ### 2차 Team A
 
+## 시연영상
+![Yummeal](https://github.com/returnys/Yummeal/assets/130682309/5d7ad3cd-c660-4c7d-b8c1-64799e627c40)
+
 ## 프로젝트 정보
 
-- [Notion](https://concrete-scallion-31d.notion.site/YUMMEAL-80d792f626424ef59dd2f22e8097d48f)
+- [Notion](https://concrete-scallion-31d.notion.site/YUMMEAL-80d792f626424ef59dd2f22e8097d48f?pvs=4)
 - [Figma(wireframe)](https://www.figma.com/file/A0h9Ai58OM6pRxUXWUmYJP/yummeal?type=design&node-id=1096%3A369&mode=design&t=2UxOfiDdVm4zzZRJ-1)
 - [Figma(flowchart)](<https://www.figma.com/file/wuGGvaWhGaIq53x6VOSm8P/Pokedex-Flowchart-(Community)?type=whiteboard&node-id=0%3A1&t=DYSvMAgpH8f4KJT6-1>)
 
