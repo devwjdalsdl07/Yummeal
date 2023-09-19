@@ -1,7 +1,7 @@
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { cateProdList } from "../api/axios";
+import { subCateProdList } from "../api/axios";
 import Paging from "./Paging";
 
 const CateProd = ({
@@ -12,19 +12,20 @@ const CateProd = ({
   pageRangeDisplayed,
   totalItemsCount,
 }) => {
-  console.log(totalItemsCount);
   const [prodList, setProdList] = useState([]);
 
   // 카테고리별 상품 목록 불러오기
   const cateProdData = async _page => {
     const cateId = state?.cateId;
-    const subCataId = state?.subCate == undefined ? 0 : state?.subCate;
-    const result = await cateProdList(_page, cateId, subCataId);
+    const subCateId = state?.subCate == undefined ? "" : state?.subCate;
+    console.log("1", cateId);
+    console.log("2", subCateId);
+    const result = await subCateProdList(_page, cateId, subCateId);
     setProdList(result);
   };
 
   useEffect(() => {
-    cateProdData(1);
+    cateProdData(0);
   }, [state]);
 
   // 페이지네이션 업데이트
@@ -42,11 +43,11 @@ const CateProd = ({
         </h1>
       </div>
       <ul className="list-area">
-        {prodList?.map((item, index) => (
+        {prodList?.list?.map((item, index) => (
           <div key={index}>
             <li className="product-card">
               <img
-                src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`}
+                src={`/img/product/${item.productId}/${item.thumbnail}`}
                 alt="상품 이미지"
                 className="product-image"
               />
@@ -71,16 +72,8 @@ const CateProd = ({
       </ul>
       <Paging
         onPageChange={handleCatePaging}
-        pageRangeDisplayed={
-          pageRangeDisplayed == undefined ? 1 : pageRangeDisplayed
-        }
-        totalItemsCount={
-          totalItemsCount == undefined
-            ? state?.list?.length == undefined
-              ? 0
-              : state?.list?.length
-            : totalItemsCount
-        }
+        pageRangeDisplayed={pageRangeDisplayed}
+        totalItemsCount={totalItemsCount}
       />
     </>
   );

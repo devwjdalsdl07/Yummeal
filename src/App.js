@@ -47,7 +47,7 @@ function App() {
         <Route path="/cart" element={<ShopCart />} />
         <Route path="/order" element={accessToken ? <Order /> : <Login />} />
         <Route
-          path="/orderdetail"
+          path="/orderlist/:ordercode"
           element={accessToken ? <OrderDetail /> : <Login />}
         />
         <Route

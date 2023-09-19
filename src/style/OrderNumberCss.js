@@ -108,7 +108,9 @@ export const OrderNumberContainer = styled.div`
   }
   .responsive {
     display: flex;
-    gap: 50px;
+    justify-content: space-around;
+    width: 30%;
+    gap: 30px;
     @media screen and (max-width: 600px) {
       width: 100%;
       display: flex;

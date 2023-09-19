@@ -127,14 +127,14 @@ const ItemDetail = () => {
           <div className="goods-img">
             <img
               className="item-img"
-              src={`http://192.168.0.144:5001/img/product/${pid}/${bigImage}`}
+              src={`/img/product/${pid}/${bigImage}`}
               alt="MainImage"
             />
             <div className="item-info">
               {itemImage?.map((subImage, index) => (
                 <img
                   key={index}
-                  src={`http://192.168.0.144:5001/img/product/${pid}/${subImage}`}
+                  src={`/img/product/${pid}/${subImage}`}
                   alt={`${index + 1}`}
                   onClick={() => handleSubImageClick(subImage)}
                 />

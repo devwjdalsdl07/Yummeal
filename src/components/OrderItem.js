@@ -2,7 +2,6 @@ import React from "react";
 import { OrderItems } from "../style/OrderItemCss";
 
 const OrderItem = ({ orderItems, state, buyData }) => {
-
   let content;
   // 로그인 후 로컬스토리지 남아 있을 때
   const parsedBaskets = JSON.parse(localStorage.getItem("baskets"));
@@ -11,7 +10,10 @@ const OrderItem = ({ orderItems, state, buyData }) => {
       <div key={item.cartId} className="order-prod">
         <div className="order-prod-info">
           <div className="order-prod-img">
-            <img src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
+            <img
+              src={`/img/product/${item.productId}/${item.thumbnail}`}
+              alt={item.title}
+            />
           </div>
           <div className="order-prod-title">
             <p>{item.productName}</p>
@@ -29,7 +31,10 @@ const OrderItem = ({ orderItems, state, buyData }) => {
       <div key={item.cartId} className="order-prod">
         <div className="order-prod-info">
           <div className="order-prod-img">
-            <img src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
+            <img
+              src={`/img/product/${item.productId}/${item.thumbnail}`}
+              alt={item.title}
+            />
           </div>
           <div className="order-prod-title">
             <p>{item.productName}</p>
@@ -47,7 +52,10 @@ const OrderItem = ({ orderItems, state, buyData }) => {
       <div className="order-prod">
         <div className="order-prod-info">
           <div className="order-prod-img">
-            <img src={`http://192.168.0.144:5001/img/product/${buyData.productId}/${buyData.thumbnail}`} alt={buyData.title} />
+            <img
+              src={`/img/product/${buyData.productId}/${buyData.thumbnail}`}
+              alt={buyData.title}
+            />
           </div>
           <div className="order-prod-title">
             <p>{buyData.productName}</p>

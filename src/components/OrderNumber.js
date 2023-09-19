@@ -1,13 +1,15 @@
 import React from "react";
-import { OrderNumberContainer } from "../style/OrderNumberCss";
 import { useNavigate } from "react-router-dom";
+import { OrderNumberContainer } from "../style/OrderNumberCss";
 
 const OrderNumber = ({ item }) => {
   const navigate = useNavigate();
   const handleInfoClick = orderCode => {
-    navigate("/orderdetail", { state: { orderCode } });
+    navigate(`/orderlist/${orderCode}`, { state: { orderCode } });
   };
-  const price = item?.totalprice?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const price = item?.totalprice
+    ?.toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   return (
     <OrderNumberContainer>
       <div className="orderInfo">
@@ -17,13 +19,16 @@ const OrderNumber = ({ item }) => {
         </div>
         <div className="orderNum">
           <p>주문번호</p>
-          <span>{item.orderId}</span>
+          <span>{item.orderCode}</span>
         </div>
       </div>
 
       <div className="itemInfo" onClick={() => handleInfoClick(item.orderCode)}>
         <div className="imgWrap">
-          <img src={item.thumbnail} alt="썸네일"></img>
+          <img
+            src={`/img/product/${item.productId}/${item.img}`}
+            alt="썸네일"
+          ></img>
         </div>
         <div className="titleWrap">
           <p>제품 명</p>

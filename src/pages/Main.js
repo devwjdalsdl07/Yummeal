@@ -41,7 +41,7 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
         try {
           const result = await getChild();
           console.log("result 에 뭐 담기냐 :", result);
-          if (result.length > 1) {
+          if (result.length >= 1) {
             setChildShowModal(false);
           } else {
             setChildShowModal(true);
@@ -109,9 +109,11 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
     <MainDiv>
       <div className="wrap">
         <div className="info">
-          <img src={`${process.env.PUBLIC_URL}/images/banner1.png`} />
+          <div className="banner-wrap">
+            <img src={`${process.env.PUBLIC_URL}/images/banner1.png`} />
+          </div>
           <div className="slick-wrap">
-          <Slick />
+            <Slick />
           </div>
           <div className=" best-item">
             <h1 className="best-title">요즘, 많이 찾는 상품</h1>
@@ -128,7 +130,7 @@ const Main = ({ childBirth, tasteValue, selectAllergy }) => {
               <div key={index}>
                 <li className="product-card">
                   <img
-                    src={`http://192.168.0.144:5001/img/product/${item.productId}/${mainImage[index]}`}
+                    src={`/img/product/${item.productId}/${mainImage[index]}`}
                     alt="상품 이미지"
                     className="product-image"
                   />

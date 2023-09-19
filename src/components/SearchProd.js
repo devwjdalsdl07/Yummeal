@@ -1,6 +1,6 @@
 import { faBasketShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router";
 import CartItemModal from "../components/CartItemModal";
 
@@ -10,7 +10,7 @@ const SearchProd = ({
   handleShoppingClick,
   handleItemClick,
   setShowModal,
-  showModal
+  showModal,
 }) => {
   const navigate = useNavigate();
   const handleCartShow = () => {
@@ -27,7 +27,7 @@ const SearchProd = ({
           <div key={index}>
             <li className="product-card">
               <img
-                src={`http://192.168.0.144:5001/img/product/${item.productid}/${item.thumbnail}`}
+                src={`/img/product/${item.productid}/${item.thumbnail}`}
                 alt="상품 이미지"
                 className="product-image"
               />

@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router";
 import { cartIn, getOrderEnd } from "../api/client";
 import CartItemModal from "../components/CartItemModal";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
-
 import ReviewModal from "../components/ReviewModal";
 import { postReview } from "../api/mainFatch";
 
@@ -91,12 +90,12 @@ const OrderDetail = () => {
             <div key={item.productId} className="order-prodtext">
               <div className="order-imgbox">
                 <img
-                  src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`}
+                  src={`/img/product/${item.productId}/${item.img}`}
                   alt={item.title}
                 />
               </div>
               <div className="order-textwrap">
-                <p>{item.productName}</p>
+                <p>{item.pname}</p>
                 <p>{(item.price * parseInt(item.count)).toLocaleString()}</p>
                 <p>{item.count}</p>
                 <div className="order-prodbtn">

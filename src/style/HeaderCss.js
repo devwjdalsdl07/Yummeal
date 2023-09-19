@@ -71,7 +71,7 @@ export const Head = styled.div`
     transform: translateX(-50%);
     width: 600px;
     height: 300px;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.7);
     z-index: 999;
     border-radius: 0 0 8px 8px;
     text-align: center;

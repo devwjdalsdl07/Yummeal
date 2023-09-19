@@ -56,7 +56,7 @@ const Order = () => {
   const AlertClose = () => {
     navigate("/mypage");
   };
-
+  console.log(buyData);
   // 일반 주문하기
   const handleOrder = async () => {
     // 조건별 장바구니 데이터
@@ -77,6 +77,8 @@ const Order = () => {
     ];
     let selectedBasket;
     if (!getBasket && orderBasket.length === 0) {
+      selectedBasket = quickOrder;
+    } else if (buyData && buyData.productId) {
       selectedBasket = quickOrder;
     } else if (getBasket && getBasket.length > 0) {
       selectedBasket = getBasket.map((item, idx) => ({
@@ -103,7 +105,7 @@ const Order = () => {
       dispatch(pointReducer(point - usePoint));
       const result = await orderPost(item);
       localStorage.clear();
-      navigate("/orderdetail", {
+      navigate(`/orderlist/${result.orderCode}`, {
         state: {
           orderCode: result.orderCode,
           point: result.point,
@@ -132,6 +134,8 @@ const Order = () => {
     let selectedBasket;
     if (!getBasket && orderBasket.length === 0) {
       selectedBasket = quickOrder;
+    } else if (buyData && buyData.productId) {
+      selectedBasket = quickOrder;
     } else if (getBasket && getBasket.length > 0) {
       selectedBasket = getBasket.map((item, idx) => ({
         key: idx,
@@ -158,15 +162,14 @@ const Order = () => {
       usepoint: usePoint !== "" ? parseInt(usePoint) : 0,
     };
     try {
-      console.log("넘어가기 전", kakaoItem);
       const kakaoResult = await kakaoPay(kakaoItem);
-      console.log("카카오리절트", kakaoResult);
       // navigate("/kakaopayment", {
       //   state: {
       //     qrUrl: kakaoResult,
       //   },
       // });
       window.open(kakaoResult.qrCodePage, "_blank");
+      navigate("/mypage");
     } catch (err) {
       console.log(err);
     }
@@ -285,7 +288,7 @@ const Order = () => {
             <h3>배송지 정보</h3>
             <hr />
             <div className="user-info">
-            {(!receiver || !addressAll || !mobileNb) && (
+              {(!receiver || !addressAll || !mobileNb) && (
                 <Alert
                   message="회원정보가 없습니다"
                   description="회원 정보를 등록해주세요."

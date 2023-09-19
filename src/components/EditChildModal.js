@@ -5,11 +5,10 @@ import { useState } from "react";
 import makeAnimated from "react-select/animated";
 import { ChildModalCss, ModalDim } from "../style/ModalCss";
 import { useEffect } from "react";
-import { filterSort, putChildInfo } from "../api/axios";
+import { putChildInfo } from "../api/axios";
 import Select from "react-select";
 import { useDispatch } from "react-redux";
 import dayjs from "dayjs";
-import { editBaby } from "../reducers/userSlice";
 
 const EditChildModal = ({
   setShowModal,
@@ -76,7 +75,7 @@ const EditChildModal = ({
   let allergyStrings = [];
   console.log("뭘까 222 =======================", newAllergyData);
   if (newAllergyData.length > 0) {
-    allergyStrings = newAllergyData.map(value => value.toString());
+    allergyStrings = newAllergyData.map(value => value?.toString());
   }
   // console.log("adfasdf", selectAllergy);
 
@@ -99,8 +98,8 @@ const EditChildModal = ({
 
   const handleChildEdit = async () => {
     const allergyIdStr = selectAllergy.map(item => {
-      let nueItem = { allergyId: item.value, allergyName: item.label };
-      return nueItem;
+      let newItem = { allergyId: item.value, allergyName: item.label };
+      return newItem;
     });
 
     console.log("allergyIdStr =====================", allergyIdStr);
@@ -132,15 +131,12 @@ const EditChildModal = ({
       console.log("새로운 정보를 set 처리 함.: ", selectChildInfoUpdate);
       setSelectChild(selectChildInfoUpdate);
       updateBabyInfo(selectChildInfoUpdate);
-      //   onSaveChildInfo(selectChild);
-      // dispatch(editBaby(selectChildInfoUpdate));
-      //   setChildInfo(selectChild, selectChildInfoUpdate);
       setShowModal(false);
+      alert("아이 정보가 수정되었어용");
     } catch (err) {
       alert("다시 시도해주세요");
     }
   };
-  console.log(selectChild.baByInfoVo.babyId);
 
   const handleSkip = () => {
     setShowModal(false);

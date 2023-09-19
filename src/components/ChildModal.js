@@ -88,13 +88,17 @@ const ChildModal = ({ setchildShowModal }) => {
   }, []);
 
   const handleChildStart = async () => {
-    const allergyIdStr = selectAllergy.map(item => item.value);
+    const allergyIdStr = selectAllergy.map(item => {
+      let newItem = { allergyId: item.value, allergyName: item.label };
+      return newItem;
+    });
+    const allergyIdNum = selectAllergy.map(item => item.value);
     console.log(allergyIdStr);
     // 추후 post 진행
     const childInfo = {
       childBirth: childBirth,
       prefer: tasteValue,
-      allergyId: allergyIdStr.join(),
+      allergyId: allergyIdNum.join(),
     };
     console.log(childInfo);
     // 아이데이터 get

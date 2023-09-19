@@ -11,10 +11,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [id, setId] = useState("string");
-  const [pw, setPw] = useState("string");
-  // const [id, setId] = useState("");
-  // const [pw, setPw] = useState("");
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
   // const [showModal, setShowModal] = useState(false);
 
   const handleSignUPClick = () => {
@@ -48,13 +46,13 @@ const Login = () => {
   };
   const handleKakaoClick = () => {
     window.open(
-      "/oauth2/authorization/kakao?redirect_uri=http://192.168.0.144:5001/oauth/redirect",
+      `/oauth2/authorization/kakao?redirect_uri=http://${window.location.host}/oauth/redirect`,
       "pop",
       "width=500,height=500,left=200,top=300,location=no",
       "popup=true",
     );
     const interval = setInterval(async () => {
-      console.log("셋인터벌", localStorage.getItem("accessToken"));
+      // console.log("셋인터벌", localStorage.getItem("accessToken"));
       if (localStorage.getItem("accessToken")) {
         const fetchUser = await getUser();
         const fetchChild = await getChild();
@@ -75,11 +73,12 @@ const Login = () => {
 
   const handleNaverClick = () => {
     window.open(
-      "/oauth2/authorization/naver?redirect_uri=http://192.168.0.144:5001/oauth/redirect",
+      `/oauth2/authorization/naver?redirect_uri=http:///${window.location.host}/oauth/redirect`,
       "pop",
       "width=500,height=500,left=200,top=300,location=no",
       "popup=true",
     );
+
     const interval = setInterval(async () => {
       console.log("셋인터벌", localStorage.getItem("accessToken"));
       if (localStorage.getItem("accessToken")) {

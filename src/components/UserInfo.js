@@ -94,11 +94,14 @@ const UserInfo = ({ setActiveComponent }) => {
   const [selectChild, setSelectChild] = useState(null);
 
   const onBirthChange = (value, dateString) => {
+    console.log(dateString)
     setBirth(dateString);
   };
   // const onChildBirthChange = (value, dateString) => {
   //   setChildBirth(dateString);
   // };
+
+
 
   // 닉네임 (추후 업데이트)
   const onNickNameChange = e => {
@@ -292,12 +295,17 @@ const UserInfo = ({ setActiveComponent }) => {
       address: userAddress,
       addressDetail: detailAddress,
     };
-    const result = await fetchUserInfo(profile);
-    dispatch(userEditReducer(profile));
-    setNickNameMessage("");
-    setPwMessage("");
-    setPwConfirmMessage("");
-    setPhoneMessage("");
+    try {
+      const result = await fetchUserInfo(profile);
+      dispatch(userEditReducer(profile));
+      setNickNameMessage("");
+      setPwMessage("");
+      setPwConfirmMessage("");
+      setPhoneMessage("");
+      alert("수정이 성공적으로 이루어졌어용");
+    } catch (err) {
+      alert("다시 시도해주세요");
+    }
   };
   const handleCancel = () => {
     setActiveComponent("order");
@@ -338,10 +346,10 @@ const UserInfo = ({ setActiveComponent }) => {
     setModalAction("add");
   };
 
-  const handleDatePickerClick = index => {
-    setSelectedChildIndex(index);
-    setModalAction("edit");
-  };
+  // const handleDatePickerClick = index => {
+  //   setSelectedChildIndex(index);
+  //   setModalAction("edit");
+  // };
 
   // const handleChildModalClose = () => {
   //   setIsChildModalOpen(false);
@@ -379,19 +387,13 @@ const UserInfo = ({ setActiveComponent }) => {
   };
 
   const handleSortChange = _date => {
-    // console.log(_date);
-    // console.log(childInfo);
-    // console.log("==================");
     let tempDataIndex;
     childInfo.map((item, index) => {
-      // console.log(item.baByInfoVo.childBirth);
       if (item.baByInfoVo.childBirth === _date.value) {
         setSelectDataIndex(index);
         tempDataIndex = index;
       }
     });
-
-    // console.log(childInfo[selectDataIndex]);
     // 출력용
     setSelectChildDay(_date);
     // 팝업전달용
@@ -401,11 +403,6 @@ const UserInfo = ({ setActiveComponent }) => {
 
   useEffect(() => {
     console.log("선택된 번호: ", selectDataIndex);
-    // console.log(
-    //   "선택된 번호: ",
-    //   childInfo[selectDataIndex].baByInfoVo.childBirth,
-    // );
-    // setSelectChildDay(childInfo[selectDataIndex].baByInfoVo.childBirth);
   }, [selectDataIndex]);
 
   const updateBabyInfo = _babyData => {
@@ -580,27 +577,27 @@ const UserInfo = ({ setActiveComponent }) => {
                     <DatePicker
                       locale={locale}
                       onChange={onBirthChange}
-                      value={dayjs(birth, "YYYY-MM-DD")}
+                      value={birth ? dayjs(birth, "YYYY-MM-DD") : null}
+                      allowClear={false}
                       style={{
                         height: "30px",
                       }}
-                      allowClear={false}
                     />
                   </Space>
                 </div>
                 {/* <FontAwesomeIcon icon={faPlus} style={{ marginLeft: "5px" }} /> */}
                 <ChildBirth>
                   <span>아이 생년월일</span>
-                  
-                    <Select
-                      className="child"
-                      options={childBirthArr}
-                      onChange={childInfo => handleSortChange(childInfo)}
-                      placeholder="수정할 아이 생일을 선택하세요"
-                      value={selectChildDay}
-                      isSearchable={false}
-                    />
-                    {/* {baby.map((item, index) => (
+
+                  <Select
+                    className="child"
+                    options={childBirthArr}
+                    onChange={childInfo => handleSortChange(childInfo)}
+                    placeholder="수정할 아이 생일을 선택하세요"
+                    value={selectChildDay}
+                    isSearchable={false}
+                  />
+                  {/* {baby.map((item, index) => (
                       <>
                         <DatePicker
                           key={index}
