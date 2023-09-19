@@ -5,12 +5,17 @@ import { useLocation, useNavigate } from "react-router";
 import { cartIn, getOrderEnd } from "../api/client";
 import CartItemModal from "../components/CartItemModal";
 import { OrderDetailWrap } from "../style/OrderDetailCss";
-import PurchaseReview from "../components/PurchaseReview";
+
+import ReviewModal from "../components/ReviewModal";
+import { postReview } from "../api/mainFatch";
 
 const OrderDetail = () => {
   const [orderList, setOrderList] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [reviewModal, setReviewModal] = useState(false);
+  const [selectProdNm, setSelectProdNm] = useState(0);
+  const [text, setText] = useState();
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
@@ -59,6 +64,21 @@ const OrderDetail = () => {
     return item + totalPriceSum;
   }, 0);
 
+  // 리뷰 모달 오픈
+  const handleReviewOpen = (productId) => {
+    setReviewModal(true);
+    setSelectProdNm(productId)
+  };
+
+  // 리뷰 전송
+  const handleClickReview = async item => {
+    const data = {
+      productId: item,
+      ctnt: text,
+    };
+    await postReview(data);
+    setReviewModal(false);
+  };
   return (
     <OrderDetailWrap>
       <div className="container">
@@ -70,7 +90,10 @@ const OrderDetail = () => {
           {orderList.map(item => (
             <div key={item.productId} className="order-prodtext">
               <div className="order-imgbox">
-                <img src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`} alt={item.title} />
+                <img
+                  src={`http://192.168.0.144:5001/img/product/${item.productId}/${item.thumbnail}`}
+                  alt={item.title}
+                />
               </div>
               <div className="order-textwrap">
                 <p>{item.productName}</p>
@@ -80,12 +103,21 @@ const OrderDetail = () => {
                   <button onClick={() => handleInCart(item)}>
                     장바구니 담기
                   </button>
-                <PurchaseReview />
+                  <button onClick={() => handleReviewOpen(item.productId)}>리뷰 작성</button>
                 </div>
                 {showModal === true ? (
                   <CartItemModal
                     setShowModal={setShowModal}
                     handleCartShow={handleCartShow}
+                  />
+                ) : null}
+                {reviewModal === true ? (
+                  <ReviewModal
+                    handleClickReview={handleClickReview}
+                    setReviewModal={setReviewModal}
+                    selectProdNm={selectProdNm}
+                    text={text}
+                    setText={setText}
                   />
                 ) : null}
               </div>
@@ -141,9 +173,7 @@ const OrderDetail = () => {
             </div>
             <div className="price-data">
               <p>총 결제금액</p>
-              <span>
-                {(priceSum - userInfo.usepoint).toLocaleString()}원
-              </span>
+              <span>{(priceSum - userInfo.usepoint).toLocaleString()}원</span>
             </div>
           </div>
         </div>
