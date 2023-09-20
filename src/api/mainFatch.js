@@ -1,7 +1,6 @@
 import axios from "axios";
 import { instance } from "./client";
 
-
 //2차 axios //상품 상세 페이지
 export const getProductId = async _productId => {
   try {
@@ -55,7 +54,7 @@ export const getBestProduct = async () => {
   try {
     const res = await axios.get(`/api/main?check=4&page=1&row=8`);
     const result = res.data;
-  
+
     return result;
   } catch (err) {
     console.log(err);
@@ -72,8 +71,6 @@ export const getBestProductAll = async _page => {
   }
 };
 
-
-
 //상품 상세페이지 바로구매하기 버튼
 
 export const getProduct = async _productId => {
@@ -86,9 +83,8 @@ export const getProduct = async _productId => {
   }
 };
 
-
-// 상품 리뷰 작성 
-export const postReview = async (data) => {
+// 상품 리뷰 작성
+export const postReview = async data => {
   try {
     const res = await instance.post(`/api/product/review`, data);
     const result = res.data;
@@ -100,13 +96,13 @@ export const postReview = async (data) => {
 };
 
 //상품 리뷰 조회
-export const getReview = async (reviewId)=>{
+export const getReview = async reviewId => {
   try {
-    const res = await axios.get(`/api/product/review/${reviewId}`);
+    const res = await axios.get(`/api/product/review/${reviewId}?page=0`);
     const result = res.data;
     console.log("getReview 요청성공!!", result);
     return result;
   } catch (err) {
     console.log(err);
   }
-}
+};
