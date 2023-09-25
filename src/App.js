@@ -59,6 +59,7 @@ function App() {
         <Route path="/policy" element={<Policy />} />
         <Route path="/useguide" element={<UseGuide />} />
         {/* <Route path="/password" element={<PassWordCheck />} /> */}
+        
         <Route path="/*" element={<NotFound />} />
         {/* 라우터 카카오 테스트 */}
         <Route path="/sns" element={<SNS />} />

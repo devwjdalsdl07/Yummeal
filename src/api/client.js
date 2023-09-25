@@ -2,7 +2,8 @@ import axios from "axios";
 import { getCookie, removeCookie } from "./cookie";
 
 export const instance = axios.create({
-  // baseURL: "http://localhost:3000",
+  baseURL: process.env.REACT_APP_API_URL,
+
   // timeout: 1000,
   headers: {
     "Content-Type": "application/json",
@@ -319,7 +320,7 @@ export const recentKeyword = async () => {
   try {
     const res = await instance.get("/api/search/recent");
     const result = res.data;
-    console.log("제발",result)
+    console.log("제발", result);
     return result;
   } catch (err) {
     console.log(err);

@@ -23,14 +23,14 @@ const Review = ({pid}) => {
   return (
     <ReviewWrap>
       <div className="review-list">
-        {reviewAll?.map((reviewAll, index) => (
+        {reviewAll?.content?.map((reviewAll, index) => (
           <div key={index} className="review">
             <div className="review-info">
               <div>
-                <span>{reviewAll?.productId?.createdAt.slice(0, 10)}</span>
-                <span>{reviewAll?.iuser?.name}</span>
-              </div>
+                {/* <span>{reviewAll?.content?.createdAt.slice(0, 10)}</span> */}
+                <span>{reviewAll?.userName}</span>
               <p>{reviewAll?.ctnt}</p>
+              </div>
             </div>
           </div>
         ))}

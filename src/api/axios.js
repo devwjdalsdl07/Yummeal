@@ -6,7 +6,7 @@ import { instance } from "./client";
 export const postSignUp = async _Item => {
   console.log(_Item);
   try {
-    const res = await axios.post("/api/user/sign-up", _Item);
+    const res = await instance.post("/api/user/sign-up", _Item);
     const result = res.data;
     console.log("해언가입설ㅇ공");
     return result;
@@ -43,7 +43,7 @@ export const putChildInfo = async _childInfo => {
 // 아이디 중복확인 post
 export const postIdCheck = async _email => {
   try {
-    const res = await axios.post(`/api/user/id?uid=${_email}`);
+    const res = await instance.post(`/api/user/id?uid=${_email}`);
     const result = res.data;
     return result;
   } catch (err) {
@@ -54,7 +54,7 @@ export const postIdCheck = async _email => {
 // 닉네임 중복확인 get
 export const getNickNameCheck = async _nickName => {
   try {
-    const res = await axios.get(`/api/user/nickname?nickname=${_nickName}`);
+    const res = await instance.get(`/api/user/nickname?nickname=${_nickName}`);
     const result = res.data;
     return result;
   } catch (err) {
@@ -128,7 +128,7 @@ export const filterSort = async (product, sorter, allergyStrings) => {
 // 카테고리 메뉴 get
 export const menuCate = async () => {
   try {
-    const res = await axios.get("/api/cate/list");
+    const res = await instance.get("/api/cate/list");
     const result = res.data;
     console.log("카테고리 메뉴 : ", result);
     return result;
@@ -140,7 +140,7 @@ export const menuCate = async () => {
 // 메인메뉴 클릭 시 품목 get
 export const mainCateProdList = async (_page, cateId) => {
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/cate?cateId=${cateId}&page=${_page}&size=16&sort=`,
     );
     const result = res.data;
@@ -154,7 +154,7 @@ export const mainCateProdList = async (_page, cateId) => {
 // 서브메뉴 클릭 시 품목 get
 export const subCateProdList = async (_page, cateId, subCateId) => {
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/cate?cateId=${cateId}&cateDetailId=${subCateId}&page=${
         _page - 1
       }&size=16&sort=`,
@@ -170,7 +170,7 @@ export const subCateProdList = async (_page, cateId, subCateId) => {
 // 상세정보 바로구매 get
 export const quickBuy = async (_productId, count) => {
   try {
-    const res = await axios.get(
+    const res = await instance.get(
       `/api/buy/product?productId=${_productId}&count=${count}`,
     );
     const result = res.data;

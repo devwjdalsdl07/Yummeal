@@ -20,15 +20,7 @@ export const ReviewWrap = styled.div`
           span {
             display: block;
             font-size: 1.5rem;
-            &:last-child::before {
-              display: inline-block;
-              content: "";
-              width: 2px;
-              height: 15px;
-              vertical-align: middle;
-              background: rgba(0, 0, 0, 0.3);
-              margin: -0.5rem 2.5rem 0 0;
-            }
+           
           }
         }
         h3 {
@@ -37,6 +29,15 @@ export const ReviewWrap = styled.div`
         }
         p {
           font-size: 1.5rem;
+          &:last-child::before {
+              display: inline-block;
+              content: "";
+              width: 2px;
+              height: 15px;
+              vertical-align: middle;
+              background: rgba(0, 0, 0, 0.3);
+              margin: -0.5rem 2.5rem 0 0;
+            }
         }
       }
     }
