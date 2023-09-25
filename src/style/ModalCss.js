@@ -38,6 +38,7 @@ export const CartItemModalCss = styled.div`
         text-align: center;
         font-weight: 700;
         font-size: 2rem;
+        color: #8eb111;
       }
     }
     .modal-buttons {
