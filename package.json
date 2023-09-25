@@ -62,5 +62,5 @@
     "eslint-plugin-react": "^7.32.2",
     "prettier": "3.0.0"
   },
-  "proxy": "process.env.REACT_APP_API_URL"
+  "proxy": "http://192.168.0.144:5001"
 }
